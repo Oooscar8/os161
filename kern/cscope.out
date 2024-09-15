@@ -1,4 +1,4 @@
-cscope 15 /mnt/c/Users/s1590/Desktop/Alex/UBC_Exchange_Courses/CPEN331/OS_BASE/src/kern -q 0000003186 0000431470
+cscope 15 $HOME/os161/src/kern -q 0000006361 0000563610
 	@arch/mips/include/current.h
 
 30 #iâdeà
@@ -89039,13 +89039,22135 @@ vaddr_t
 	}
 }
 
+	@/usr/include/elf.h
+
+19 #iâdeà
+_ELF_H
+
+
+20 
+	#_ELF_H
+ 1
+
+	)
+
+22 
+	~<ã©u»s.h
+>
+
+24 
+	g__BEGIN_DECLS
+
+
+28 
+	~<¡dšt.h
+>
+
+31 
+ušt16_t
+ 
+	tElf32_H®f
+;
+
+32 
+ušt16_t
+ 
+	tElf64_H®f
+;
+
+35 
+ušt32_t
+ 
+	tElf32_WÜd
+;
+
+36 
+št32_t
+ 
+	tElf32_SwÜd
+;
+
+37 
+ušt32_t
+ 
+	tElf64_WÜd
+;
+
+38 
+št32_t
+ 
+	tElf64_SwÜd
+;
+
+41 
+ušt64_t
+ 
+	tElf32_XwÜd
+;
+
+42 
+št64_t
+ 
+	tElf32_SxwÜd
+;
+
+43 
+ušt64_t
+ 
+	tElf64_XwÜd
+;
+
+44 
+št64_t
+ 
+	tElf64_SxwÜd
+;
+
+47 
+ušt32_t
+ 
+	tElf32_Addr
+;
+
+48 
+ušt64_t
+ 
+	tElf64_Addr
+;
+
+51 
+ušt32_t
+ 
+	tElf32_Off
+;
+
+52 
+ušt64_t
+ 
+	tElf64_Off
+;
+
+55 
+ušt16_t
+ 
+	tElf32_SeùiÚ
+;
+
+56 
+ušt16_t
+ 
+	tElf64_SeùiÚ
+;
+
+59 
+Elf32_H®f
+ 
+	tElf32_V”sym
+;
+
+60 
+Elf64_H®f
+ 
+	tElf64_V”sym
+;
+
+65 
+	#EI_NIDENT
+ (16)
+
+	)
+
+69 
+	me_id’t
+[
+EI_NIDENT
+];
+
+70 
+Elf32_H®f
+ 
+	me_ty³
+;
+
+71 
+Elf32_H®f
+ 
+	me_machše
+;
+
+72 
+Elf32_WÜd
+ 
+	me_v”siÚ
+;
+
+73 
+Elf32_Addr
+ 
+	me_’Œy
+;
+
+74 
+Elf32_Off
+ 
+	me_phoff
+;
+
+75 
+Elf32_Off
+ 
+	me_shoff
+;
+
+76 
+Elf32_WÜd
+ 
+	me_æags
+;
+
+77 
+Elf32_H®f
+ 
+	me_ehsize
+;
+
+78 
+Elf32_H®f
+ 
+	me_ph’tsize
+;
+
+79 
+Elf32_H®f
+ 
+	me_phnum
+;
+
+80 
+Elf32_H®f
+ 
+	me_sh’tsize
+;
+
+81 
+Elf32_H®f
+ 
+	me_shnum
+;
+
+82 
+Elf32_H®f
+ 
+	me_sh¡ºdx
+;
+
+83 } 
+	tElf32_Ehdr
+;
+
+87 
+	me_id’t
+[
+EI_NIDENT
+];
+
+88 
+Elf64_H®f
+ 
+	me_ty³
+;
+
+89 
+Elf64_H®f
+ 
+	me_machše
+;
+
+90 
+Elf64_WÜd
+ 
+	me_v”siÚ
+;
+
+91 
+Elf64_Addr
+ 
+	me_’Œy
+;
+
+92 
+Elf64_Off
+ 
+	me_phoff
+;
+
+93 
+Elf64_Off
+ 
+	me_shoff
+;
+
+94 
+Elf64_WÜd
+ 
+	me_æags
+;
+
+95 
+Elf64_H®f
+ 
+	me_ehsize
+;
+
+96 
+Elf64_H®f
+ 
+	me_ph’tsize
+;
+
+97 
+Elf64_H®f
+ 
+	me_phnum
+;
+
+98 
+Elf64_H®f
+ 
+	me_sh’tsize
+;
+
+99 
+Elf64_H®f
+ 
+	me_shnum
+;
+
+100 
+Elf64_H®f
+ 
+	me_sh¡ºdx
+;
+
+101 } 
+	tElf64_Ehdr
+;
+
+107 
+	#EI_MAG0
+ 0
+
+	)
+
+108 
+	#ELFMAG0
+ 0x7à
+
+	)
+
+110 
+	#EI_MAG1
+ 1
+
+	)
+
+111 
+	#ELFMAG1
+ 'E'
+
+	)
+
+113 
+	#EI_MAG2
+ 2
+
+	)
+
+114 
+	#ELFMAG2
+ 'L'
+
+	)
+
+116 
+	#EI_MAG3
+ 3
+
+	)
+
+117 
+	#ELFMAG3
+ 'F'
+
+	)
+
+120 
+	#ELFMAG
+ "\177ELF"
+
+	)
+
+121 
+	#SELFMAG
+ 4
+
+	)
+
+123 
+	#EI_CLASS
+ 4
+
+	)
+
+124 
+	#ELFCLASSNONE
+ 0
+
+	)
+
+125 
+	#ELFCLASS32
+ 1
+
+	)
+
+126 
+	#ELFCLASS64
+ 2
+
+	)
+
+127 
+	#ELFCLASSNUM
+ 3
+
+	)
+
+129 
+	#EI_DATA
+ 5
+
+	)
+
+130 
+	#ELFDATANONE
+ 0
+
+	)
+
+131 
+	#ELFDATA2LSB
+ 1
+
+	)
+
+132 
+	#ELFDATA2MSB
+ 2
+
+	)
+
+133 
+	#ELFDATANUM
+ 3
+
+	)
+
+135 
+	#EI_VERSION
+ 6
+
+	)
+
+138 
+	#EI_OSABI
+ 7
+
+	)
+
+139 
+	#ELFOSABI_NONE
+ 0
+
+	)
+
+140 
+	#ELFOSABI_SYSV
+ 0
+
+	)
+
+141 
+	#ELFOSABI_HPUX
+ 1
+
+	)
+
+142 
+	#ELFOSABI_NETBSD
+ 2
+
+	)
+
+143 
+	#ELFOSABI_GNU
+ 3
+
+	)
+
+144 
+	#ELFOSABI_LINUX
+ 
+ELFOSABI_GNU
+
+
+	)
+
+145 
+	#ELFOSABI_SOLARIS
+ 6
+
+	)
+
+146 
+	#ELFOSABI_AIX
+ 7
+
+	)
+
+147 
+	#ELFOSABI_IRIX
+ 8
+
+	)
+
+148 
+	#ELFOSABI_FREEBSD
+ 9
+
+	)
+
+149 
+	#ELFOSABI_TRU64
+ 10
+
+	)
+
+150 
+	#ELFOSABI_MODESTO
+ 11
+
+	)
+
+151 
+	#ELFOSABI_OPENBSD
+ 12
+
+	)
+
+152 
+	#ELFOSABI_ARM_AEABI
+ 64
+
+	)
+
+153 
+	#ELFOSABI_ARM
+ 97
+
+	)
+
+154 
+	#ELFOSABI_STANDALONE
+ 255
+
+	)
+
+156 
+	#EI_ABIVERSION
+ 8
+
+	)
+
+158 
+	#EI_PAD
+ 9
+
+	)
+
+162 
+	#ET_NONE
+ 0
+
+	)
+
+163 
+	#ET_REL
+ 1
+
+	)
+
+164 
+	#ET_EXEC
+ 2
+
+	)
+
+165 
+	#ET_DYN
+ 3
+
+	)
+
+166 
+	#ET_CORE
+ 4
+
+	)
+
+167 
+	#ET_NUM
+ 5
+
+	)
+
+168 
+	#ET_LOOS
+ 0xã00
+
+	)
+
+169 
+	#ET_HIOS
+ 0xãfà
+
+	)
+
+170 
+	#ET_LOPROC
+ 0xff00
+
+	)
+
+171 
+	#ET_HIPROC
+ 0xfffà
+
+	)
+
+175 
+	#EM_NONE
+ 0
+
+	)
+
+176 
+	#EM_M32
+ 1
+
+	)
+
+177 
+	#EM_SPARC
+ 2
+
+	)
+
+178 
+	#EM_386
+ 3
+
+	)
+
+179 
+	#EM_68K
+ 4
+
+	)
+
+180 
+	#EM_88K
+ 5
+
+	)
+
+181 
+	#EM_IAMCU
+ 6
+
+	)
+
+182 
+	#EM_860
+ 7
+
+	)
+
+183 
+	#EM_MIPS
+ 8
+
+	)
+
+184 
+	#EM_S370
+ 9
+
+	)
+
+185 
+	#EM_MIPS_RS3_LE
+ 10
+
+	)
+
+187 
+	#EM_PARISC
+ 15
+
+	)
+
+189 
+	#EM_VPP500
+ 17
+
+	)
+
+190 
+	#EM_SPARC32PLUS
+ 18
+
+	)
+
+191 
+	#EM_960
+ 19
+
+	)
+
+192 
+	#EM_PPC
+ 20
+
+	)
+
+193 
+	#EM_PPC64
+ 21
+
+	)
+
+194 
+	#EM_S390
+ 22
+
+	)
+
+195 
+	#EM_SPU
+ 23
+
+	)
+
+197 
+	#EM_V800
+ 36
+
+	)
+
+198 
+	#EM_FR20
+ 37
+
+	)
+
+199 
+	#EM_RH32
+ 38
+
+	)
+
+200 
+	#EM_RCE
+ 39
+
+	)
+
+201 
+	#EM_ARM
+ 40
+
+	)
+
+202 
+	#EM_FAKE_ALPHA
+ 41
+
+	)
+
+203 
+	#EM_SH
+ 42
+
+	)
+
+204 
+	#EM_SPARCV9
+ 43
+
+	)
+
+205 
+	#EM_TRICORE
+ 44
+
+	)
+
+206 
+	#EM_ARC
+ 45
+
+	)
+
+207 
+	#EM_H8_300
+ 46
+
+	)
+
+208 
+	#EM_H8_300H
+ 47
+
+	)
+
+209 
+	#EM_H8S
+ 48
+
+	)
+
+210 
+	#EM_H8_500
+ 49
+
+	)
+
+211 
+	#EM_IA_64
+ 50
+
+	)
+
+212 
+	#EM_MIPS_X
+ 51
+
+	)
+
+213 
+	#EM_COLDFIRE
+ 52
+
+	)
+
+214 
+	#EM_68HC12
+ 53
+
+	)
+
+215 
+	#EM_MMA
+ 54
+
+	)
+
+216 
+	#EM_PCP
+ 55
+
+	)
+
+217 
+	#EM_NCPU
+ 56
+
+	)
+
+218 
+	#EM_NDR1
+ 57
+
+	)
+
+219 
+	#EM_STARCORE
+ 58
+
+	)
+
+220 
+	#EM_ME16
+ 59
+
+	)
+
+221 
+	#EM_ST100
+ 60
+
+	)
+
+222 
+	#EM_TINYJ
+ 61
+
+	)
+
+223 
+	#EM_X86_64
+ 62
+
+	)
+
+224 
+	#EM_PDSP
+ 63
+
+	)
+
+225 
+	#EM_PDP10
+ 64
+
+	)
+
+226 
+	#EM_PDP11
+ 65
+
+	)
+
+227 
+	#EM_FX66
+ 66
+
+	)
+
+228 
+	#EM_ST9PLUS
+ 67
+
+	)
+
+229 
+	#EM_ST7
+ 68
+
+	)
+
+230 
+	#EM_68HC16
+ 69
+
+	)
+
+231 
+	#EM_68HC11
+ 70
+
+	)
+
+232 
+	#EM_68HC08
+ 71
+
+	)
+
+233 
+	#EM_68HC05
+ 72
+
+	)
+
+234 
+	#EM_SVX
+ 73
+
+	)
+
+235 
+	#EM_ST19
+ 74
+
+	)
+
+236 
+	#EM_VAX
+ 75
+
+	)
+
+237 
+	#EM_CRIS
+ 76
+
+	)
+
+238 
+	#EM_JAVELIN
+ 77
+
+	)
+
+239 
+	#EM_FIREPATH
+ 78
+
+	)
+
+240 
+	#EM_ZSP
+ 79
+
+	)
+
+241 
+	#EM_MMIX
+ 80
+
+	)
+
+242 
+	#EM_HUANY
+ 81
+
+	)
+
+243 
+	#EM_PRISM
+ 82
+
+	)
+
+244 
+	#EM_AVR
+ 83
+
+	)
+
+245 
+	#EM_FR30
+ 84
+
+	)
+
+246 
+	#EM_D10V
+ 85
+
+	)
+
+247 
+	#EM_D30V
+ 86
+
+	)
+
+248 
+	#EM_V850
+ 87
+
+	)
+
+249 
+	#EM_M32R
+ 88
+
+	)
+
+250 
+	#EM_MN10300
+ 89
+
+	)
+
+251 
+	#EM_MN10200
+ 90
+
+	)
+
+252 
+	#EM_PJ
+ 91
+
+	)
+
+253 
+	#EM_OPENRISC
+ 92
+
+	)
+
+254 
+	#EM_ARC_COMPACT
+ 93
+
+	)
+
+255 
+	#EM_XTENSA
+ 94
+
+	)
+
+256 
+	#EM_VIDEOCORE
+ 95
+
+	)
+
+257 
+	#EM_TMM_GPP
+ 96
+
+	)
+
+258 
+	#EM_NS32K
+ 97
+
+	)
+
+259 
+	#EM_TPC
+ 98
+
+	)
+
+260 
+	#EM_SNP1K
+ 99
+
+	)
+
+261 
+	#EM_ST200
+ 100
+
+	)
+
+262 
+	#EM_IP2K
+ 101
+
+	)
+
+263 
+	#EM_MAX
+ 102
+
+	)
+
+264 
+	#EM_CR
+ 103
+
+	)
+
+265 
+	#EM_F2MC16
+ 104
+
+	)
+
+266 
+	#EM_MSP430
+ 105
+
+	)
+
+267 
+	#EM_BLACKFIN
+ 106
+
+	)
+
+268 
+	#EM_SE_C33
+ 107
+
+	)
+
+269 
+	#EM_SEP
+ 108
+
+	)
+
+270 
+	#EM_ARCA
+ 109
+
+	)
+
+271 
+	#EM_UNICORE
+ 110
+
+	)
+
+272 
+	#EM_EXCESS
+ 111
+
+	)
+
+273 
+	#EM_DXP
+ 112
+
+	)
+
+274 
+	#EM_ALTERA_NIOS2
+ 113
+
+	)
+
+275 
+	#EM_CRX
+ 114
+
+	)
+
+276 
+	#EM_XGATE
+ 115
+
+	)
+
+277 
+	#EM_C166
+ 116
+
+	)
+
+278 
+	#EM_M16C
+ 117
+
+	)
+
+279 
+	#EM_DSPIC30F
+ 118
+
+	)
+
+280 
+	#EM_CE
+ 119
+
+	)
+
+281 
+	#EM_M32C
+ 120
+
+	)
+
+283 
+	#EM_TSK3000
+ 131
+
+	)
+
+284 
+	#EM_RS08
+ 132
+
+	)
+
+285 
+	#EM_SHARC
+ 133
+
+	)
+
+286 
+	#EM_ECOG2
+ 134
+
+	)
+
+287 
+	#EM_SCORE7
+ 135
+
+	)
+
+288 
+	#EM_DSP24
+ 136
+
+	)
+
+289 
+	#EM_VIDEOCORE3
+ 137
+
+	)
+
+290 
+	#EM_LATTICEMICO32
+ 138
+
+	)
+
+291 
+	#EM_SE_C17
+ 139
+
+	)
+
+292 
+	#EM_TI_C6000
+ 140
+
+	)
+
+293 
+	#EM_TI_C2000
+ 141
+
+	)
+
+294 
+	#EM_TI_C5500
+ 142
+
+	)
+
+295 
+	#EM_TI_ARP32
+ 143
+
+	)
+
+296 
+	#EM_TI_PRU
+ 144
+
+	)
+
+298 
+	#EM_MMDSP_PLUS
+ 160
+
+	)
+
+299 
+	#EM_CYPRESS_M8C
+ 161
+
+	)
+
+300 
+	#EM_R32C
+ 162
+
+	)
+
+301 
+	#EM_TRIMEDIA
+ 163
+
+	)
+
+302 
+	#EM_QDSP6
+ 164
+
+	)
+
+303 
+	#EM_8051
+ 165
+
+	)
+
+304 
+	#EM_STXP7X
+ 166
+
+	)
+
+305 
+	#EM_NDS32
+ 167
+
+	)
+
+306 
+	#EM_ECOG1X
+ 168
+
+	)
+
+307 
+	#EM_MAXQ30
+ 169
+
+	)
+
+308 
+	#EM_XIMO16
+ 170
+
+	)
+
+309 
+	#EM_MANIK
+ 171
+
+	)
+
+310 
+	#EM_CRAYNV2
+ 172
+
+	)
+
+311 
+	#EM_RX
+ 173
+
+	)
+
+312 
+	#EM_METAG
+ 174
+
+	)
+
+313 
+	#EM_MCST_ELBRUS
+ 175
+
+	)
+
+314 
+	#EM_ECOG16
+ 176
+
+	)
+
+315 
+	#EM_CR16
+ 177
+
+	)
+
+316 
+	#EM_ETPU
+ 178
+
+	)
+
+317 
+	#EM_SLE9X
+ 179
+
+	)
+
+318 
+	#EM_L10M
+ 180
+
+	)
+
+319 
+	#EM_K10M
+ 181
+
+	)
+
+321 
+	#EM_AARCH64
+ 183
+
+	)
+
+323 
+	#EM_AVR32
+ 185
+
+	)
+
+324 
+	#EM_STM8
+ 186
+
+	)
+
+325 
+	#EM_TILE64
+ 187
+
+	)
+
+326 
+	#EM_TILEPRO
+ 188
+
+	)
+
+327 
+	#EM_MICROBLAZE
+ 189
+
+	)
+
+328 
+	#EM_CUDA
+ 190
+
+	)
+
+329 
+	#EM_TILEGX
+ 191
+
+	)
+
+330 
+	#EM_CLOUDSHIELD
+ 192
+
+	)
+
+331 
+	#EM_COREA_1ST
+ 193
+
+	)
+
+332 
+	#EM_COREA_2ND
+ 194
+
+	)
+
+333 
+	#EM_ARC_COMPACT2
+ 195
+
+	)
+
+334 
+	#EM_OPEN8
+ 196
+
+	)
+
+335 
+	#EM_RL78
+ 197
+
+	)
+
+336 
+	#EM_VIDEOCORE5
+ 198
+
+	)
+
+337 
+	#EM_78KOR
+ 199
+
+	)
+
+338 
+	#EM_56800EX
+ 200
+
+	)
+
+339 
+	#EM_BA1
+ 201
+
+	)
+
+340 
+	#EM_BA2
+ 202
+
+	)
+
+341 
+	#EM_XCORE
+ 203
+
+	)
+
+342 
+	#EM_MCHP_PIC
+ 204
+
+	)
+
+344 
+	#EM_KM32
+ 210
+
+	)
+
+345 
+	#EM_KMX32
+ 211
+
+	)
+
+346 
+	#EM_EMX16
+ 212
+
+	)
+
+347 
+	#EM_EMX8
+ 213
+
+	)
+
+348 
+	#EM_KVARC
+ 214
+
+	)
+
+349 
+	#EM_CDP
+ 215
+
+	)
+
+350 
+	#EM_COGE
+ 216
+
+	)
+
+351 
+	#EM_COOL
+ 217
+
+	)
+
+352 
+	#EM_NORC
+ 218
+
+	)
+
+353 
+	#EM_CSR_KALIMBA
+ 219
+
+	)
+
+354 
+	#EM_Z80
+ 220
+
+	)
+
+355 
+	#EM_VISIUM
+ 221
+
+	)
+
+356 
+	#EM_FT32
+ 222
+
+	)
+
+357 
+	#EM_MOXIE
+ 223
+
+	)
+
+358 
+	#EM_AMDGPU
+ 224
+
+	)
+
+360 
+	#EM_RISCV
+ 243
+
+	)
+
+362 
+	#EM_BPF
+ 247
+
+	)
+
+363 
+	#EM_CSKY
+ 252
+
+	)
+
+365 
+	#EM_NUM
+ 253
+
+	)
+
+369 
+	#EM_ARC_A5
+ 
+EM_ARC_COMPACT
+
+
+	)
+
+375 
+	#EM_ALPHA
+ 0x9026
+
+	)
+
+379 
+	#EV_NONE
+ 0
+
+	)
+
+380 
+	#EV_CURRENT
+ 1
+
+	)
+
+381 
+	#EV_NUM
+ 2
+
+	)
+
+387 
+Elf32_WÜd
+ 
+	msh_Çme
+;
+
+388 
+Elf32_WÜd
+ 
+	msh_ty³
+;
+
+389 
+Elf32_WÜd
+ 
+	msh_æags
+;
+
+390 
+Elf32_Addr
+ 
+	msh_addr
+;
+
+391 
+Elf32_Off
+ 
+	msh_off£t
+;
+
+392 
+Elf32_WÜd
+ 
+	msh_size
+;
+
+393 
+Elf32_WÜd
+ 
+	msh_lšk
+;
+
+394 
+Elf32_WÜd
+ 
+	msh_šfo
+;
+
+395 
+Elf32_WÜd
+ 
+	msh_add¿lign
+;
+
+396 
+Elf32_WÜd
+ 
+	msh_’tsize
+;
+
+397 } 
+	tElf32_Shdr
+;
+
+401 
+Elf64_WÜd
+ 
+	msh_Çme
+;
+
+402 
+Elf64_WÜd
+ 
+	msh_ty³
+;
+
+403 
+Elf64_XwÜd
+ 
+	msh_æags
+;
+
+404 
+Elf64_Addr
+ 
+	msh_addr
+;
+
+405 
+Elf64_Off
+ 
+	msh_off£t
+;
+
+406 
+Elf64_XwÜd
+ 
+	msh_size
+;
+
+407 
+Elf64_WÜd
+ 
+	msh_lšk
+;
+
+408 
+Elf64_WÜd
+ 
+	msh_šfo
+;
+
+409 
+Elf64_XwÜd
+ 
+	msh_add¿lign
+;
+
+410 
+Elf64_XwÜd
+ 
+	msh_’tsize
+;
+
+411 } 
+	tElf64_Shdr
+;
+
+415 
+	#SHN_UNDEF
+ 0
+
+	)
+
+416 
+	#SHN_LORESERVE
+ 0xff00
+
+	)
+
+417 
+	#SHN_LOPROC
+ 0xff00
+
+	)
+
+418 
+	#SHN_BEFORE
+ 0xff00
+
+	)
+
+420 
+	#SHN_AFTER
+ 0xff01
+
+	)
+
+422 
+	#SHN_HIPROC
+ 0xff1à
+
+	)
+
+423 
+	#SHN_LOOS
+ 0xff20
+
+	)
+
+424 
+	#SHN_HIOS
+ 0xff3à
+
+	)
+
+425 
+	#SHN_ABS
+ 0xfff1
+
+	)
+
+426 
+	#SHN_COMMON
+ 0xfff2
+
+	)
+
+427 
+	#SHN_XINDEX
+ 0xfffà
+
+	)
+
+428 
+	#SHN_HIRESERVE
+ 0xfffà
+
+	)
+
+432 
+	#SHT_NULL
+ 0
+
+	)
+
+433 
+	#SHT_PROGBITS
+ 1
+
+	)
+
+434 
+	#SHT_SYMTAB
+ 2
+
+	)
+
+435 
+	#SHT_STRTAB
+ 3
+
+	)
+
+436 
+	#SHT_RELA
+ 4
+
+	)
+
+437 
+	#SHT_HASH
+ 5
+
+	)
+
+438 
+	#SHT_DYNAMIC
+ 6
+
+	)
+
+439 
+	#SHT_NOTE
+ 7
+
+	)
+
+440 
+	#SHT_NOBITS
+ 8
+
+	)
+
+441 
+	#SHT_REL
+ 9
+
+	)
+
+442 
+	#SHT_SHLIB
+ 10
+
+	)
+
+443 
+	#SHT_DYNSYM
+ 11
+
+	)
+
+444 
+	#SHT_INIT_ARRAY
+ 14
+
+	)
+
+445 
+	#SHT_FINI_ARRAY
+ 15
+
+	)
+
+446 
+	#SHT_PREINIT_ARRAY
+ 16
+
+	)
+
+447 
+	#SHT_GROUP
+ 17
+
+	)
+
+448 
+	#SHT_SYMTAB_SHNDX
+ 18
+
+	)
+
+449 
+	#SHT_NUM
+ 19
+
+	)
+
+450 
+	#SHT_LOOS
+ 0x60000000
+
+	)
+
+451 
+	#SHT_GNU_ATTRIBUTES
+ 0x6ffffff5
+
+	)
+
+452 
+	#SHT_GNU_HASH
+ 0x6ffffff6
+
+	)
+
+453 
+	#SHT_GNU_LIBLIST
+ 0x6ffffff7
+
+	)
+
+454 
+	#SHT_CHECKSUM
+ 0x6ffffff8
+
+	)
+
+455 
+	#SHT_LOSUNW
+ 0x6fffffç
+
+	)
+
+456 
+	#SHT_SUNW_move
+ 0x6fffffç
+
+	)
+
+457 
+	#SHT_SUNW_COMDAT
+ 0x6ffffffb
+
+	)
+
+458 
+	#SHT_SUNW_symšfo
+ 0x6ffffffc
+
+	)
+
+459 
+	#SHT_GNU_v”def
+ 0x6ffffffd
+
+	)
+
+460 
+	#SHT_GNU_v”Ãed
+ 0x6fffffã
+
+	)
+
+461 
+	#SHT_GNU_v”sym
+ 0x6ffffffà
+
+	)
+
+462 
+	#SHT_HISUNW
+ 0x6ffffffà
+
+	)
+
+463 
+	#SHT_HIOS
+ 0x6ffffffà
+
+	)
+
+464 
+	#SHT_LOPROC
+ 0x70000000
+
+	)
+
+465 
+	#SHT_HIPROC
+ 0x7ffffffà
+
+	)
+
+466 
+	#SHT_LOUSER
+ 0x80000000
+
+	)
+
+467 
+	#SHT_HIUSER
+ 0x8ffffffà
+
+	)
+
+471 
+	#SHF_WRITE
+ (1 << 0è
+
+	)
+
+472 
+	#SHF_ALLOC
+ (1 << 1è
+
+	)
+
+473 
+	#SHF_EXECINSTR
+ (1 << 2è
+
+	)
+
+474 
+	#SHF_MERGE
+ (1 << 4è
+
+	)
+
+475 
+	#SHF_STRINGS
+ (1 << 5è
+
+	)
+
+476 
+	#SHF_INFO_LINK
+ (1 << 6è
+
+	)
+
+477 
+	#SHF_LINK_ORDER
+ (1 << 7è
+
+	)
+
+478 
+	#SHF_OS_NONCONFORMING
+ (1 << 8è
+
+	)
+
+480 
+	#SHF_GROUP
+ (1 << 9è
+
+	)
+
+481 
+	#SHF_TLS
+ (1 << 10è
+
+	)
+
+482 
+	#SHF_COMPRESSED
+ (1 << 11è
+
+	)
+
+483 
+	#SHF_MASKOS
+ 0x0ff00000
+
+	)
+
+484 
+	#SHF_MASKPROC
+ 0xf0000000
+
+	)
+
+485 
+	#SHF_ORDERED
+ (1 << 30è
+
+	)
+
+487 
+	#SHF_EXCLUDE
+ (1U << 31è
+
+	)
+
+494 
+Elf32_WÜd
+ 
+	mch_ty³
+;
+
+495 
+Elf32_WÜd
+ 
+	mch_size
+;
+
+496 
+Elf32_WÜd
+ 
+	mch_add¿lign
+;
+
+497 } 
+	tElf32_Chdr
+;
+
+501 
+Elf64_WÜd
+ 
+	mch_ty³
+;
+
+502 
+Elf64_WÜd
+ 
+	mch_»£rved
+;
+
+503 
+Elf64_XwÜd
+ 
+	mch_size
+;
+
+504 
+Elf64_XwÜd
+ 
+	mch_add¿lign
+;
+
+505 } 
+	tElf64_Chdr
+;
+
+508 
+	#ELFCOMPRESS_ZLIB
+ 1
+
+	)
+
+509 
+	#ELFCOMPRESS_LOOS
+ 0x60000000
+
+	)
+
+510 
+	#ELFCOMPRESS_HIOS
+ 0x6ffffffà
+
+	)
+
+511 
+	#ELFCOMPRESS_LOPROC
+ 0x70000000
+
+	)
+
+512 
+	#ELFCOMPRESS_HIPROC
+ 0x7ffffffà
+
+	)
+
+515 
+	#GRP_COMDAT
+ 0x1
+
+	)
+
+521 
+Elf32_WÜd
+ 
+	m¡_Çme
+;
+
+522 
+Elf32_Addr
+ 
+	m¡_v®ue
+;
+
+523 
+Elf32_WÜd
+ 
+	m¡_size
+;
+
+524 
+	m¡_šfo
+;
+
+525 
+	m¡_Ùh”
+;
+
+526 
+Elf32_SeùiÚ
+ 
+	m¡_shndx
+;
+
+527 } 
+	tElf32_Sym
+;
+
+531 
+Elf64_WÜd
+ 
+	m¡_Çme
+;
+
+532 
+	m¡_šfo
+;
+
+533 
+	m¡_Ùh”
+;
+
+534 
+Elf64_SeùiÚ
+ 
+	m¡_shndx
+;
+
+535 
+Elf64_Addr
+ 
+	m¡_v®ue
+;
+
+536 
+Elf64_XwÜd
+ 
+	m¡_size
+;
+
+537 } 
+	tElf64_Sym
+;
+
+544 
+Elf32_H®f
+ 
+	msi_boundto
+;
+
+545 
+Elf32_H®f
+ 
+	msi_æags
+;
+
+546 } 
+	tElf32_Symšfo
+;
+
+550 
+Elf64_H®f
+ 
+	msi_boundto
+;
+
+551 
+Elf64_H®f
+ 
+	msi_æags
+;
+
+552 } 
+	tElf64_Symšfo
+;
+
+555 
+	#SYMINFO_BT_SELF
+ 0xfffà
+
+	)
+
+556 
+	#SYMINFO_BT_PARENT
+ 0xffã
+
+	)
+
+557 
+	#SYMINFO_BT_LOWRESERVE
+ 0xff00
+
+	)
+
+560 
+	#SYMINFO_FLG_DIRECT
+ 0x0001
+
+	)
+
+561 
+	#SYMINFO_FLG_PASSTHRU
+ 0x0002
+
+	)
+
+562 
+	#SYMINFO_FLG_COPY
+ 0x0004
+
+	)
+
+563 
+	#SYMINFO_FLG_LAZYLOAD
+ 0x0008
+
+	)
+
+566 
+	#SYMINFO_NONE
+ 0
+
+	)
+
+567 
+	#SYMINFO_CURRENT
+ 1
+
+	)
+
+568 
+	#SYMINFO_NUM
+ 2
+
+	)
+
+573 
+	#ELF32_ST_BIND
+(
+v®
+è(((è(v®)è>> 4)
+
+	)
+
+574 
+	#ELF32_ST_TYPE
+(
+v®
+è((v®è& 0xf)
+
+	)
+
+575 
+	#ELF32_ST_INFO
+(
+bšd
+, 
+ty³
+è(((bšdè<< 4è+ (Ñy³è& 0xf))
+
+	)
+
+578 
+	#ELF64_ST_BIND
+(
+v®
+è
+	`ELF32_ST_BIND
+ (v®)
+
+	)
+
+579 
+	#ELF64_ST_TYPE
+(
+v®
+è
+	`ELF32_ST_TYPE
+ (v®)
+
+	)
+
+580 
+	#ELF64_ST_INFO
+(
+bšd
+, 
+ty³
+è
+	`ELF32_ST_INFO
+ ((bšd), (ty³))
+
+	)
+
+584 
+	#STB_LOCAL
+ 0
+
+	)
+
+585 
+	#STB_GLOBAL
+ 1
+
+	)
+
+586 
+	#STB_WEAK
+ 2
+
+	)
+
+587 
+	#STB_NUM
+ 3
+
+	)
+
+588 
+	#STB_LOOS
+ 10
+
+	)
+
+589 
+	#STB_GNU_UNIQUE
+ 10
+
+	)
+
+590 
+	#STB_HIOS
+ 12
+
+	)
+
+591 
+	#STB_LOPROC
+ 13
+
+	)
+
+592 
+	#STB_HIPROC
+ 15
+
+	)
+
+596 
+	#STT_NOTYPE
+ 0
+
+	)
+
+597 
+	#STT_OBJECT
+ 1
+
+	)
+
+598 
+	#STT_FUNC
+ 2
+
+	)
+
+599 
+	#STT_SECTION
+ 3
+
+	)
+
+600 
+	#STT_FILE
+ 4
+
+	)
+
+601 
+	#STT_COMMON
+ 5
+
+	)
+
+602 
+	#STT_TLS
+ 6
+
+	)
+
+603 
+	#STT_NUM
+ 7
+
+	)
+
+604 
+	#STT_LOOS
+ 10
+
+	)
+
+605 
+	#STT_GNU_IFUNC
+ 10
+
+	)
+
+606 
+	#STT_HIOS
+ 12
+
+	)
+
+607 
+	#STT_LOPROC
+ 13
+
+	)
+
+608 
+	#STT_HIPROC
+ 15
+
+	)
+
+615 
+	#STN_UNDEF
+ 0
+
+	)
+
+620 
+	#ELF32_ST_VISIBILITY
+(
+o
+è((oè& 0x03)
+
+	)
+
+623 
+	#ELF64_ST_VISIBILITY
+(
+o
+è
+	`ELF32_ST_VISIBILITY
+ (o)
+
+	)
+
+626 
+	#STV_DEFAULT
+ 0
+
+	)
+
+627 
+	#STV_INTERNAL
+ 1
+
+	)
+
+628 
+	#STV_HIDDEN
+ 2
+
+	)
+
+629 
+	#STV_PROTECTED
+ 3
+
+	)
+
+636 
+Elf32_Addr
+ 
+	mr_off£t
+;
+
+637 
+Elf32_WÜd
+ 
+	mr_šfo
+;
+
+638 } 
+	tElf32_R–
+;
+
+647 
+Elf64_Addr
+ 
+	mr_off£t
+;
+
+648 
+Elf64_XwÜd
+ 
+	mr_šfo
+;
+
+649 } 
+	tElf64_R–
+;
+
+655 
+Elf32_Addr
+ 
+	mr_off£t
+;
+
+656 
+Elf32_WÜd
+ 
+	mr_šfo
+;
+
+657 
+Elf32_SwÜd
+ 
+	mr_add’d
+;
+
+658 } 
+	tElf32_R–a
+;
+
+662 
+Elf64_Addr
+ 
+	mr_off£t
+;
+
+663 
+Elf64_XwÜd
+ 
+	mr_šfo
+;
+
+664 
+Elf64_SxwÜd
+ 
+	mr_add’d
+;
+
+665 } 
+	tElf64_R–a
+;
+
+669 
+	#ELF32_R_SYM
+(
+v®
+è((v®è>> 8)
+
+	)
+
+670 
+	#ELF32_R_TYPE
+(
+v®
+è((v®è& 0xff)
+
+	)
+
+671 
+	#ELF32_R_INFO
+(
+sym
+, 
+ty³
+è(((symè<< 8è+ (Ñy³è& 0xff))
+
+	)
+
+673 
+	#ELF64_R_SYM
+(
+i
+è((iè>> 32)
+
+	)
+
+674 
+	#ELF64_R_TYPE
+(
+i
+è((iè& 0xffffffff)
+
+	)
+
+675 
+	#ELF64_R_INFO
+(
+sym
+,
+ty³
+è((((
+Elf64_XwÜd
+è(sym)è<< 32è+ (ty³))
+
+	)
+
+681 
+Elf32_WÜd
+ 
+	mp_ty³
+;
+
+682 
+Elf32_Off
+ 
+	mp_off£t
+;
+
+683 
+Elf32_Addr
+ 
+	mp_vaddr
+;
+
+684 
+Elf32_Addr
+ 
+	mp_·ddr
+;
+
+685 
+Elf32_WÜd
+ 
+	mp_fžesz
+;
+
+686 
+Elf32_WÜd
+ 
+	mp_memsz
+;
+
+687 
+Elf32_WÜd
+ 
+	mp_æags
+;
+
+688 
+Elf32_WÜd
+ 
+	mp_®ign
+;
+
+689 } 
+	tElf32_Phdr
+;
+
+693 
+Elf64_WÜd
+ 
+	mp_ty³
+;
+
+694 
+Elf64_WÜd
+ 
+	mp_æags
+;
+
+695 
+Elf64_Off
+ 
+	mp_off£t
+;
+
+696 
+Elf64_Addr
+ 
+	mp_vaddr
+;
+
+697 
+Elf64_Addr
+ 
+	mp_·ddr
+;
+
+698 
+Elf64_XwÜd
+ 
+	mp_fžesz
+;
+
+699 
+Elf64_XwÜd
+ 
+	mp_memsz
+;
+
+700 
+Elf64_XwÜd
+ 
+	mp_®ign
+;
+
+701 } 
+	tElf64_Phdr
+;
+
+707 
+	#PN_XNUM
+ 0xffff
+
+	)
+
+711 
+	#PT_NULL
+ 0
+
+	)
+
+712 
+	#PT_LOAD
+ 1
+
+	)
+
+713 
+	#PT_DYNAMIC
+ 2
+
+	)
+
+714 
+	#PT_INTERP
+ 3
+
+	)
+
+715 
+	#PT_NOTE
+ 4
+
+	)
+
+716 
+	#PT_SHLIB
+ 5
+
+	)
+
+717 
+	#PT_PHDR
+ 6
+
+	)
+
+718 
+	#PT_TLS
+ 7
+
+	)
+
+719 
+	#PT_NUM
+ 8
+
+	)
+
+720 
+	#PT_LOOS
+ 0x60000000
+
+	)
+
+721 
+	#PT_GNU_EH_FRAME
+ 0x6474e550
+
+	)
+
+722 
+	#PT_GNU_STACK
+ 0x6474e551
+
+	)
+
+723 
+	#PT_GNU_RELRO
+ 0x6474e552
+
+	)
+
+724 
+	#PT_LOSUNW
+ 0x6fffffç
+
+	)
+
+725 
+	#PT_SUNWBSS
+ 0x6fffffç
+
+	)
+
+726 
+	#PT_SUNWSTACK
+ 0x6ffffffb
+
+	)
+
+727 
+	#PT_HISUNW
+ 0x6fffffff
+
+	)
+
+728 
+	#PT_HIOS
+ 0x6ffffffà
+
+	)
+
+729 
+	#PT_LOPROC
+ 0x70000000
+
+	)
+
+730 
+	#PT_HIPROC
+ 0x7ffffffà
+
+	)
+
+734 
+	#PF_X
+ (1 << 0è
+
+	)
+
+735 
+	#PF_W
+ (1 << 1è
+
+	)
+
+736 
+	#PF_R
+ (1 << 2è
+
+	)
+
+737 
+	#PF_MASKOS
+ 0x0ff00000
+
+	)
+
+738 
+	#PF_MASKPROC
+ 0xf0000000
+
+	)
+
+742 
+	#NT_PRSTATUS
+ 1
+
+	)
+
+743 
+	#NT_PRFPREG
+ 2
+
+	)
+
+745 
+	#NT_FPREGSET
+ 2
+
+	)
+
+746 
+	#NT_PRPSINFO
+ 3
+
+	)
+
+747 
+	#NT_PRXREG
+ 4
+
+	)
+
+748 
+	#NT_TASKSTRUCT
+ 4
+
+	)
+
+749 
+	#NT_PLATFORM
+ 5
+
+	)
+
+750 
+	#NT_AUXV
+ 6
+
+	)
+
+751 
+	#NT_GWINDOWS
+ 7
+
+	)
+
+752 
+	#NT_ASRS
+ 8
+
+	)
+
+753 
+	#NT_PSTATUS
+ 10
+
+	)
+
+754 
+	#NT_PSINFO
+ 13
+
+	)
+
+755 
+	#NT_PRCRED
+ 14
+
+	)
+
+756 
+	#NT_UTSNAME
+ 15
+
+	)
+
+757 
+	#NT_LWPSTATUS
+ 16
+
+	)
+
+758 
+	#NT_LWPSINFO
+ 17
+
+	)
+
+759 
+	#NT_PRFPXREG
+ 20
+
+	)
+
+760 
+	#NT_SIGINFO
+ 0x53494749
+
+	)
+
+762 
+	#NT_FILE
+ 0x46494c45
+
+	)
+
+764 
+	#NT_PRXFPREG
+ 0x46e62b7à
+
+	)
+
+765 
+	#NT_PPC_VMX
+ 0x100
+
+	)
+
+766 
+	#NT_PPC_SPE
+ 0x101
+
+	)
+
+767 
+	#NT_PPC_VSX
+ 0x102
+
+	)
+
+768 
+	#NT_PPC_TAR
+ 0x103
+
+	)
+
+769 
+	#NT_PPC_PPR
+ 0x104
+
+	)
+
+770 
+	#NT_PPC_DSCR
+ 0x105
+
+	)
+
+771 
+	#NT_PPC_EBB
+ 0x106
+
+	)
+
+772 
+	#NT_PPC_PMU
+ 0x107
+
+	)
+
+773 
+	#NT_PPC_TM_CGPR
+ 0x108
+
+	)
+
+774 
+	#NT_PPC_TM_CFPR
+ 0x109
+
+	)
+
+775 
+	#NT_PPC_TM_CVMX
+ 0x10¨
+
+	)
+
+776 
+	#NT_PPC_TM_CVSX
+ 0x10b
+
+	)
+
+777 
+	#NT_PPC_TM_SPR
+ 0x10ø
+
+	)
+
+778 
+	#NT_PPC_TM_CTAR
+ 0x10d
+
+	)
+
+780 
+	#NT_PPC_TM_CPPR
+ 0x10
+
+	)
+
+782 
+	#NT_PPC_TM_CDSCR
+ 0x10à
+
+	)
+
+784 
+	#NT_PPC_PKEY
+ 0x110
+
+	)
+
+786 
+	#NT_386_TLS
+ 0x200
+
+	)
+
+787 
+	#NT_386_IOPERM
+ 0x201
+
+	)
+
+788 
+	#NT_X86_XSTATE
+ 0x202
+
+	)
+
+789 
+	#NT_S390_HIGH_GPRS
+ 0x300
+
+	)
+
+790 
+	#NT_S390_TIMER
+ 0x301
+
+	)
+
+791 
+	#NT_S390_TODCMP
+ 0x302
+
+	)
+
+792 
+	#NT_S390_TODPREG
+ 0x303
+
+	)
+
+793 
+	#NT_S390_CTRS
+ 0x304
+
+	)
+
+794 
+	#NT_S390_PREFIX
+ 0x305
+
+	)
+
+795 
+	#NT_S390_LAST_BREAK
+ 0x306
+
+	)
+
+796 
+	#NT_S390_SYSTEM_CALL
+ 0x307
+
+	)
+
+797 
+	#NT_S390_TDB
+ 0x308
+
+	)
+
+798 
+	#NT_S390_VXRS_LOW
+ 0x309
+
+	)
+
+800 
+	#NT_S390_VXRS_HIGH
+ 0x30¨
+
+	)
+
+801 
+	#NT_S390_GS_CB
+ 0x30b
+
+	)
+
+802 
+	#NT_S390_GS_BC
+ 0x30ø
+
+	)
+
+804 
+	#NT_S390_RI_CB
+ 0x30d
+
+	)
+
+805 
+	#NT_ARM_VFP
+ 0x400
+
+	)
+
+806 
+	#NT_ARM_TLS
+ 0x401
+
+	)
+
+807 
+	#NT_ARM_HW_BREAK
+ 0x402
+
+	)
+
+808 
+	#NT_ARM_HW_WATCH
+ 0x403
+
+	)
+
+809 
+	#NT_ARM_SYSTEM_CALL
+ 0x404
+
+	)
+
+810 
+	#NT_ARM_SVE
+ 0x405
+
+	)
+
+812 
+	#NT_ARM_PAC_MASK
+ 0x406
+
+	)
+
+814 
+	#NT_ARM_PACA_KEYS
+ 0x407
+
+	)
+
+816 
+	#NT_ARM_PACG_KEYS
+ 0x408
+
+	)
+
+818 
+	#NT_VMCOREDD
+ 0x700
+
+	)
+
+819 
+	#NT_MIPS_DSP
+ 0x800
+
+	)
+
+820 
+	#NT_MIPS_FP_MODE
+ 0x801
+
+	)
+
+821 
+	#NT_MIPS_MSA
+ 0x802
+
+	)
+
+825 
+	#NT_VERSION
+ 1
+
+	)
+
+832 
+Elf32_SwÜd
+ 
+	md_g
+;
+
+835 
+Elf32_WÜd
+ 
+	md_v®
+;
+
+836 
+Elf32_Addr
+ 
+	md_±r
+;
+
+837 } 
+	md_un
+;
+
+838 } 
+	tElf32_Dyn
+;
+
+842 
+Elf64_SxwÜd
+ 
+	md_g
+;
+
+845 
+Elf64_XwÜd
+ 
+	md_v®
+;
+
+846 
+Elf64_Addr
+ 
+	md_±r
+;
+
+847 } 
+	md_un
+;
+
+848 } 
+	tElf64_Dyn
+;
+
+852 
+	#DT_NULL
+ 0
+
+	)
+
+853 
+	#DT_NEEDED
+ 1
+
+	)
+
+854 
+	#DT_PLTRELSZ
+ 2
+
+	)
+
+855 
+	#DT_PLTGOT
+ 3
+
+	)
+
+856 
+	#DT_HASH
+ 4
+
+	)
+
+857 
+	#DT_STRTAB
+ 5
+
+	)
+
+858 
+	#DT_SYMTAB
+ 6
+
+	)
+
+859 
+	#DT_RELA
+ 7
+
+	)
+
+860 
+	#DT_RELASZ
+ 8
+
+	)
+
+861 
+	#DT_RELAENT
+ 9
+
+	)
+
+862 
+	#DT_STRSZ
+ 10
+
+	)
+
+863 
+	#DT_SYMENT
+ 11
+
+	)
+
+864 
+	#DT_INIT
+ 12
+
+	)
+
+865 
+	#DT_FINI
+ 13
+
+	)
+
+866 
+	#DT_SONAME
+ 14
+
+	)
+
+867 
+	#DT_RPATH
+ 15
+
+	)
+
+868 
+	#DT_SYMBOLIC
+ 16
+
+	)
+
+869 
+	#DT_REL
+ 17
+
+	)
+
+870 
+	#DT_RELSZ
+ 18
+
+	)
+
+871 
+	#DT_RELENT
+ 19
+
+	)
+
+872 
+	#DT_PLTREL
+ 20
+
+	)
+
+873 
+	#DT_DEBUG
+ 21
+
+	)
+
+874 
+	#DT_TEXTREL
+ 22
+
+	)
+
+875 
+	#DT_JMPREL
+ 23
+
+	)
+
+876 
+	#DT_BIND_NOW
+ 24
+
+	)
+
+877 
+	#DT_INIT_ARRAY
+ 25
+
+	)
+
+878 
+	#DT_FINI_ARRAY
+ 26
+
+	)
+
+879 
+	#DT_INIT_ARRAYSZ
+ 27
+
+	)
+
+880 
+	#DT_FINI_ARRAYSZ
+ 28
+
+	)
+
+881 
+	#DT_RUNPATH
+ 29
+
+	)
+
+882 
+	#DT_FLAGS
+ 30
+
+	)
+
+883 
+	#DT_ENCODING
+ 32
+
+	)
+
+884 
+	#DT_PREINIT_ARRAY
+ 32
+
+	)
+
+885 
+	#DT_PREINIT_ARRAYSZ
+ 33
+
+	)
+
+886 
+	#DT_SYMTAB_SHNDX
+ 34
+
+	)
+
+887 
+	#DT_NUM
+ 35
+
+	)
+
+888 
+	#DT_LOOS
+ 0x6000000d
+
+	)
+
+889 
+	#DT_HIOS
+ 0x6ffff000
+
+	)
+
+890 
+	#DT_LOPROC
+ 0x70000000
+
+	)
+
+891 
+	#DT_HIPROC
+ 0x7ffffffà
+
+	)
+
+892 
+	#DT_PROCNUM
+ 
+DT_MIPS_NUM
+
+
+	)
+
+897 
+	#DT_VALRNGLO
+ 0x6ffffd00
+
+	)
+
+898 
+	#DT_GNU_PRELINKED
+ 0x6ffffdf5
+
+	)
+
+899 
+	#DT_GNU_CONFLICTSZ
+ 0x6ffffdf6
+
+	)
+
+900 
+	#DT_GNU_LIBLISTSZ
+ 0x6ffffdf7
+
+	)
+
+901 
+	#DT_CHECKSUM
+ 0x6ffffdf8
+
+	)
+
+902 
+	#DT_PLTPADSZ
+ 0x6ffffdf9
+
+	)
+
+903 
+	#DT_MOVEENT
+ 0x6ffffdç
+
+	)
+
+904 
+	#DT_MOVESZ
+ 0x6ffffdfb
+
+	)
+
+905 
+	#DT_FEATURE_1
+ 0x6ffffdfø
+
+	)
+
+906 
+	#DT_POSFLAG_1
+ 0x6ffffdfd
+
+	)
+
+908 
+	#DT_SYMINSZ
+ 0x6ffffdã
+
+	)
+
+909 
+	#DT_SYMINENT
+ 0x6ffffdfà
+
+	)
+
+910 
+	#DT_VALRNGHI
+ 0x6ffffdff
+
+	)
+
+911 
+	#DT_VALTAGIDX
+(
+g
+è(
+DT_VALRNGHI
+ - (g)è
+
+	)
+
+912 
+	#DT_VALNUM
+ 12
+
+	)
+
+919 
+	#DT_ADDRRNGLO
+ 0x6fffã00
+
+	)
+
+920 
+	#DT_GNU_HASH
+ 0x6fffãf5
+
+	)
+
+921 
+	#DT_TLSDESC_PLT
+ 0x6fffãf6
+
+	)
+
+922 
+	#DT_TLSDESC_GOT
+ 0x6fffãf7
+
+	)
+
+923 
+	#DT_GNU_CONFLICT
+ 0x6fffãf8
+
+	)
+
+924 
+	#DT_GNU_LIBLIST
+ 0x6fffãf9
+
+	)
+
+925 
+	#DT_CONFIG
+ 0x6fffãç
+
+	)
+
+926 
+	#DT_DEPAUDIT
+ 0x6fffãfb
+
+	)
+
+927 
+	#DT_AUDIT
+ 0x6fffãfø
+
+	)
+
+928 
+	#DT_PLTPAD
+ 0x6fffãfd
+
+	)
+
+929 
+	#DT_MOVETAB
+ 0x6fffãã
+
+	)
+
+930 
+	#DT_SYMINFO
+ 0x6fffãfà
+
+	)
+
+931 
+	#DT_ADDRRNGHI
+ 0x6fffãff
+
+	)
+
+932 
+	#DT_ADDRTAGIDX
+(
+g
+è(
+DT_ADDRRNGHI
+ - (g)è
+
+	)
+
+933 
+	#DT_ADDRNUM
+ 11
+
+	)
+
+937 
+	#DT_VERSYM
+ 0x6ffffff0
+
+	)
+
+939 
+	#DT_RELACOUNT
+ 0x6ffffff9
+
+	)
+
+940 
+	#DT_RELCOUNT
+ 0x6fffffç
+
+	)
+
+943 
+	#DT_FLAGS_1
+ 0x6ffffffb
+
+	)
+
+944 
+	#DT_VERDEF
+ 0x6ffffffø
+
+	)
+
+946 
+	#DT_VERDEFNUM
+ 0x6ffffffd
+
+	)
+
+947 
+	#DT_VERNEED
+ 0x6fffffã
+
+	)
+
+949 
+	#DT_VERNEEDNUM
+ 0x6ffffffà
+
+	)
+
+950 
+	#DT_VERSIONTAGIDX
+(
+g
+è(
+DT_VERNEEDNUM
+ - (g)è
+
+	)
+
+951 
+	#DT_VERSIONTAGNUM
+ 16
+
+	)
+
+955 
+	#DT_AUXILIARY
+ 0x7ffffffd
+
+	)
+
+956 
+	#DT_FILTER
+ 0x7ffffffà
+
+	)
+
+957 
+	#DT_EXTRATAGIDX
+(
+g
+è((
+Elf32_WÜd
+)-((
+Elf32_SwÜd
+èÑagè<<1>>1)-1)
+
+	)
+
+958 
+	#DT_EXTRANUM
+ 3
+
+	)
+
+961 
+	#DF_ORIGIN
+ 0x00000001
+
+	)
+
+962 
+	#DF_SYMBOLIC
+ 0x00000002
+
+	)
+
+963 
+	#DF_TEXTREL
+ 0x00000004
+
+	)
+
+964 
+	#DF_BIND_NOW
+ 0x00000008
+
+	)
+
+965 
+	#DF_STATIC_TLS
+ 0x00000010
+
+	)
+
+969 
+	#DF_1_NOW
+ 0x00000001
+
+	)
+
+970 
+	#DF_1_GLOBAL
+ 0x00000002
+
+	)
+
+971 
+	#DF_1_GROUP
+ 0x00000004
+
+	)
+
+972 
+	#DF_1_NODELETE
+ 0x00000008
+
+	)
+
+973 
+	#DF_1_LOADFLTR
+ 0x00000010
+
+	)
+
+974 
+	#DF_1_INITFIRST
+ 0x00000020
+
+	)
+
+975 
+	#DF_1_NOOPEN
+ 0x00000040
+
+	)
+
+976 
+	#DF_1_ORIGIN
+ 0x00000080
+
+	)
+
+977 
+	#DF_1_DIRECT
+ 0x00000100
+
+	)
+
+978 
+	#DF_1_TRANS
+ 0x00000200
+
+	)
+
+979 
+	#DF_1_INTERPOSE
+ 0x00000400
+
+	)
+
+980 
+	#DF_1_NODEFLIB
+ 0x00000800
+
+	)
+
+981 
+	#DF_1_NODUMP
+ 0x00001000
+
+	)
+
+982 
+	#DF_1_CONFALT
+ 0x00002000
+
+	)
+
+983 
+	#DF_1_ENDFILTEE
+ 0x00004000
+
+	)
+
+984 
+	#DF_1_DISPRELDNE
+ 0x00008000
+
+	)
+
+985 
+	#DF_1_DISPRELPND
+ 0x00010000
+
+	)
+
+986 
+	#DF_1_NODIRECT
+ 0x00020000
+
+	)
+
+987 
+	#DF_1_IGNMULDEF
+ 0x00040000
+
+	)
+
+988 
+	#DF_1_NOKSYMS
+ 0x00080000
+
+	)
+
+989 
+	#DF_1_NOHDR
+ 0x00100000
+
+	)
+
+990 
+	#DF_1_EDITED
+ 0x00200000
+
+	)
+
+991 
+	#DF_1_NORELOC
+ 0x00400000
+
+	)
+
+992 
+	#DF_1_SYMINTPOSE
+ 0x00800000
+
+	)
+
+993 
+	#DF_1_GLOBAUDIT
+ 0x01000000
+
+	)
+
+994 
+	#DF_1_SINGLETON
+ 0x02000000
+
+	)
+
+995 
+	#DF_1_STUB
+ 0x04000000
+
+	)
+
+996 
+	#DF_1_PIE
+ 0x08000000
+
+	)
+
+997 
+	#DF_1_KMOD
+ 0x10000000
+
+	)
+
+998 
+	#DF_1_WEAKFILTER
+ 0x20000000
+
+	)
+
+999 
+	#DF_1_NOCOMMON
+ 0x40000000
+
+	)
+
+1002 
+	#DTF_1_PARINIT
+ 0x00000001
+
+	)
+
+1003 
+	#DTF_1_CONFEXP
+ 0x00000002
+
+	)
+
+1006 
+	#DF_P1_LAZYLOAD
+ 0x00000001
+
+	)
+
+1007 
+	#DF_P1_GROUPPERM
+ 0x00000002
+
+	)
+
+1014 
+Elf32_H®f
+ 
+	mvd_v”siÚ
+;
+
+1015 
+Elf32_H®f
+ 
+	mvd_æags
+;
+
+1016 
+Elf32_H®f
+ 
+	mvd_ndx
+;
+
+1017 
+Elf32_H®f
+ 
+	mvd_út
+;
+
+1018 
+Elf32_WÜd
+ 
+	mvd_hash
+;
+
+1019 
+Elf32_WÜd
+ 
+	mvd_aux
+;
+
+1020 
+Elf32_WÜd
+ 
+	mvd_Ãxt
+;
+
+1022 } 
+	tElf32_V”def
+;
+
+1026 
+Elf64_H®f
+ 
+	mvd_v”siÚ
+;
+
+1027 
+Elf64_H®f
+ 
+	mvd_æags
+;
+
+1028 
+Elf64_H®f
+ 
+	mvd_ndx
+;
+
+1029 
+Elf64_H®f
+ 
+	mvd_út
+;
+
+1030 
+Elf64_WÜd
+ 
+	mvd_hash
+;
+
+1031 
+Elf64_WÜd
+ 
+	mvd_aux
+;
+
+1032 
+Elf64_WÜd
+ 
+	mvd_Ãxt
+;
+
+1034 } 
+	tElf64_V”def
+;
+
+1038 
+	#VER_DEF_NONE
+ 0
+
+	)
+
+1039 
+	#VER_DEF_CURRENT
+ 1
+
+	)
+
+1040 
+	#VER_DEF_NUM
+ 2
+
+	)
+
+1043 
+	#VER_FLG_BASE
+ 0x1
+
+	)
+
+1044 
+	#VER_FLG_WEAK
+ 0x2
+
+	)
+
+1047 
+	#VER_NDX_LOCAL
+ 0
+
+	)
+
+1048 
+	#VER_NDX_GLOBAL
+ 1
+
+	)
+
+1049 
+	#VER_NDX_LORESERVE
+ 0xff00
+
+	)
+
+1050 
+	#VER_NDX_ELIMINATE
+ 0xff01
+
+	)
+
+1056 
+Elf32_WÜd
+ 
+	mvda_Çme
+;
+
+1057 
+Elf32_WÜd
+ 
+	mvda_Ãxt
+;
+
+1059 } 
+	tElf32_V”daux
+;
+
+1063 
+Elf64_WÜd
+ 
+	mvda_Çme
+;
+
+1064 
+Elf64_WÜd
+ 
+	mvda_Ãxt
+;
+
+1066 } 
+	tElf64_V”daux
+;
+
+1073 
+Elf32_H®f
+ 
+	mvn_v”siÚ
+;
+
+1074 
+Elf32_H®f
+ 
+	mvn_út
+;
+
+1075 
+Elf32_WÜd
+ 
+	mvn_fže
+;
+
+1077 
+Elf32_WÜd
+ 
+	mvn_aux
+;
+
+1078 
+Elf32_WÜd
+ 
+	mvn_Ãxt
+;
+
+1080 } 
+	tElf32_V”Ãed
+;
+
+1084 
+Elf64_H®f
+ 
+	mvn_v”siÚ
+;
+
+1085 
+Elf64_H®f
+ 
+	mvn_út
+;
+
+1086 
+Elf64_WÜd
+ 
+	mvn_fže
+;
+
+1088 
+Elf64_WÜd
+ 
+	mvn_aux
+;
+
+1089 
+Elf64_WÜd
+ 
+	mvn_Ãxt
+;
+
+1091 } 
+	tElf64_V”Ãed
+;
+
+1095 
+	#VER_NEED_NONE
+ 0
+
+	)
+
+1096 
+	#VER_NEED_CURRENT
+ 1
+
+	)
+
+1097 
+	#VER_NEED_NUM
+ 2
+
+	)
+
+1103 
+Elf32_WÜd
+ 
+	mvÇ_hash
+;
+
+1104 
+Elf32_H®f
+ 
+	mvÇ_æags
+;
+
+1105 
+Elf32_H®f
+ 
+	mvÇ_Ùh”
+;
+
+1106 
+Elf32_WÜd
+ 
+	mvÇ_Çme
+;
+
+1107 
+Elf32_WÜd
+ 
+	mvÇ_Ãxt
+;
+
+1109 } 
+	tElf32_V”Çux
+;
+
+1113 
+Elf64_WÜd
+ 
+	mvÇ_hash
+;
+
+1114 
+Elf64_H®f
+ 
+	mvÇ_æags
+;
+
+1115 
+Elf64_H®f
+ 
+	mvÇ_Ùh”
+;
+
+1116 
+Elf64_WÜd
+ 
+	mvÇ_Çme
+;
+
+1117 
+Elf64_WÜd
+ 
+	mvÇ_Ãxt
+;
+
+1119 } 
+	tElf64_V”Çux
+;
+
+1123 
+	#VER_FLG_WEAK
+ 0x2
+
+	)
+
+1137 
+ušt32_t
+ 
+	ma_ty³
+;
+
+1140 
+ušt32_t
+ 
+	ma_v®
+;
+
+1144 } 
+	ma_un
+;
+
+1145 } 
+	tElf32_auxv_t
+;
+
+1149 
+ušt64_t
+ 
+	ma_ty³
+;
+
+1152 
+ušt64_t
+ 
+	ma_v®
+;
+
+1156 } 
+	ma_un
+;
+
+1157 } 
+	tElf64_auxv_t
+;
+
+1159 
+	~<b™s/auxv.h
+>
+
+1165 
+Elf32_WÜd
+ 
+	mn_Çmesz
+;
+
+1166 
+Elf32_WÜd
+ 
+	mn_descsz
+;
+
+1167 
+Elf32_WÜd
+ 
+	mn_ty³
+;
+
+1168 } 
+	tElf32_Nhdr
+;
+
+1172 
+Elf64_WÜd
+ 
+	mn_Çmesz
+;
+
+1173 
+Elf64_WÜd
+ 
+	mn_descsz
+;
+
+1174 
+Elf64_WÜd
+ 
+	mn_ty³
+;
+
+1175 } 
+	tElf64_Nhdr
+;
+
+1180 
+	#ELF_NOTE_SOLARIS
+ "SUNW SÞ¬is"
+
+	)
+
+1183 
+	#ELF_NOTE_GNU
+ "GNU"
+
+	)
+
+1189 
+	#ELF_NOTE_PAGESIZE_HINT
+ 1
+
+	)
+
+1200 
+	#NT_GNU_ABI_TAG
+ 1
+
+	)
+
+1201 
+	#ELF_NOTE_ABI
+ 
+NT_GNU_ABI_TAG
+
+
+	)
+
+1205 
+	#ELF_NOTE_OS_LINUX
+ 0
+
+	)
+
+1206 
+	#ELF_NOTE_OS_GNU
+ 1
+
+	)
+
+1207 
+	#ELF_NOTE_OS_SOLARIS2
+ 2
+
+	)
+
+1208 
+	#ELF_NOTE_OS_FREEBSD
+ 3
+
+	)
+
+1216 
+	#NT_GNU_HWCAP
+ 2
+
+	)
+
+1220 
+	#NT_GNU_BUILD_ID
+ 3
+
+	)
+
+1223 
+	#NT_GNU_GOLD_VERSION
+ 4
+
+	)
+
+1226 
+	#NT_GNU_PROPERTY_TYPE_0
+ 5
+
+	)
+
+1229 
+	#NOTE_GNU_PROPERTY_SECTION_NAME
+ ".nÙe.gnu.´Ý”ty"
+
+	)
+
+1234 
+	#GNU_PROPERTY_STACK_SIZE
+ 1
+
+	)
+
+1236 
+	#GNU_PROPERTY_NO_COPY_ON_PROTECTED
+ 2
+
+	)
+
+1239 
+	#GNU_PROPERTY_LOPROC
+ 0xc0000000
+
+	)
+
+1241 
+	#GNU_PROPERTY_HIPROC
+ 0xdfffffff
+
+	)
+
+1243 
+	#GNU_PROPERTY_LOUSER
+ 0xe0000000
+
+	)
+
+1245 
+	#GNU_PROPERTY_HIUSER
+ 0xffffffff
+
+	)
+
+1249 
+	#GNU_PROPERTY_X86_ISA_1_USED
+ 0xc0000000
+
+	)
+
+1252 
+	#GNU_PROPERTY_X86_ISA_1_NEEDED
+ 0xc0000001
+
+	)
+
+1254 
+	#GNU_PROPERTY_X86_FEATURE_1_AND
+ 0xc0000002
+
+	)
+
+1256 
+	#GNU_PROPERTY_X86_ISA_1_486
+ (1U << 0)
+
+	)
+
+1257 
+	#GNU_PROPERTY_X86_ISA_1_586
+ (1U << 1)
+
+	)
+
+1258 
+	#GNU_PROPERTY_X86_ISA_1_686
+ (1U << 2)
+
+	)
+
+1259 
+	#GNU_PROPERTY_X86_ISA_1_SSE
+ (1U << 3)
+
+	)
+
+1260 
+	#GNU_PROPERTY_X86_ISA_1_SSE2
+ (1U << 4)
+
+	)
+
+1261 
+	#GNU_PROPERTY_X86_ISA_1_SSE3
+ (1U << 5)
+
+	)
+
+1262 
+	#GNU_PROPERTY_X86_ISA_1_SSSE3
+ (1U << 6)
+
+	)
+
+1263 
+	#GNU_PROPERTY_X86_ISA_1_SSE4_1
+ (1U << 7)
+
+	)
+
+1264 
+	#GNU_PROPERTY_X86_ISA_1_SSE4_2
+ (1U << 8)
+
+	)
+
+1265 
+	#GNU_PROPERTY_X86_ISA_1_AVX
+ (1U << 9)
+
+	)
+
+1266 
+	#GNU_PROPERTY_X86_ISA_1_AVX2
+ (1U << 10)
+
+	)
+
+1267 
+	#GNU_PROPERTY_X86_ISA_1_AVX512F
+ (1U << 11)
+
+	)
+
+1268 
+	#GNU_PROPERTY_X86_ISA_1_AVX512CD
+ (1U << 12)
+
+	)
+
+1269 
+	#GNU_PROPERTY_X86_ISA_1_AVX512ER
+ (1U << 13)
+
+	)
+
+1270 
+	#GNU_PROPERTY_X86_ISA_1_AVX512PF
+ (1U << 14)
+
+	)
+
+1271 
+	#GNU_PROPERTY_X86_ISA_1_AVX512VL
+ (1U << 15)
+
+	)
+
+1272 
+	#GNU_PROPERTY_X86_ISA_1_AVX512DQ
+ (1U << 16)
+
+	)
+
+1273 
+	#GNU_PROPERTY_X86_ISA_1_AVX512BW
+ (1U << 17)
+
+	)
+
+1277 
+	#GNU_PROPERTY_X86_FEATURE_1_IBT
+ (1U << 0)
+
+	)
+
+1280 
+	#GNU_PROPERTY_X86_FEATURE_1_SHSTK
+ (1U << 1)
+
+	)
+
+1285 
+Elf32_XwÜd
+ 
+	mm_v®ue
+;
+
+1286 
+Elf32_WÜd
+ 
+	mm_šfo
+;
+
+1287 
+Elf32_WÜd
+ 
+	mm_poff£t
+;
+
+1288 
+Elf32_H®f
+ 
+	mm_»³©
+;
+
+1289 
+Elf32_H®f
+ 
+	mm_¡ride
+;
+
+1290 } 
+	tElf32_Move
+;
+
+1294 
+Elf64_XwÜd
+ 
+	mm_v®ue
+;
+
+1295 
+Elf64_XwÜd
+ 
+	mm_šfo
+;
+
+1296 
+Elf64_XwÜd
+ 
+	mm_poff£t
+;
+
+1297 
+Elf64_H®f
+ 
+	mm_»³©
+;
+
+1298 
+Elf64_H®f
+ 
+	mm_¡ride
+;
+
+1299 } 
+	tElf64_Move
+;
+
+1302 
+	#ELF32_M_SYM
+(
+šfo
+è((šfoè>> 8)
+
+	)
+
+1303 
+	#ELF32_M_SIZE
+(
+šfo
+è((è(šfo))
+
+	)
+
+1304 
+	#ELF32_M_INFO
+(
+sym
+, 
+size
+è(((symè<< 8è+ (è(size))
+
+	)
+
+1306 
+	#ELF64_M_SYM
+(
+šfo
+è
+	`ELF32_M_SYM
+ (šfo)
+
+	)
+
+1307 
+	#ELF64_M_SIZE
+(
+šfo
+è
+	`ELF32_M_SIZE
+ (šfo)
+
+	)
+
+1308 
+	#ELF64_M_INFO
+(
+sym
+, 
+size
+è
+	`ELF32_M_INFO
+ (sym, size)
+
+	)
+
+1314 
+	#EF_CPU32
+ 0x00810000
+
+	)
+
+1318 
+	#R_68K_NONE
+ 0
+
+	)
+
+1319 
+	#R_68K_32
+ 1
+
+	)
+
+1320 
+	#R_68K_16
+ 2
+
+	)
+
+1321 
+	#R_68K_8
+ 3
+
+	)
+
+1322 
+	#R_68K_PC32
+ 4
+
+	)
+
+1323 
+	#R_68K_PC16
+ 5
+
+	)
+
+1324 
+	#R_68K_PC8
+ 6
+
+	)
+
+1325 
+	#R_68K_GOT32
+ 7
+
+	)
+
+1326 
+	#R_68K_GOT16
+ 8
+
+	)
+
+1327 
+	#R_68K_GOT8
+ 9
+
+	)
+
+1328 
+	#R_68K_GOT32O
+ 10
+
+	)
+
+1329 
+	#R_68K_GOT16O
+ 11
+
+	)
+
+1330 
+	#R_68K_GOT8O
+ 12
+
+	)
+
+1331 
+	#R_68K_PLT32
+ 13
+
+	)
+
+1332 
+	#R_68K_PLT16
+ 14
+
+	)
+
+1333 
+	#R_68K_PLT8
+ 15
+
+	)
+
+1334 
+	#R_68K_PLT32O
+ 16
+
+	)
+
+1335 
+	#R_68K_PLT16O
+ 17
+
+	)
+
+1336 
+	#R_68K_PLT8O
+ 18
+
+	)
+
+1337 
+	#R_68K_COPY
+ 19
+
+	)
+
+1338 
+	#R_68K_GLOB_DAT
+ 20
+
+	)
+
+1339 
+	#R_68K_JMP_SLOT
+ 21
+
+	)
+
+1340 
+	#R_68K_RELATIVE
+ 22
+
+	)
+
+1341 
+	#R_68K_TLS_GD32
+ 25
+
+	)
+
+1342 
+	#R_68K_TLS_GD16
+ 26
+
+	)
+
+1343 
+	#R_68K_TLS_GD8
+ 27
+
+	)
+
+1344 
+	#R_68K_TLS_LDM32
+ 28
+
+	)
+
+1345 
+	#R_68K_TLS_LDM16
+ 29
+
+	)
+
+1346 
+	#R_68K_TLS_LDM8
+ 30
+
+	)
+
+1347 
+	#R_68K_TLS_LDO32
+ 31
+
+	)
+
+1348 
+	#R_68K_TLS_LDO16
+ 32
+
+	)
+
+1349 
+	#R_68K_TLS_LDO8
+ 33
+
+	)
+
+1350 
+	#R_68K_TLS_IE32
+ 34
+
+	)
+
+1351 
+	#R_68K_TLS_IE16
+ 35
+
+	)
+
+1352 
+	#R_68K_TLS_IE8
+ 36
+
+	)
+
+1353 
+	#R_68K_TLS_LE32
+ 37
+
+	)
+
+1355 
+	#R_68K_TLS_LE16
+ 38
+
+	)
+
+1357 
+	#R_68K_TLS_LE8
+ 39
+
+	)
+
+1359 
+	#R_68K_TLS_DTPMOD32
+ 40
+
+	)
+
+1360 
+	#R_68K_TLS_DTPREL32
+ 41
+
+	)
+
+1361 
+	#R_68K_TLS_TPREL32
+ 42
+
+	)
+
+1363 
+	#R_68K_NUM
+ 43
+
+	)
+
+1369 
+	#R_386_NONE
+ 0
+
+	)
+
+1370 
+	#R_386_32
+ 1
+
+	)
+
+1371 
+	#R_386_PC32
+ 2
+
+	)
+
+1372 
+	#R_386_GOT32
+ 3
+
+	)
+
+1373 
+	#R_386_PLT32
+ 4
+
+	)
+
+1374 
+	#R_386_COPY
+ 5
+
+	)
+
+1375 
+	#R_386_GLOB_DAT
+ 6
+
+	)
+
+1376 
+	#R_386_JMP_SLOT
+ 7
+
+	)
+
+1377 
+	#R_386_RELATIVE
+ 8
+
+	)
+
+1378 
+	#R_386_GOTOFF
+ 9
+
+	)
+
+1379 
+	#R_386_GOTPC
+ 10
+
+	)
+
+1380 
+	#R_386_32PLT
+ 11
+
+	)
+
+1381 
+	#R_386_TLS_TPOFF
+ 14
+
+	)
+
+1382 
+	#R_386_TLS_IE
+ 15
+
+	)
+
+1384 
+	#R_386_TLS_GOTIE
+ 16
+
+	)
+
+1386 
+	#R_386_TLS_LE
+ 17
+
+	)
+
+1388 
+	#R_386_TLS_GD
+ 18
+
+	)
+
+1390 
+	#R_386_TLS_LDM
+ 19
+
+	)
+
+1393 
+	#R_386_16
+ 20
+
+	)
+
+1394 
+	#R_386_PC16
+ 21
+
+	)
+
+1395 
+	#R_386_8
+ 22
+
+	)
+
+1396 
+	#R_386_PC8
+ 23
+
+	)
+
+1397 
+	#R_386_TLS_GD_32
+ 24
+
+	)
+
+1399 
+	#R_386_TLS_GD_PUSH
+ 25
+
+	)
+
+1400 
+	#R_386_TLS_GD_CALL
+ 26
+
+	)
+
+1402 
+	#R_386_TLS_GD_POP
+ 27
+
+	)
+
+1403 
+	#R_386_TLS_LDM_32
+ 28
+
+	)
+
+1405 
+	#R_386_TLS_LDM_PUSH
+ 29
+
+	)
+
+1406 
+	#R_386_TLS_LDM_CALL
+ 30
+
+	)
+
+1408 
+	#R_386_TLS_LDM_POP
+ 31
+
+	)
+
+1409 
+	#R_386_TLS_LDO_32
+ 32
+
+	)
+
+1410 
+	#R_386_TLS_IE_32
+ 33
+
+	)
+
+1412 
+	#R_386_TLS_LE_32
+ 34
+
+	)
+
+1414 
+	#R_386_TLS_DTPMOD32
+ 35
+
+	)
+
+1415 
+	#R_386_TLS_DTPOFF32
+ 36
+
+	)
+
+1416 
+	#R_386_TLS_TPOFF32
+ 37
+
+	)
+
+1417 
+	#R_386_SIZE32
+ 38
+
+	)
+
+1418 
+	#R_386_TLS_GOTDESC
+ 39
+
+	)
+
+1419 
+	#R_386_TLS_DESC_CALL
+ 40
+
+	)
+
+1422 
+	#R_386_TLS_DESC
+ 41
+
+	)
+
+1426 
+	#R_386_IRELATIVE
+ 42
+
+	)
+
+1427 
+	#R_386_GOT32X
+ 43
+
+	)
+
+1430 
+	#R_386_NUM
+ 44
+
+	)
+
+1436 
+	#STT_SPARC_REGISTER
+ 13
+
+	)
+
+1440 
+	#EF_SPARCV9_MM
+ 3
+
+	)
+
+1441 
+	#EF_SPARCV9_TSO
+ 0
+
+	)
+
+1442 
+	#EF_SPARCV9_PSO
+ 1
+
+	)
+
+1443 
+	#EF_SPARCV9_RMO
+ 2
+
+	)
+
+1444 
+	#EF_SPARC_LEDATA
+ 0x800000
+
+	)
+
+1445 
+	#EF_SPARC_EXT_MASK
+ 0xFFFF00
+
+	)
+
+1446 
+	#EF_SPARC_32PLUS
+ 0x000100
+
+	)
+
+1447 
+	#EF_SPARC_SUN_US1
+ 0x000200
+
+	)
+
+1448 
+	#EF_SPARC_HAL_R1
+ 0x000400
+
+	)
+
+1449 
+	#EF_SPARC_SUN_US3
+ 0x000800
+
+	)
+
+1453 
+	#R_SPARC_NONE
+ 0
+
+	)
+
+1454 
+	#R_SPARC_8
+ 1
+
+	)
+
+1455 
+	#R_SPARC_16
+ 2
+
+	)
+
+1456 
+	#R_SPARC_32
+ 3
+
+	)
+
+1457 
+	#R_SPARC_DISP8
+ 4
+
+	)
+
+1458 
+	#R_SPARC_DISP16
+ 5
+
+	)
+
+1459 
+	#R_SPARC_DISP32
+ 6
+
+	)
+
+1460 
+	#R_SPARC_WDISP30
+ 7
+
+	)
+
+1461 
+	#R_SPARC_WDISP22
+ 8
+
+	)
+
+1462 
+	#R_SPARC_HI22
+ 9
+
+	)
+
+1463 
+	#R_SPARC_22
+ 10
+
+	)
+
+1464 
+	#R_SPARC_13
+ 11
+
+	)
+
+1465 
+	#R_SPARC_LO10
+ 12
+
+	)
+
+1466 
+	#R_SPARC_GOT10
+ 13
+
+	)
+
+1467 
+	#R_SPARC_GOT13
+ 14
+
+	)
+
+1468 
+	#R_SPARC_GOT22
+ 15
+
+	)
+
+1469 
+	#R_SPARC_PC10
+ 16
+
+	)
+
+1470 
+	#R_SPARC_PC22
+ 17
+
+	)
+
+1471 
+	#R_SPARC_WPLT30
+ 18
+
+	)
+
+1472 
+	#R_SPARC_COPY
+ 19
+
+	)
+
+1473 
+	#R_SPARC_GLOB_DAT
+ 20
+
+	)
+
+1474 
+	#R_SPARC_JMP_SLOT
+ 21
+
+	)
+
+1475 
+	#R_SPARC_RELATIVE
+ 22
+
+	)
+
+1476 
+	#R_SPARC_UA32
+ 23
+
+	)
+
+1480 
+	#R_SPARC_PLT32
+ 24
+
+	)
+
+1481 
+	#R_SPARC_HIPLT22
+ 25
+
+	)
+
+1482 
+	#R_SPARC_LOPLT10
+ 26
+
+	)
+
+1483 
+	#R_SPARC_PCPLT32
+ 27
+
+	)
+
+1484 
+	#R_SPARC_PCPLT22
+ 28
+
+	)
+
+1485 
+	#R_SPARC_PCPLT10
+ 29
+
+	)
+
+1486 
+	#R_SPARC_10
+ 30
+
+	)
+
+1487 
+	#R_SPARC_11
+ 31
+
+	)
+
+1488 
+	#R_SPARC_64
+ 32
+
+	)
+
+1489 
+	#R_SPARC_OLO10
+ 33
+
+	)
+
+1490 
+	#R_SPARC_HH22
+ 34
+
+	)
+
+1491 
+	#R_SPARC_HM10
+ 35
+
+	)
+
+1492 
+	#R_SPARC_LM22
+ 36
+
+	)
+
+1493 
+	#R_SPARC_PC_HH22
+ 37
+
+	)
+
+1494 
+	#R_SPARC_PC_HM10
+ 38
+
+	)
+
+1495 
+	#R_SPARC_PC_LM22
+ 39
+
+	)
+
+1496 
+	#R_SPARC_WDISP16
+ 40
+
+	)
+
+1497 
+	#R_SPARC_WDISP19
+ 41
+
+	)
+
+1498 
+	#R_SPARC_GLOB_JMP
+ 42
+
+	)
+
+1499 
+	#R_SPARC_7
+ 43
+
+	)
+
+1500 
+	#R_SPARC_5
+ 44
+
+	)
+
+1501 
+	#R_SPARC_6
+ 45
+
+	)
+
+1502 
+	#R_SPARC_DISP64
+ 46
+
+	)
+
+1503 
+	#R_SPARC_PLT64
+ 47
+
+	)
+
+1504 
+	#R_SPARC_HIX22
+ 48
+
+	)
+
+1505 
+	#R_SPARC_LOX10
+ 49
+
+	)
+
+1506 
+	#R_SPARC_H44
+ 50
+
+	)
+
+1507 
+	#R_SPARC_M44
+ 51
+
+	)
+
+1508 
+	#R_SPARC_L44
+ 52
+
+	)
+
+1509 
+	#R_SPARC_REGISTER
+ 53
+
+	)
+
+1510 
+	#R_SPARC_UA64
+ 54
+
+	)
+
+1511 
+	#R_SPARC_UA16
+ 55
+
+	)
+
+1512 
+	#R_SPARC_TLS_GD_HI22
+ 56
+
+	)
+
+1513 
+	#R_SPARC_TLS_GD_LO10
+ 57
+
+	)
+
+1514 
+	#R_SPARC_TLS_GD_ADD
+ 58
+
+	)
+
+1515 
+	#R_SPARC_TLS_GD_CALL
+ 59
+
+	)
+
+1516 
+	#R_SPARC_TLS_LDM_HI22
+ 60
+
+	)
+
+1517 
+	#R_SPARC_TLS_LDM_LO10
+ 61
+
+	)
+
+1518 
+	#R_SPARC_TLS_LDM_ADD
+ 62
+
+	)
+
+1519 
+	#R_SPARC_TLS_LDM_CALL
+ 63
+
+	)
+
+1520 
+	#R_SPARC_TLS_LDO_HIX22
+ 64
+
+	)
+
+1521 
+	#R_SPARC_TLS_LDO_LOX10
+ 65
+
+	)
+
+1522 
+	#R_SPARC_TLS_LDO_ADD
+ 66
+
+	)
+
+1523 
+	#R_SPARC_TLS_IE_HI22
+ 67
+
+	)
+
+1524 
+	#R_SPARC_TLS_IE_LO10
+ 68
+
+	)
+
+1525 
+	#R_SPARC_TLS_IE_LD
+ 69
+
+	)
+
+1526 
+	#R_SPARC_TLS_IE_LDX
+ 70
+
+	)
+
+1527 
+	#R_SPARC_TLS_IE_ADD
+ 71
+
+	)
+
+1528 
+	#R_SPARC_TLS_LE_HIX22
+ 72
+
+	)
+
+1529 
+	#R_SPARC_TLS_LE_LOX10
+ 73
+
+	)
+
+1530 
+	#R_SPARC_TLS_DTPMOD32
+ 74
+
+	)
+
+1531 
+	#R_SPARC_TLS_DTPMOD64
+ 75
+
+	)
+
+1532 
+	#R_SPARC_TLS_DTPOFF32
+ 76
+
+	)
+
+1533 
+	#R_SPARC_TLS_DTPOFF64
+ 77
+
+	)
+
+1534 
+	#R_SPARC_TLS_TPOFF32
+ 78
+
+	)
+
+1535 
+	#R_SPARC_TLS_TPOFF64
+ 79
+
+	)
+
+1536 
+	#R_SPARC_GOTDATA_HIX22
+ 80
+
+	)
+
+1537 
+	#R_SPARC_GOTDATA_LOX10
+ 81
+
+	)
+
+1538 
+	#R_SPARC_GOTDATA_OP_HIX22
+ 82
+
+	)
+
+1539 
+	#R_SPARC_GOTDATA_OP_LOX10
+ 83
+
+	)
+
+1540 
+	#R_SPARC_GOTDATA_OP
+ 84
+
+	)
+
+1541 
+	#R_SPARC_H34
+ 85
+
+	)
+
+1542 
+	#R_SPARC_SIZE32
+ 86
+
+	)
+
+1543 
+	#R_SPARC_SIZE64
+ 87
+
+	)
+
+1544 
+	#R_SPARC_WDISP10
+ 88
+
+	)
+
+1545 
+	#R_SPARC_JMP_IREL
+ 248
+
+	)
+
+1546 
+	#R_SPARC_IRELATIVE
+ 249
+
+	)
+
+1547 
+	#R_SPARC_GNU_VTINHERIT
+ 250
+
+	)
+
+1548 
+	#R_SPARC_GNU_VTENTRY
+ 251
+
+	)
+
+1549 
+	#R_SPARC_REV32
+ 252
+
+	)
+
+1551 
+	#R_SPARC_NUM
+ 253
+
+	)
+
+1555 
+	#DT_SPARC_REGISTER
+ 0x70000001
+
+	)
+
+1556 
+	#DT_SPARC_NUM
+ 2
+
+	)
+
+1562 
+	#EF_MIPS_NOREORDER
+ 1
+
+	)
+
+1563 
+	#EF_MIPS_PIC
+ 2
+
+	)
+
+1564 
+	#EF_MIPS_CPIC
+ 4
+
+	)
+
+1565 
+	#EF_MIPS_XGOT
+ 8
+
+	)
+
+1566 
+	#EF_MIPS_64BIT_WHIRL
+ 16
+
+	)
+
+1567 
+	#EF_MIPS_ABI2
+ 32
+
+	)
+
+1568 
+	#EF_MIPS_ABI_ON32
+ 64
+
+	)
+
+1569 
+	#EF_MIPS_FP64
+ 512
+
+	)
+
+1570 
+	#EF_MIPS_NAN2008
+ 1024
+
+	)
+
+1571 
+	#EF_MIPS_ARCH
+ 0xf0000000
+
+	)
+
+1575 
+	#EF_MIPS_ARCH_1
+ 0x00000000
+
+	)
+
+1576 
+	#EF_MIPS_ARCH_2
+ 0x10000000
+
+	)
+
+1577 
+	#EF_MIPS_ARCH_3
+ 0x20000000
+
+	)
+
+1578 
+	#EF_MIPS_ARCH_4
+ 0x30000000
+
+	)
+
+1579 
+	#EF_MIPS_ARCH_5
+ 0x40000000
+
+	)
+
+1580 
+	#EF_MIPS_ARCH_32
+ 0x50000000
+
+	)
+
+1581 
+	#EF_MIPS_ARCH_64
+ 0x60000000
+
+	)
+
+1582 
+	#EF_MIPS_ARCH_32R2
+ 0x70000000
+
+	)
+
+1583 
+	#EF_MIPS_ARCH_64R2
+ 0x80000000
+
+	)
+
+1587 
+	#E_MIPS_ARCH_1
+ 
+EF_MIPS_ARCH_1
+
+
+	)
+
+1588 
+	#E_MIPS_ARCH_2
+ 
+EF_MIPS_ARCH_2
+
+
+	)
+
+1589 
+	#E_MIPS_ARCH_3
+ 
+EF_MIPS_ARCH_3
+
+
+	)
+
+1590 
+	#E_MIPS_ARCH_4
+ 
+EF_MIPS_ARCH_4
+
+
+	)
+
+1591 
+	#E_MIPS_ARCH_5
+ 
+EF_MIPS_ARCH_5
+
+
+	)
+
+1592 
+	#E_MIPS_ARCH_32
+ 
+EF_MIPS_ARCH_32
+
+
+	)
+
+1593 
+	#E_MIPS_ARCH_64
+ 
+EF_MIPS_ARCH_64
+
+
+	)
+
+1597 
+	#SHN_MIPS_ACOMMON
+ 0xff00
+
+	)
+
+1598 
+	#SHN_MIPS_TEXT
+ 0xff01
+
+	)
+
+1599 
+	#SHN_MIPS_DATA
+ 0xff02
+
+	)
+
+1600 
+	#SHN_MIPS_SCOMMON
+ 0xff03
+
+	)
+
+1601 
+	#SHN_MIPS_SUNDEFINED
+ 0xff04
+
+	)
+
+1605 
+	#SHT_MIPS_LIBLIST
+ 0x70000000
+
+	)
+
+1606 
+	#SHT_MIPS_MSYM
+ 0x70000001
+
+	)
+
+1607 
+	#SHT_MIPS_CONFLICT
+ 0x70000002
+
+	)
+
+1608 
+	#SHT_MIPS_GPTAB
+ 0x70000003
+
+	)
+
+1609 
+	#SHT_MIPS_UCODE
+ 0x70000004
+
+	)
+
+1610 
+	#SHT_MIPS_DEBUG
+ 0x70000005
+
+	)
+
+1611 
+	#SHT_MIPS_REGINFO
+ 0x70000006
+
+	)
+
+1612 
+	#SHT_MIPS_PACKAGE
+ 0x70000007
+
+	)
+
+1613 
+	#SHT_MIPS_PACKSYM
+ 0x70000008
+
+	)
+
+1614 
+	#SHT_MIPS_RELD
+ 0x70000009
+
+	)
+
+1615 
+	#SHT_MIPS_IFACE
+ 0x7000000b
+
+	)
+
+1616 
+	#SHT_MIPS_CONTENT
+ 0x7000000c
+
+	)
+
+1617 
+	#SHT_MIPS_OPTIONS
+ 0x7000000d
+
+	)
+
+1618 
+	#SHT_MIPS_SHDR
+ 0x70000010
+
+	)
+
+1619 
+	#SHT_MIPS_FDESC
+ 0x70000011
+
+	)
+
+1620 
+	#SHT_MIPS_EXTSYM
+ 0x70000012
+
+	)
+
+1621 
+	#SHT_MIPS_DENSE
+ 0x70000013
+
+	)
+
+1622 
+	#SHT_MIPS_PDESC
+ 0x70000014
+
+	)
+
+1623 
+	#SHT_MIPS_LOCSYM
+ 0x70000015
+
+	)
+
+1624 
+	#SHT_MIPS_AUXSYM
+ 0x70000016
+
+	)
+
+1625 
+	#SHT_MIPS_OPTSYM
+ 0x70000017
+
+	)
+
+1626 
+	#SHT_MIPS_LOCSTR
+ 0x70000018
+
+	)
+
+1627 
+	#SHT_MIPS_LINE
+ 0x70000019
+
+	)
+
+1628 
+	#SHT_MIPS_RFDESC
+ 0x7000001a
+
+	)
+
+1629 
+	#SHT_MIPS_DELTASYM
+ 0x7000001b
+
+	)
+
+1630 
+	#SHT_MIPS_DELTAINST
+ 0x7000001c
+
+	)
+
+1631 
+	#SHT_MIPS_DELTACLASS
+ 0x7000001d
+
+	)
+
+1632 
+	#SHT_MIPS_DWARF
+ 0x7000001
+
+	)
+
+1633 
+	#SHT_MIPS_DELTADECL
+ 0x7000001f
+
+	)
+
+1634 
+	#SHT_MIPS_SYMBOL_LIB
+ 0x70000020
+
+	)
+
+1635 
+	#SHT_MIPS_EVENTS
+ 0x70000021
+
+	)
+
+1636 
+	#SHT_MIPS_TRANSLATE
+ 0x70000022
+
+	)
+
+1637 
+	#SHT_MIPS_PIXIE
+ 0x70000023
+
+	)
+
+1638 
+	#SHT_MIPS_XLATE
+ 0x70000024
+
+	)
+
+1639 
+	#SHT_MIPS_XLATE_DEBUG
+ 0x70000025
+
+	)
+
+1640 
+	#SHT_MIPS_WHIRL
+ 0x70000026
+
+	)
+
+1641 
+	#SHT_MIPS_EH_REGION
+ 0x70000027
+
+	)
+
+1642 
+	#SHT_MIPS_XLATE_OLD
+ 0x70000028
+
+	)
+
+1643 
+	#SHT_MIPS_PDR_EXCEPTION
+ 0x70000029
+
+	)
+
+1644 
+	#SHT_MIPS_XHASH
+ 0x7000002b
+
+	)
+
+1648 
+	#SHF_MIPS_GPREL
+ 0x10000000
+
+	)
+
+1649 
+	#SHF_MIPS_MERGE
+ 0x20000000
+
+	)
+
+1650 
+	#SHF_MIPS_ADDR
+ 0x40000000
+
+	)
+
+1651 
+	#SHF_MIPS_STRINGS
+ 0x80000000
+
+	)
+
+1652 
+	#SHF_MIPS_NOSTRIP
+ 0x08000000
+
+	)
+
+1653 
+	#SHF_MIPS_LOCAL
+ 0x04000000
+
+	)
+
+1654 
+	#SHF_MIPS_NAMES
+ 0x02000000
+
+	)
+
+1655 
+	#SHF_MIPS_NODUPE
+ 0x01000000
+
+	)
+
+1661 
+	#STO_MIPS_DEFAULT
+ 0x0
+
+	)
+
+1662 
+	#STO_MIPS_INTERNAL
+ 0x1
+
+	)
+
+1663 
+	#STO_MIPS_HIDDEN
+ 0x2
+
+	)
+
+1664 
+	#STO_MIPS_PROTECTED
+ 0x3
+
+	)
+
+1665 
+	#STO_MIPS_PLT
+ 0x8
+
+	)
+
+1666 
+	#STO_MIPS_SC_ALIGN_UNUSED
+ 0xff
+
+	)
+
+1669 
+	#STB_MIPS_SPLIT_COMMON
+ 13
+
+	)
+
+1677 
+Elf32_WÜd
+ 
+	mgt_cu¼’t_g_v®ue
+;
+
+1678 
+Elf32_WÜd
+ 
+	mgt_unu£d
+;
+
+1679 } 
+	mgt_h—d”
+;
+
+1682 
+Elf32_WÜd
+ 
+	mgt_g_v®ue
+;
+
+1683 
+Elf32_WÜd
+ 
+	mgt_by‹s
+;
+
+1684 } 
+	mgt_’Œy
+;
+
+1685 } 
+	tElf32_g±ab
+;
+
+1691 
+Elf32_WÜd
+ 
+	mri_g´mask
+;
+
+1692 
+Elf32_WÜd
+ 
+	mri_ýrmask
+[4];
+
+1693 
+Elf32_SwÜd
+ 
+	mri_gp_v®ue
+;
+
+1694 } 
+	tElf32_RegInfo
+;
+
+1700 
+	mkšd
+;
+
+1702 
+	msize
+;
+
+1703 
+Elf32_SeùiÚ
+ 
+	m£ùiÚ
+;
+
+1705 
+Elf32_WÜd
+ 
+	mšfo
+;
+
+1706 } 
+	tElf_O±iÚs
+;
+
+1710 
+	#ODK_NULL
+ 0
+
+	)
+
+1711 
+	#ODK_REGINFO
+ 1
+
+	)
+
+1712 
+	#ODK_EXCEPTIONS
+ 2
+
+	)
+
+1713 
+	#ODK_PAD
+ 3
+
+	)
+
+1714 
+	#ODK_HWPATCH
+ 4
+
+	)
+
+1715 
+	#ODK_FILL
+ 5
+
+	)
+
+1716 
+	#ODK_TAGS
+ 6
+
+	)
+
+1717 
+	#ODK_HWAND
+ 7
+
+	)
+
+1718 
+	#ODK_HWOR
+ 8
+
+	)
+
+1722 
+	#OEX_FPU_MIN
+ 0x1à
+
+	)
+
+1723 
+	#OEX_FPU_MAX
+ 0x1f00
+
+	)
+
+1724 
+	#OEX_PAGE0
+ 0x10000
+
+	)
+
+1725 
+	#OEX_SMM
+ 0x20000
+
+	)
+
+1726 
+	#OEX_FPDBUG
+ 0x40000
+
+	)
+
+1727 
+	#OEX_PRECISEFP
+ 
+OEX_FPDBUG
+
+
+	)
+
+1728 
+	#OEX_DISMISS
+ 0x80000
+
+	)
+
+1730 
+	#OEX_FPU_INVAL
+ 0x10
+
+	)
+
+1731 
+	#OEX_FPU_DIV0
+ 0x08
+
+	)
+
+1732 
+	#OEX_FPU_OFLO
+ 0x04
+
+	)
+
+1733 
+	#OEX_FPU_UFLO
+ 0x02
+
+	)
+
+1734 
+	#OEX_FPU_INEX
+ 0x01
+
+	)
+
+1738 
+	#OHW_R4KEOP
+ 0x1
+
+	)
+
+1739 
+	#OHW_R8KPFETCH
+ 0x2
+
+	)
+
+1740 
+	#OHW_R5KEOP
+ 0x4
+
+	)
+
+1741 
+	#OHW_R5KCVTL
+ 0x8
+
+	)
+
+1743 
+	#OPAD_PREFIX
+ 0x1
+
+	)
+
+1744 
+	#OPAD_POSTFIX
+ 0x2
+
+	)
+
+1745 
+	#OPAD_SYMBOL
+ 0x4
+
+	)
+
+1751 
+Elf32_WÜd
+ 
+	mhwp_æags1
+;
+
+1752 
+Elf32_WÜd
+ 
+	mhwp_æags2
+;
+
+1753 } 
+	tElf_O±iÚs_Hw
+;
+
+1757 
+	#OHWA0_R4KEOP_CHECKED
+ 0x00000001
+
+	)
+
+1758 
+	#OHWA1_R4KEOP_CLEAN
+ 0x00000002
+
+	)
+
+1762 
+	#R_MIPS_NONE
+ 0
+
+	)
+
+1763 
+	#R_MIPS_16
+ 1
+
+	)
+
+1764 
+	#R_MIPS_32
+ 2
+
+	)
+
+1765 
+	#R_MIPS_REL32
+ 3
+
+	)
+
+1766 
+	#R_MIPS_26
+ 4
+
+	)
+
+1767 
+	#R_MIPS_HI16
+ 5
+
+	)
+
+1768 
+	#R_MIPS_LO16
+ 6
+
+	)
+
+1769 
+	#R_MIPS_GPREL16
+ 7
+
+	)
+
+1770 
+	#R_MIPS_LITERAL
+ 8
+
+	)
+
+1771 
+	#R_MIPS_GOT16
+ 9
+
+	)
+
+1772 
+	#R_MIPS_PC16
+ 10
+
+	)
+
+1773 
+	#R_MIPS_CALL16
+ 11
+
+	)
+
+1774 
+	#R_MIPS_GPREL32
+ 12
+
+	)
+
+1776 
+	#R_MIPS_SHIFT5
+ 16
+
+	)
+
+1777 
+	#R_MIPS_SHIFT6
+ 17
+
+	)
+
+1778 
+	#R_MIPS_64
+ 18
+
+	)
+
+1779 
+	#R_MIPS_GOT_DISP
+ 19
+
+	)
+
+1780 
+	#R_MIPS_GOT_PAGE
+ 20
+
+	)
+
+1781 
+	#R_MIPS_GOT_OFST
+ 21
+
+	)
+
+1782 
+	#R_MIPS_GOT_HI16
+ 22
+
+	)
+
+1783 
+	#R_MIPS_GOT_LO16
+ 23
+
+	)
+
+1784 
+	#R_MIPS_SUB
+ 24
+
+	)
+
+1785 
+	#R_MIPS_INSERT_A
+ 25
+
+	)
+
+1786 
+	#R_MIPS_INSERT_B
+ 26
+
+	)
+
+1787 
+	#R_MIPS_DELETE
+ 27
+
+	)
+
+1788 
+	#R_MIPS_HIGHER
+ 28
+
+	)
+
+1789 
+	#R_MIPS_HIGHEST
+ 29
+
+	)
+
+1790 
+	#R_MIPS_CALL_HI16
+ 30
+
+	)
+
+1791 
+	#R_MIPS_CALL_LO16
+ 31
+
+	)
+
+1792 
+	#R_MIPS_SCN_DISP
+ 32
+
+	)
+
+1793 
+	#R_MIPS_REL16
+ 33
+
+	)
+
+1794 
+	#R_MIPS_ADD_IMMEDIATE
+ 34
+
+	)
+
+1795 
+	#R_MIPS_PJUMP
+ 35
+
+	)
+
+1796 
+	#R_MIPS_RELGOT
+ 36
+
+	)
+
+1797 
+	#R_MIPS_JALR
+ 37
+
+	)
+
+1798 
+	#R_MIPS_TLS_DTPMOD32
+ 38
+
+	)
+
+1799 
+	#R_MIPS_TLS_DTPREL32
+ 39
+
+	)
+
+1800 
+	#R_MIPS_TLS_DTPMOD64
+ 40
+
+	)
+
+1801 
+	#R_MIPS_TLS_DTPREL64
+ 41
+
+	)
+
+1802 
+	#R_MIPS_TLS_GD
+ 42
+
+	)
+
+1803 
+	#R_MIPS_TLS_LDM
+ 43
+
+	)
+
+1804 
+	#R_MIPS_TLS_DTPREL_HI16
+ 44
+
+	)
+
+1805 
+	#R_MIPS_TLS_DTPREL_LO16
+ 45
+
+	)
+
+1806 
+	#R_MIPS_TLS_GOTTPREL
+ 46
+
+	)
+
+1807 
+	#R_MIPS_TLS_TPREL32
+ 47
+
+	)
+
+1808 
+	#R_MIPS_TLS_TPREL64
+ 48
+
+	)
+
+1809 
+	#R_MIPS_TLS_TPREL_HI16
+ 49
+
+	)
+
+1810 
+	#R_MIPS_TLS_TPREL_LO16
+ 50
+
+	)
+
+1811 
+	#R_MIPS_GLOB_DAT
+ 51
+
+	)
+
+1812 
+	#R_MIPS_COPY
+ 126
+
+	)
+
+1813 
+	#R_MIPS_JUMP_SLOT
+ 127
+
+	)
+
+1815 
+	#R_MIPS_NUM
+ 128
+
+	)
+
+1819 
+	#PT_MIPS_REGINFO
+ 0x70000000
+
+	)
+
+1820 
+	#PT_MIPS_RTPROC
+ 0x70000001
+
+	)
+
+1821 
+	#PT_MIPS_OPTIONS
+ 0x70000002
+
+	)
+
+1822 
+	#PT_MIPS_ABIFLAGS
+ 0x70000003
+
+	)
+
+1826 
+	#PF_MIPS_LOCAL
+ 0x10000000
+
+	)
+
+1830 
+	#DT_MIPS_RLD_VERSION
+ 0x70000001
+
+	)
+
+1831 
+	#DT_MIPS_TIME_STAMP
+ 0x70000002
+
+	)
+
+1832 
+	#DT_MIPS_ICHECKSUM
+ 0x70000003
+
+	)
+
+1833 
+	#DT_MIPS_IVERSION
+ 0x70000004
+
+	)
+
+1834 
+	#DT_MIPS_FLAGS
+ 0x70000005
+
+	)
+
+1835 
+	#DT_MIPS_BASE_ADDRESS
+ 0x70000006
+
+	)
+
+1836 
+	#DT_MIPS_MSYM
+ 0x70000007
+
+	)
+
+1837 
+	#DT_MIPS_CONFLICT
+ 0x70000008
+
+	)
+
+1838 
+	#DT_MIPS_LIBLIST
+ 0x70000009
+
+	)
+
+1839 
+	#DT_MIPS_LOCAL_GOTNO
+ 0x7000000¨
+
+	)
+
+1840 
+	#DT_MIPS_CONFLICTNO
+ 0x7000000b
+
+	)
+
+1841 
+	#DT_MIPS_LIBLISTNO
+ 0x70000010
+
+	)
+
+1842 
+	#DT_MIPS_SYMTABNO
+ 0x70000011
+
+	)
+
+1843 
+	#DT_MIPS_UNREFEXTNO
+ 0x70000012
+
+	)
+
+1844 
+	#DT_MIPS_GOTSYM
+ 0x70000013
+
+	)
+
+1845 
+	#DT_MIPS_HIPAGENO
+ 0x70000014
+
+	)
+
+1846 
+	#DT_MIPS_RLD_MAP
+ 0x70000016
+
+	)
+
+1847 
+	#DT_MIPS_DELTA_CLASS
+ 0x70000017
+
+	)
+
+1848 
+	#DT_MIPS_DELTA_CLASS_NO
+ 0x70000018
+
+	)
+
+1850 
+	#DT_MIPS_DELTA_INSTANCE
+ 0x70000019
+
+	)
+
+1851 
+	#DT_MIPS_DELTA_INSTANCE_NO
+ 0x7000001¨
+
+	)
+
+1853 
+	#DT_MIPS_DELTA_RELOC
+ 0x7000001b
+
+	)
+
+1854 
+	#DT_MIPS_DELTA_RELOC_NO
+ 0x7000001ø
+
+	)
+
+1856 
+	#DT_MIPS_DELTA_SYM
+ 0x7000001d
+
+	)
+
+1858 
+	#DT_MIPS_DELTA_SYM_NO
+ 0x7000001
+
+	)
+
+1860 
+	#DT_MIPS_DELTA_CLASSSYM
+ 0x70000020
+
+	)
+
+1862 
+	#DT_MIPS_DELTA_CLASSSYM_NO
+ 0x70000021
+
+	)
+
+1864 
+	#DT_MIPS_CXX_FLAGS
+ 0x70000022
+
+	)
+
+1865 
+	#DT_MIPS_PIXIE_INIT
+ 0x70000023
+
+	)
+
+1866 
+	#DT_MIPS_SYMBOL_LIB
+ 0x70000024
+
+	)
+
+1867 
+	#DT_MIPS_LOCALPAGE_GOTIDX
+ 0x70000025
+
+	)
+
+1868 
+	#DT_MIPS_LOCAL_GOTIDX
+ 0x70000026
+
+	)
+
+1869 
+	#DT_MIPS_HIDDEN_GOTIDX
+ 0x70000027
+
+	)
+
+1870 
+	#DT_MIPS_PROTECTED_GOTIDX
+ 0x70000028
+
+	)
+
+1871 
+	#DT_MIPS_OPTIONS
+ 0x70000029
+
+	)
+
+1872 
+	#DT_MIPS_INTERFACE
+ 0x7000002¨
+
+	)
+
+1873 
+	#DT_MIPS_DYNSTR_ALIGN
+ 0x7000002b
+
+	)
+
+1874 
+	#DT_MIPS_INTERFACE_SIZE
+ 0x7000002ø
+
+	)
+
+1875 
+	#DT_MIPS_RLD_TEXT_RESOLVE_ADDR
+ 0x7000002d
+
+	)
+
+1877 
+	#DT_MIPS_PERF_SUFFIX
+ 0x7000002
+
+	)
+
+1879 
+	#DT_MIPS_COMPACT_SIZE
+ 0x7000002à
+
+	)
+
+1880 
+	#DT_MIPS_GP_VALUE
+ 0x70000030
+
+	)
+
+1881 
+	#DT_MIPS_AUX_DYNAMIC
+ 0x70000031
+
+	)
+
+1883 
+	#DT_MIPS_PLTGOT
+ 0x70000032
+
+	)
+
+1887 
+	#DT_MIPS_RWPLT
+ 0x70000034
+
+	)
+
+1891 
+	#DT_MIPS_RLD_MAP_REL
+ 0x70000035
+
+	)
+
+1893 
+	#DT_MIPS_XHASH
+ 0x70000036
+
+	)
+
+1894 
+	#DT_MIPS_NUM
+ 0x37
+
+	)
+
+1898 
+	#RHF_NONE
+ 0
+
+	)
+
+1899 
+	#RHF_QUICKSTART
+ (1 << 0è
+
+	)
+
+1900 
+	#RHF_NOTPOT
+ (1 << 1è
+
+	)
+
+1901 
+	#RHF_NO_LIBRARY_REPLACEMENT
+ (1 << 2è
+
+	)
+
+1902 
+	#RHF_NO_MOVE
+ (1 << 3)
+
+	)
+
+1903 
+	#RHF_SGI_ONLY
+ (1 << 4)
+
+	)
+
+1904 
+	#RHF_GUARANTEE_INIT
+ (1 << 5)
+
+	)
+
+1905 
+	#RHF_DELTA_C_PLUS_PLUS
+ (1 << 6)
+
+	)
+
+1906 
+	#RHF_GUARANTEE_START_INIT
+ (1 << 7)
+
+	)
+
+1907 
+	#RHF_PIXIE
+ (1 << 8)
+
+	)
+
+1908 
+	#RHF_DEFAULT_DELAY_LOAD
+ (1 << 9)
+
+	)
+
+1909 
+	#RHF_REQUICKSTART
+ (1 << 10)
+
+	)
+
+1910 
+	#RHF_REQUICKSTARTED
+ (1 << 11)
+
+	)
+
+1911 
+	#RHF_CORD
+ (1 << 12)
+
+	)
+
+1912 
+	#RHF_NO_UNRES_UNDEF
+ (1 << 13)
+
+	)
+
+1913 
+	#RHF_RLD_ORDER_SAFE
+ (1 << 14)
+
+	)
+
+1919 
+Elf32_WÜd
+ 
+	ml_Çme
+;
+
+1920 
+Elf32_WÜd
+ 
+	ml_time_¡amp
+;
+
+1921 
+Elf32_WÜd
+ 
+	ml_checksum
+;
+
+1922 
+Elf32_WÜd
+ 
+	ml_v”siÚ
+;
+
+1923 
+Elf32_WÜd
+ 
+	ml_æags
+;
+
+1924 } 
+	tElf32_Lib
+;
+
+1928 
+Elf64_WÜd
+ 
+	ml_Çme
+;
+
+1929 
+Elf64_WÜd
+ 
+	ml_time_¡amp
+;
+
+1930 
+Elf64_WÜd
+ 
+	ml_checksum
+;
+
+1931 
+Elf64_WÜd
+ 
+	ml_v”siÚ
+;
+
+1932 
+Elf64_WÜd
+ 
+	ml_æags
+;
+
+1933 } 
+	tElf64_Lib
+;
+
+1938 
+	#LL_NONE
+ 0
+
+	)
+
+1939 
+	#LL_EXACT_MATCH
+ (1 << 0è
+
+	)
+
+1940 
+	#LL_IGNORE_INT_VER
+ (1 << 1è
+
+	)
+
+1941 
+	#LL_REQUIRE_MINOR
+ (1 << 2)
+
+	)
+
+1942 
+	#LL_EXPORTS
+ (1 << 3)
+
+	)
+
+1943 
+	#LL_DELAY_LOAD
+ (1 << 4)
+
+	)
+
+1944 
+	#LL_DELTA
+ (1 << 5)
+
+	)
+
+1948 
+Elf32_Addr
+ 
+	tElf32_CÚæiù
+;
+
+1953 
+Elf32_H®f
+ 
+	mv”siÚ
+;
+
+1955 
+	mi§_Ëv–
+;
+
+1957 
+	mi§_»v
+;
+
+1959 
+	mg´_size
+;
+
+1961 
+	mýr1_size
+;
+
+1963 
+	mýr2_size
+;
+
+1965 
+	må_abi
+;
+
+1967 
+Elf32_WÜd
+ 
+	mi§_ext
+;
+
+1969 
+Elf32_WÜd
+ 
+	ma£s
+;
+
+1971 
+Elf32_WÜd
+ 
+	mæags1
+;
+
+1972 
+Elf32_WÜd
+ 
+	mæags2
+;
+
+1973 } 
+	tElf_MIPS_ABIFÏgs_v0
+;
+
+1977 
+	#MIPS_AFL_REG_NONE
+ 0x00
+
+	)
+
+1978 
+	#MIPS_AFL_REG_32
+ 0x01
+
+	)
+
+1979 
+	#MIPS_AFL_REG_64
+ 0x02
+
+	)
+
+1980 
+	#MIPS_AFL_REG_128
+ 0x03
+
+	)
+
+1984 
+	#MIPS_AFL_ASE_DSP
+ 0x00000001
+
+	)
+
+1985 
+	#MIPS_AFL_ASE_DSPR2
+ 0x00000002
+
+	)
+
+1986 
+	#MIPS_AFL_ASE_EVA
+ 0x00000004
+
+	)
+
+1987 
+	#MIPS_AFL_ASE_MCU
+ 0x00000008
+
+	)
+
+1988 
+	#MIPS_AFL_ASE_MDMX
+ 0x00000010
+
+	)
+
+1989 
+	#MIPS_AFL_ASE_MIPS3D
+ 0x00000020
+
+	)
+
+1990 
+	#MIPS_AFL_ASE_MT
+ 0x00000040
+
+	)
+
+1991 
+	#MIPS_AFL_ASE_SMARTMIPS
+ 0x00000080
+
+	)
+
+1992 
+	#MIPS_AFL_ASE_VIRT
+ 0x00000100
+
+	)
+
+1993 
+	#MIPS_AFL_ASE_MSA
+ 0x00000200
+
+	)
+
+1994 
+	#MIPS_AFL_ASE_MIPS16
+ 0x00000400
+
+	)
+
+1995 
+	#MIPS_AFL_ASE_MICROMIPS
+ 0x00000800
+
+	)
+
+1996 
+	#MIPS_AFL_ASE_XPA
+ 0x00001000
+
+	)
+
+1997 
+	#MIPS_AFL_ASE_MASK
+ 0x00001ffà
+
+	)
+
+2001 
+	#MIPS_AFL_EXT_XLR
+ 1
+
+	)
+
+2002 
+	#MIPS_AFL_EXT_OCTEON2
+ 2
+
+	)
+
+2003 
+	#MIPS_AFL_EXT_OCTEONP
+ 3
+
+	)
+
+2004 
+	#MIPS_AFL_EXT_LOONGSON_3A
+ 4
+
+	)
+
+2005 
+	#MIPS_AFL_EXT_OCTEON
+ 5
+
+	)
+
+2006 
+	#MIPS_AFL_EXT_5900
+ 6
+
+	)
+
+2007 
+	#MIPS_AFL_EXT_4650
+ 7
+
+	)
+
+2008 
+	#MIPS_AFL_EXT_4010
+ 8
+
+	)
+
+2009 
+	#MIPS_AFL_EXT_4100
+ 9
+
+	)
+
+2010 
+	#MIPS_AFL_EXT_3900
+ 10
+
+	)
+
+2011 
+	#MIPS_AFL_EXT_10000
+ 11
+
+	)
+
+2012 
+	#MIPS_AFL_EXT_SB1
+ 12
+
+	)
+
+2013 
+	#MIPS_AFL_EXT_4111
+ 13
+
+	)
+
+2014 
+	#MIPS_AFL_EXT_4120
+ 14
+
+	)
+
+2015 
+	#MIPS_AFL_EXT_5400
+ 15
+
+	)
+
+2016 
+	#MIPS_AFL_EXT_5500
+ 16
+
+	)
+
+2017 
+	#MIPS_AFL_EXT_LOONGSON_2E
+ 17
+
+	)
+
+2018 
+	#MIPS_AFL_EXT_LOONGSON_2F
+ 18
+
+	)
+
+2021 
+	#MIPS_AFL_FLAGS1_ODDSPREG
+ 1
+
+	)
+
+2027 
+	mV®_GNU_MIPS_ABI_FP_ANY
+ = 0,
+
+2029 
+	mV®_GNU_MIPS_ABI_FP_DOUBLE
+ = 1,
+
+2031 
+	mV®_GNU_MIPS_ABI_FP_SINGLE
+ = 2,
+
+2033 
+	mV®_GNU_MIPS_ABI_FP_SOFT
+ = 3,
+
+2035 
+	mV®_GNU_MIPS_ABI_FP_OLD_64
+ = 4,
+
+2037 
+	mV®_GNU_MIPS_ABI_FP_XX
+ = 5,
+
+2039 
+	mV®_GNU_MIPS_ABI_FP_64
+ = 6,
+
+2041 
+	mV®_GNU_MIPS_ABI_FP_64A
+ = 7,
+
+2043 
+	mV®_GNU_MIPS_ABI_FP_MAX
+ = 7
+
+2050 
+	#EF_PARISC_TRAPNIL
+ 0x00010000
+
+	)
+
+2051 
+	#EF_PARISC_EXT
+ 0x00020000
+
+	)
+
+2052 
+	#EF_PARISC_LSB
+ 0x00040000
+
+	)
+
+2053 
+	#EF_PARISC_WIDE
+ 0x00080000
+
+	)
+
+2054 
+	#EF_PARISC_NO_KABP
+ 0x00100000
+
+	)
+
+2056 
+	#EF_PARISC_LAZYSWAP
+ 0x00400000
+
+	)
+
+2057 
+	#EF_PARISC_ARCH
+ 0x0000fffà
+
+	)
+
+2061 
+	#EFA_PARISC_1_0
+ 0x020b
+
+	)
+
+2062 
+	#EFA_PARISC_1_1
+ 0x0210
+
+	)
+
+2063 
+	#EFA_PARISC_2_0
+ 0x0214
+
+	)
+
+2067 
+	#SHN_PARISC_ANSI_COMMON
+ 0xff00
+
+	)
+
+2069 
+	#SHN_PARISC_HUGE_COMMON
+ 0xff01
+
+	)
+
+2073 
+	#SHT_PARISC_EXT
+ 0x70000000
+
+	)
+
+2074 
+	#SHT_PARISC_UNWIND
+ 0x70000001
+
+	)
+
+2075 
+	#SHT_PARISC_DOC
+ 0x70000002
+
+	)
+
+2079 
+	#SHF_PARISC_SHORT
+ 0x20000000
+
+	)
+
+2080 
+	#SHF_PARISC_HUGE
+ 0x40000000
+
+	)
+
+2081 
+	#SHF_PARISC_SBP
+ 0x80000000
+
+	)
+
+2085 
+	#STT_PARISC_MILLICODE
+ 13
+
+	)
+
+2087 
+	#STT_HP_OPAQUE
+ (
+STT_LOOS
+ + 0x1)
+
+	)
+
+2088 
+	#STT_HP_STUB
+ (
+STT_LOOS
+ + 0x2)
+
+	)
+
+2092 
+	#R_PARISC_NONE
+ 0
+
+	)
+
+2093 
+	#R_PARISC_DIR32
+ 1
+
+	)
+
+2094 
+	#R_PARISC_DIR21L
+ 2
+
+	)
+
+2095 
+	#R_PARISC_DIR17R
+ 3
+
+	)
+
+2096 
+	#R_PARISC_DIR17F
+ 4
+
+	)
+
+2097 
+	#R_PARISC_DIR14R
+ 6
+
+	)
+
+2098 
+	#R_PARISC_PCREL32
+ 9
+
+	)
+
+2099 
+	#R_PARISC_PCREL21L
+ 10
+
+	)
+
+2100 
+	#R_PARISC_PCREL17R
+ 11
+
+	)
+
+2101 
+	#R_PARISC_PCREL17F
+ 12
+
+	)
+
+2102 
+	#R_PARISC_PCREL14R
+ 14
+
+	)
+
+2103 
+	#R_PARISC_DPREL21L
+ 18
+
+	)
+
+2104 
+	#R_PARISC_DPREL14R
+ 22
+
+	)
+
+2105 
+	#R_PARISC_GPREL21L
+ 26
+
+	)
+
+2106 
+	#R_PARISC_GPREL14R
+ 30
+
+	)
+
+2107 
+	#R_PARISC_LTOFF21L
+ 34
+
+	)
+
+2108 
+	#R_PARISC_LTOFF14R
+ 38
+
+	)
+
+2109 
+	#R_PARISC_SECREL32
+ 41
+
+	)
+
+2110 
+	#R_PARISC_SEGBASE
+ 48
+
+	)
+
+2111 
+	#R_PARISC_SEGREL32
+ 49
+
+	)
+
+2112 
+	#R_PARISC_PLTOFF21L
+ 50
+
+	)
+
+2113 
+	#R_PARISC_PLTOFF14R
+ 54
+
+	)
+
+2114 
+	#R_PARISC_LTOFF_FPTR32
+ 57
+
+	)
+
+2115 
+	#R_PARISC_LTOFF_FPTR21L
+ 58
+
+	)
+
+2116 
+	#R_PARISC_LTOFF_FPTR14R
+ 62
+
+	)
+
+2117 
+	#R_PARISC_FPTR64
+ 64
+
+	)
+
+2118 
+	#R_PARISC_PLABEL32
+ 65
+
+	)
+
+2119 
+	#R_PARISC_PLABEL21L
+ 66
+
+	)
+
+2120 
+	#R_PARISC_PLABEL14R
+ 70
+
+	)
+
+2121 
+	#R_PARISC_PCREL64
+ 72
+
+	)
+
+2122 
+	#R_PARISC_PCREL22F
+ 74
+
+	)
+
+2123 
+	#R_PARISC_PCREL14WR
+ 75
+
+	)
+
+2124 
+	#R_PARISC_PCREL14DR
+ 76
+
+	)
+
+2125 
+	#R_PARISC_PCREL16F
+ 77
+
+	)
+
+2126 
+	#R_PARISC_PCREL16WF
+ 78
+
+	)
+
+2127 
+	#R_PARISC_PCREL16DF
+ 79
+
+	)
+
+2128 
+	#R_PARISC_DIR64
+ 80
+
+	)
+
+2129 
+	#R_PARISC_DIR14WR
+ 83
+
+	)
+
+2130 
+	#R_PARISC_DIR14DR
+ 84
+
+	)
+
+2131 
+	#R_PARISC_DIR16F
+ 85
+
+	)
+
+2132 
+	#R_PARISC_DIR16WF
+ 86
+
+	)
+
+2133 
+	#R_PARISC_DIR16DF
+ 87
+
+	)
+
+2134 
+	#R_PARISC_GPREL64
+ 88
+
+	)
+
+2135 
+	#R_PARISC_GPREL14WR
+ 91
+
+	)
+
+2136 
+	#R_PARISC_GPREL14DR
+ 92
+
+	)
+
+2137 
+	#R_PARISC_GPREL16F
+ 93
+
+	)
+
+2138 
+	#R_PARISC_GPREL16WF
+ 94
+
+	)
+
+2139 
+	#R_PARISC_GPREL16DF
+ 95
+
+	)
+
+2140 
+	#R_PARISC_LTOFF64
+ 96
+
+	)
+
+2141 
+	#R_PARISC_LTOFF14WR
+ 99
+
+	)
+
+2142 
+	#R_PARISC_LTOFF14DR
+ 100
+
+	)
+
+2143 
+	#R_PARISC_LTOFF16F
+ 101
+
+	)
+
+2144 
+	#R_PARISC_LTOFF16WF
+ 102
+
+	)
+
+2145 
+	#R_PARISC_LTOFF16DF
+ 103
+
+	)
+
+2146 
+	#R_PARISC_SECREL64
+ 104
+
+	)
+
+2147 
+	#R_PARISC_SEGREL64
+ 112
+
+	)
+
+2148 
+	#R_PARISC_PLTOFF14WR
+ 115
+
+	)
+
+2149 
+	#R_PARISC_PLTOFF14DR
+ 116
+
+	)
+
+2150 
+	#R_PARISC_PLTOFF16F
+ 117
+
+	)
+
+2151 
+	#R_PARISC_PLTOFF16WF
+ 118
+
+	)
+
+2152 
+	#R_PARISC_PLTOFF16DF
+ 119
+
+	)
+
+2153 
+	#R_PARISC_LTOFF_FPTR64
+ 120
+
+	)
+
+2154 
+	#R_PARISC_LTOFF_FPTR14WR
+ 123
+
+	)
+
+2155 
+	#R_PARISC_LTOFF_FPTR14DR
+ 124
+
+	)
+
+2156 
+	#R_PARISC_LTOFF_FPTR16F
+ 125
+
+	)
+
+2157 
+	#R_PARISC_LTOFF_FPTR16WF
+ 126
+
+	)
+
+2158 
+	#R_PARISC_LTOFF_FPTR16DF
+ 127
+
+	)
+
+2159 
+	#R_PARISC_LORESERVE
+ 128
+
+	)
+
+2160 
+	#R_PARISC_COPY
+ 128
+
+	)
+
+2161 
+	#R_PARISC_IPLT
+ 129
+
+	)
+
+2162 
+	#R_PARISC_EPLT
+ 130
+
+	)
+
+2163 
+	#R_PARISC_TPREL32
+ 153
+
+	)
+
+2164 
+	#R_PARISC_TPREL21L
+ 154
+
+	)
+
+2165 
+	#R_PARISC_TPREL14R
+ 158
+
+	)
+
+2166 
+	#R_PARISC_LTOFF_TP21L
+ 162
+
+	)
+
+2167 
+	#R_PARISC_LTOFF_TP14R
+ 166
+
+	)
+
+2168 
+	#R_PARISC_LTOFF_TP14F
+ 167
+
+	)
+
+2169 
+	#R_PARISC_TPREL64
+ 216
+
+	)
+
+2170 
+	#R_PARISC_TPREL14WR
+ 219
+
+	)
+
+2171 
+	#R_PARISC_TPREL14DR
+ 220
+
+	)
+
+2172 
+	#R_PARISC_TPREL16F
+ 221
+
+	)
+
+2173 
+	#R_PARISC_TPREL16WF
+ 222
+
+	)
+
+2174 
+	#R_PARISC_TPREL16DF
+ 223
+
+	)
+
+2175 
+	#R_PARISC_LTOFF_TP64
+ 224
+
+	)
+
+2176 
+	#R_PARISC_LTOFF_TP14WR
+ 227
+
+	)
+
+2177 
+	#R_PARISC_LTOFF_TP14DR
+ 228
+
+	)
+
+2178 
+	#R_PARISC_LTOFF_TP16F
+ 229
+
+	)
+
+2179 
+	#R_PARISC_LTOFF_TP16WF
+ 230
+
+	)
+
+2180 
+	#R_PARISC_LTOFF_TP16DF
+ 231
+
+	)
+
+2181 
+	#R_PARISC_GNU_VTENTRY
+ 232
+
+	)
+
+2182 
+	#R_PARISC_GNU_VTINHERIT
+ 233
+
+	)
+
+2183 
+	#R_PARISC_TLS_GD21L
+ 234
+
+	)
+
+2184 
+	#R_PARISC_TLS_GD14R
+ 235
+
+	)
+
+2185 
+	#R_PARISC_TLS_GDCALL
+ 236
+
+	)
+
+2186 
+	#R_PARISC_TLS_LDM21L
+ 237
+
+	)
+
+2187 
+	#R_PARISC_TLS_LDM14R
+ 238
+
+	)
+
+2188 
+	#R_PARISC_TLS_LDMCALL
+ 239
+
+	)
+
+2189 
+	#R_PARISC_TLS_LDO21L
+ 240
+
+	)
+
+2190 
+	#R_PARISC_TLS_LDO14R
+ 241
+
+	)
+
+2191 
+	#R_PARISC_TLS_DTPMOD32
+ 242
+
+	)
+
+2192 
+	#R_PARISC_TLS_DTPMOD64
+ 243
+
+	)
+
+2193 
+	#R_PARISC_TLS_DTPOFF32
+ 244
+
+	)
+
+2194 
+	#R_PARISC_TLS_DTPOFF64
+ 245
+
+	)
+
+2195 
+	#R_PARISC_TLS_LE21L
+ 
+R_PARISC_TPREL21L
+
+
+	)
+
+2196 
+	#R_PARISC_TLS_LE14R
+ 
+R_PARISC_TPREL14R
+
+
+	)
+
+2197 
+	#R_PARISC_TLS_IE21L
+ 
+R_PARISC_LTOFF_TP21L
+
+
+	)
+
+2198 
+	#R_PARISC_TLS_IE14R
+ 
+R_PARISC_LTOFF_TP14R
+
+
+	)
+
+2199 
+	#R_PARISC_TLS_TPREL32
+ 
+R_PARISC_TPREL32
+
+
+	)
+
+2200 
+	#R_PARISC_TLS_TPREL64
+ 
+R_PARISC_TPREL64
+
+
+	)
+
+2201 
+	#R_PARISC_HIRESERVE
+ 255
+
+	)
+
+2205 
+	#PT_HP_TLS
+ (
+PT_LOOS
+ + 0x0)
+
+	)
+
+2206 
+	#PT_HP_CORE_NONE
+ (
+PT_LOOS
+ + 0x1)
+
+	)
+
+2207 
+	#PT_HP_CORE_VERSION
+ (
+PT_LOOS
+ + 0x2)
+
+	)
+
+2208 
+	#PT_HP_CORE_KERNEL
+ (
+PT_LOOS
+ + 0x3)
+
+	)
+
+2209 
+	#PT_HP_CORE_COMM
+ (
+PT_LOOS
+ + 0x4)
+
+	)
+
+2210 
+	#PT_HP_CORE_PROC
+ (
+PT_LOOS
+ + 0x5)
+
+	)
+
+2211 
+	#PT_HP_CORE_LOADABLE
+ (
+PT_LOOS
+ + 0x6)
+
+	)
+
+2212 
+	#PT_HP_CORE_STACK
+ (
+PT_LOOS
+ + 0x7)
+
+	)
+
+2213 
+	#PT_HP_CORE_SHM
+ (
+PT_LOOS
+ + 0x8)
+
+	)
+
+2214 
+	#PT_HP_CORE_MMF
+ (
+PT_LOOS
+ + 0x9)
+
+	)
+
+2215 
+	#PT_HP_PARALLEL
+ (
+PT_LOOS
+ + 0x10)
+
+	)
+
+2216 
+	#PT_HP_FASTBIND
+ (
+PT_LOOS
+ + 0x11)
+
+	)
+
+2217 
+	#PT_HP_OPT_ANNOT
+ (
+PT_LOOS
+ + 0x12)
+
+	)
+
+2218 
+	#PT_HP_HSL_ANNOT
+ (
+PT_LOOS
+ + 0x13)
+
+	)
+
+2219 
+	#PT_HP_STACK
+ (
+PT_LOOS
+ + 0x14)
+
+	)
+
+2221 
+	#PT_PARISC_ARCHEXT
+ 0x70000000
+
+	)
+
+2222 
+	#PT_PARISC_UNWIND
+ 0x70000001
+
+	)
+
+2226 
+	#PF_PARISC_SBP
+ 0x08000000
+
+	)
+
+2228 
+	#PF_HP_PAGE_SIZE
+ 0x00100000
+
+	)
+
+2229 
+	#PF_HP_FAR_SHARED
+ 0x00200000
+
+	)
+
+2230 
+	#PF_HP_NEAR_SHARED
+ 0x00400000
+
+	)
+
+2231 
+	#PF_HP_CODE
+ 0x01000000
+
+	)
+
+2232 
+	#PF_HP_MODIFY
+ 0x02000000
+
+	)
+
+2233 
+	#PF_HP_LAZYSWAP
+ 0x04000000
+
+	)
+
+2234 
+	#PF_HP_SBP
+ 0x08000000
+
+	)
+
+2241 
+	#EF_ALPHA_32BIT
+ 1
+
+	)
+
+2242 
+	#EF_ALPHA_CANRELAX
+ 2
+
+	)
+
+2247 
+	#SHT_ALPHA_DEBUG
+ 0x70000001
+
+	)
+
+2248 
+	#SHT_ALPHA_REGINFO
+ 0x70000002
+
+	)
+
+2252 
+	#SHF_ALPHA_GPREL
+ 0x10000000
+
+	)
+
+2255 
+	#STO_ALPHA_NOPV
+ 0x80
+
+	)
+
+2256 
+	#STO_ALPHA_STD_GPLOAD
+ 0x88
+
+	)
+
+2260 
+	#R_ALPHA_NONE
+ 0
+
+	)
+
+2261 
+	#R_ALPHA_REFLONG
+ 1
+
+	)
+
+2262 
+	#R_ALPHA_REFQUAD
+ 2
+
+	)
+
+2263 
+	#R_ALPHA_GPREL32
+ 3
+
+	)
+
+2264 
+	#R_ALPHA_LITERAL
+ 4
+
+	)
+
+2265 
+	#R_ALPHA_LITUSE
+ 5
+
+	)
+
+2266 
+	#R_ALPHA_GPDISP
+ 6
+
+	)
+
+2267 
+	#R_ALPHA_BRADDR
+ 7
+
+	)
+
+2268 
+	#R_ALPHA_HINT
+ 8
+
+	)
+
+2269 
+	#R_ALPHA_SREL16
+ 9
+
+	)
+
+2270 
+	#R_ALPHA_SREL32
+ 10
+
+	)
+
+2271 
+	#R_ALPHA_SREL64
+ 11
+
+	)
+
+2272 
+	#R_ALPHA_GPRELHIGH
+ 17
+
+	)
+
+2273 
+	#R_ALPHA_GPRELLOW
+ 18
+
+	)
+
+2274 
+	#R_ALPHA_GPREL16
+ 19
+
+	)
+
+2275 
+	#R_ALPHA_COPY
+ 24
+
+	)
+
+2276 
+	#R_ALPHA_GLOB_DAT
+ 25
+
+	)
+
+2277 
+	#R_ALPHA_JMP_SLOT
+ 26
+
+	)
+
+2278 
+	#R_ALPHA_RELATIVE
+ 27
+
+	)
+
+2279 
+	#R_ALPHA_TLS_GD_HI
+ 28
+
+	)
+
+2280 
+	#R_ALPHA_TLSGD
+ 29
+
+	)
+
+2281 
+	#R_ALPHA_TLS_LDM
+ 30
+
+	)
+
+2282 
+	#R_ALPHA_DTPMOD64
+ 31
+
+	)
+
+2283 
+	#R_ALPHA_GOTDTPREL
+ 32
+
+	)
+
+2284 
+	#R_ALPHA_DTPREL64
+ 33
+
+	)
+
+2285 
+	#R_ALPHA_DTPRELHI
+ 34
+
+	)
+
+2286 
+	#R_ALPHA_DTPRELLO
+ 35
+
+	)
+
+2287 
+	#R_ALPHA_DTPREL16
+ 36
+
+	)
+
+2288 
+	#R_ALPHA_GOTTPREL
+ 37
+
+	)
+
+2289 
+	#R_ALPHA_TPREL64
+ 38
+
+	)
+
+2290 
+	#R_ALPHA_TPRELHI
+ 39
+
+	)
+
+2291 
+	#R_ALPHA_TPRELLO
+ 40
+
+	)
+
+2292 
+	#R_ALPHA_TPREL16
+ 41
+
+	)
+
+2294 
+	#R_ALPHA_NUM
+ 46
+
+	)
+
+2297 
+	#LITUSE_ALPHA_ADDR
+ 0
+
+	)
+
+2298 
+	#LITUSE_ALPHA_BASE
+ 1
+
+	)
+
+2299 
+	#LITUSE_ALPHA_BYTOFF
+ 2
+
+	)
+
+2300 
+	#LITUSE_ALPHA_JSR
+ 3
+
+	)
+
+2301 
+	#LITUSE_ALPHA_TLS_GD
+ 4
+
+	)
+
+2302 
+	#LITUSE_ALPHA_TLS_LDM
+ 5
+
+	)
+
+2305 
+	#DT_ALPHA_PLTRO
+ (
+DT_LOPROC
+ + 0)
+
+	)
+
+2306 
+	#DT_ALPHA_NUM
+ 1
+
+	)
+
+2311 
+	#EF_PPC_EMB
+ 0x80000000
+
+	)
+
+2314 
+	#EF_PPC_RELOCATABLE
+ 0x00010000
+
+	)
+
+2315 
+	#EF_PPC_RELOCATABLE_LIB
+ 0x00008000
+
+	)
+
+2319 
+	#R_PPC_NONE
+ 0
+
+	)
+
+2320 
+	#R_PPC_ADDR32
+ 1
+
+	)
+
+2321 
+	#R_PPC_ADDR24
+ 2
+
+	)
+
+2322 
+	#R_PPC_ADDR16
+ 3
+
+	)
+
+2323 
+	#R_PPC_ADDR16_LO
+ 4
+
+	)
+
+2324 
+	#R_PPC_ADDR16_HI
+ 5
+
+	)
+
+2325 
+	#R_PPC_ADDR16_HA
+ 6
+
+	)
+
+2326 
+	#R_PPC_ADDR14
+ 7
+
+	)
+
+2327 
+	#R_PPC_ADDR14_BRTAKEN
+ 8
+
+	)
+
+2328 
+	#R_PPC_ADDR14_BRNTAKEN
+ 9
+
+	)
+
+2329 
+	#R_PPC_REL24
+ 10
+
+	)
+
+2330 
+	#R_PPC_REL14
+ 11
+
+	)
+
+2331 
+	#R_PPC_REL14_BRTAKEN
+ 12
+
+	)
+
+2332 
+	#R_PPC_REL14_BRNTAKEN
+ 13
+
+	)
+
+2333 
+	#R_PPC_GOT16
+ 14
+
+	)
+
+2334 
+	#R_PPC_GOT16_LO
+ 15
+
+	)
+
+2335 
+	#R_PPC_GOT16_HI
+ 16
+
+	)
+
+2336 
+	#R_PPC_GOT16_HA
+ 17
+
+	)
+
+2337 
+	#R_PPC_PLTREL24
+ 18
+
+	)
+
+2338 
+	#R_PPC_COPY
+ 19
+
+	)
+
+2339 
+	#R_PPC_GLOB_DAT
+ 20
+
+	)
+
+2340 
+	#R_PPC_JMP_SLOT
+ 21
+
+	)
+
+2341 
+	#R_PPC_RELATIVE
+ 22
+
+	)
+
+2342 
+	#R_PPC_LOCAL24PC
+ 23
+
+	)
+
+2343 
+	#R_PPC_UADDR32
+ 24
+
+	)
+
+2344 
+	#R_PPC_UADDR16
+ 25
+
+	)
+
+2345 
+	#R_PPC_REL32
+ 26
+
+	)
+
+2346 
+	#R_PPC_PLT32
+ 27
+
+	)
+
+2347 
+	#R_PPC_PLTREL32
+ 28
+
+	)
+
+2348 
+	#R_PPC_PLT16_LO
+ 29
+
+	)
+
+2349 
+	#R_PPC_PLT16_HI
+ 30
+
+	)
+
+2350 
+	#R_PPC_PLT16_HA
+ 31
+
+	)
+
+2351 
+	#R_PPC_SDAREL16
+ 32
+
+	)
+
+2352 
+	#R_PPC_SECTOFF
+ 33
+
+	)
+
+2353 
+	#R_PPC_SECTOFF_LO
+ 34
+
+	)
+
+2354 
+	#R_PPC_SECTOFF_HI
+ 35
+
+	)
+
+2355 
+	#R_PPC_SECTOFF_HA
+ 36
+
+	)
+
+2358 
+	#R_PPC_TLS
+ 67
+
+	)
+
+2359 
+	#R_PPC_DTPMOD32
+ 68
+
+	)
+
+2360 
+	#R_PPC_TPREL16
+ 69
+
+	)
+
+2361 
+	#R_PPC_TPREL16_LO
+ 70
+
+	)
+
+2362 
+	#R_PPC_TPREL16_HI
+ 71
+
+	)
+
+2363 
+	#R_PPC_TPREL16_HA
+ 72
+
+	)
+
+2364 
+	#R_PPC_TPREL32
+ 73
+
+	)
+
+2365 
+	#R_PPC_DTPREL16
+ 74
+
+	)
+
+2366 
+	#R_PPC_DTPREL16_LO
+ 75
+
+	)
+
+2367 
+	#R_PPC_DTPREL16_HI
+ 76
+
+	)
+
+2368 
+	#R_PPC_DTPREL16_HA
+ 77
+
+	)
+
+2369 
+	#R_PPC_DTPREL32
+ 78
+
+	)
+
+2370 
+	#R_PPC_GOT_TLSGD16
+ 79
+
+	)
+
+2371 
+	#R_PPC_GOT_TLSGD16_LO
+ 80
+
+	)
+
+2372 
+	#R_PPC_GOT_TLSGD16_HI
+ 81
+
+	)
+
+2373 
+	#R_PPC_GOT_TLSGD16_HA
+ 82
+
+	)
+
+2374 
+	#R_PPC_GOT_TLSLD16
+ 83
+
+	)
+
+2375 
+	#R_PPC_GOT_TLSLD16_LO
+ 84
+
+	)
+
+2376 
+	#R_PPC_GOT_TLSLD16_HI
+ 85
+
+	)
+
+2377 
+	#R_PPC_GOT_TLSLD16_HA
+ 86
+
+	)
+
+2378 
+	#R_PPC_GOT_TPREL16
+ 87
+
+	)
+
+2379 
+	#R_PPC_GOT_TPREL16_LO
+ 88
+
+	)
+
+2380 
+	#R_PPC_GOT_TPREL16_HI
+ 89
+
+	)
+
+2381 
+	#R_PPC_GOT_TPREL16_HA
+ 90
+
+	)
+
+2382 
+	#R_PPC_GOT_DTPREL16
+ 91
+
+	)
+
+2383 
+	#R_PPC_GOT_DTPREL16_LO
+ 92
+
+	)
+
+2384 
+	#R_PPC_GOT_DTPREL16_HI
+ 93
+
+	)
+
+2385 
+	#R_PPC_GOT_DTPREL16_HA
+ 94
+
+	)
+
+2386 
+	#R_PPC_TLSGD
+ 95
+
+	)
+
+2387 
+	#R_PPC_TLSLD
+ 96
+
+	)
+
+2391 
+	#R_PPC_EMB_NADDR32
+ 101
+
+	)
+
+2392 
+	#R_PPC_EMB_NADDR16
+ 102
+
+	)
+
+2393 
+	#R_PPC_EMB_NADDR16_LO
+ 103
+
+	)
+
+2394 
+	#R_PPC_EMB_NADDR16_HI
+ 104
+
+	)
+
+2395 
+	#R_PPC_EMB_NADDR16_HA
+ 105
+
+	)
+
+2396 
+	#R_PPC_EMB_SDAI16
+ 106
+
+	)
+
+2397 
+	#R_PPC_EMB_SDA2I16
+ 107
+
+	)
+
+2398 
+	#R_PPC_EMB_SDA2REL
+ 108
+
+	)
+
+2399 
+	#R_PPC_EMB_SDA21
+ 109
+
+	)
+
+2400 
+	#R_PPC_EMB_MRKREF
+ 110
+
+	)
+
+2401 
+	#R_PPC_EMB_RELSEC16
+ 111
+
+	)
+
+2402 
+	#R_PPC_EMB_RELST_LO
+ 112
+
+	)
+
+2403 
+	#R_PPC_EMB_RELST_HI
+ 113
+
+	)
+
+2404 
+	#R_PPC_EMB_RELST_HA
+ 114
+
+	)
+
+2405 
+	#R_PPC_EMB_BIT_FLD
+ 115
+
+	)
+
+2406 
+	#R_PPC_EMB_RELSDA
+ 116
+
+	)
+
+2409 
+	#R_PPC_DIAB_SDA21_LO
+ 180
+
+	)
+
+2410 
+	#R_PPC_DIAB_SDA21_HI
+ 181
+
+	)
+
+2411 
+	#R_PPC_DIAB_SDA21_HA
+ 182
+
+	)
+
+2412 
+	#R_PPC_DIAB_RELSDA_LO
+ 183
+
+	)
+
+2413 
+	#R_PPC_DIAB_RELSDA_HI
+ 184
+
+	)
+
+2414 
+	#R_PPC_DIAB_RELSDA_HA
+ 185
+
+	)
+
+2417 
+	#R_PPC_IRELATIVE
+ 248
+
+	)
+
+2420 
+	#R_PPC_REL16
+ 249
+
+	)
+
+2421 
+	#R_PPC_REL16_LO
+ 250
+
+	)
+
+2422 
+	#R_PPC_REL16_HI
+ 251
+
+	)
+
+2423 
+	#R_PPC_REL16_HA
+ 252
+
+	)
+
+2427 
+	#R_PPC_TOC16
+ 255
+
+	)
+
+2430 
+	#DT_PPC_GOT
+ (
+DT_LOPROC
+ + 0)
+
+	)
+
+2431 
+	#DT_PPC_OPT
+ (
+DT_LOPROC
+ + 1)
+
+	)
+
+2432 
+	#DT_PPC_NUM
+ 2
+
+	)
+
+2435 
+	#PPC_OPT_TLS
+ 1
+
+	)
+
+2438 
+	#R_PPC64_NONE
+ 
+R_PPC_NONE
+
+
+	)
+
+2439 
+	#R_PPC64_ADDR32
+ 
+R_PPC_ADDR32
+
+
+	)
+
+2440 
+	#R_PPC64_ADDR24
+ 
+R_PPC_ADDR24
+
+
+	)
+
+2441 
+	#R_PPC64_ADDR16
+ 
+R_PPC_ADDR16
+
+
+	)
+
+2442 
+	#R_PPC64_ADDR16_LO
+ 
+R_PPC_ADDR16_LO
+
+
+	)
+
+2443 
+	#R_PPC64_ADDR16_HI
+ 
+R_PPC_ADDR16_HI
+
+
+	)
+
+2444 
+	#R_PPC64_ADDR16_HA
+ 
+R_PPC_ADDR16_HA
+
+
+	)
+
+2445 
+	#R_PPC64_ADDR14
+ 
+R_PPC_ADDR14
+
+
+	)
+
+2446 
+	#R_PPC64_ADDR14_BRTAKEN
+ 
+R_PPC_ADDR14_BRTAKEN
+
+
+	)
+
+2447 
+	#R_PPC64_ADDR14_BRNTAKEN
+ 
+R_PPC_ADDR14_BRNTAKEN
+
+
+	)
+
+2448 
+	#R_PPC64_REL24
+ 
+R_PPC_REL24
+
+
+	)
+
+2449 
+	#R_PPC64_REL14
+ 
+R_PPC_REL14
+
+
+	)
+
+2450 
+	#R_PPC64_REL14_BRTAKEN
+ 
+R_PPC_REL14_BRTAKEN
+
+
+	)
+
+2451 
+	#R_PPC64_REL14_BRNTAKEN
+ 
+R_PPC_REL14_BRNTAKEN
+
+
+	)
+
+2452 
+	#R_PPC64_GOT16
+ 
+R_PPC_GOT16
+
+
+	)
+
+2453 
+	#R_PPC64_GOT16_LO
+ 
+R_PPC_GOT16_LO
+
+
+	)
+
+2454 
+	#R_PPC64_GOT16_HI
+ 
+R_PPC_GOT16_HI
+
+
+	)
+
+2455 
+	#R_PPC64_GOT16_HA
+ 
+R_PPC_GOT16_HA
+
+
+	)
+
+2457 
+	#R_PPC64_COPY
+ 
+R_PPC_COPY
+
+
+	)
+
+2458 
+	#R_PPC64_GLOB_DAT
+ 
+R_PPC_GLOB_DAT
+
+
+	)
+
+2459 
+	#R_PPC64_JMP_SLOT
+ 
+R_PPC_JMP_SLOT
+
+
+	)
+
+2460 
+	#R_PPC64_RELATIVE
+ 
+R_PPC_RELATIVE
+
+
+	)
+
+2462 
+	#R_PPC64_UADDR32
+ 
+R_PPC_UADDR32
+
+
+	)
+
+2463 
+	#R_PPC64_UADDR16
+ 
+R_PPC_UADDR16
+
+
+	)
+
+2464 
+	#R_PPC64_REL32
+ 
+R_PPC_REL32
+
+
+	)
+
+2465 
+	#R_PPC64_PLT32
+ 
+R_PPC_PLT32
+
+
+	)
+
+2466 
+	#R_PPC64_PLTREL32
+ 
+R_PPC_PLTREL32
+
+
+	)
+
+2467 
+	#R_PPC64_PLT16_LO
+ 
+R_PPC_PLT16_LO
+
+
+	)
+
+2468 
+	#R_PPC64_PLT16_HI
+ 
+R_PPC_PLT16_HI
+
+
+	)
+
+2469 
+	#R_PPC64_PLT16_HA
+ 
+R_PPC_PLT16_HA
+
+
+	)
+
+2471 
+	#R_PPC64_SECTOFF
+ 
+R_PPC_SECTOFF
+
+
+	)
+
+2472 
+	#R_PPC64_SECTOFF_LO
+ 
+R_PPC_SECTOFF_LO
+
+
+	)
+
+2473 
+	#R_PPC64_SECTOFF_HI
+ 
+R_PPC_SECTOFF_HI
+
+
+	)
+
+2474 
+	#R_PPC64_SECTOFF_HA
+ 
+R_PPC_SECTOFF_HA
+
+
+	)
+
+2475 
+	#R_PPC64_ADDR30
+ 37
+
+	)
+
+2476 
+	#R_PPC64_ADDR64
+ 38
+
+	)
+
+2477 
+	#R_PPC64_ADDR16_HIGHER
+ 39
+
+	)
+
+2478 
+	#R_PPC64_ADDR16_HIGHERA
+ 40
+
+	)
+
+2479 
+	#R_PPC64_ADDR16_HIGHEST
+ 41
+
+	)
+
+2480 
+	#R_PPC64_ADDR16_HIGHESTA
+ 42
+
+	)
+
+2481 
+	#R_PPC64_UADDR64
+ 43
+
+	)
+
+2482 
+	#R_PPC64_REL64
+ 44
+
+	)
+
+2483 
+	#R_PPC64_PLT64
+ 45
+
+	)
+
+2484 
+	#R_PPC64_PLTREL64
+ 46
+
+	)
+
+2485 
+	#R_PPC64_TOC16
+ 47
+
+	)
+
+2486 
+	#R_PPC64_TOC16_LO
+ 48
+
+	)
+
+2487 
+	#R_PPC64_TOC16_HI
+ 49
+
+	)
+
+2488 
+	#R_PPC64_TOC16_HA
+ 50
+
+	)
+
+2489 
+	#R_PPC64_TOC
+ 51
+
+	)
+
+2490 
+	#R_PPC64_PLTGOT16
+ 52
+
+	)
+
+2491 
+	#R_PPC64_PLTGOT16_LO
+ 53
+
+	)
+
+2492 
+	#R_PPC64_PLTGOT16_HI
+ 54
+
+	)
+
+2493 
+	#R_PPC64_PLTGOT16_HA
+ 55
+
+	)
+
+2495 
+	#R_PPC64_ADDR16_DS
+ 56
+
+	)
+
+2496 
+	#R_PPC64_ADDR16_LO_DS
+ 57
+
+	)
+
+2497 
+	#R_PPC64_GOT16_DS
+ 58
+
+	)
+
+2498 
+	#R_PPC64_GOT16_LO_DS
+ 59
+
+	)
+
+2499 
+	#R_PPC64_PLT16_LO_DS
+ 60
+
+	)
+
+2500 
+	#R_PPC64_SECTOFF_DS
+ 61
+
+	)
+
+2501 
+	#R_PPC64_SECTOFF_LO_DS
+ 62
+
+	)
+
+2502 
+	#R_PPC64_TOC16_DS
+ 63
+
+	)
+
+2503 
+	#R_PPC64_TOC16_LO_DS
+ 64
+
+	)
+
+2504 
+	#R_PPC64_PLTGOT16_DS
+ 65
+
+	)
+
+2505 
+	#R_PPC64_PLTGOT16_LO_DS
+ 66
+
+	)
+
+2508 
+	#R_PPC64_TLS
+ 67
+
+	)
+
+2509 
+	#R_PPC64_DTPMOD64
+ 68
+
+	)
+
+2510 
+	#R_PPC64_TPREL16
+ 69
+
+	)
+
+2511 
+	#R_PPC64_TPREL16_LO
+ 70
+
+	)
+
+2512 
+	#R_PPC64_TPREL16_HI
+ 71
+
+	)
+
+2513 
+	#R_PPC64_TPREL16_HA
+ 72
+
+	)
+
+2514 
+	#R_PPC64_TPREL64
+ 73
+
+	)
+
+2515 
+	#R_PPC64_DTPREL16
+ 74
+
+	)
+
+2516 
+	#R_PPC64_DTPREL16_LO
+ 75
+
+	)
+
+2517 
+	#R_PPC64_DTPREL16_HI
+ 76
+
+	)
+
+2518 
+	#R_PPC64_DTPREL16_HA
+ 77
+
+	)
+
+2519 
+	#R_PPC64_DTPREL64
+ 78
+
+	)
+
+2520 
+	#R_PPC64_GOT_TLSGD16
+ 79
+
+	)
+
+2521 
+	#R_PPC64_GOT_TLSGD16_LO
+ 80
+
+	)
+
+2522 
+	#R_PPC64_GOT_TLSGD16_HI
+ 81
+
+	)
+
+2523 
+	#R_PPC64_GOT_TLSGD16_HA
+ 82
+
+	)
+
+2524 
+	#R_PPC64_GOT_TLSLD16
+ 83
+
+	)
+
+2525 
+	#R_PPC64_GOT_TLSLD16_LO
+ 84
+
+	)
+
+2526 
+	#R_PPC64_GOT_TLSLD16_HI
+ 85
+
+	)
+
+2527 
+	#R_PPC64_GOT_TLSLD16_HA
+ 86
+
+	)
+
+2528 
+	#R_PPC64_GOT_TPREL16_DS
+ 87
+
+	)
+
+2529 
+	#R_PPC64_GOT_TPREL16_LO_DS
+ 88
+
+	)
+
+2530 
+	#R_PPC64_GOT_TPREL16_HI
+ 89
+
+	)
+
+2531 
+	#R_PPC64_GOT_TPREL16_HA
+ 90
+
+	)
+
+2532 
+	#R_PPC64_GOT_DTPREL16_DS
+ 91
+
+	)
+
+2533 
+	#R_PPC64_GOT_DTPREL16_LO_DS
+ 92
+
+	)
+
+2534 
+	#R_PPC64_GOT_DTPREL16_HI
+ 93
+
+	)
+
+2535 
+	#R_PPC64_GOT_DTPREL16_HA
+ 94
+
+	)
+
+2536 
+	#R_PPC64_TPREL16_DS
+ 95
+
+	)
+
+2537 
+	#R_PPC64_TPREL16_LO_DS
+ 96
+
+	)
+
+2538 
+	#R_PPC64_TPREL16_HIGHER
+ 97
+
+	)
+
+2539 
+	#R_PPC64_TPREL16_HIGHERA
+ 98
+
+	)
+
+2540 
+	#R_PPC64_TPREL16_HIGHEST
+ 99
+
+	)
+
+2541 
+	#R_PPC64_TPREL16_HIGHESTA
+ 100
+
+	)
+
+2542 
+	#R_PPC64_DTPREL16_DS
+ 101
+
+	)
+
+2543 
+	#R_PPC64_DTPREL16_LO_DS
+ 102
+
+	)
+
+2544 
+	#R_PPC64_DTPREL16_HIGHER
+ 103
+
+	)
+
+2545 
+	#R_PPC64_DTPREL16_HIGHERA
+ 104
+
+	)
+
+2546 
+	#R_PPC64_DTPREL16_HIGHEST
+ 105
+
+	)
+
+2547 
+	#R_PPC64_DTPREL16_HIGHESTA
+ 106
+
+	)
+
+2548 
+	#R_PPC64_TLSGD
+ 107
+
+	)
+
+2549 
+	#R_PPC64_TLSLD
+ 108
+
+	)
+
+2550 
+	#R_PPC64_TOCSAVE
+ 109
+
+	)
+
+2553 
+	#R_PPC64_ADDR16_HIGH
+ 110
+
+	)
+
+2554 
+	#R_PPC64_ADDR16_HIGHA
+ 111
+
+	)
+
+2555 
+	#R_PPC64_TPREL16_HIGH
+ 112
+
+	)
+
+2556 
+	#R_PPC64_TPREL16_HIGHA
+ 113
+
+	)
+
+2557 
+	#R_PPC64_DTPREL16_HIGH
+ 114
+
+	)
+
+2558 
+	#R_PPC64_DTPREL16_HIGHA
+ 115
+
+	)
+
+2561 
+	#R_PPC64_JMP_IREL
+ 247
+
+	)
+
+2562 
+	#R_PPC64_IRELATIVE
+ 248
+
+	)
+
+2563 
+	#R_PPC64_REL16
+ 249
+
+	)
+
+2564 
+	#R_PPC64_REL16_LO
+ 250
+
+	)
+
+2565 
+	#R_PPC64_REL16_HI
+ 251
+
+	)
+
+2566 
+	#R_PPC64_REL16_HA
+ 252
+
+	)
+
+2572 
+	#EF_PPC64_ABI
+ 3
+
+	)
+
+2575 
+	#DT_PPC64_GLINK
+ (
+DT_LOPROC
+ + 0)
+
+	)
+
+2576 
+	#DT_PPC64_OPD
+ (
+DT_LOPROC
+ + 1)
+
+	)
+
+2577 
+	#DT_PPC64_OPDSZ
+ (
+DT_LOPROC
+ + 2)
+
+	)
+
+2578 
+	#DT_PPC64_OPT
+ (
+DT_LOPROC
+ + 3)
+
+	)
+
+2579 
+	#DT_PPC64_NUM
+ 4
+
+	)
+
+2582 
+	#PPC64_OPT_TLS
+ 1
+
+	)
+
+2583 
+	#PPC64_OPT_MULTI_TOC
+ 2
+
+	)
+
+2584 
+	#PPC64_OPT_LOCALENTRY
+ 4
+
+	)
+
+2587 
+	#STO_PPC64_LOCAL_BIT
+ 5
+
+	)
+
+2588 
+	#STO_PPC64_LOCAL_MASK
+ (7 << 
+STO_PPC64_LOCAL_BIT
+)
+
+	)
+
+2589 
+	#PPC64_LOCAL_ENTRY_OFFSET
+(
+Ùh”
+) \
+
+2590 (((1 << (((
+Ùh”
+è& 
+STO_PPC64_LOCAL_MASK
+è>> 
+STO_PPC64_LOCAL_BIT
+)è>> 2è<< 2)
+
+	)
+
+2596 
+	#EF_ARM_RELEXEC
+ 0x01
+
+	)
+
+2597 
+	#EF_ARM_HASENTRY
+ 0x02
+
+	)
+
+2598 
+	#EF_ARM_INTERWORK
+ 0x04
+
+	)
+
+2599 
+	#EF_ARM_APCS_26
+ 0x08
+
+	)
+
+2600 
+	#EF_ARM_APCS_FLOAT
+ 0x10
+
+	)
+
+2601 
+	#EF_ARM_PIC
+ 0x20
+
+	)
+
+2602 
+	#EF_ARM_ALIGN8
+ 0x40
+
+	)
+
+2603 
+	#EF_ARM_NEW_ABI
+ 0x80
+
+	)
+
+2604 
+	#EF_ARM_OLD_ABI
+ 0x100
+
+	)
+
+2605 
+	#EF_ARM_SOFT_FLOAT
+ 0x200
+
+	)
+
+2606 
+	#EF_ARM_VFP_FLOAT
+ 0x400
+
+	)
+
+2607 
+	#EF_ARM_MAVERICK_FLOAT
+ 0x800
+
+	)
+
+2609 
+	#EF_ARM_ABI_FLOAT_SOFT
+ 0x200
+
+	)
+
+2610 
+	#EF_ARM_ABI_FLOAT_HARD
+ 0x400
+
+	)
+
+2615 
+	#EF_ARM_SYMSARESORTED
+ 0x04
+
+	)
+
+2616 
+	#EF_ARM_DYNSYMSUSESEGIDX
+ 0x08
+
+	)
+
+2617 
+	#EF_ARM_MAPSYMSFIRST
+ 0x10
+
+	)
+
+2618 
+	#EF_ARM_EABIMASK
+ 0XFF000000
+
+	)
+
+2621 
+	#EF_ARM_BE8
+ 0x00800000
+
+	)
+
+2622 
+	#EF_ARM_LE8
+ 0x00400000
+
+	)
+
+2624 
+	#EF_ARM_EABI_VERSION
+(
+æags
+è((æagsè& 
+EF_ARM_EABIMASK
+)
+
+	)
+
+2625 
+	#EF_ARM_EABI_UNKNOWN
+ 0x00000000
+
+	)
+
+2626 
+	#EF_ARM_EABI_VER1
+ 0x01000000
+
+	)
+
+2627 
+	#EF_ARM_EABI_VER2
+ 0x02000000
+
+	)
+
+2628 
+	#EF_ARM_EABI_VER3
+ 0x03000000
+
+	)
+
+2629 
+	#EF_ARM_EABI_VER4
+ 0x04000000
+
+	)
+
+2630 
+	#EF_ARM_EABI_VER5
+ 0x05000000
+
+	)
+
+2633 
+	#STT_ARM_TFUNC
+ 
+STT_LOPROC
+
+
+	)
+
+2634 
+	#STT_ARM_16BIT
+ 
+STT_HIPROC
+
+
+	)
+
+2637 
+	#SHF_ARM_ENTRYSECT
+ 0x10000000
+
+	)
+
+2638 
+	#SHF_ARM_COMDEF
+ 0x80000000
+
+	)
+
+2642 
+	#PF_ARM_SB
+ 0x10000000
+
+	)
+
+2644 
+	#PF_ARM_PI
+ 0x20000000
+
+	)
+
+2645 
+	#PF_ARM_ABS
+ 0x40000000
+
+	)
+
+2648 
+	#PT_ARM_EXIDX
+ (
+PT_LOPROC
+ + 1è
+
+	)
+
+2651 
+	#SHT_ARM_EXIDX
+ (
+SHT_LOPROC
+ + 1è
+
+	)
+
+2652 
+	#SHT_ARM_PREEMPTMAP
+ (
+SHT_LOPROC
+ + 2è
+
+	)
+
+2653 
+	#SHT_ARM_ATTRIBUTES
+ (
+SHT_LOPROC
+ + 3è
+
+	)
+
+2658 
+	#R_AARCH64_NONE
+ 0
+
+	)
+
+2661 
+	#R_AARCH64_P32_ABS32
+ 1
+
+	)
+
+2662 
+	#R_AARCH64_P32_COPY
+ 180
+
+	)
+
+2663 
+	#R_AARCH64_P32_GLOB_DAT
+ 181
+
+	)
+
+2664 
+	#R_AARCH64_P32_JUMP_SLOT
+ 182
+
+	)
+
+2665 
+	#R_AARCH64_P32_RELATIVE
+ 183
+
+	)
+
+2666 
+	#R_AARCH64_P32_TLS_DTPMOD
+ 184
+
+	)
+
+2667 
+	#R_AARCH64_P32_TLS_DTPREL
+ 185
+
+	)
+
+2668 
+	#R_AARCH64_P32_TLS_TPREL
+ 186
+
+	)
+
+2669 
+	#R_AARCH64_P32_TLSDESC
+ 187
+
+	)
+
+2670 
+	#R_AARCH64_P32_IRELATIVE
+ 188
+
+	)
+
+2673 
+	#R_AARCH64_ABS64
+ 257
+
+	)
+
+2674 
+	#R_AARCH64_ABS32
+ 258
+
+	)
+
+2675 
+	#R_AARCH64_ABS16
+ 259
+
+	)
+
+2676 
+	#R_AARCH64_PREL64
+ 260
+
+	)
+
+2677 
+	#R_AARCH64_PREL32
+ 261
+
+	)
+
+2678 
+	#R_AARCH64_PREL16
+ 262
+
+	)
+
+2679 
+	#R_AARCH64_MOVW_UABS_G0
+ 263
+
+	)
+
+2680 
+	#R_AARCH64_MOVW_UABS_G0_NC
+ 264
+
+	)
+
+2681 
+	#R_AARCH64_MOVW_UABS_G1
+ 265
+
+	)
+
+2682 
+	#R_AARCH64_MOVW_UABS_G1_NC
+ 266
+
+	)
+
+2683 
+	#R_AARCH64_MOVW_UABS_G2
+ 267
+
+	)
+
+2684 
+	#R_AARCH64_MOVW_UABS_G2_NC
+ 268
+
+	)
+
+2685 
+	#R_AARCH64_MOVW_UABS_G3
+ 269
+
+	)
+
+2686 
+	#R_AARCH64_MOVW_SABS_G0
+ 270
+
+	)
+
+2687 
+	#R_AARCH64_MOVW_SABS_G1
+ 271
+
+	)
+
+2688 
+	#R_AARCH64_MOVW_SABS_G2
+ 272
+
+	)
+
+2689 
+	#R_AARCH64_LD_PREL_LO19
+ 273
+
+	)
+
+2690 
+	#R_AARCH64_ADR_PREL_LO21
+ 274
+
+	)
+
+2691 
+	#R_AARCH64_ADR_PREL_PG_HI21
+ 275
+
+	)
+
+2692 
+	#R_AARCH64_ADR_PREL_PG_HI21_NC
+ 276
+
+	)
+
+2693 
+	#R_AARCH64_ADD_ABS_LO12_NC
+ 277
+
+	)
+
+2694 
+	#R_AARCH64_LDST8_ABS_LO12_NC
+ 278
+
+	)
+
+2695 
+	#R_AARCH64_TSTBR14
+ 279
+
+	)
+
+2696 
+	#R_AARCH64_CONDBR19
+ 280
+
+	)
+
+2697 
+	#R_AARCH64_JUMP26
+ 282
+
+	)
+
+2698 
+	#R_AARCH64_CALL26
+ 283
+
+	)
+
+2699 
+	#R_AARCH64_LDST16_ABS_LO12_NC
+ 284
+
+	)
+
+2700 
+	#R_AARCH64_LDST32_ABS_LO12_NC
+ 285
+
+	)
+
+2701 
+	#R_AARCH64_LDST64_ABS_LO12_NC
+ 286
+
+	)
+
+2702 
+	#R_AARCH64_MOVW_PREL_G0
+ 287
+
+	)
+
+2703 
+	#R_AARCH64_MOVW_PREL_G0_NC
+ 288
+
+	)
+
+2704 
+	#R_AARCH64_MOVW_PREL_G1
+ 289
+
+	)
+
+2705 
+	#R_AARCH64_MOVW_PREL_G1_NC
+ 290
+
+	)
+
+2706 
+	#R_AARCH64_MOVW_PREL_G2
+ 291
+
+	)
+
+2707 
+	#R_AARCH64_MOVW_PREL_G2_NC
+ 292
+
+	)
+
+2708 
+	#R_AARCH64_MOVW_PREL_G3
+ 293
+
+	)
+
+2709 
+	#R_AARCH64_LDST128_ABS_LO12_NC
+ 299
+
+	)
+
+2710 
+	#R_AARCH64_MOVW_GOTOFF_G0
+ 300
+
+	)
+
+2711 
+	#R_AARCH64_MOVW_GOTOFF_G0_NC
+ 301
+
+	)
+
+2712 
+	#R_AARCH64_MOVW_GOTOFF_G1
+ 302
+
+	)
+
+2713 
+	#R_AARCH64_MOVW_GOTOFF_G1_NC
+ 303
+
+	)
+
+2714 
+	#R_AARCH64_MOVW_GOTOFF_G2
+ 304
+
+	)
+
+2715 
+	#R_AARCH64_MOVW_GOTOFF_G2_NC
+ 305
+
+	)
+
+2716 
+	#R_AARCH64_MOVW_GOTOFF_G3
+ 306
+
+	)
+
+2717 
+	#R_AARCH64_GOTREL64
+ 307
+
+	)
+
+2718 
+	#R_AARCH64_GOTREL32
+ 308
+
+	)
+
+2719 
+	#R_AARCH64_GOT_LD_PREL19
+ 309
+
+	)
+
+2720 
+	#R_AARCH64_LD64_GOTOFF_LO15
+ 310
+
+	)
+
+2721 
+	#R_AARCH64_ADR_GOT_PAGE
+ 311
+
+	)
+
+2722 
+	#R_AARCH64_LD64_GOT_LO12_NC
+ 312
+
+	)
+
+2723 
+	#R_AARCH64_LD64_GOTPAGE_LO15
+ 313
+
+	)
+
+2724 
+	#R_AARCH64_TLSGD_ADR_PREL21
+ 512
+
+	)
+
+2725 
+	#R_AARCH64_TLSGD_ADR_PAGE21
+ 513
+
+	)
+
+2726 
+	#R_AARCH64_TLSGD_ADD_LO12_NC
+ 514
+
+	)
+
+2727 
+	#R_AARCH64_TLSGD_MOVW_G1
+ 515
+
+	)
+
+2728 
+	#R_AARCH64_TLSGD_MOVW_G0_NC
+ 516
+
+	)
+
+2729 
+	#R_AARCH64_TLSLD_ADR_PREL21
+ 517
+
+	)
+
+2730 
+	#R_AARCH64_TLSLD_ADR_PAGE21
+ 518
+
+	)
+
+2731 
+	#R_AARCH64_TLSLD_ADD_LO12_NC
+ 519
+
+	)
+
+2732 
+	#R_AARCH64_TLSLD_MOVW_G1
+ 520
+
+	)
+
+2733 
+	#R_AARCH64_TLSLD_MOVW_G0_NC
+ 521
+
+	)
+
+2734 
+	#R_AARCH64_TLSLD_LD_PREL19
+ 522
+
+	)
+
+2735 
+	#R_AARCH64_TLSLD_MOVW_DTPREL_G2
+ 523
+
+	)
+
+2736 
+	#R_AARCH64_TLSLD_MOVW_DTPREL_G1
+ 524
+
+	)
+
+2737 
+	#R_AARCH64_TLSLD_MOVW_DTPREL_G1_NC
+ 525
+
+	)
+
+2738 
+	#R_AARCH64_TLSLD_MOVW_DTPREL_G0
+ 526
+
+	)
+
+2739 
+	#R_AARCH64_TLSLD_MOVW_DTPREL_G0_NC
+ 527
+
+	)
+
+2740 
+	#R_AARCH64_TLSLD_ADD_DTPREL_HI12
+ 528
+
+	)
+
+2741 
+	#R_AARCH64_TLSLD_ADD_DTPREL_LO12
+ 529
+
+	)
+
+2742 
+	#R_AARCH64_TLSLD_ADD_DTPREL_LO12_NC
+ 530
+
+	)
+
+2743 
+	#R_AARCH64_TLSLD_LDST8_DTPREL_LO12
+ 531
+
+	)
+
+2744 
+	#R_AARCH64_TLSLD_LDST8_DTPREL_LO12_NC
+ 532
+
+	)
+
+2745 
+	#R_AARCH64_TLSLD_LDST16_DTPREL_LO12
+ 533
+
+	)
+
+2746 
+	#R_AARCH64_TLSLD_LDST16_DTPREL_LO12_NC
+ 534
+
+	)
+
+2747 
+	#R_AARCH64_TLSLD_LDST32_DTPREL_LO12
+ 535
+
+	)
+
+2748 
+	#R_AARCH64_TLSLD_LDST32_DTPREL_LO12_NC
+ 536
+
+	)
+
+2749 
+	#R_AARCH64_TLSLD_LDST64_DTPREL_LO12
+ 537
+
+	)
+
+2750 
+	#R_AARCH64_TLSLD_LDST64_DTPREL_LO12_NC
+ 538
+
+	)
+
+2751 
+	#R_AARCH64_TLSIE_MOVW_GOTTPREL_G1
+ 539
+
+	)
+
+2752 
+	#R_AARCH64_TLSIE_MOVW_GOTTPREL_G0_NC
+ 540
+
+	)
+
+2753 
+	#R_AARCH64_TLSIE_ADR_GOTTPREL_PAGE21
+ 541
+
+	)
+
+2754 
+	#R_AARCH64_TLSIE_LD64_GOTTPREL_LO12_NC
+ 542
+
+	)
+
+2755 
+	#R_AARCH64_TLSIE_LD_GOTTPREL_PREL19
+ 543
+
+	)
+
+2756 
+	#R_AARCH64_TLSLE_MOVW_TPREL_G2
+ 544
+
+	)
+
+2757 
+	#R_AARCH64_TLSLE_MOVW_TPREL_G1
+ 545
+
+	)
+
+2758 
+	#R_AARCH64_TLSLE_MOVW_TPREL_G1_NC
+ 546
+
+	)
+
+2759 
+	#R_AARCH64_TLSLE_MOVW_TPREL_G0
+ 547
+
+	)
+
+2760 
+	#R_AARCH64_TLSLE_MOVW_TPREL_G0_NC
+ 548
+
+	)
+
+2761 
+	#R_AARCH64_TLSLE_ADD_TPREL_HI12
+ 549
+
+	)
+
+2762 
+	#R_AARCH64_TLSLE_ADD_TPREL_LO12
+ 550
+
+	)
+
+2763 
+	#R_AARCH64_TLSLE_ADD_TPREL_LO12_NC
+ 551
+
+	)
+
+2764 
+	#R_AARCH64_TLSLE_LDST8_TPREL_LO12
+ 552
+
+	)
+
+2765 
+	#R_AARCH64_TLSLE_LDST8_TPREL_LO12_NC
+ 553
+
+	)
+
+2766 
+	#R_AARCH64_TLSLE_LDST16_TPREL_LO12
+ 554
+
+	)
+
+2767 
+	#R_AARCH64_TLSLE_LDST16_TPREL_LO12_NC
+ 555
+
+	)
+
+2768 
+	#R_AARCH64_TLSLE_LDST32_TPREL_LO12
+ 556
+
+	)
+
+2769 
+	#R_AARCH64_TLSLE_LDST32_TPREL_LO12_NC
+ 557
+
+	)
+
+2770 
+	#R_AARCH64_TLSLE_LDST64_TPREL_LO12
+ 558
+
+	)
+
+2771 
+	#R_AARCH64_TLSLE_LDST64_TPREL_LO12_NC
+ 559
+
+	)
+
+2772 
+	#R_AARCH64_TLSDESC_LD_PREL19
+ 560
+
+	)
+
+2773 
+	#R_AARCH64_TLSDESC_ADR_PREL21
+ 561
+
+	)
+
+2774 
+	#R_AARCH64_TLSDESC_ADR_PAGE21
+ 562
+
+	)
+
+2775 
+	#R_AARCH64_TLSDESC_LD64_LO12
+ 563
+
+	)
+
+2776 
+	#R_AARCH64_TLSDESC_ADD_LO12
+ 564
+
+	)
+
+2777 
+	#R_AARCH64_TLSDESC_OFF_G1
+ 565
+
+	)
+
+2778 
+	#R_AARCH64_TLSDESC_OFF_G0_NC
+ 566
+
+	)
+
+2779 
+	#R_AARCH64_TLSDESC_LDR
+ 567
+
+	)
+
+2780 
+	#R_AARCH64_TLSDESC_ADD
+ 568
+
+	)
+
+2781 
+	#R_AARCH64_TLSDESC_CALL
+ 569
+
+	)
+
+2782 
+	#R_AARCH64_TLSLE_LDST128_TPREL_LO12
+ 570
+
+	)
+
+2783 
+	#R_AARCH64_TLSLE_LDST128_TPREL_LO12_NC
+ 571
+
+	)
+
+2784 
+	#R_AARCH64_TLSLD_LDST128_DTPREL_LO12
+ 572
+
+	)
+
+2785 
+	#R_AARCH64_TLSLD_LDST128_DTPREL_LO12_NC
+ 573
+
+	)
+
+2786 
+	#R_AARCH64_COPY
+ 1024
+
+	)
+
+2787 
+	#R_AARCH64_GLOB_DAT
+ 1025
+
+	)
+
+2788 
+	#R_AARCH64_JUMP_SLOT
+ 1026
+
+	)
+
+2789 
+	#R_AARCH64_RELATIVE
+ 1027
+
+	)
+
+2790 
+	#R_AARCH64_TLS_DTPMOD
+ 1028
+
+	)
+
+2791 
+	#R_AARCH64_TLS_DTPREL
+ 1029
+
+	)
+
+2792 
+	#R_AARCH64_TLS_TPREL
+ 1030
+
+	)
+
+2793 
+	#R_AARCH64_TLSDESC
+ 1031
+
+	)
+
+2794 
+	#R_AARCH64_IRELATIVE
+ 1032
+
+	)
+
+2797 
+	#DT_AARCH64_VARIANT_PCS
+ (
+DT_LOPROC
+ + 5)
+
+	)
+
+2798 
+	#DT_AARCH64_NUM
+ 6
+
+	)
+
+2801 
+	#STO_AARCH64_VARIANT_PCS
+ 0x80
+
+	)
+
+2805 
+	#R_ARM_NONE
+ 0
+
+	)
+
+2806 
+	#R_ARM_PC24
+ 1
+
+	)
+
+2808 
+	#R_ARM_ABS32
+ 2
+
+	)
+
+2809 
+	#R_ARM_REL32
+ 3
+
+	)
+
+2810 
+	#R_ARM_PC13
+ 4
+
+	)
+
+2811 
+	#R_ARM_ABS16
+ 5
+
+	)
+
+2812 
+	#R_ARM_ABS12
+ 6
+
+	)
+
+2813 
+	#R_ARM_THM_ABS5
+ 7
+
+	)
+
+2814 
+	#R_ARM_ABS8
+ 8
+
+	)
+
+2815 
+	#R_ARM_SBREL32
+ 9
+
+	)
+
+2816 
+	#R_ARM_THM_PC22
+ 10
+
+	)
+
+2817 
+	#R_ARM_THM_PC8
+ 11
+
+	)
+
+2819 
+	#R_ARM_AMP_VCALL9
+ 12
+
+	)
+
+2820 
+	#R_ARM_SWI24
+ 13
+
+	)
+
+2821 
+	#R_ARM_TLS_DESC
+ 13
+
+	)
+
+2822 
+	#R_ARM_THM_SWI8
+ 14
+
+	)
+
+2823 
+	#R_ARM_XPC25
+ 15
+
+	)
+
+2824 
+	#R_ARM_THM_XPC22
+ 16
+
+	)
+
+2825 
+	#R_ARM_TLS_DTPMOD32
+ 17
+
+	)
+
+2826 
+	#R_ARM_TLS_DTPOFF32
+ 18
+
+	)
+
+2827 
+	#R_ARM_TLS_TPOFF32
+ 19
+
+	)
+
+2828 
+	#R_ARM_COPY
+ 20
+
+	)
+
+2829 
+	#R_ARM_GLOB_DAT
+ 21
+
+	)
+
+2830 
+	#R_ARM_JUMP_SLOT
+ 22
+
+	)
+
+2831 
+	#R_ARM_RELATIVE
+ 23
+
+	)
+
+2832 
+	#R_ARM_GOTOFF
+ 24
+
+	)
+
+2833 
+	#R_ARM_GOTPC
+ 25
+
+	)
+
+2834 
+	#R_ARM_GOT32
+ 26
+
+	)
+
+2835 
+	#R_ARM_PLT32
+ 27
+
+	)
+
+2836 
+	#R_ARM_CALL
+ 28
+
+	)
+
+2837 
+	#R_ARM_JUMP24
+ 29
+
+	)
+
+2839 
+	#R_ARM_THM_JUMP24
+ 30
+
+	)
+
+2840 
+	#R_ARM_BASE_ABS
+ 31
+
+	)
+
+2841 
+	#R_ARM_ALU_PCREL_7_0
+ 32
+
+	)
+
+2842 
+	#R_ARM_ALU_PCREL_15_8
+ 33
+
+	)
+
+2843 
+	#R_ARM_ALU_PCREL_23_15
+ 34
+
+	)
+
+2844 
+	#R_ARM_LDR_SBREL_11_0
+ 35
+
+	)
+
+2845 
+	#R_ARM_ALU_SBREL_19_12
+ 36
+
+	)
+
+2846 
+	#R_ARM_ALU_SBREL_27_20
+ 37
+
+	)
+
+2847 
+	#R_ARM_TARGET1
+ 38
+
+	)
+
+2848 
+	#R_ARM_SBREL31
+ 39
+
+	)
+
+2849 
+	#R_ARM_V4BX
+ 40
+
+	)
+
+2850 
+	#R_ARM_TARGET2
+ 41
+
+	)
+
+2851 
+	#R_ARM_PREL31
+ 42
+
+	)
+
+2852 
+	#R_ARM_MOVW_ABS_NC
+ 43
+
+	)
+
+2853 
+	#R_ARM_MOVT_ABS
+ 44
+
+	)
+
+2854 
+	#R_ARM_MOVW_PREL_NC
+ 45
+
+	)
+
+2855 
+	#R_ARM_MOVT_PREL
+ 46
+
+	)
+
+2856 
+	#R_ARM_THM_MOVW_ABS_NC
+ 47
+
+	)
+
+2857 
+	#R_ARM_THM_MOVT_ABS
+ 48
+
+	)
+
+2859 
+	#R_ARM_THM_MOVW_PREL_NC
+ 49
+
+	)
+
+2861 
+	#R_ARM_THM_MOVT_PREL
+ 50
+
+	)
+
+2863 
+	#R_ARM_THM_JUMP19
+ 51
+
+	)
+
+2865 
+	#R_ARM_THM_JUMP6
+ 52
+
+	)
+
+2867 
+	#R_ARM_THM_ALU_PREL_11_0
+ 53
+
+	)
+
+2869 
+	#R_ARM_THM_PC12
+ 54
+
+	)
+
+2871 
+	#R_ARM_ABS32_NOI
+ 55
+
+	)
+
+2872 
+	#R_ARM_REL32_NOI
+ 56
+
+	)
+
+2873 
+	#R_ARM_ALU_PC_G0_NC
+ 57
+
+	)
+
+2874 
+	#R_ARM_ALU_PC_G0
+ 58
+
+	)
+
+2875 
+	#R_ARM_ALU_PC_G1_NC
+ 59
+
+	)
+
+2876 
+	#R_ARM_ALU_PC_G1
+ 60
+
+	)
+
+2877 
+	#R_ARM_ALU_PC_G2
+ 61
+
+	)
+
+2878 
+	#R_ARM_LDR_PC_G1
+ 62
+
+	)
+
+2879 
+	#R_ARM_LDR_PC_G2
+ 63
+
+	)
+
+2880 
+	#R_ARM_LDRS_PC_G0
+ 64
+
+	)
+
+2882 
+	#R_ARM_LDRS_PC_G1
+ 65
+
+	)
+
+2884 
+	#R_ARM_LDRS_PC_G2
+ 66
+
+	)
+
+2886 
+	#R_ARM_LDC_PC_G0
+ 67
+
+	)
+
+2887 
+	#R_ARM_LDC_PC_G1
+ 68
+
+	)
+
+2888 
+	#R_ARM_LDC_PC_G2
+ 69
+
+	)
+
+2889 
+	#R_ARM_ALU_SB_G0_NC
+ 70
+
+	)
+
+2890 
+	#R_ARM_ALU_SB_G0
+ 71
+
+	)
+
+2891 
+	#R_ARM_ALU_SB_G1_NC
+ 72
+
+	)
+
+2892 
+	#R_ARM_ALU_SB_G1
+ 73
+
+	)
+
+2893 
+	#R_ARM_ALU_SB_G2
+ 74
+
+	)
+
+2894 
+	#R_ARM_LDR_SB_G0
+ 75
+
+	)
+
+2896 
+	#R_ARM_LDR_SB_G1
+ 76
+
+	)
+
+2898 
+	#R_ARM_LDR_SB_G2
+ 77
+
+	)
+
+2900 
+	#R_ARM_LDRS_SB_G0
+ 78
+
+	)
+
+2902 
+	#R_ARM_LDRS_SB_G1
+ 79
+
+	)
+
+2904 
+	#R_ARM_LDRS_SB_G2
+ 80
+
+	)
+
+2906 
+	#R_ARM_LDC_SB_G0
+ 81
+
+	)
+
+2907 
+	#R_ARM_LDC_SB_G1
+ 82
+
+	)
+
+2908 
+	#R_ARM_LDC_SB_G2
+ 83
+
+	)
+
+2909 
+	#R_ARM_MOVW_BREL_NC
+ 84
+
+	)
+
+2911 
+	#R_ARM_MOVT_BREL
+ 85
+
+	)
+
+2913 
+	#R_ARM_MOVW_BREL
+ 86
+
+	)
+
+2915 
+	#R_ARM_THM_MOVW_BREL_NC
+ 87
+
+	)
+
+2917 
+	#R_ARM_THM_MOVT_BREL
+ 88
+
+	)
+
+2919 
+	#R_ARM_THM_MOVW_BREL
+ 89
+
+	)
+
+2921 
+	#R_ARM_TLS_GOTDESC
+ 90
+
+	)
+
+2922 
+	#R_ARM_TLS_CALL
+ 91
+
+	)
+
+2923 
+	#R_ARM_TLS_DESCSEQ
+ 92
+
+	)
+
+2924 
+	#R_ARM_THM_TLS_CALL
+ 93
+
+	)
+
+2925 
+	#R_ARM_PLT32_ABS
+ 94
+
+	)
+
+2926 
+	#R_ARM_GOT_ABS
+ 95
+
+	)
+
+2927 
+	#R_ARM_GOT_PREL
+ 96
+
+	)
+
+2928 
+	#R_ARM_GOT_BREL12
+ 97
+
+	)
+
+2930 
+	#R_ARM_GOTOFF12
+ 98
+
+	)
+
+2932 
+	#R_ARM_GOTRELAX
+ 99
+
+	)
+
+2933 
+	#R_ARM_GNU_VTENTRY
+ 100
+
+	)
+
+2934 
+	#R_ARM_GNU_VTINHERIT
+ 101
+
+	)
+
+2935 
+	#R_ARM_THM_PC11
+ 102
+
+	)
+
+2936 
+	#R_ARM_THM_PC9
+ 103
+
+	)
+
+2938 
+	#R_ARM_TLS_GD32
+ 104
+
+	)
+
+2940 
+	#R_ARM_TLS_LDM32
+ 105
+
+	)
+
+2942 
+	#R_ARM_TLS_LDO32
+ 106
+
+	)
+
+2944 
+	#R_ARM_TLS_IE32
+ 107
+
+	)
+
+2946 
+	#R_ARM_TLS_LE32
+ 108
+
+	)
+
+2948 
+	#R_ARM_TLS_LDO12
+ 109
+
+	)
+
+2950 
+	#R_ARM_TLS_LE12
+ 110
+
+	)
+
+2952 
+	#R_ARM_TLS_IE12GP
+ 111
+
+	)
+
+2954 
+	#R_ARM_ME_TOO
+ 128
+
+	)
+
+2955 
+	#R_ARM_THM_TLS_DESCSEQ
+ 129
+
+	)
+
+2956 
+	#R_ARM_THM_TLS_DESCSEQ16
+ 129
+
+	)
+
+2957 
+	#R_ARM_THM_TLS_DESCSEQ32
+ 130
+
+	)
+
+2958 
+	#R_ARM_THM_GOT_BREL12
+ 131
+
+	)
+
+2960 
+	#R_ARM_IRELATIVE
+ 160
+
+	)
+
+2961 
+	#R_ARM_RXPC25
+ 249
+
+	)
+
+2962 
+	#R_ARM_RSBREL32
+ 250
+
+	)
+
+2963 
+	#R_ARM_THM_RPC22
+ 251
+
+	)
+
+2964 
+	#R_ARM_RREL32
+ 252
+
+	)
+
+2965 
+	#R_ARM_RABS22
+ 253
+
+	)
+
+2966 
+	#R_ARM_RPC24
+ 254
+
+	)
+
+2967 
+	#R_ARM_RBASE
+ 255
+
+	)
+
+2969 
+	#R_ARM_NUM
+ 256
+
+	)
+
+2972 
+	#R_CKCORE_NONE
+ 0
+
+	)
+
+2973 
+	#R_CKCORE_ADDR32
+ 1
+
+	)
+
+2974 
+	#R_CKCORE_PCRELIMM8BY4
+ 2
+
+	)
+
+2975 
+	#R_CKCORE_PCRELIMM11BY2
+ 3
+
+	)
+
+2976 
+	#R_CKCORE_PCREL32
+ 5
+
+	)
+
+2977 
+	#R_CKCORE_PCRELJSR_IMM11BY2
+ 6
+
+	)
+
+2978 
+	#R_CKCORE_RELATIVE
+ 9
+
+	)
+
+2979 
+	#R_CKCORE_COPY
+ 10
+
+	)
+
+2980 
+	#R_CKCORE_GLOB_DAT
+ 11
+
+	)
+
+2981 
+	#R_CKCORE_JUMP_SLOT
+ 12
+
+	)
+
+2982 
+	#R_CKCORE_GOTOFF
+ 13
+
+	)
+
+2983 
+	#R_CKCORE_GOTPC
+ 14
+
+	)
+
+2984 
+	#R_CKCORE_GOT32
+ 15
+
+	)
+
+2985 
+	#R_CKCORE_PLT32
+ 16
+
+	)
+
+2986 
+	#R_CKCORE_ADDRGOT
+ 17
+
+	)
+
+2987 
+	#R_CKCORE_ADDRPLT
+ 18
+
+	)
+
+2988 
+	#R_CKCORE_PCREL_IMM26BY2
+ 19
+
+	)
+
+2989 
+	#R_CKCORE_PCREL_IMM16BY2
+ 20
+
+	)
+
+2990 
+	#R_CKCORE_PCREL_IMM16BY4
+ 21
+
+	)
+
+2991 
+	#R_CKCORE_PCREL_IMM10BY2
+ 22
+
+	)
+
+2992 
+	#R_CKCORE_PCREL_IMM10BY4
+ 23
+
+	)
+
+2993 
+	#R_CKCORE_ADDR_HI16
+ 24
+
+	)
+
+2995 
+	#R_CKCORE_ADDR_LO16
+ 25
+
+	)
+
+2996 
+	#R_CKCORE_GOTPC_HI16
+ 26
+
+	)
+
+2998 
+	#R_CKCORE_GOTPC_LO16
+ 27
+
+	)
+
+2999 
+	#R_CKCORE_GOTOFF_HI16
+ 28
+
+	)
+
+3001 
+	#R_CKCORE_GOTOFF_LO16
+ 29
+
+	)
+
+3002 
+	#R_CKCORE_GOT12
+ 30
+
+	)
+
+3003 
+	#R_CKCORE_GOT_HI16
+ 31
+
+	)
+
+3005 
+	#R_CKCORE_GOT_LO16
+ 32
+
+	)
+
+3006 
+	#R_CKCORE_PLT12
+ 33
+
+	)
+
+3007 
+	#R_CKCORE_PLT_HI16
+ 34
+
+	)
+
+3009 
+	#R_CKCORE_PLT_LO16
+ 35
+
+	)
+
+3010 
+	#R_CKCORE_ADDRGOT_HI16
+ 36
+
+	)
+
+3012 
+	#R_CKCORE_ADDRGOT_LO16
+ 37
+
+	)
+
+3013 
+	#R_CKCORE_ADDRPLT_HI16
+ 38
+
+	)
+
+3015 
+	#R_CKCORE_ADDRPLT_LO16
+ 39
+
+	)
+
+3016 
+	#R_CKCORE_PCREL_JSR_IMM26BY2
+ 40
+
+	)
+
+3017 
+	#R_CKCORE_TOFFSET_LO16
+ 41
+
+	)
+
+3018 
+	#R_CKCORE_DOFFSET_LO16
+ 42
+
+	)
+
+3019 
+	#R_CKCORE_PCREL_IMM18BY2
+ 43
+
+	)
+
+3020 
+	#R_CKCORE_DOFFSET_IMM18
+ 44
+
+	)
+
+3021 
+	#R_CKCORE_DOFFSET_IMM18BY2
+ 45
+
+	)
+
+3022 
+	#R_CKCORE_DOFFSET_IMM18BY4
+ 46
+
+	)
+
+3023 
+	#R_CKCORE_GOT_IMM18BY4
+ 48
+
+	)
+
+3024 
+	#R_CKCORE_PLT_IMM18BY4
+ 49
+
+	)
+
+3025 
+	#R_CKCORE_PCREL_IMM7BY4
+ 50
+
+	)
+
+3026 
+	#R_CKCORE_TLS_LE32
+ 51
+
+	)
+
+3027 
+	#R_CKCORE_TLS_IE32
+ 52
+
+	)
+
+3028 
+	#R_CKCORE_TLS_GD32
+ 53
+
+	)
+
+3029 
+	#R_CKCORE_TLS_LDM32
+ 54
+
+	)
+
+3030 
+	#R_CKCORE_TLS_LDO32
+ 55
+
+	)
+
+3031 
+	#R_CKCORE_TLS_DTPMOD32
+ 56
+
+	)
+
+3032 
+	#R_CKCORE_TLS_DTPOFF32
+ 57
+
+	)
+
+3033 
+	#R_CKCORE_TLS_TPOFF32
+ 58
+
+	)
+
+3036 
+	#EF_CSKY_ABIMASK
+ 0XF0000000
+
+	)
+
+3037 
+	#EF_CSKY_OTHER
+ 0X0FFF0000
+
+	)
+
+3038 
+	#EF_CSKY_PROCESSOR
+ 0X0000FFFF
+
+	)
+
+3040 
+	#EF_CSKY_ABIV1
+ 0X10000000
+
+	)
+
+3041 
+	#EF_CSKY_ABIV2
+ 0X20000000
+
+	)
+
+3044 
+	#SHT_CSKY_ATTRIBUTES
+ (
+SHT_LOPROC
+ + 1)
+
+	)
+
+3049 
+	#EF_IA_64_MASKOS
+ 0x0000000à
+
+	)
+
+3050 
+	#EF_IA_64_ABI64
+ 0x00000010
+
+	)
+
+3051 
+	#EF_IA_64_ARCH
+ 0xff000000
+
+	)
+
+3054 
+	#PT_IA_64_ARCHEXT
+ (
+PT_LOPROC
+ + 0è
+
+	)
+
+3055 
+	#PT_IA_64_UNWIND
+ (
+PT_LOPROC
+ + 1è
+
+	)
+
+3056 
+	#PT_IA_64_HP_OPT_ANOT
+ (
+PT_LOOS
+ + 0x12)
+
+	)
+
+3057 
+	#PT_IA_64_HP_HSL_ANOT
+ (
+PT_LOOS
+ + 0x13)
+
+	)
+
+3058 
+	#PT_IA_64_HP_STACK
+ (
+PT_LOOS
+ + 0x14)
+
+	)
+
+3061 
+	#PF_IA_64_NORECOV
+ 0x80000000
+
+	)
+
+3064 
+	#SHT_IA_64_EXT
+ (
+SHT_LOPROC
+ + 0è
+
+	)
+
+3065 
+	#SHT_IA_64_UNWIND
+ (
+SHT_LOPROC
+ + 1è
+
+	)
+
+3068 
+	#SHF_IA_64_SHORT
+ 0x10000000
+
+	)
+
+3069 
+	#SHF_IA_64_NORECOV
+ 0x20000000
+
+	)
+
+3072 
+	#DT_IA_64_PLT_RESERVE
+ (
+DT_LOPROC
+ + 0)
+
+	)
+
+3073 
+	#DT_IA_64_NUM
+ 1
+
+	)
+
+3076 
+	#R_IA64_NONE
+ 0x00
+
+	)
+
+3077 
+	#R_IA64_IMM14
+ 0x21
+
+	)
+
+3078 
+	#R_IA64_IMM22
+ 0x22
+
+	)
+
+3079 
+	#R_IA64_IMM64
+ 0x23
+
+	)
+
+3080 
+	#R_IA64_DIR32MSB
+ 0x24
+
+	)
+
+3081 
+	#R_IA64_DIR32LSB
+ 0x25
+
+	)
+
+3082 
+	#R_IA64_DIR64MSB
+ 0x26
+
+	)
+
+3083 
+	#R_IA64_DIR64LSB
+ 0x27
+
+	)
+
+3084 
+	#R_IA64_GPREL22
+ 0x2¨
+
+	)
+
+3085 
+	#R_IA64_GPREL64I
+ 0x2b
+
+	)
+
+3086 
+	#R_IA64_GPREL32MSB
+ 0x2ø
+
+	)
+
+3087 
+	#R_IA64_GPREL32LSB
+ 0x2d
+
+	)
+
+3088 
+	#R_IA64_GPREL64MSB
+ 0x2
+
+	)
+
+3089 
+	#R_IA64_GPREL64LSB
+ 0x2à
+
+	)
+
+3090 
+	#R_IA64_LTOFF22
+ 0x32
+
+	)
+
+3091 
+	#R_IA64_LTOFF64I
+ 0x33
+
+	)
+
+3092 
+	#R_IA64_PLTOFF22
+ 0x3¨
+
+	)
+
+3093 
+	#R_IA64_PLTOFF64I
+ 0x3b
+
+	)
+
+3094 
+	#R_IA64_PLTOFF64MSB
+ 0x3
+
+	)
+
+3095 
+	#R_IA64_PLTOFF64LSB
+ 0x3à
+
+	)
+
+3096 
+	#R_IA64_FPTR64I
+ 0x43
+
+	)
+
+3097 
+	#R_IA64_FPTR32MSB
+ 0x44
+
+	)
+
+3098 
+	#R_IA64_FPTR32LSB
+ 0x45
+
+	)
+
+3099 
+	#R_IA64_FPTR64MSB
+ 0x46
+
+	)
+
+3100 
+	#R_IA64_FPTR64LSB
+ 0x47
+
+	)
+
+3101 
+	#R_IA64_PCREL60B
+ 0x48
+
+	)
+
+3102 
+	#R_IA64_PCREL21B
+ 0x49
+
+	)
+
+3103 
+	#R_IA64_PCREL21M
+ 0x4¨
+
+	)
+
+3104 
+	#R_IA64_PCREL21F
+ 0x4b
+
+	)
+
+3105 
+	#R_IA64_PCREL32MSB
+ 0x4ø
+
+	)
+
+3106 
+	#R_IA64_PCREL32LSB
+ 0x4d
+
+	)
+
+3107 
+	#R_IA64_PCREL64MSB
+ 0x4
+
+	)
+
+3108 
+	#R_IA64_PCREL64LSB
+ 0x4à
+
+	)
+
+3109 
+	#R_IA64_LTOFF_FPTR22
+ 0x52
+
+	)
+
+3110 
+	#R_IA64_LTOFF_FPTR64I
+ 0x53
+
+	)
+
+3111 
+	#R_IA64_LTOFF_FPTR32MSB
+ 0x54
+
+	)
+
+3112 
+	#R_IA64_LTOFF_FPTR32LSB
+ 0x55
+
+	)
+
+3113 
+	#R_IA64_LTOFF_FPTR64MSB
+ 0x56
+
+	)
+
+3114 
+	#R_IA64_LTOFF_FPTR64LSB
+ 0x57
+
+	)
+
+3115 
+	#R_IA64_SEGREL32MSB
+ 0x5ø
+
+	)
+
+3116 
+	#R_IA64_SEGREL32LSB
+ 0x5d
+
+	)
+
+3117 
+	#R_IA64_SEGREL64MSB
+ 0x5
+
+	)
+
+3118 
+	#R_IA64_SEGREL64LSB
+ 0x5à
+
+	)
+
+3119 
+	#R_IA64_SECREL32MSB
+ 0x64
+
+	)
+
+3120 
+	#R_IA64_SECREL32LSB
+ 0x65
+
+	)
+
+3121 
+	#R_IA64_SECREL64MSB
+ 0x66
+
+	)
+
+3122 
+	#R_IA64_SECREL64LSB
+ 0x67
+
+	)
+
+3123 
+	#R_IA64_REL32MSB
+ 0x6ø
+
+	)
+
+3124 
+	#R_IA64_REL32LSB
+ 0x6d
+
+	)
+
+3125 
+	#R_IA64_REL64MSB
+ 0x6
+
+	)
+
+3126 
+	#R_IA64_REL64LSB
+ 0x6à
+
+	)
+
+3127 
+	#R_IA64_LTV32MSB
+ 0x74
+
+	)
+
+3128 
+	#R_IA64_LTV32LSB
+ 0x75
+
+	)
+
+3129 
+	#R_IA64_LTV64MSB
+ 0x76
+
+	)
+
+3130 
+	#R_IA64_LTV64LSB
+ 0x77
+
+	)
+
+3131 
+	#R_IA64_PCREL21BI
+ 0x79
+
+	)
+
+3132 
+	#R_IA64_PCREL22
+ 0x7¨
+
+	)
+
+3133 
+	#R_IA64_PCREL64I
+ 0x7b
+
+	)
+
+3134 
+	#R_IA64_IPLTMSB
+ 0x80
+
+	)
+
+3135 
+	#R_IA64_IPLTLSB
+ 0x81
+
+	)
+
+3136 
+	#R_IA64_COPY
+ 0x84
+
+	)
+
+3137 
+	#R_IA64_SUB
+ 0x85
+
+	)
+
+3138 
+	#R_IA64_LTOFF22X
+ 0x86
+
+	)
+
+3139 
+	#R_IA64_LDXMOV
+ 0x87
+
+	)
+
+3140 
+	#R_IA64_TPREL14
+ 0x91
+
+	)
+
+3141 
+	#R_IA64_TPREL22
+ 0x92
+
+	)
+
+3142 
+	#R_IA64_TPREL64I
+ 0x93
+
+	)
+
+3143 
+	#R_IA64_TPREL64MSB
+ 0x96
+
+	)
+
+3144 
+	#R_IA64_TPREL64LSB
+ 0x97
+
+	)
+
+3145 
+	#R_IA64_LTOFF_TPREL22
+ 0x9¨
+
+	)
+
+3146 
+	#R_IA64_DTPMOD64MSB
+ 0xa6
+
+	)
+
+3147 
+	#R_IA64_DTPMOD64LSB
+ 0xa7
+
+	)
+
+3148 
+	#R_IA64_LTOFF_DTPMOD22
+ 0x¯
+
+	)
+
+3149 
+	#R_IA64_DTPREL14
+ 0xb1
+
+	)
+
+3150 
+	#R_IA64_DTPREL22
+ 0xb2
+
+	)
+
+3151 
+	#R_IA64_DTPREL64I
+ 0xb3
+
+	)
+
+3152 
+	#R_IA64_DTPREL32MSB
+ 0xb4
+
+	)
+
+3153 
+	#R_IA64_DTPREL32LSB
+ 0xb5
+
+	)
+
+3154 
+	#R_IA64_DTPREL64MSB
+ 0xb6
+
+	)
+
+3155 
+	#R_IA64_DTPREL64LSB
+ 0xb7
+
+	)
+
+3156 
+	#R_IA64_LTOFF_DTPREL22
+ 0xb¨
+
+	)
+
+3161 
+	#EF_SH_MACH_MASK
+ 0x1f
+
+	)
+
+3162 
+	#EF_SH_UNKNOWN
+ 0x0
+
+	)
+
+3163 
+	#EF_SH1
+ 0x1
+
+	)
+
+3164 
+	#EF_SH2
+ 0x2
+
+	)
+
+3165 
+	#EF_SH3
+ 0x3
+
+	)
+
+3166 
+	#EF_SH_DSP
+ 0x4
+
+	)
+
+3167 
+	#EF_SH3_DSP
+ 0x5
+
+	)
+
+3168 
+	#EF_SH4AL_DSP
+ 0x6
+
+	)
+
+3169 
+	#EF_SH3E
+ 0x8
+
+	)
+
+3170 
+	#EF_SH4
+ 0x9
+
+	)
+
+3171 
+	#EF_SH2E
+ 0xb
+
+	)
+
+3172 
+	#EF_SH4A
+ 0xc
+
+	)
+
+3173 
+	#EF_SH2A
+ 0xd
+
+	)
+
+3174 
+	#EF_SH4_NOFPU
+ 0x10
+
+	)
+
+3175 
+	#EF_SH4A_NOFPU
+ 0x11
+
+	)
+
+3176 
+	#EF_SH4_NOMMU_NOFPU
+ 0x12
+
+	)
+
+3177 
+	#EF_SH2A_NOFPU
+ 0x13
+
+	)
+
+3178 
+	#EF_SH3_NOMMU
+ 0x14
+
+	)
+
+3179 
+	#EF_SH2A_SH4_NOFPU
+ 0x15
+
+	)
+
+3180 
+	#EF_SH2A_SH3_NOFPU
+ 0x16
+
+	)
+
+3181 
+	#EF_SH2A_SH4
+ 0x17
+
+	)
+
+3182 
+	#EF_SH2A_SH3E
+ 0x18
+
+	)
+
+3185 
+	#R_SH_NONE
+ 0
+
+	)
+
+3186 
+	#R_SH_DIR32
+ 1
+
+	)
+
+3187 
+	#R_SH_REL32
+ 2
+
+	)
+
+3188 
+	#R_SH_DIR8WPN
+ 3
+
+	)
+
+3189 
+	#R_SH_IND12W
+ 4
+
+	)
+
+3190 
+	#R_SH_DIR8WPL
+ 5
+
+	)
+
+3191 
+	#R_SH_DIR8WPZ
+ 6
+
+	)
+
+3192 
+	#R_SH_DIR8BP
+ 7
+
+	)
+
+3193 
+	#R_SH_DIR8W
+ 8
+
+	)
+
+3194 
+	#R_SH_DIR8L
+ 9
+
+	)
+
+3195 
+	#R_SH_SWITCH16
+ 25
+
+	)
+
+3196 
+	#R_SH_SWITCH32
+ 26
+
+	)
+
+3197 
+	#R_SH_USES
+ 27
+
+	)
+
+3198 
+	#R_SH_COUNT
+ 28
+
+	)
+
+3199 
+	#R_SH_ALIGN
+ 29
+
+	)
+
+3200 
+	#R_SH_CODE
+ 30
+
+	)
+
+3201 
+	#R_SH_DATA
+ 31
+
+	)
+
+3202 
+	#R_SH_LABEL
+ 32
+
+	)
+
+3203 
+	#R_SH_SWITCH8
+ 33
+
+	)
+
+3204 
+	#R_SH_GNU_VTINHERIT
+ 34
+
+	)
+
+3205 
+	#R_SH_GNU_VTENTRY
+ 35
+
+	)
+
+3206 
+	#R_SH_TLS_GD_32
+ 144
+
+	)
+
+3207 
+	#R_SH_TLS_LD_32
+ 145
+
+	)
+
+3208 
+	#R_SH_TLS_LDO_32
+ 146
+
+	)
+
+3209 
+	#R_SH_TLS_IE_32
+ 147
+
+	)
+
+3210 
+	#R_SH_TLS_LE_32
+ 148
+
+	)
+
+3211 
+	#R_SH_TLS_DTPMOD32
+ 149
+
+	)
+
+3212 
+	#R_SH_TLS_DTPOFF32
+ 150
+
+	)
+
+3213 
+	#R_SH_TLS_TPOFF32
+ 151
+
+	)
+
+3214 
+	#R_SH_GOT32
+ 160
+
+	)
+
+3215 
+	#R_SH_PLT32
+ 161
+
+	)
+
+3216 
+	#R_SH_COPY
+ 162
+
+	)
+
+3217 
+	#R_SH_GLOB_DAT
+ 163
+
+	)
+
+3218 
+	#R_SH_JMP_SLOT
+ 164
+
+	)
+
+3219 
+	#R_SH_RELATIVE
+ 165
+
+	)
+
+3220 
+	#R_SH_GOTOFF
+ 166
+
+	)
+
+3221 
+	#R_SH_GOTPC
+ 167
+
+	)
+
+3223 
+	#R_SH_NUM
+ 256
+
+	)
+
+3229 
+	#EF_S390_HIGH_GPRS
+ 0x00000001
+
+	)
+
+3233 
+	#R_390_NONE
+ 0
+
+	)
+
+3234 
+	#R_390_8
+ 1
+
+	)
+
+3235 
+	#R_390_12
+ 2
+
+	)
+
+3236 
+	#R_390_16
+ 3
+
+	)
+
+3237 
+	#R_390_32
+ 4
+
+	)
+
+3238 
+	#R_390_PC32
+ 5
+
+	)
+
+3239 
+	#R_390_GOT12
+ 6
+
+	)
+
+3240 
+	#R_390_GOT32
+ 7
+
+	)
+
+3241 
+	#R_390_PLT32
+ 8
+
+	)
+
+3242 
+	#R_390_COPY
+ 9
+
+	)
+
+3243 
+	#R_390_GLOB_DAT
+ 10
+
+	)
+
+3244 
+	#R_390_JMP_SLOT
+ 11
+
+	)
+
+3245 
+	#R_390_RELATIVE
+ 12
+
+	)
+
+3246 
+	#R_390_GOTOFF32
+ 13
+
+	)
+
+3247 
+	#R_390_GOTPC
+ 14
+
+	)
+
+3248 
+	#R_390_GOT16
+ 15
+
+	)
+
+3249 
+	#R_390_PC16
+ 16
+
+	)
+
+3250 
+	#R_390_PC16DBL
+ 17
+
+	)
+
+3251 
+	#R_390_PLT16DBL
+ 18
+
+	)
+
+3252 
+	#R_390_PC32DBL
+ 19
+
+	)
+
+3253 
+	#R_390_PLT32DBL
+ 20
+
+	)
+
+3254 
+	#R_390_GOTPCDBL
+ 21
+
+	)
+
+3255 
+	#R_390_64
+ 22
+
+	)
+
+3256 
+	#R_390_PC64
+ 23
+
+	)
+
+3257 
+	#R_390_GOT64
+ 24
+
+	)
+
+3258 
+	#R_390_PLT64
+ 25
+
+	)
+
+3259 
+	#R_390_GOTENT
+ 26
+
+	)
+
+3260 
+	#R_390_GOTOFF16
+ 27
+
+	)
+
+3261 
+	#R_390_GOTOFF64
+ 28
+
+	)
+
+3262 
+	#R_390_GOTPLT12
+ 29
+
+	)
+
+3263 
+	#R_390_GOTPLT16
+ 30
+
+	)
+
+3264 
+	#R_390_GOTPLT32
+ 31
+
+	)
+
+3265 
+	#R_390_GOTPLT64
+ 32
+
+	)
+
+3266 
+	#R_390_GOTPLTENT
+ 33
+
+	)
+
+3267 
+	#R_390_PLTOFF16
+ 34
+
+	)
+
+3268 
+	#R_390_PLTOFF32
+ 35
+
+	)
+
+3269 
+	#R_390_PLTOFF64
+ 36
+
+	)
+
+3270 
+	#R_390_TLS_LOAD
+ 37
+
+	)
+
+3271 
+	#R_390_TLS_GDCALL
+ 38
+
+	)
+
+3273 
+	#R_390_TLS_LDCALL
+ 39
+
+	)
+
+3275 
+	#R_390_TLS_GD32
+ 40
+
+	)
+
+3277 
+	#R_390_TLS_GD64
+ 41
+
+	)
+
+3279 
+	#R_390_TLS_GOTIE12
+ 42
+
+	)
+
+3281 
+	#R_390_TLS_GOTIE32
+ 43
+
+	)
+
+3283 
+	#R_390_TLS_GOTIE64
+ 44
+
+	)
+
+3285 
+	#R_390_TLS_LDM32
+ 45
+
+	)
+
+3287 
+	#R_390_TLS_LDM64
+ 46
+
+	)
+
+3289 
+	#R_390_TLS_IE32
+ 47
+
+	)
+
+3291 
+	#R_390_TLS_IE64
+ 48
+
+	)
+
+3293 
+	#R_390_TLS_IEENT
+ 49
+
+	)
+
+3295 
+	#R_390_TLS_LE32
+ 50
+
+	)
+
+3297 
+	#R_390_TLS_LE64
+ 51
+
+	)
+
+3299 
+	#R_390_TLS_LDO32
+ 52
+
+	)
+
+3301 
+	#R_390_TLS_LDO64
+ 53
+
+	)
+
+3303 
+	#R_390_TLS_DTPMOD
+ 54
+
+	)
+
+3304 
+	#R_390_TLS_DTPOFF
+ 55
+
+	)
+
+3305 
+	#R_390_TLS_TPOFF
+ 56
+
+	)
+
+3307 
+	#R_390_20
+ 57
+
+	)
+
+3308 
+	#R_390_GOT20
+ 58
+
+	)
+
+3309 
+	#R_390_GOTPLT20
+ 59
+
+	)
+
+3310 
+	#R_390_TLS_GOTIE20
+ 60
+
+	)
+
+3312 
+	#R_390_IRELATIVE
+ 61
+
+	)
+
+3314 
+	#R_390_NUM
+ 62
+
+	)
+
+3318 
+	#R_CRIS_NONE
+ 0
+
+	)
+
+3319 
+	#R_CRIS_8
+ 1
+
+	)
+
+3320 
+	#R_CRIS_16
+ 2
+
+	)
+
+3321 
+	#R_CRIS_32
+ 3
+
+	)
+
+3322 
+	#R_CRIS_8_PCREL
+ 4
+
+	)
+
+3323 
+	#R_CRIS_16_PCREL
+ 5
+
+	)
+
+3324 
+	#R_CRIS_32_PCREL
+ 6
+
+	)
+
+3325 
+	#R_CRIS_GNU_VTINHERIT
+ 7
+
+	)
+
+3326 
+	#R_CRIS_GNU_VTENTRY
+ 8
+
+	)
+
+3327 
+	#R_CRIS_COPY
+ 9
+
+	)
+
+3328 
+	#R_CRIS_GLOB_DAT
+ 10
+
+	)
+
+3329 
+	#R_CRIS_JUMP_SLOT
+ 11
+
+	)
+
+3330 
+	#R_CRIS_RELATIVE
+ 12
+
+	)
+
+3331 
+	#R_CRIS_16_GOT
+ 13
+
+	)
+
+3332 
+	#R_CRIS_32_GOT
+ 14
+
+	)
+
+3333 
+	#R_CRIS_16_GOTPLT
+ 15
+
+	)
+
+3334 
+	#R_CRIS_32_GOTPLT
+ 16
+
+	)
+
+3335 
+	#R_CRIS_32_GOTREL
+ 17
+
+	)
+
+3336 
+	#R_CRIS_32_PLT_GOTREL
+ 18
+
+	)
+
+3337 
+	#R_CRIS_32_PLT_PCREL
+ 19
+
+	)
+
+3339 
+	#R_CRIS_NUM
+ 20
+
+	)
+
+3343 
+	#R_X86_64_NONE
+ 0
+
+	)
+
+3344 
+	#R_X86_64_64
+ 1
+
+	)
+
+3345 
+	#R_X86_64_PC32
+ 2
+
+	)
+
+3346 
+	#R_X86_64_GOT32
+ 3
+
+	)
+
+3347 
+	#R_X86_64_PLT32
+ 4
+
+	)
+
+3348 
+	#R_X86_64_COPY
+ 5
+
+	)
+
+3349 
+	#R_X86_64_GLOB_DAT
+ 6
+
+	)
+
+3350 
+	#R_X86_64_JUMP_SLOT
+ 7
+
+	)
+
+3351 
+	#R_X86_64_RELATIVE
+ 8
+
+	)
+
+3352 
+	#R_X86_64_GOTPCREL
+ 9
+
+	)
+
+3354 
+	#R_X86_64_32
+ 10
+
+	)
+
+3355 
+	#R_X86_64_32S
+ 11
+
+	)
+
+3356 
+	#R_X86_64_16
+ 12
+
+	)
+
+3357 
+	#R_X86_64_PC16
+ 13
+
+	)
+
+3358 
+	#R_X86_64_8
+ 14
+
+	)
+
+3359 
+	#R_X86_64_PC8
+ 15
+
+	)
+
+3360 
+	#R_X86_64_DTPMOD64
+ 16
+
+	)
+
+3361 
+	#R_X86_64_DTPOFF64
+ 17
+
+	)
+
+3362 
+	#R_X86_64_TPOFF64
+ 18
+
+	)
+
+3363 
+	#R_X86_64_TLSGD
+ 19
+
+	)
+
+3365 
+	#R_X86_64_TLSLD
+ 20
+
+	)
+
+3367 
+	#R_X86_64_DTPOFF32
+ 21
+
+	)
+
+3368 
+	#R_X86_64_GOTTPOFF
+ 22
+
+	)
+
+3370 
+	#R_X86_64_TPOFF32
+ 23
+
+	)
+
+3371 
+	#R_X86_64_PC64
+ 24
+
+	)
+
+3372 
+	#R_X86_64_GOTOFF64
+ 25
+
+	)
+
+3373 
+	#R_X86_64_GOTPC32
+ 26
+
+	)
+
+3375 
+	#R_X86_64_GOT64
+ 27
+
+	)
+
+3376 
+	#R_X86_64_GOTPCREL64
+ 28
+
+	)
+
+3378 
+	#R_X86_64_GOTPC64
+ 29
+
+	)
+
+3379 
+	#R_X86_64_GOTPLT64
+ 30
+
+	)
+
+3380 
+	#R_X86_64_PLTOFF64
+ 31
+
+	)
+
+3382 
+	#R_X86_64_SIZE32
+ 32
+
+	)
+
+3383 
+	#R_X86_64_SIZE64
+ 33
+
+	)
+
+3384 
+	#R_X86_64_GOTPC32_TLSDESC
+ 34
+
+	)
+
+3385 
+	#R_X86_64_TLSDESC_CALL
+ 35
+
+	)
+
+3387 
+	#R_X86_64_TLSDESC
+ 36
+
+	)
+
+3388 
+	#R_X86_64_IRELATIVE
+ 37
+
+	)
+
+3389 
+	#R_X86_64_RELATIVE64
+ 38
+
+	)
+
+3392 
+	#R_X86_64_GOTPCRELX
+ 41
+
+	)
+
+3395 
+	#R_X86_64_REX_GOTPCRELX
+ 42
+
+	)
+
+3398 
+	#R_X86_64_NUM
+ 43
+
+	)
+
+3401 
+	#SHT_X86_64_UNWIND
+ 0x70000001
+
+	)
+
+3405 
+	#R_MN10300_NONE
+ 0
+
+	)
+
+3406 
+	#R_MN10300_32
+ 1
+
+	)
+
+3407 
+	#R_MN10300_16
+ 2
+
+	)
+
+3408 
+	#R_MN10300_8
+ 3
+
+	)
+
+3409 
+	#R_MN10300_PCREL32
+ 4
+
+	)
+
+3410 
+	#R_MN10300_PCREL16
+ 5
+
+	)
+
+3411 
+	#R_MN10300_PCREL8
+ 6
+
+	)
+
+3412 
+	#R_MN10300_GNU_VTINHERIT
+ 7
+
+	)
+
+3413 
+	#R_MN10300_GNU_VTENTRY
+ 8
+
+	)
+
+3414 
+	#R_MN10300_24
+ 9
+
+	)
+
+3415 
+	#R_MN10300_GOTPC32
+ 10
+
+	)
+
+3416 
+	#R_MN10300_GOTPC16
+ 11
+
+	)
+
+3417 
+	#R_MN10300_GOTOFF32
+ 12
+
+	)
+
+3418 
+	#R_MN10300_GOTOFF24
+ 13
+
+	)
+
+3419 
+	#R_MN10300_GOTOFF16
+ 14
+
+	)
+
+3420 
+	#R_MN10300_PLT32
+ 15
+
+	)
+
+3421 
+	#R_MN10300_PLT16
+ 16
+
+	)
+
+3422 
+	#R_MN10300_GOT32
+ 17
+
+	)
+
+3423 
+	#R_MN10300_GOT24
+ 18
+
+	)
+
+3424 
+	#R_MN10300_GOT16
+ 19
+
+	)
+
+3425 
+	#R_MN10300_COPY
+ 20
+
+	)
+
+3426 
+	#R_MN10300_GLOB_DAT
+ 21
+
+	)
+
+3427 
+	#R_MN10300_JMP_SLOT
+ 22
+
+	)
+
+3428 
+	#R_MN10300_RELATIVE
+ 23
+
+	)
+
+3429 
+	#R_MN10300_TLS_GD
+ 24
+
+	)
+
+3430 
+	#R_MN10300_TLS_LD
+ 25
+
+	)
+
+3431 
+	#R_MN10300_TLS_LDO
+ 26
+
+	)
+
+3432 
+	#R_MN10300_TLS_GOTIE
+ 27
+
+	)
+
+3434 
+	#R_MN10300_TLS_IE
+ 28
+
+	)
+
+3436 
+	#R_MN10300_TLS_LE
+ 29
+
+	)
+
+3438 
+	#R_MN10300_TLS_DTPMOD
+ 30
+
+	)
+
+3439 
+	#R_MN10300_TLS_DTPOFF
+ 31
+
+	)
+
+3440 
+	#R_MN10300_TLS_TPOFF
+ 32
+
+	)
+
+3441 
+	#R_MN10300_SYM_DIFF
+ 33
+
+	)
+
+3443 
+	#R_MN10300_ALIGN
+ 34
+
+	)
+
+3445 
+	#R_MN10300_NUM
+ 35
+
+	)
+
+3449 
+	#R_M32R_NONE
+ 0
+
+	)
+
+3450 
+	#R_M32R_16
+ 1
+
+	)
+
+3451 
+	#R_M32R_32
+ 2
+
+	)
+
+3452 
+	#R_M32R_24
+ 3
+
+	)
+
+3453 
+	#R_M32R_10_PCREL
+ 4
+
+	)
+
+3454 
+	#R_M32R_18_PCREL
+ 5
+
+	)
+
+3455 
+	#R_M32R_26_PCREL
+ 6
+
+	)
+
+3456 
+	#R_M32R_HI16_ULO
+ 7
+
+	)
+
+3457 
+	#R_M32R_HI16_SLO
+ 8
+
+	)
+
+3458 
+	#R_M32R_LO16
+ 9
+
+	)
+
+3459 
+	#R_M32R_SDA16
+ 10
+
+	)
+
+3460 
+	#R_M32R_GNU_VTINHERIT
+ 11
+
+	)
+
+3461 
+	#R_M32R_GNU_VTENTRY
+ 12
+
+	)
+
+3463 
+	#R_M32R_16_RELA
+ 33
+
+	)
+
+3464 
+	#R_M32R_32_RELA
+ 34
+
+	)
+
+3465 
+	#R_M32R_24_RELA
+ 35
+
+	)
+
+3466 
+	#R_M32R_10_PCREL_RELA
+ 36
+
+	)
+
+3467 
+	#R_M32R_18_PCREL_RELA
+ 37
+
+	)
+
+3468 
+	#R_M32R_26_PCREL_RELA
+ 38
+
+	)
+
+3469 
+	#R_M32R_HI16_ULO_RELA
+ 39
+
+	)
+
+3470 
+	#R_M32R_HI16_SLO_RELA
+ 40
+
+	)
+
+3471 
+	#R_M32R_LO16_RELA
+ 41
+
+	)
+
+3472 
+	#R_M32R_SDA16_RELA
+ 42
+
+	)
+
+3473 
+	#R_M32R_RELA_GNU_VTINHERIT
+ 43
+
+	)
+
+3474 
+	#R_M32R_RELA_GNU_VTENTRY
+ 44
+
+	)
+
+3475 
+	#R_M32R_REL32
+ 45
+
+	)
+
+3477 
+	#R_M32R_GOT24
+ 48
+
+	)
+
+3478 
+	#R_M32R_26_PLTREL
+ 49
+
+	)
+
+3479 
+	#R_M32R_COPY
+ 50
+
+	)
+
+3480 
+	#R_M32R_GLOB_DAT
+ 51
+
+	)
+
+3481 
+	#R_M32R_JMP_SLOT
+ 52
+
+	)
+
+3482 
+	#R_M32R_RELATIVE
+ 53
+
+	)
+
+3483 
+	#R_M32R_GOTOFF
+ 54
+
+	)
+
+3484 
+	#R_M32R_GOTPC24
+ 55
+
+	)
+
+3485 
+	#R_M32R_GOT16_HI_ULO
+ 56
+
+	)
+
+3487 
+	#R_M32R_GOT16_HI_SLO
+ 57
+
+	)
+
+3489 
+	#R_M32R_GOT16_LO
+ 58
+
+	)
+
+3490 
+	#R_M32R_GOTPC_HI_ULO
+ 59
+
+	)
+
+3492 
+	#R_M32R_GOTPC_HI_SLO
+ 60
+
+	)
+
+3494 
+	#R_M32R_GOTPC_LO
+ 61
+
+	)
+
+3496 
+	#R_M32R_GOTOFF_HI_ULO
+ 62
+
+	)
+
+3498 
+	#R_M32R_GOTOFF_HI_SLO
+ 63
+
+	)
+
+3500 
+	#R_M32R_GOTOFF_LO
+ 64
+
+	)
+
+3501 
+	#R_M32R_NUM
+ 256
+
+	)
+
+3504 
+	#R_MICROBLAZE_NONE
+ 0
+
+	)
+
+3505 
+	#R_MICROBLAZE_32
+ 1
+
+	)
+
+3506 
+	#R_MICROBLAZE_32_PCREL
+ 2
+
+	)
+
+3507 
+	#R_MICROBLAZE_64_PCREL
+ 3
+
+	)
+
+3508 
+	#R_MICROBLAZE_32_PCREL_LO
+ 4
+
+	)
+
+3509 
+	#R_MICROBLAZE_64
+ 5
+
+	)
+
+3510 
+	#R_MICROBLAZE_32_LO
+ 6
+
+	)
+
+3511 
+	#R_MICROBLAZE_SRO32
+ 7
+
+	)
+
+3512 
+	#R_MICROBLAZE_SRW32
+ 8
+
+	)
+
+3513 
+	#R_MICROBLAZE_64_NONE
+ 9
+
+	)
+
+3514 
+	#R_MICROBLAZE_32_SYM_OP_SYM
+ 10
+
+	)
+
+3515 
+	#R_MICROBLAZE_GNU_VTINHERIT
+ 11
+
+	)
+
+3516 
+	#R_MICROBLAZE_GNU_VTENTRY
+ 12
+
+	)
+
+3517 
+	#R_MICROBLAZE_GOTPC_64
+ 13
+
+	)
+
+3518 
+	#R_MICROBLAZE_GOT_64
+ 14
+
+	)
+
+3519 
+	#R_MICROBLAZE_PLT_64
+ 15
+
+	)
+
+3520 
+	#R_MICROBLAZE_REL
+ 16
+
+	)
+
+3521 
+	#R_MICROBLAZE_JUMP_SLOT
+ 17
+
+	)
+
+3522 
+	#R_MICROBLAZE_GLOB_DAT
+ 18
+
+	)
+
+3523 
+	#R_MICROBLAZE_GOTOFF_64
+ 19
+
+	)
+
+3524 
+	#R_MICROBLAZE_GOTOFF_32
+ 20
+
+	)
+
+3525 
+	#R_MICROBLAZE_COPY
+ 21
+
+	)
+
+3526 
+	#R_MICROBLAZE_TLS
+ 22
+
+	)
+
+3527 
+	#R_MICROBLAZE_TLSGD
+ 23
+
+	)
+
+3528 
+	#R_MICROBLAZE_TLSLD
+ 24
+
+	)
+
+3529 
+	#R_MICROBLAZE_TLSDTPMOD32
+ 25
+
+	)
+
+3530 
+	#R_MICROBLAZE_TLSDTPREL32
+ 26
+
+	)
+
+3531 
+	#R_MICROBLAZE_TLSDTPREL64
+ 27
+
+	)
+
+3532 
+	#R_MICROBLAZE_TLSGOTTPREL32
+ 28
+
+	)
+
+3533 
+	#R_MICROBLAZE_TLSTPREL32
+ 29
+
+	)
+
+3536 
+	#DT_NIOS2_GP
+ 0x70000002
+
+	)
+
+3539 
+	#R_NIOS2_NONE
+ 0
+
+	)
+
+3540 
+	#R_NIOS2_S16
+ 1
+
+	)
+
+3541 
+	#R_NIOS2_U16
+ 2
+
+	)
+
+3542 
+	#R_NIOS2_PCREL16
+ 3
+
+	)
+
+3543 
+	#R_NIOS2_CALL26
+ 4
+
+	)
+
+3544 
+	#R_NIOS2_IMM5
+ 5
+
+	)
+
+3545 
+	#R_NIOS2_CACHE_OPX
+ 6
+
+	)
+
+3546 
+	#R_NIOS2_IMM6
+ 7
+
+	)
+
+3547 
+	#R_NIOS2_IMM8
+ 8
+
+	)
+
+3548 
+	#R_NIOS2_HI16
+ 9
+
+	)
+
+3549 
+	#R_NIOS2_LO16
+ 10
+
+	)
+
+3550 
+	#R_NIOS2_HIADJ16
+ 11
+
+	)
+
+3551 
+	#R_NIOS2_BFD_RELOC_32
+ 12
+
+	)
+
+3552 
+	#R_NIOS2_BFD_RELOC_16
+ 13
+
+	)
+
+3553 
+	#R_NIOS2_BFD_RELOC_8
+ 14
+
+	)
+
+3554 
+	#R_NIOS2_GPREL
+ 15
+
+	)
+
+3555 
+	#R_NIOS2_GNU_VTINHERIT
+ 16
+
+	)
+
+3556 
+	#R_NIOS2_GNU_VTENTRY
+ 17
+
+	)
+
+3557 
+	#R_NIOS2_UJMP
+ 18
+
+	)
+
+3558 
+	#R_NIOS2_CJMP
+ 19
+
+	)
+
+3559 
+	#R_NIOS2_CALLR
+ 20
+
+	)
+
+3560 
+	#R_NIOS2_ALIGN
+ 21
+
+	)
+
+3562 
+	#R_NIOS2_GOT16
+ 22
+
+	)
+
+3563 
+	#R_NIOS2_CALL16
+ 23
+
+	)
+
+3564 
+	#R_NIOS2_GOTOFF_LO
+ 24
+
+	)
+
+3565 
+	#R_NIOS2_GOTOFF_HA
+ 25
+
+	)
+
+3566 
+	#R_NIOS2_PCREL_LO
+ 26
+
+	)
+
+3567 
+	#R_NIOS2_PCREL_HA
+ 27
+
+	)
+
+3568 
+	#R_NIOS2_TLS_GD16
+ 28
+
+	)
+
+3569 
+	#R_NIOS2_TLS_LDM16
+ 29
+
+	)
+
+3570 
+	#R_NIOS2_TLS_LDO16
+ 30
+
+	)
+
+3571 
+	#R_NIOS2_TLS_IE16
+ 31
+
+	)
+
+3572 
+	#R_NIOS2_TLS_LE16
+ 32
+
+	)
+
+3573 
+	#R_NIOS2_TLS_DTPMOD
+ 33
+
+	)
+
+3574 
+	#R_NIOS2_TLS_DTPREL
+ 34
+
+	)
+
+3575 
+	#R_NIOS2_TLS_TPREL
+ 35
+
+	)
+
+3576 
+	#R_NIOS2_COPY
+ 36
+
+	)
+
+3577 
+	#R_NIOS2_GLOB_DAT
+ 37
+
+	)
+
+3578 
+	#R_NIOS2_JUMP_SLOT
+ 38
+
+	)
+
+3579 
+	#R_NIOS2_RELATIVE
+ 39
+
+	)
+
+3580 
+	#R_NIOS2_GOTOFF
+ 40
+
+	)
+
+3581 
+	#R_NIOS2_CALL26_NOAT
+ 41
+
+	)
+
+3582 
+	#R_NIOS2_GOT_LO
+ 42
+
+	)
+
+3583 
+	#R_NIOS2_GOT_HA
+ 43
+
+	)
+
+3584 
+	#R_NIOS2_CALL_LO
+ 44
+
+	)
+
+3585 
+	#R_NIOS2_CALL_HA
+ 45
+
+	)
+
+3588 
+	#R_TILEPRO_NONE
+ 0
+
+	)
+
+3589 
+	#R_TILEPRO_32
+ 1
+
+	)
+
+3590 
+	#R_TILEPRO_16
+ 2
+
+	)
+
+3591 
+	#R_TILEPRO_8
+ 3
+
+	)
+
+3592 
+	#R_TILEPRO_32_PCREL
+ 4
+
+	)
+
+3593 
+	#R_TILEPRO_16_PCREL
+ 5
+
+	)
+
+3594 
+	#R_TILEPRO_8_PCREL
+ 6
+
+	)
+
+3595 
+	#R_TILEPRO_LO16
+ 7
+
+	)
+
+3596 
+	#R_TILEPRO_HI16
+ 8
+
+	)
+
+3597 
+	#R_TILEPRO_HA16
+ 9
+
+	)
+
+3598 
+	#R_TILEPRO_COPY
+ 10
+
+	)
+
+3599 
+	#R_TILEPRO_GLOB_DAT
+ 11
+
+	)
+
+3600 
+	#R_TILEPRO_JMP_SLOT
+ 12
+
+	)
+
+3601 
+	#R_TILEPRO_RELATIVE
+ 13
+
+	)
+
+3602 
+	#R_TILEPRO_BROFF_X1
+ 14
+
+	)
+
+3603 
+	#R_TILEPRO_JOFFLONG_X1
+ 15
+
+	)
+
+3604 
+	#R_TILEPRO_JOFFLONG_X1_PLT
+ 16
+
+	)
+
+3605 
+	#R_TILEPRO_IMM8_X0
+ 17
+
+	)
+
+3606 
+	#R_TILEPRO_IMM8_Y0
+ 18
+
+	)
+
+3607 
+	#R_TILEPRO_IMM8_X1
+ 19
+
+	)
+
+3608 
+	#R_TILEPRO_IMM8_Y1
+ 20
+
+	)
+
+3609 
+	#R_TILEPRO_MT_IMM15_X1
+ 21
+
+	)
+
+3610 
+	#R_TILEPRO_MF_IMM15_X1
+ 22
+
+	)
+
+3611 
+	#R_TILEPRO_IMM16_X0
+ 23
+
+	)
+
+3612 
+	#R_TILEPRO_IMM16_X1
+ 24
+
+	)
+
+3613 
+	#R_TILEPRO_IMM16_X0_LO
+ 25
+
+	)
+
+3614 
+	#R_TILEPRO_IMM16_X1_LO
+ 26
+
+	)
+
+3615 
+	#R_TILEPRO_IMM16_X0_HI
+ 27
+
+	)
+
+3616 
+	#R_TILEPRO_IMM16_X1_HI
+ 28
+
+	)
+
+3617 
+	#R_TILEPRO_IMM16_X0_HA
+ 29
+
+	)
+
+3618 
+	#R_TILEPRO_IMM16_X1_HA
+ 30
+
+	)
+
+3619 
+	#R_TILEPRO_IMM16_X0_PCREL
+ 31
+
+	)
+
+3620 
+	#R_TILEPRO_IMM16_X1_PCREL
+ 32
+
+	)
+
+3621 
+	#R_TILEPRO_IMM16_X0_LO_PCREL
+ 33
+
+	)
+
+3622 
+	#R_TILEPRO_IMM16_X1_LO_PCREL
+ 34
+
+	)
+
+3623 
+	#R_TILEPRO_IMM16_X0_HI_PCREL
+ 35
+
+	)
+
+3624 
+	#R_TILEPRO_IMM16_X1_HI_PCREL
+ 36
+
+	)
+
+3625 
+	#R_TILEPRO_IMM16_X0_HA_PCREL
+ 37
+
+	)
+
+3626 
+	#R_TILEPRO_IMM16_X1_HA_PCREL
+ 38
+
+	)
+
+3627 
+	#R_TILEPRO_IMM16_X0_GOT
+ 39
+
+	)
+
+3628 
+	#R_TILEPRO_IMM16_X1_GOT
+ 40
+
+	)
+
+3629 
+	#R_TILEPRO_IMM16_X0_GOT_LO
+ 41
+
+	)
+
+3630 
+	#R_TILEPRO_IMM16_X1_GOT_LO
+ 42
+
+	)
+
+3631 
+	#R_TILEPRO_IMM16_X0_GOT_HI
+ 43
+
+	)
+
+3632 
+	#R_TILEPRO_IMM16_X1_GOT_HI
+ 44
+
+	)
+
+3633 
+	#R_TILEPRO_IMM16_X0_GOT_HA
+ 45
+
+	)
+
+3634 
+	#R_TILEPRO_IMM16_X1_GOT_HA
+ 46
+
+	)
+
+3635 
+	#R_TILEPRO_MMSTART_X0
+ 47
+
+	)
+
+3636 
+	#R_TILEPRO_MMEND_X0
+ 48
+
+	)
+
+3637 
+	#R_TILEPRO_MMSTART_X1
+ 49
+
+	)
+
+3638 
+	#R_TILEPRO_MMEND_X1
+ 50
+
+	)
+
+3639 
+	#R_TILEPRO_SHAMT_X0
+ 51
+
+	)
+
+3640 
+	#R_TILEPRO_SHAMT_X1
+ 52
+
+	)
+
+3641 
+	#R_TILEPRO_SHAMT_Y0
+ 53
+
+	)
+
+3642 
+	#R_TILEPRO_SHAMT_Y1
+ 54
+
+	)
+
+3643 
+	#R_TILEPRO_DEST_IMM8_X1
+ 55
+
+	)
+
+3645 
+	#R_TILEPRO_TLS_GD_CALL
+ 60
+
+	)
+
+3646 
+	#R_TILEPRO_IMM8_X0_TLS_GD_ADD
+ 61
+
+	)
+
+3647 
+	#R_TILEPRO_IMM8_X1_TLS_GD_ADD
+ 62
+
+	)
+
+3648 
+	#R_TILEPRO_IMM8_Y0_TLS_GD_ADD
+ 63
+
+	)
+
+3649 
+	#R_TILEPRO_IMM8_Y1_TLS_GD_ADD
+ 64
+
+	)
+
+3650 
+	#R_TILEPRO_TLS_IE_LOAD
+ 65
+
+	)
+
+3651 
+	#R_TILEPRO_IMM16_X0_TLS_GD
+ 66
+
+	)
+
+3652 
+	#R_TILEPRO_IMM16_X1_TLS_GD
+ 67
+
+	)
+
+3653 
+	#R_TILEPRO_IMM16_X0_TLS_GD_LO
+ 68
+
+	)
+
+3654 
+	#R_TILEPRO_IMM16_X1_TLS_GD_LO
+ 69
+
+	)
+
+3655 
+	#R_TILEPRO_IMM16_X0_TLS_GD_HI
+ 70
+
+	)
+
+3656 
+	#R_TILEPRO_IMM16_X1_TLS_GD_HI
+ 71
+
+	)
+
+3657 
+	#R_TILEPRO_IMM16_X0_TLS_GD_HA
+ 72
+
+	)
+
+3658 
+	#R_TILEPRO_IMM16_X1_TLS_GD_HA
+ 73
+
+	)
+
+3659 
+	#R_TILEPRO_IMM16_X0_TLS_IE
+ 74
+
+	)
+
+3660 
+	#R_TILEPRO_IMM16_X1_TLS_IE
+ 75
+
+	)
+
+3661 
+	#R_TILEPRO_IMM16_X0_TLS_IE_LO
+ 76
+
+	)
+
+3662 
+	#R_TILEPRO_IMM16_X1_TLS_IE_LO
+ 77
+
+	)
+
+3663 
+	#R_TILEPRO_IMM16_X0_TLS_IE_HI
+ 78
+
+	)
+
+3664 
+	#R_TILEPRO_IMM16_X1_TLS_IE_HI
+ 79
+
+	)
+
+3665 
+	#R_TILEPRO_IMM16_X0_TLS_IE_HA
+ 80
+
+	)
+
+3666 
+	#R_TILEPRO_IMM16_X1_TLS_IE_HA
+ 81
+
+	)
+
+3667 
+	#R_TILEPRO_TLS_DTPMOD32
+ 82
+
+	)
+
+3668 
+	#R_TILEPRO_TLS_DTPOFF32
+ 83
+
+	)
+
+3669 
+	#R_TILEPRO_TLS_TPOFF32
+ 84
+
+	)
+
+3670 
+	#R_TILEPRO_IMM16_X0_TLS_LE
+ 85
+
+	)
+
+3671 
+	#R_TILEPRO_IMM16_X1_TLS_LE
+ 86
+
+	)
+
+3672 
+	#R_TILEPRO_IMM16_X0_TLS_LE_LO
+ 87
+
+	)
+
+3673 
+	#R_TILEPRO_IMM16_X1_TLS_LE_LO
+ 88
+
+	)
+
+3674 
+	#R_TILEPRO_IMM16_X0_TLS_LE_HI
+ 89
+
+	)
+
+3675 
+	#R_TILEPRO_IMM16_X1_TLS_LE_HI
+ 90
+
+	)
+
+3676 
+	#R_TILEPRO_IMM16_X0_TLS_LE_HA
+ 91
+
+	)
+
+3677 
+	#R_TILEPRO_IMM16_X1_TLS_LE_HA
+ 92
+
+	)
+
+3679 
+	#R_TILEPRO_GNU_VTINHERIT
+ 128
+
+	)
+
+3680 
+	#R_TILEPRO_GNU_VTENTRY
+ 129
+
+	)
+
+3682 
+	#R_TILEPRO_NUM
+ 130
+
+	)
+
+3686 
+	#R_TILEGX_NONE
+ 0
+
+	)
+
+3687 
+	#R_TILEGX_64
+ 1
+
+	)
+
+3688 
+	#R_TILEGX_32
+ 2
+
+	)
+
+3689 
+	#R_TILEGX_16
+ 3
+
+	)
+
+3690 
+	#R_TILEGX_8
+ 4
+
+	)
+
+3691 
+	#R_TILEGX_64_PCREL
+ 5
+
+	)
+
+3692 
+	#R_TILEGX_32_PCREL
+ 6
+
+	)
+
+3693 
+	#R_TILEGX_16_PCREL
+ 7
+
+	)
+
+3694 
+	#R_TILEGX_8_PCREL
+ 8
+
+	)
+
+3695 
+	#R_TILEGX_HW0
+ 9
+
+	)
+
+3696 
+	#R_TILEGX_HW1
+ 10
+
+	)
+
+3697 
+	#R_TILEGX_HW2
+ 11
+
+	)
+
+3698 
+	#R_TILEGX_HW3
+ 12
+
+	)
+
+3699 
+	#R_TILEGX_HW0_LAST
+ 13
+
+	)
+
+3700 
+	#R_TILEGX_HW1_LAST
+ 14
+
+	)
+
+3701 
+	#R_TILEGX_HW2_LAST
+ 15
+
+	)
+
+3702 
+	#R_TILEGX_COPY
+ 16
+
+	)
+
+3703 
+	#R_TILEGX_GLOB_DAT
+ 17
+
+	)
+
+3704 
+	#R_TILEGX_JMP_SLOT
+ 18
+
+	)
+
+3705 
+	#R_TILEGX_RELATIVE
+ 19
+
+	)
+
+3706 
+	#R_TILEGX_BROFF_X1
+ 20
+
+	)
+
+3707 
+	#R_TILEGX_JUMPOFF_X1
+ 21
+
+	)
+
+3708 
+	#R_TILEGX_JUMPOFF_X1_PLT
+ 22
+
+	)
+
+3709 
+	#R_TILEGX_IMM8_X0
+ 23
+
+	)
+
+3710 
+	#R_TILEGX_IMM8_Y0
+ 24
+
+	)
+
+3711 
+	#R_TILEGX_IMM8_X1
+ 25
+
+	)
+
+3712 
+	#R_TILEGX_IMM8_Y1
+ 26
+
+	)
+
+3713 
+	#R_TILEGX_DEST_IMM8_X1
+ 27
+
+	)
+
+3714 
+	#R_TILEGX_MT_IMM14_X1
+ 28
+
+	)
+
+3715 
+	#R_TILEGX_MF_IMM14_X1
+ 29
+
+	)
+
+3716 
+	#R_TILEGX_MMSTART_X0
+ 30
+
+	)
+
+3717 
+	#R_TILEGX_MMEND_X0
+ 31
+
+	)
+
+3718 
+	#R_TILEGX_SHAMT_X0
+ 32
+
+	)
+
+3719 
+	#R_TILEGX_SHAMT_X1
+ 33
+
+	)
+
+3720 
+	#R_TILEGX_SHAMT_Y0
+ 34
+
+	)
+
+3721 
+	#R_TILEGX_SHAMT_Y1
+ 35
+
+	)
+
+3722 
+	#R_TILEGX_IMM16_X0_HW0
+ 36
+
+	)
+
+3723 
+	#R_TILEGX_IMM16_X1_HW0
+ 37
+
+	)
+
+3724 
+	#R_TILEGX_IMM16_X0_HW1
+ 38
+
+	)
+
+3725 
+	#R_TILEGX_IMM16_X1_HW1
+ 39
+
+	)
+
+3726 
+	#R_TILEGX_IMM16_X0_HW2
+ 40
+
+	)
+
+3727 
+	#R_TILEGX_IMM16_X1_HW2
+ 41
+
+	)
+
+3728 
+	#R_TILEGX_IMM16_X0_HW3
+ 42
+
+	)
+
+3729 
+	#R_TILEGX_IMM16_X1_HW3
+ 43
+
+	)
+
+3730 
+	#R_TILEGX_IMM16_X0_HW0_LAST
+ 44
+
+	)
+
+3731 
+	#R_TILEGX_IMM16_X1_HW0_LAST
+ 45
+
+	)
+
+3732 
+	#R_TILEGX_IMM16_X0_HW1_LAST
+ 46
+
+	)
+
+3733 
+	#R_TILEGX_IMM16_X1_HW1_LAST
+ 47
+
+	)
+
+3734 
+	#R_TILEGX_IMM16_X0_HW2_LAST
+ 48
+
+	)
+
+3735 
+	#R_TILEGX_IMM16_X1_HW2_LAST
+ 49
+
+	)
+
+3736 
+	#R_TILEGX_IMM16_X0_HW0_PCREL
+ 50
+
+	)
+
+3737 
+	#R_TILEGX_IMM16_X1_HW0_PCREL
+ 51
+
+	)
+
+3738 
+	#R_TILEGX_IMM16_X0_HW1_PCREL
+ 52
+
+	)
+
+3739 
+	#R_TILEGX_IMM16_X1_HW1_PCREL
+ 53
+
+	)
+
+3740 
+	#R_TILEGX_IMM16_X0_HW2_PCREL
+ 54
+
+	)
+
+3741 
+	#R_TILEGX_IMM16_X1_HW2_PCREL
+ 55
+
+	)
+
+3742 
+	#R_TILEGX_IMM16_X0_HW3_PCREL
+ 56
+
+	)
+
+3743 
+	#R_TILEGX_IMM16_X1_HW3_PCREL
+ 57
+
+	)
+
+3744 
+	#R_TILEGX_IMM16_X0_HW0_LAST_PCREL
+ 58
+
+	)
+
+3745 
+	#R_TILEGX_IMM16_X1_HW0_LAST_PCREL
+ 59
+
+	)
+
+3746 
+	#R_TILEGX_IMM16_X0_HW1_LAST_PCREL
+ 60
+
+	)
+
+3747 
+	#R_TILEGX_IMM16_X1_HW1_LAST_PCREL
+ 61
+
+	)
+
+3748 
+	#R_TILEGX_IMM16_X0_HW2_LAST_PCREL
+ 62
+
+	)
+
+3749 
+	#R_TILEGX_IMM16_X1_HW2_LAST_PCREL
+ 63
+
+	)
+
+3750 
+	#R_TILEGX_IMM16_X0_HW0_GOT
+ 64
+
+	)
+
+3751 
+	#R_TILEGX_IMM16_X1_HW0_GOT
+ 65
+
+	)
+
+3752 
+	#R_TILEGX_IMM16_X0_HW0_PLT_PCREL
+ 66
+
+	)
+
+3753 
+	#R_TILEGX_IMM16_X1_HW0_PLT_PCREL
+ 67
+
+	)
+
+3754 
+	#R_TILEGX_IMM16_X0_HW1_PLT_PCREL
+ 68
+
+	)
+
+3755 
+	#R_TILEGX_IMM16_X1_HW1_PLT_PCREL
+ 69
+
+	)
+
+3756 
+	#R_TILEGX_IMM16_X0_HW2_PLT_PCREL
+ 70
+
+	)
+
+3757 
+	#R_TILEGX_IMM16_X1_HW2_PLT_PCREL
+ 71
+
+	)
+
+3758 
+	#R_TILEGX_IMM16_X0_HW0_LAST_GOT
+ 72
+
+	)
+
+3759 
+	#R_TILEGX_IMM16_X1_HW0_LAST_GOT
+ 73
+
+	)
+
+3760 
+	#R_TILEGX_IMM16_X0_HW1_LAST_GOT
+ 74
+
+	)
+
+3761 
+	#R_TILEGX_IMM16_X1_HW1_LAST_GOT
+ 75
+
+	)
+
+3762 
+	#R_TILEGX_IMM16_X0_HW3_PLT_PCREL
+ 76
+
+	)
+
+3763 
+	#R_TILEGX_IMM16_X1_HW3_PLT_PCREL
+ 77
+
+	)
+
+3764 
+	#R_TILEGX_IMM16_X0_HW0_TLS_GD
+ 78
+
+	)
+
+3765 
+	#R_TILEGX_IMM16_X1_HW0_TLS_GD
+ 79
+
+	)
+
+3766 
+	#R_TILEGX_IMM16_X0_HW0_TLS_LE
+ 80
+
+	)
+
+3767 
+	#R_TILEGX_IMM16_X1_HW0_TLS_LE
+ 81
+
+	)
+
+3768 
+	#R_TILEGX_IMM16_X0_HW0_LAST_TLS_LE
+ 82
+
+	)
+
+3769 
+	#R_TILEGX_IMM16_X1_HW0_LAST_TLS_LE
+ 83
+
+	)
+
+3770 
+	#R_TILEGX_IMM16_X0_HW1_LAST_TLS_LE
+ 84
+
+	)
+
+3771 
+	#R_TILEGX_IMM16_X1_HW1_LAST_TLS_LE
+ 85
+
+	)
+
+3772 
+	#R_TILEGX_IMM16_X0_HW0_LAST_TLS_GD
+ 86
+
+	)
+
+3773 
+	#R_TILEGX_IMM16_X1_HW0_LAST_TLS_GD
+ 87
+
+	)
+
+3774 
+	#R_TILEGX_IMM16_X0_HW1_LAST_TLS_GD
+ 88
+
+	)
+
+3775 
+	#R_TILEGX_IMM16_X1_HW1_LAST_TLS_GD
+ 89
+
+	)
+
+3777 
+	#R_TILEGX_IMM16_X0_HW0_TLS_IE
+ 92
+
+	)
+
+3778 
+	#R_TILEGX_IMM16_X1_HW0_TLS_IE
+ 93
+
+	)
+
+3779 
+	#R_TILEGX_IMM16_X0_HW0_LAST_PLT_PCREL
+ 94
+
+	)
+
+3780 
+	#R_TILEGX_IMM16_X1_HW0_LAST_PLT_PCREL
+ 95
+
+	)
+
+3781 
+	#R_TILEGX_IMM16_X0_HW1_LAST_PLT_PCREL
+ 96
+
+	)
+
+3782 
+	#R_TILEGX_IMM16_X1_HW1_LAST_PLT_PCREL
+ 97
+
+	)
+
+3783 
+	#R_TILEGX_IMM16_X0_HW2_LAST_PLT_PCREL
+ 98
+
+	)
+
+3784 
+	#R_TILEGX_IMM16_X1_HW2_LAST_PLT_PCREL
+ 99
+
+	)
+
+3785 
+	#R_TILEGX_IMM16_X0_HW0_LAST_TLS_IE
+ 100
+
+	)
+
+3786 
+	#R_TILEGX_IMM16_X1_HW0_LAST_TLS_IE
+ 101
+
+	)
+
+3787 
+	#R_TILEGX_IMM16_X0_HW1_LAST_TLS_IE
+ 102
+
+	)
+
+3788 
+	#R_TILEGX_IMM16_X1_HW1_LAST_TLS_IE
+ 103
+
+	)
+
+3790 
+	#R_TILEGX_TLS_DTPMOD64
+ 106
+
+	)
+
+3791 
+	#R_TILEGX_TLS_DTPOFF64
+ 107
+
+	)
+
+3792 
+	#R_TILEGX_TLS_TPOFF64
+ 108
+
+	)
+
+3793 
+	#R_TILEGX_TLS_DTPMOD32
+ 109
+
+	)
+
+3794 
+	#R_TILEGX_TLS_DTPOFF32
+ 110
+
+	)
+
+3795 
+	#R_TILEGX_TLS_TPOFF32
+ 111
+
+	)
+
+3796 
+	#R_TILEGX_TLS_GD_CALL
+ 112
+
+	)
+
+3797 
+	#R_TILEGX_IMM8_X0_TLS_GD_ADD
+ 113
+
+	)
+
+3798 
+	#R_TILEGX_IMM8_X1_TLS_GD_ADD
+ 114
+
+	)
+
+3799 
+	#R_TILEGX_IMM8_Y0_TLS_GD_ADD
+ 115
+
+	)
+
+3800 
+	#R_TILEGX_IMM8_Y1_TLS_GD_ADD
+ 116
+
+	)
+
+3801 
+	#R_TILEGX_TLS_IE_LOAD
+ 117
+
+	)
+
+3802 
+	#R_TILEGX_IMM8_X0_TLS_ADD
+ 118
+
+	)
+
+3803 
+	#R_TILEGX_IMM8_X1_TLS_ADD
+ 119
+
+	)
+
+3804 
+	#R_TILEGX_IMM8_Y0_TLS_ADD
+ 120
+
+	)
+
+3805 
+	#R_TILEGX_IMM8_Y1_TLS_ADD
+ 121
+
+	)
+
+3807 
+	#R_TILEGX_GNU_VTINHERIT
+ 128
+
+	)
+
+3808 
+	#R_TILEGX_GNU_VTENTRY
+ 129
+
+	)
+
+3810 
+	#R_TILEGX_NUM
+ 130
+
+	)
+
+3813 
+	#EF_RISCV_RVC
+ 0x0001
+
+	)
+
+3814 
+	#EF_RISCV_FLOAT_ABI
+ 0x0006
+
+	)
+
+3815 
+	#EF_RISCV_FLOAT_ABI_SOFT
+ 0x0000
+
+	)
+
+3816 
+	#EF_RISCV_FLOAT_ABI_SINGLE
+ 0x0002
+
+	)
+
+3817 
+	#EF_RISCV_FLOAT_ABI_DOUBLE
+ 0x0004
+
+	)
+
+3818 
+	#EF_RISCV_FLOAT_ABI_QUAD
+ 0x0006
+
+	)
+
+3821 
+	#R_RISCV_NONE
+ 0
+
+	)
+
+3822 
+	#R_RISCV_32
+ 1
+
+	)
+
+3823 
+	#R_RISCV_64
+ 2
+
+	)
+
+3824 
+	#R_RISCV_RELATIVE
+ 3
+
+	)
+
+3825 
+	#R_RISCV_COPY
+ 4
+
+	)
+
+3826 
+	#R_RISCV_JUMP_SLOT
+ 5
+
+	)
+
+3827 
+	#R_RISCV_TLS_DTPMOD32
+ 6
+
+	)
+
+3828 
+	#R_RISCV_TLS_DTPMOD64
+ 7
+
+	)
+
+3829 
+	#R_RISCV_TLS_DTPREL32
+ 8
+
+	)
+
+3830 
+	#R_RISCV_TLS_DTPREL64
+ 9
+
+	)
+
+3831 
+	#R_RISCV_TLS_TPREL32
+ 10
+
+	)
+
+3832 
+	#R_RISCV_TLS_TPREL64
+ 11
+
+	)
+
+3833 
+	#R_RISCV_BRANCH
+ 16
+
+	)
+
+3834 
+	#R_RISCV_JAL
+ 17
+
+	)
+
+3835 
+	#R_RISCV_CALL
+ 18
+
+	)
+
+3836 
+	#R_RISCV_CALL_PLT
+ 19
+
+	)
+
+3837 
+	#R_RISCV_GOT_HI20
+ 20
+
+	)
+
+3838 
+	#R_RISCV_TLS_GOT_HI20
+ 21
+
+	)
+
+3839 
+	#R_RISCV_TLS_GD_HI20
+ 22
+
+	)
+
+3840 
+	#R_RISCV_PCREL_HI20
+ 23
+
+	)
+
+3841 
+	#R_RISCV_PCREL_LO12_I
+ 24
+
+	)
+
+3842 
+	#R_RISCV_PCREL_LO12_S
+ 25
+
+	)
+
+3843 
+	#R_RISCV_HI20
+ 26
+
+	)
+
+3844 
+	#R_RISCV_LO12_I
+ 27
+
+	)
+
+3845 
+	#R_RISCV_LO12_S
+ 28
+
+	)
+
+3846 
+	#R_RISCV_TPREL_HI20
+ 29
+
+	)
+
+3847 
+	#R_RISCV_TPREL_LO12_I
+ 30
+
+	)
+
+3848 
+	#R_RISCV_TPREL_LO12_S
+ 31
+
+	)
+
+3849 
+	#R_RISCV_TPREL_ADD
+ 32
+
+	)
+
+3850 
+	#R_RISCV_ADD8
+ 33
+
+	)
+
+3851 
+	#R_RISCV_ADD16
+ 34
+
+	)
+
+3852 
+	#R_RISCV_ADD32
+ 35
+
+	)
+
+3853 
+	#R_RISCV_ADD64
+ 36
+
+	)
+
+3854 
+	#R_RISCV_SUB8
+ 37
+
+	)
+
+3855 
+	#R_RISCV_SUB16
+ 38
+
+	)
+
+3856 
+	#R_RISCV_SUB32
+ 39
+
+	)
+
+3857 
+	#R_RISCV_SUB64
+ 40
+
+	)
+
+3858 
+	#R_RISCV_GNU_VTINHERIT
+ 41
+
+	)
+
+3859 
+	#R_RISCV_GNU_VTENTRY
+ 42
+
+	)
+
+3860 
+	#R_RISCV_ALIGN
+ 43
+
+	)
+
+3861 
+	#R_RISCV_RVC_BRANCH
+ 44
+
+	)
+
+3862 
+	#R_RISCV_RVC_JUMP
+ 45
+
+	)
+
+3863 
+	#R_RISCV_RVC_LUI
+ 46
+
+	)
+
+3864 
+	#R_RISCV_GPREL_I
+ 47
+
+	)
+
+3865 
+	#R_RISCV_GPREL_S
+ 48
+
+	)
+
+3866 
+	#R_RISCV_TPREL_I
+ 49
+
+	)
+
+3867 
+	#R_RISCV_TPREL_S
+ 50
+
+	)
+
+3868 
+	#R_RISCV_RELAX
+ 51
+
+	)
+
+3869 
+	#R_RISCV_SUB6
+ 52
+
+	)
+
+3870 
+	#R_RISCV_SET6
+ 53
+
+	)
+
+3871 
+	#R_RISCV_SET8
+ 54
+
+	)
+
+3872 
+	#R_RISCV_SET16
+ 55
+
+	)
+
+3873 
+	#R_RISCV_SET32
+ 56
+
+	)
+
+3874 
+	#R_RISCV_32_PCREL
+ 57
+
+	)
+
+3876 
+	#R_RISCV_NUM
+ 58
+
+	)
+
+3880 
+	#R_BPF_NONE
+ 0
+
+	)
+
+3881 
+	#R_BPF_64_64
+ 1
+
+	)
+
+3882 
+	#R_BPF_64_32
+ 10
+
+	)
+
+3886 
+	#R_METAG_HIADDR16
+ 0
+
+	)
+
+3887 
+	#R_METAG_LOADDR16
+ 1
+
+	)
+
+3888 
+	#R_METAG_ADDR32
+ 2
+
+	)
+
+3889 
+	#R_METAG_NONE
+ 3
+
+	)
+
+3890 
+	#R_METAG_RELBRANCH
+ 4
+
+	)
+
+3891 
+	#R_METAG_GETSETOFF
+ 5
+
+	)
+
+3894 
+	#R_METAG_REG32OP1
+ 6
+
+	)
+
+3895 
+	#R_METAG_REG32OP2
+ 7
+
+	)
+
+3896 
+	#R_METAG_REG32OP3
+ 8
+
+	)
+
+3897 
+	#R_METAG_REG16OP1
+ 9
+
+	)
+
+3898 
+	#R_METAG_REG16OP2
+ 10
+
+	)
+
+3899 
+	#R_METAG_REG16OP3
+ 11
+
+	)
+
+3900 
+	#R_METAG_REG32OP4
+ 12
+
+	)
+
+3902 
+	#R_METAG_HIOG
+ 13
+
+	)
+
+3903 
+	#R_METAG_LOOG
+ 14
+
+	)
+
+3905 
+	#R_METAG_REL8
+ 15
+
+	)
+
+3906 
+	#R_METAG_REL16
+ 16
+
+	)
+
+3909 
+	#R_METAG_GNU_VTINHERIT
+ 30
+
+	)
+
+3910 
+	#R_METAG_GNU_VTENTRY
+ 31
+
+	)
+
+3913 
+	#R_METAG_HI16_GOTOFF
+ 32
+
+	)
+
+3914 
+	#R_METAG_LO16_GOTOFF
+ 33
+
+	)
+
+3915 
+	#R_METAG_GETSET_GOTOFF
+ 34
+
+	)
+
+3916 
+	#R_METAG_GETSET_GOT
+ 35
+
+	)
+
+3917 
+	#R_METAG_HI16_GOTPC
+ 36
+
+	)
+
+3918 
+	#R_METAG_LO16_GOTPC
+ 37
+
+	)
+
+3919 
+	#R_METAG_HI16_PLT
+ 38
+
+	)
+
+3920 
+	#R_METAG_LO16_PLT
+ 39
+
+	)
+
+3921 
+	#R_METAG_RELBRANCH_PLT
+ 40
+
+	)
+
+3922 
+	#R_METAG_GOTOFF
+ 41
+
+	)
+
+3923 
+	#R_METAG_PLT
+ 42
+
+	)
+
+3924 
+	#R_METAG_COPY
+ 43
+
+	)
+
+3925 
+	#R_METAG_JMP_SLOT
+ 44
+
+	)
+
+3926 
+	#R_METAG_RELATIVE
+ 45
+
+	)
+
+3927 
+	#R_METAG_GLOB_DAT
+ 46
+
+	)
+
+3930 
+	#R_METAG_TLS_GD
+ 47
+
+	)
+
+3931 
+	#R_METAG_TLS_LDM
+ 48
+
+	)
+
+3932 
+	#R_METAG_TLS_LDO_HI16
+ 49
+
+	)
+
+3933 
+	#R_METAG_TLS_LDO_LO16
+ 50
+
+	)
+
+3934 
+	#R_METAG_TLS_LDO
+ 51
+
+	)
+
+3935 
+	#R_METAG_TLS_IE
+ 52
+
+	)
+
+3936 
+	#R_METAG_TLS_IENONPIC
+ 53
+
+	)
+
+3937 
+	#R_METAG_TLS_IENONPIC_HI16
+ 54
+
+	)
+
+3938 
+	#R_METAG_TLS_IENONPIC_LO16
+ 55
+
+	)
+
+3939 
+	#R_METAG_TLS_TPOFF
+ 56
+
+	)
+
+3940 
+	#R_METAG_TLS_DTPMOD
+ 57
+
+	)
+
+3941 
+	#R_METAG_TLS_DTPOFF
+ 58
+
+	)
+
+3942 
+	#R_METAG_TLS_LE
+ 59
+
+	)
+
+3943 
+	#R_METAG_TLS_LE_HI16
+ 60
+
+	)
+
+3944 
+	#R_METAG_TLS_LE_LO16
+ 61
+
+	)
+
+3947 
+	#R_NDS32_NONE
+ 0
+
+	)
+
+3948 
+	#R_NDS32_32_RELA
+ 20
+
+	)
+
+3949 
+	#R_NDS32_COPY
+ 39
+
+	)
+
+3950 
+	#R_NDS32_GLOB_DAT
+ 40
+
+	)
+
+3951 
+	#R_NDS32_JMP_SLOT
+ 41
+
+	)
+
+3952 
+	#R_NDS32_RELATIVE
+ 42
+
+	)
+
+3953 
+	#R_NDS32_TLS_TPOFF
+ 102
+
+	)
+
+3954 
+	#R_NDS32_TLS_DESC
+ 119
+
+	)
+
+3956 
+	g__END_DECLS
+
+
+	@/usr/include/endian.h
+
+18 #iâdef 
+_ENDIAN_H
+
+
+19 
+	#_ENDIAN_H
+ 1
+
+	)
+
+21 
+	~<ã©u»s.h
+>
+
+24 
+	~<b™s/’dŸn.h
+>
+
+26 #ifdeà
+__USE_MISC
+
+
+27 
+	#LITTLE_ENDIAN
+ 
+__LITTLE_ENDIAN
+
+
+	)
+
+28 
+	#BIG_ENDIAN
+ 
+__BIG_ENDIAN
+
+
+	)
+
+29 
+	#PDP_ENDIAN
+ 
+__PDP_ENDIAN
+
+
+	)
+
+30 
+	#BYTE_ORDER
+ 
+__BYTE_ORDER
+
+
+	)
+
+33 #ià
+defšed
+ 
+__USE_MISC
+ && !defšed 
+__ASSEMBLER__
+
+
+35 
+	~<b™s/by‹sw­.h
+>
+
+36 
+	~<b™s/ušŠ-id’t™y.h
+>
+
+38 #ià
+__BYTE_ORDER
+ =ð
+__LITTLE_ENDIAN
+
+
+39 
+	#htobe16
+(
+x
+è
+	`__bsw­_16
+ (x)
+
+	)
+
+40 
+	#htÞe16
+(
+x
+è
+	`__ušt16_id’t™y
+ (x)
+
+	)
+
+41 
+	#be16toh
+(
+x
+è
+	`__bsw­_16
+ (x)
+
+	)
+
+42 
+	#Ë16toh
+(
+x
+è
+	`__ušt16_id’t™y
+ (x)
+
+	)
+
+44 
+	#htobe32
+(
+x
+è
+	`__bsw­_32
+ (x)
+
+	)
+
+45 
+	#htÞe32
+(
+x
+è
+	`__ušt32_id’t™y
+ (x)
+
+	)
+
+46 
+	#be32toh
+(
+x
+è
+	`__bsw­_32
+ (x)
+
+	)
+
+47 
+	#Ë32toh
+(
+x
+è
+	`__ušt32_id’t™y
+ (x)
+
+	)
+
+49 
+	#htobe64
+(
+x
+è
+	`__bsw­_64
+ (x)
+
+	)
+
+50 
+	#htÞe64
+(
+x
+è
+	`__ušt64_id’t™y
+ (x)
+
+	)
+
+51 
+	#be64toh
+(
+x
+è
+	`__bsw­_64
+ (x)
+
+	)
+
+52 
+	#Ë64toh
+(
+x
+è
+	`__ušt64_id’t™y
+ (x)
+
+	)
+
+55 
+	#htobe16
+(
+x
+è
+	`__ušt16_id’t™y
+ (x)
+
+	)
+
+56 
+	#htÞe16
+(
+x
+è
+	`__bsw­_16
+ (x)
+
+	)
+
+57 
+	#be16toh
+(
+x
+è
+	`__ušt16_id’t™y
+ (x)
+
+	)
+
+58 
+	#Ë16toh
+(
+x
+è
+	`__bsw­_16
+ (x)
+
+	)
+
+60 
+	#htobe32
+(
+x
+è
+	`__ušt32_id’t™y
+ (x)
+
+	)
+
+61 
+	#htÞe32
+(
+x
+è
+	`__bsw­_32
+ (x)
+
+	)
+
+62 
+	#be32toh
+(
+x
+è
+	`__ušt32_id’t™y
+ (x)
+
+	)
+
+63 
+	#Ë32toh
+(
+x
+è
+	`__bsw­_32
+ (x)
+
+	)
+
+65 
+	#htobe64
+(
+x
+è
+	`__ušt64_id’t™y
+ (x)
+
+	)
+
+66 
+	#htÞe64
+(
+x
+è
+	`__bsw­_64
+ (x)
+
+	)
+
+67 
+	#be64toh
+(
+x
+è
+	`__ušt64_id’t™y
+ (x)
+
+	)
+
+68 
+	#Ë64toh
+(
+x
+è
+	`__bsw­_64
+ (x)
+
+	)
+
+	@/usr/include/limits.h
+
+22 #iâdeà
+_LIBC_LIMITS_H_
+
+
+23 
+	#_LIBC_LIMITS_H_
+ 1
+
+	)
+
+25 
+	#__GLIBC_INTERNAL_STARTING_HEADER_IMPLEMENTATION
+
+
+	)
+
+26 
+	~<b™s/libc-h—d”-¡¬t.h
+>
+
+32 
+	#MB_LEN_MAX
+ 16
+
+	)
+
+37 #ià!
+defšed
+ 
+__GNUC__
+ || __GNUC__ < 2
+
+42 #iâdeà
+_LIMITS_H
+
+
+43 
+	#_LIMITS_H
+ 1
+
+	)
+
+45 
+	~<b™s/wÜdsize.h
+>
+
+54 
+	#CHAR_BIT
+ 8
+
+	)
+
+57 
+	#SCHAR_MIN
+ (-128)
+
+	)
+
+58 
+	#SCHAR_MAX
+ 127
+
+	)
+
+61 
+	#UCHAR_MAX
+ 255
+
+	)
+
+64 #ifdeà
+__CHAR_UNSIGNED__
+
+
+65 
+	#CHAR_MIN
+ 0
+
+	)
+
+66 
+	#CHAR_MAX
+ 
+UCHAR_MAX
+
+
+	)
+
+68 
+	#CHAR_MIN
+ 
+SCHAR_MIN
+
+
+	)
+
+69 
+	#CHAR_MAX
+ 
+SCHAR_MAX
+
+
+	)
+
+73 
+	#SHRT_MIN
+ (-32768)
+
+	)
+
+74 
+	#SHRT_MAX
+ 32767
+
+	)
+
+77 
+	#USHRT_MAX
+ 65535
+
+	)
+
+80 
+	#INT_MIN
+ (-
+INT_MAX
+ - 1)
+
+	)
+
+81 
+	#INT_MAX
+ 2147483647
+
+	)
+
+84 
+	#UINT_MAX
+ 4294967295U
+
+	)
+
+87 #ià
+__WORDSIZE
+ == 64
+
+88 
+	#LONG_MAX
+ 9223372036854775807L
+
+	)
+
+90 
+	#LONG_MAX
+ 2147483647L
+
+	)
+
+92 
+	#LONG_MIN
+ (-
+LONG_MAX
+ - 1L)
+
+	)
+
+95 #ià
+__WORDSIZE
+ == 64
+
+96 
+	#ULONG_MAX
+ 18446744073709551615UL
+
+	)
+
+98 
+	#ULONG_MAX
+ 4294967295UL
+
+	)
+
+101 #ifdeà
+__USE_ISOC99
+
+
+104 
+	#LLONG_MAX
+ 9223372036854775807LL
+
+	)
+
+105 
+	#LLONG_MIN
+ (-
+LLONG_MAX
+ - 1LL)
+
+	)
+
+108 
+	#ULLONG_MAX
+ 18446744073709551615ULL
+
+	)
+
+122 #ià
+defšed
+ 
+__GNUC__
+ && !defšed 
+_GCC_LIMITS_H_
+
+
+124 #šþude_Ãxˆ<
+lim™s
+.
+h
+>
+
+130 #ià
+defšed
+ 
+__USE_ISOC99
+ && defšed 
+__GNUC__
+
+
+131 #iâdeà
+LLONG_MIN
+
+
+132 
+	#LLONG_MIN
+ (-
+LLONG_MAX
+-1)
+
+	)
+
+134 #iâdeà
+LLONG_MAX
+
+
+135 
+	#LLONG_MAX
+ 
+__LONG_LONG_MAX__
+
+
+	)
+
+137 #iâdeà
+ULLONG_MAX
+
+
+138 
+	#ULLONG_MAX
+ (
+LLONG_MAX
+ * 2ULL + 1)
+
+	)
+
+145 #ià
+__GLIBC_USE
+ (
+IEC_60559_BFP_EXT_C2X
+)
+
+146 #iâdeà
+CHAR_WIDTH
+
+
+147 
+	#CHAR_WIDTH
+ 8
+
+	)
+
+149 #iâdeà
+SCHAR_WIDTH
+
+
+150 
+	#SCHAR_WIDTH
+ 8
+
+	)
+
+152 #iâdeà
+UCHAR_WIDTH
+
+
+153 
+	#UCHAR_WIDTH
+ 8
+
+	)
+
+155 #iâdeà
+SHRT_WIDTH
+
+
+156 
+	#SHRT_WIDTH
+ 16
+
+	)
+
+158 #iâdeà
+USHRT_WIDTH
+
+
+159 
+	#USHRT_WIDTH
+ 16
+
+	)
+
+161 #iâdeà
+INT_WIDTH
+
+
+162 
+	#INT_WIDTH
+ 32
+
+	)
+
+164 #iâdeà
+UINT_WIDTH
+
+
+165 
+	#UINT_WIDTH
+ 32
+
+	)
+
+167 #iâdeà
+LONG_WIDTH
+
+
+168 
+	#LONG_WIDTH
+ 
+__WORDSIZE
+
+
+	)
+
+170 #iâdeà
+ULONG_WIDTH
+
+
+171 
+	#ULONG_WIDTH
+ 
+__WORDSIZE
+
+
+	)
+
+173 #iâdeà
+LLONG_WIDTH
+
+
+174 
+	#LLONG_WIDTH
+ 64
+
+	)
+
+176 #iâdeà
+ULLONG_WIDTH
+
+
+177 
+	#ULLONG_WIDTH
+ 64
+
+	)
+
+181 #ifdef 
+__USE_POSIX
+
+
+183 
+	~<b™s/posix1_lim.h
+>
+
+186 #ifdef 
+__USE_POSIX2
+
+
+187 
+	~<b™s/posix2_lim.h
+>
+
+190 #ifdef 
+__USE_XOPEN
+
+
+191 
+	~<b™s/xÝ’_lim.h
+>
+
+	@/usr/include/setjmp.h
+
+22 #iâdef 
+_SETJMP_H
+
+
+23 
+	#_SETJMP_H
+ 1
+
+	)
+
+25 
+	~<ã©u»s.h
+>
+
+27 
+	g__BEGIN_DECLS
+
+
+29 
+	~<b™s/£tjmp.h
+>
+
+30 
+	~<b™s/ty³s/__sig£t_t.h
+>
+
+33 
+	s__jmp_buf_g
+
+
+39 
+__jmp_buf
+ 
+	m__jmpbuf
+;
+
+40 
+	m__mask_was_§ved
+;
+
+41 
+__sig£t_t
+ 
+	m__§ved_mask
+;
+
+45 
+__jmp_buf_g
+ 
+	tjmp_buf
+[1];
+
+49 
+	$£tjmp
+ (
+jmp_buf
+ 
+__’v
+è
+__THROWNL
+;
+
+54 
+	$__sig£tjmp
+ (
+__jmp_buf_g
+ 
+__’v
+[1], 
+__§vemask
+è
+__THROWNL
+;
+
+58 
+	$_£tjmp
+ (
+__jmp_buf_g
+ 
+__’v
+[1]è
+__THROWNL
+;
+
+62 
+	#£tjmp
+(
+’v
+è
+	`_£tjmp
+ (’v)
+
+	)
+
+67 
+	$lÚgjmp
+ (
+__jmp_buf_g
+ 
+__’v
+[1], 
+__v®
+)
+
+68 
+__THROWNL
+ 
+	`__©Œibu‹__
+ ((
+__nÜ‘uº__
+));
+
+70 #ià
+defšed
+ 
+__USE_MISC
+ || defšed 
+__USE_XOPEN
+
+
+74 
+	$_lÚgjmp
+ (
+__jmp_buf_g
+ 
+__’v
+[1], 
+__v®
+)
+
+75 
+__THROWNL
+ 
+	`__©Œibu‹__
+ ((
+__nÜ‘uº__
+));
+
+79 #ifdef 
+__USE_POSIX
+
+
+83 
+__jmp_buf_g
+ 
+	tsigjmp_buf
+[1];
+
+87 
+	#sig£tjmp
+(
+’v
+, 
+§vemask
+è
+	`__sig£tjmp
+ (’v, savemask)
+
+	)
+
+93 
+	$siglÚgjmp
+ (
+sigjmp_buf
+ 
+__’v
+, 
+__v®
+)
+
+94 
+__THROWNL
+ 
+	`__©Œibu‹__
+ ((
+__nÜ‘uº__
+));
+
+99 #ià
+__USE_FORTIFY_LEVEL
+ > 0
+
+100 
+	~<b™s/£tjmp2.h
+>
+
+103 
+__END_DECLS
+
+
+	@/usr/include/signal.h
+
+22 #iâdef 
+_SIGNAL_H
+
+
+23 
+	#_SIGNAL_H
+
+
+	)
+
+25 
+	~<ã©u»s.h
+>
+
+27 
+	g__BEGIN_DECLS
+
+
+29 
+	~<b™s/ty³s.h
+>
+
+30 
+	~<b™s/signum.h
+>
+
+32 
+	~<b™s/ty³s/sig_©omic_t.h
+>
+
+34 #ià
+defšed
+ 
+__USE_POSIX
+
+
+35 
+	~<b™s/ty³s/sig£t_t.h
+>
+
+38 #ià
+defšed
+ 
+__USE_XOPEN
+ || defšed 
+__USE_XOPEN2K
+
+
+39 #iâdeà
+__pid_t_defšed
+
+
+40 
+__pid_t
+ 
+	tpid_t
+;
+
+41 
+	#__pid_t_defšed
+
+
+	)
+
+43 #ifdeà
+__USE_XOPEN
+
+
+45 #iâdeà
+__uid_t_defšed
+
+
+46 
+__uid_t
+ 
+	tuid_t
+;
+
+47 
+	#__uid_t_defšed
+
+
+	)
+
+51 #ifdeà
+__USE_POSIX199309
+
+
+53 
+	~<b™s/ty³s/¡ruù_time¥ec.h
+>
+
+56 #ià
+defšed
+ 
+__USE_POSIX199309
+ || defšed 
+__USE_XOPEN_EXTENDED
+
+
+57 
+	~<b™s/ty³s/sigšfo_t.h
+>
+
+58 
+	~<b™s/sigšfo-cÚ¡s.h
+>
+
+61 #ifdeà
+__USE_MISC
+
+
+62 
+	~<b™s/ty³s/sigv®_t.h
+>
+
+65 #ifdeà
+__USE_POSIX199309
+
+
+66 
+	~<b™s/ty³s/sigev’t_t.h
+>
+
+67 
+	~<b™s/sigev’t-cÚ¡s.h
+>
+
+72 (*
+	t__sighªdËr_t
+) ();
+
+77 
+__sighªdËr_t
+ 
+	$__sysv_sigÇl
+ (
+__sig
+, 
+__sighªdËr_t
+ 
+__hªdËr
+)
+
+78 
+__THROW
+;
+
+79 #ifdeà
+__USE_GNU
+
+
+80 
+__sighªdËr_t
+ 
+	$sysv_sigÇl
+ (
+__sig
+, 
+__sighªdËr_t
+ 
+__hªdËr
+)
+
+81 
+__THROW
+;
+
+87 #ifdeà
+__USE_MISC
+
+
+88 
+__sighªdËr_t
+ 
+	$sigÇl
+ (
+__sig
+, 
+__sighªdËr_t
+ 
+__hªdËr
+)
+
+89 
+__THROW
+;
+
+92 #ifdeà
+__REDIRECT_NTH
+
+
+93 
+__sighªdËr_t
+ 
+	`__REDIRECT_NTH
+ (
+sigÇl
+,
+
+94 (
+__sig
+, 
+__sighªdËr_t
+ 
+__hªdËr
+),
+
+95 
+__sysv_sigÇl
+);
+
+97 
+	#sigÇl
+ 
+__sysv_sigÇl
+
+
+	)
+
+101 #ià
+defšed
+ 
+__USE_XOPEN_EXTENDED
+ && !defšed 
+__USE_XOPEN2K8
+
+
+104 
+__sighªdËr_t
+ 
+	$bsd_sigÇl
+ (
+__sig
+, 
+__sighªdËr_t
+ 
+__hªdËr
+)
+
+105 
+__THROW
+;
+
+111 #ifdeà
+__USE_POSIX
+
+
+112 
+	$kžl
+ (
+__pid_t
+ 
+__pid
+, 
+__sig
+è
+__THROW
+;
+
+115 #ià
+defšed
+ 
+__USE_MISC
+ || defšed 
+__USE_XOPEN_EXTENDED
+
+
+119 
+	$kžÍg
+ (
+__pid_t
+ 
+__pg½
+, 
+__sig
+è
+__THROW
+;
+
+123 
+	$¿i£
+ (
+__sig
+è
+__THROW
+;
+
+125 #ifdeà
+__USE_MISC
+
+
+127 
+__sighªdËr_t
+ 
+	$ssigÇl
+ (
+__sig
+, 
+__sighªdËr_t
+ 
+__hªdËr
+)
+
+128 
+__THROW
+;
+
+129 
+	$gsigÇl
+ (
+__sig
+è
+__THROW
+;
+
+132 #ifdeà
+__USE_XOPEN2K8
+
+
+134 
+	`psigÇl
+ (
+__sig
+, cÚ¡ *
+__s
+);
+
+137 
+	`psigšfo
+ (cÚ¡ 
+sigšfo_t
+ *
+__pšfo
+, cÚ¡ *
+__s
+);
+
+149 #ifdeà
+__USE_XOPEN_EXTENDED
+
+
+150 #ifdeà
+__GNUC__
+
+
+151 
+	$sig·u£
+ (
+__sig
+è
+	`__asm__
+ ("__xpg_sigpause");
+
+153 
+	`__sig·u£
+ (
+__sig_Ü_mask
+, 
+__is_sig
+);
+
+155 
+	#sig·u£
+(
+sig
+è
+	`__sig·u£
+ ((sig), 1)
+
+	)
+
+160 #ifdeà
+__USE_MISC
+
+
+167 
+	#sigmask
+(
+sig
+è(()(1u << ((sigè- 1)))
+
+	)
+
+170 
+	$sigblock
+ (
+__mask
+è
+__THROW
+ 
+__©Œibu‹_d•»ÿ‹d__
+;
+
+173 
+	$sig£tmask
+ (
+__mask
+è
+__THROW
+ 
+__©Œibu‹_d•»ÿ‹d__
+;
+
+176 
+	$sigg‘mask
+ (è
+__THROW
+ 
+__©Œibu‹_d•»ÿ‹d__
+;
+
+180 #ifdeà
+__USE_MISC
+
+
+181 
+	#NSIG
+ 
+_NSIG
+
+
+	)
+
+184 #ifdeà
+__USE_GNU
+
+
+185 
+__sighªdËr_t
+ 
+	tsighªdËr_t
+;
+
+189 #ifdeà
+__USE_MISC
+
+
+190 
+__sighªdËr_t
+ 
+	tsig_t
+;
+
+193 #ifdeà
+__USE_POSIX
+
+
+196 
+	$sigem±y£t
+ (
+sig£t_t
+ *
+__£t
+è
+__THROW
+ 
+	`__nÚnuÎ
+ ((1));
+
+199 
+	$sigfžl£t
+ (
+sig£t_t
+ *
+__£t
+è
+__THROW
+ 
+	`__nÚnuÎ
+ ((1));
+
+202 
+	$sigadd£t
+ (
+sig£t_t
+ *
+__£t
+, 
+__signo
+è
+__THROW
+ 
+	`__nÚnuÎ
+ ((1));
+
+205 
+	$sigd–£t
+ (
+sig£t_t
+ *
+__£t
+, 
+__signo
+è
+__THROW
+ 
+	`__nÚnuÎ
+ ((1));
+
+208 
+	$sigismemb”
+ (cÚ¡ 
+sig£t_t
+ *
+__£t
+, 
+__signo
+)
+
+209 
+__THROW
+ 
+	`__nÚnuÎ
+ ((1));
+
+211 #ifdeà
+__USE_GNU
+
+
+213 
+	$sigi£m±y£t
+ (cÚ¡ 
+sig£t_t
+ *
+__£t
+è
+__THROW
+ 
+	`__nÚnuÎ
+ ((1));
+
+216 
+	$sigªd£t
+ (
+sig£t_t
+ *
+__£t
+, cÚ¡ sig£t_ˆ*
+__Ëá
+,
+
+217 cÚ¡ 
+sig£t_t
+ *
+__right
+è
+__THROW
+ 
+	`__nÚnuÎ
+ ((1, 2, 3));
+
+220 
+	$sigÜ£t
+ (
+sig£t_t
+ *
+__£t
+, cÚ¡ sig£t_ˆ*
+__Ëá
+,
+
+221 cÚ¡ 
+sig£t_t
+ *
+__right
+è
+__THROW
+ 
+	`__nÚnuÎ
+ ((1, 2, 3));
+
+226 
+	~<b™s/sigaùiÚ.h
+>
+
+229 
+	$sig´ocmask
+ (
+__how
+, cÚ¡ 
+sig£t_t
+ *
+__»¡riù
+ 
+__£t
+,
+
+230 
+sig£t_t
+ *
+__»¡riù
+ 
+__o£t
+è
+__THROW
+;
+
+237 
+	$sigsu¥’d
+ (cÚ¡ 
+sig£t_t
+ *
+__£t
+è
+	`__nÚnuÎ
+ ((1));
+
+240 
+	$sigaùiÚ
+ (
+__sig
+, cÚ¡ 
+sigaùiÚ
+ *
+__»¡riù
+ 
+__aù
+,
+
+241 
+sigaùiÚ
+ *
+__»¡riù
+ 
+__ßù
+è
+__THROW
+;
+
+244 
+	$sig³ndšg
+ (
+sig£t_t
+ *
+__£t
+è
+__THROW
+ 
+	`__nÚnuÎ
+ ((1));
+
+247 #ifdeà
+__USE_POSIX199506
+
+
+252 
+	$sigwa™
+ (cÚ¡ 
+sig£t_t
+ *
+__»¡riù
+ 
+__£t
+, *__»¡riù 
+__sig
+)
+
+253 
+	`__nÚnuÎ
+ ((1, 2));
+
+256 #ifdeà
+__USE_POSIX199309
+
+
+261 
+	$sigwa™šfo
+ (cÚ¡ 
+sig£t_t
+ *
+__»¡riù
+ 
+__£t
+,
+
+262 
+sigšfo_t
+ *
+__»¡riù
+ 
+__šfo
+è
+	`__nÚnuÎ
+ ((1));
+
+269 
+	$sigtimedwa™
+ (cÚ¡ 
+sig£t_t
+ *
+__»¡riù
+ 
+__£t
+,
+
+270 
+sigšfo_t
+ *
+__»¡riù
+ 
+__šfo
+,
+
+271 cÚ¡ 
+time¥ec
+ *
+__»¡riù
+ 
+__timeout
+)
+
+272 
+	`__nÚnuÎ
+ ((1));
+
+276 
+	$sigqueue
+ (
+__pid_t
+ 
+__pid
+, 
+__sig
+, cÚ¡ 
+sigv®
+ 
+__v®
+)
+
+277 
+__THROW
+;
+
+282 #ifdeà
+__USE_MISC
+
+
+286 cÚ¡ *cÚ¡ 
+_sys_sigli¡
+[
+_NSIG
+];
+
+287 cÚ¡ *cÚ¡ 
+sys_sigli¡
+[
+_NSIG
+];
+
+291 
+	~<b™s/sigcÚ‹xt.h
+>
+
+294 
+	$sig»tuº
+ (
+sigcÚ‹xt
+ *
+__sý
+è
+__THROW
+;
+
+299 #ià
+defšed
+ 
+__USE_XOPEN_EXTENDED
+ || defšed 
+__USE_XOPEN2K8
+
+
+300 
+	#__Ãed_size_t
+
+
+	)
+
+301 
+	~<¡ddef.h
+>
+
+303 
+	~<b™s/ty³s/¡ack_t.h
+>
+
+304 #ià
+defšed
+ 
+__USE_XOPEN
+ || defšed 
+__USE_XOPEN2K8
+
+
+306 
+	~<sys/ucÚ‹xt.h
+>
+
+310 #ià
+defšed
+ 
+__USE_XOPEN_EXTENDED
+ || defšed 
+__USE_MISC
+
+
+314 
+	$sigš‹¼u±
+ (
+__sig
+, 
+__š‹¼u±
+è
+__THROW
+;
+
+316 
+	~<b™s/sig¡ack.h
+>
+
+317 
+	~<b™s/ss_æags.h
+>
+
+321 
+	$sig®t¡ack
+ (cÚ¡ 
+¡ack_t
+ *
+__»¡riù
+ 
+__ss
+,
+
+322 
+¡ack_t
+ *
+__»¡riù
+ 
+__oss
+è
+__THROW
+;
+
+325 #ià((
+defšed
+ 
+__USE_XOPEN_EXTENDED
+ && !defšed 
+__USE_XOPEN2K8
+) \
+
+326 || 
+defšed
+ 
+__USE_MISC
+)
+
+327 
+	~<b™s/ty³s/¡ruù_sig¡ack.h
+>
+
+330 #ià((
+defšed
+ 
+__USE_XOPEN_EXTENDED
+ && !defšed 
+__USE_XOPEN2K
+) \
+
+331 || 
+defšed
+ 
+__USE_MISC
+)
+
+335 
+	$sig¡ack
+ (
+sig¡ack
+ *
+__ss
+, sig¡ack *
+__oss
+)
+
+336 
+__THROW
+ 
+__©Œibu‹_d•»ÿ‹d__
+;
+
+339 #ifdeà
+__USE_XOPEN_EXTENDED
+
+
+343 
+	$sighÞd
+ (
+__sig
+è
+__THROW
+;
+
+346 
+	$sig»l£
+ (
+__sig
+è
+__THROW
+;
+
+349 
+	$sigignÜe
+ (
+__sig
+è
+__THROW
+;
+
+352 
+__sighªdËr_t
+ 
+	$sig£t
+ (
+__sig
+, 
+__sighªdËr_t
+ 
+__di¥
+è
+__THROW
+;
+
+355 #ià
+defšed
+ 
+__USE_POSIX199506
+ || defšed 
+__USE_UNIX98
+
+
+358 
+	~<b™s/±h»adty³s.h
+>
+
+359 
+	~<b™s/sigth»ad.h
+>
+
+366 
+	$__libc_cu¼’t_sig¹mš
+ (è
+__THROW
+;
+
+368 
+	$__libc_cu¼’t_sig¹max
+ (è
+__THROW
+;
+
+370 
+	#SIGRTMIN
+ (
+	`__libc_cu¼’t_sig¹mš
+ ())
+
+	)
+
+371 
+	#SIGRTMAX
+ (
+	`__libc_cu¼’t_sig¹max
+ ())
+
+	)
+
+374 
+	~<b™s/sigÇl_ext.h
+>
+
+376 
+__END_DECLS
+
+
+	@/usr/include/syscall.h
+
+1 
+	~<sys/sysÿÎ.h
+>
+
+	@/usr/include/features.h
+
+18 #iâdef 
+_FEATURES_H
+
+
+19 
+	#_FEATURES_H
+ 1
+
+	)
+
+120 #undeà
+__USE_ISOC11
+
+
+121 #undeà
+__USE_ISOC99
+
+
+122 #undeà
+__USE_ISOC95
+
+
+123 #undeà
+__USE_ISOCXX11
+
+
+124 #undeà
+__USE_POSIX
+
+
+125 #undeà
+__USE_POSIX2
+
+
+126 #undeà
+__USE_POSIX199309
+
+
+127 #undeà
+__USE_POSIX199506
+
+
+128 #undeà
+__USE_XOPEN
+
+
+129 #undeà
+__USE_XOPEN_EXTENDED
+
+
+130 #undeà
+__USE_UNIX98
+
+
+131 #undeà
+__USE_XOPEN2K
+
+
+132 #undeà
+__USE_XOPEN2KXSI
+
+
+133 #undeà
+__USE_XOPEN2K8
+
+
+134 #undeà
+__USE_XOPEN2K8XSI
+
+
+135 #undeà
+__USE_LARGEFILE
+
+
+136 #undeà
+__USE_LARGEFILE64
+
+
+137 #undeà
+__USE_FILE_OFFSET64
+
+
+138 #undeà
+__USE_MISC
+
+
+139 #undeà
+__USE_ATFILE
+
+
+140 #undeà
+__USE_GNU
+
+
+141 #undeà
+__USE_FORTIFY_LEVEL
+
+
+142 #undeà
+__KERNEL_STRICT_NAMES
+
+
+143 #undeà
+__GLIBC_USE_ISOC2X
+
+
+144 #undeà
+__GLIBC_USE_DEPRECATED_GETS
+
+
+145 #undeà
+__GLIBC_USE_DEPRECATED_SCANF
+
+
+149 #iâdeà
+_LOOSE_KERNEL_NAMES
+
+
+150 
+	#__KERNEL_STRICT_NAMES
+
+
+	)
+
+160 #ià
+defšed
+ 
+__GNUC__
+ && defšed 
+__GNUC_MINOR__
+
+
+161 
+	#__GNUC_PREREQ
+(
+maj
+, 
+mš
+) \
+
+162 ((
+__GNUC__
+ << 16è+ 
+__GNUC_MINOR__
+ >ð((
+maj
+è<< 16è+ (
+mš
+))
+
+	)
+
+164 
+	#__GNUC_PREREQ
+(
+maj
+, 
+mš
+è0
+
+	)
+
+171 #ià
+defšed
+ 
+__þªg_majÜ__
+ && defšed 
+__þªg_mšÜ__
+
+
+172 
+	#__glibc_þªg_´”eq
+(
+maj
+, 
+mš
+) \
+
+173 ((
+__þªg_majÜ__
+ << 16è+ 
+__þªg_mšÜ__
+ >ð((
+maj
+è<< 16è+ (
+mš
+))
+
+	)
+
+175 
+	#__glibc_þªg_´”eq
+(
+maj
+, 
+mš
+è0
+
+	)
+
+179 
+	#__GLIBC_USE
+(
+F
+è
+__GLIBC_USE_
+ ## 
+	)
+F
+
+185 #ià(
+defšed
+ 
+_BSD_SOURCE
+ || defšed 
+_SVID_SOURCE
+) \
+
+186 && !
+defšed
+ 
+	g_DEFAULT_SOURCE
+
+
+188 #undeà
+_DEFAULT_SOURCE
+
+
+189 
+	#_DEFAULT_SOURCE
+ 1
+
+	)
+
+193 #ifdeà
+_GNU_SOURCE
+
+
+194 #undeà
+_ISOC95_SOURCE
+
+
+195 
+	#_ISOC95_SOURCE
+ 1
+
+	)
+
+196 #undeà
+_ISOC99_SOURCE
+
+
+197 
+	#_ISOC99_SOURCE
+ 1
+
+	)
+
+198 #undeà
+_ISOC11_SOURCE
+
+
+199 
+	#_ISOC11_SOURCE
+ 1
+
+	)
+
+200 #undeà
+_ISOC2X_SOURCE
+
+
+201 
+	#_ISOC2X_SOURCE
+ 1
+
+	)
+
+202 #undeà
+_POSIX_SOURCE
+
+
+203 
+	#_POSIX_SOURCE
+ 1
+
+	)
+
+204 #undeà
+_POSIX_C_SOURCE
+
+
+205 
+	#_POSIX_C_SOURCE
+ 200809L
+
+	)
+
+206 #undeà
+_XOPEN_SOURCE
+
+
+207 
+	#_XOPEN_SOURCE
+ 700
+
+	)
+
+208 #undeà
+_XOPEN_SOURCE_EXTENDED
+
+
+209 
+	#_XOPEN_SOURCE_EXTENDED
+ 1
+
+	)
+
+210 #undeà
+_LARGEFILE64_SOURCE
+
+
+211 
+	#_LARGEFILE64_SOURCE
+ 1
+
+	)
+
+212 #undeà
+_DEFAULT_SOURCE
+
+
+213 
+	#_DEFAULT_SOURCE
+ 1
+
+	)
+
+214 #undeà
+_ATFILE_SOURCE
+
+
+215 
+	#_ATFILE_SOURCE
+ 1
+
+	)
+
+220 #ià(
+defšed
+ 
+_DEFAULT_SOURCE
+ \
+
+221 || (!
+defšed
+ 
+	g__STRICT_ANSI__
+ \
+
+222 && !
+defšed
+ 
+	g_ISOC99_SOURCE
+ && !defšed 
+	g_ISOC11_SOURCE
+ \
+
+223 && !
+defšed
+ 
+	g_ISOC2X_SOURCE
+ \
+
+224 && !
+defšed
+ 
+	g_POSIX_SOURCE
+ && !defšed 
+	g_POSIX_C_SOURCE
+ \
+
+225 && !
+defšed
+ 
+	g_XOPEN_SOURCE
+))
+
+226 #undeà
+_DEFAULT_SOURCE
+
+
+227 
+	#_DEFAULT_SOURCE
+ 1
+
+	)
+
+231 #ià(
+defšed
+ 
+_ISOC2X_SOURCE
+ \
+
+232 || (
+defšed
+ 
+	g__STDC_VERSION__
+ && __STDC_VERSION__ > 201710L))
+
+233 
+	#__GLIBC_USE_ISOC2X
+ 1
+
+	)
+
+235 
+	#__GLIBC_USE_ISOC2X
+ 0
+
+	)
+
+239 #ià(
+defšed
+ 
+_ISOC11_SOURCE
+ || defšed 
+_ISOC2X_SOURCE
+ \
+
+240 || (
+defšed
+ 
+	g__STDC_VERSION__
+ && __STDC_VERSION__ >= 201112L))
+
+241 
+	#__USE_ISOC11
+ 1
+
+	)
+
+245 #ià(
+defšed
+ 
+_ISOC99_SOURCE
+ || defšed 
+_ISOC11_SOURCE
+ \
+
+246 || 
+defšed
+ 
+_ISOC2X_SOURCE
+ \
+
+247 || (
+defšed
+ 
+__STDC_VERSION__
+ && __STDC_VERSION__ >= 199901L))
+
+248 
+	#__USE_ISOC99
+ 1
+
+	)
+
+252 #ià(
+defšed
+ 
+_ISOC99_SOURCE
+ || defšed 
+_ISOC11_SOURCE
+ \
+
+253 || 
+defšed
+ 
+_ISOC2X_SOURCE
+ \
+
+254 || (
+defšed
+ 
+__STDC_VERSION__
+ && __STDC_VERSION__ >= 199409L))
+
+255 
+	#__USE_ISOC95
+ 1
+
+	)
+
+258 #ifdeà
+__ýlu¥lus
+
+
+260 #ià
+__ýlu¥lus
+ >= 201703L
+
+261 
+	#__USE_ISOC11
+ 1
+
+	)
+
+265 #ià
+__ýlu¥lus
+ >ð201103L || 
+defšed
+ 
+__GXX_EXPERIMENTAL_CXX0X__
+
+
+266 
+	#__USE_ISOCXX11
+ 1
+
+	)
+
+267 
+	#__USE_ISOC99
+ 1
+
+	)
+
+274 #ifdeà
+_DEFAULT_SOURCE
+
+
+275 #ià!
+defšed
+ 
+_POSIX_SOURCE
+ && !defšed 
+_POSIX_C_SOURCE
+
+
+276 
+	#__USE_POSIX_IMPLICITLY
+ 1
+
+	)
+
+278 #undeà
+_POSIX_SOURCE
+
+
+279 
+	#_POSIX_SOURCE
+ 1
+
+	)
+
+280 #undeà
+_POSIX_C_SOURCE
+
+
+281 
+	#_POSIX_C_SOURCE
+ 200809L
+
+	)
+
+284 #ià((!
+defšed
+ 
+__STRICT_ANSI__
+ \
+
+285 || (
+defšed
+ 
+_XOPEN_SOURCE
+ && (_XOPEN_SOURCE - 0) >= 500)) \
+
+286 && !
+defšed
+ 
+_POSIX_SOURCE
+ && !defšed 
+_POSIX_C_SOURCE
+)
+
+287 
+	#_POSIX_SOURCE
+ 1
+
+	)
+
+288 #ià
+defšed
+ 
+_XOPEN_SOURCE
+ && (_XOPEN_SOURCE - 0) < 500
+
+289 
+	#_POSIX_C_SOURCE
+ 2
+
+	)
+
+290 #–ià
+defšed
+ 
+_XOPEN_SOURCE
+ && (_XOPEN_SOURCE - 0) < 600
+
+291 
+	#_POSIX_C_SOURCE
+ 199506L
+
+	)
+
+292 #–ià
+defšed
+ 
+_XOPEN_SOURCE
+ && (_XOPEN_SOURCE - 0) < 700
+
+293 
+	#_POSIX_C_SOURCE
+ 200112L
+
+	)
+
+295 
+	#_POSIX_C_SOURCE
+ 200809L
+
+	)
+
+297 
+	#__USE_POSIX_IMPLICITLY
+ 1
+
+	)
+
+306 #ià((!
+defšed
+ 
+_POSIX_C_SOURCE
+ || (_POSIX_C_SOURCE - 0) < 199506L) \
+
+307 && (
+defšed
+ 
+_REENTRANT
+ || defšed 
+_THREAD_SAFE
+))
+
+308 
+	#_POSIX_SOURCE
+ 1
+
+	)
+
+309 #undeà
+_POSIX_C_SOURCE
+
+
+310 
+	#_POSIX_C_SOURCE
+ 199506L
+
+	)
+
+313 #ià(
+defšed
+ 
+_POSIX_SOURCE
+ \
+
+314 || (
+defšed
+ 
+_POSIX_C_SOURCE
+ && _POSIX_C_SOURCE >= 1) \
+
+315 || 
+defšed
+ 
+_XOPEN_SOURCE
+)
+
+316 
+	#__USE_POSIX
+ 1
+
+	)
+
+319 #ià
+defšed
+ 
+_POSIX_C_SOURCE
+ && _POSIX_C_SOURCE >ð2 || defšed 
+_XOPEN_SOURCE
+
+
+320 
+	#__USE_POSIX2
+ 1
+
+	)
+
+323 #ià
+defšed
+ 
+_POSIX_C_SOURCE
+ && (_POSIX_C_SOURCE - 0) >= 199309L
+
+324 
+	#__USE_POSIX199309
+ 1
+
+	)
+
+327 #ià
+defšed
+ 
+_POSIX_C_SOURCE
+ && (_POSIX_C_SOURCE - 0) >= 199506L
+
+328 
+	#__USE_POSIX199506
+ 1
+
+	)
+
+331 #ià
+defšed
+ 
+_POSIX_C_SOURCE
+ && (_POSIX_C_SOURCE - 0) >= 200112L
+
+332 
+	#__USE_XOPEN2K
+ 1
+
+	)
+
+333 #undeà
+__USE_ISOC95
+
+
+334 
+	#__USE_ISOC95
+ 1
+
+	)
+
+335 #undeà
+__USE_ISOC99
+
+
+336 
+	#__USE_ISOC99
+ 1
+
+	)
+
+339 #ià
+defšed
+ 
+_POSIX_C_SOURCE
+ && (_POSIX_C_SOURCE - 0) >= 200809L
+
+340 
+	#__USE_XOPEN2K8
+ 1
+
+	)
+
+341 #undeà
+_ATFILE_SOURCE
+
+
+342 
+	#_ATFILE_SOURCE
+ 1
+
+	)
+
+345 #ifdef 
+_XOPEN_SOURCE
+
+
+346 
+	#__USE_XOPEN
+ 1
+
+	)
+
+347 #ià(
+_XOPEN_SOURCE
+ - 0) >= 500
+
+348 
+	#__USE_XOPEN_EXTENDED
+ 1
+
+	)
+
+349 
+	#__USE_UNIX98
+ 1
+
+	)
+
+350 #undeà
+_LARGEFILE_SOURCE
+
+
+351 
+	#_LARGEFILE_SOURCE
+ 1
+
+	)
+
+352 #ià(
+_XOPEN_SOURCE
+ - 0) >= 600
+
+353 #ià(
+_XOPEN_SOURCE
+ - 0) >= 700
+
+354 
+	#__USE_XOPEN2K8
+ 1
+
+	)
+
+355 
+	#__USE_XOPEN2K8XSI
+ 1
+
+	)
+
+357 
+	#__USE_XOPEN2K
+ 1
+
+	)
+
+358 
+	#__USE_XOPEN2KXSI
+ 1
+
+	)
+
+359 #undeà
+__USE_ISOC95
+
+
+360 
+	#__USE_ISOC95
+ 1
+
+	)
+
+361 #undeà
+__USE_ISOC99
+
+
+362 
+	#__USE_ISOC99
+ 1
+
+	)
+
+365 #ifdeà
+_XOPEN_SOURCE_EXTENDED
+
+
+366 
+	#__USE_XOPEN_EXTENDED
+ 1
+
+	)
+
+371 #ifdeà
+_LARGEFILE_SOURCE
+
+
+372 
+	#__USE_LARGEFILE
+ 1
+
+	)
+
+375 #ifdeà
+_LARGEFILE64_SOURCE
+
+
+376 
+	#__USE_LARGEFILE64
+ 1
+
+	)
+
+379 #ià
+defšed
+ 
+_FILE_OFFSET_BITS
+ && _FILE_OFFSET_BITS == 64
+
+380 
+	#__USE_FILE_OFFSET64
+ 1
+
+	)
+
+383 #ià
+defšed
+ 
+_DEFAULT_SOURCE
+
+
+384 
+	#__USE_MISC
+ 1
+
+	)
+
+387 #ifdef 
+_ATFILE_SOURCE
+
+
+388 
+	#__USE_ATFILE
+ 1
+
+	)
+
+391 #ifdef 
+_GNU_SOURCE
+
+
+392 
+	#__USE_GNU
+ 1
+
+	)
+
+395 #ià
+defšed
+ 
+_FORTIFY_SOURCE
+ && _FORTIFY_SOURCE > 0 \
+
+396 && 
+__GNUC_PREREQ
+ (4, 1è&& 
+defšed
+ 
+	g__OPTIMIZE__
+ && __OPTIMIZE__ > 0
+
+397 #ià
+_FORTIFY_SOURCE
+ > 1
+
+398 
+	#__USE_FORTIFY_LEVEL
+ 2
+
+	)
+
+400 
+	#__USE_FORTIFY_LEVEL
+ 1
+
+	)
+
+403 
+	#__USE_FORTIFY_LEVEL
+ 0
+
+	)
+
+410 #ià
+defšed
+ 
+__ýlu¥lus
+ ? __ýlu¥lu >ð201402L : defšed 
+__USE_ISOC11
+
+
+411 
+	#__GLIBC_USE_DEPRECATED_GETS
+ 0
+
+	)
+
+413 
+	#__GLIBC_USE_DEPRECATED_GETS
+ 1
+
+	)
+
+428 #ià(
+defšed
+ 
+__USE_GNU
+ \
+
+429 && (
+defšed
+ 
+	g__ýlu¥lus
+ \
+
+430 ? (
+	g__ýlu¥lus
+ < 201103L && !
+defšed
+ 
+	g__GXX_EXPERIMENTAL_CXX0X__
+) \
+
+431 : (!
+defšed
+ 
+__STDC_VERSION__
+ || __STDC_VERSION__ < 199901L)))
+
+432 
+	#__GLIBC_USE_DEPRECATED_SCANF
+ 1
+
+	)
+
+434 
+	#__GLIBC_USE_DEPRECATED_SCANF
+ 0
+
+	)
+
+439 
+	~<¡dc-´edef.h
+>
+
+447 #undeà
+__GNU_LIBRARY__
+
+
+448 
+	#__GNU_LIBRARY__
+ 6
+
+	)
+
+452 
+	#__GLIBC__
+ 2
+
+	)
+
+453 
+	#__GLIBC_MINOR__
+ 31
+
+	)
+
+455 
+	#__GLIBC_PREREQ
+(
+maj
+, 
+mš
+) \
+
+456 ((
+__GLIBC__
+ << 16è+ 
+__GLIBC_MINOR__
+ >ð((
+maj
+è<< 16è+ (
+mš
+))
+
+	)
+
+459 #iâdeà
+__ASSEMBLER__
+
+
+460 #iâdeà
+_SYS_CDEFS_H
+
+
+461 
+	~<sys/cdefs.h
+>
+
+466 #ià
+defšed
+ 
+__USE_FILE_OFFSET64
+ && !defšed 
+__REDIRECT
+
+
+467 
+	#__USE_LARGEFILE
+ 1
+
+	)
+
+468 
+	#__USE_LARGEFILE64
+ 1
+
+	)
+
+474 #ià
+__GNUC_PREREQ
+ (2, 7è&& 
+defšed
+ 
+__OPTIMIZE__
+ \
+
+475 && !
+defšed
+ 
+	g__OPTIMIZE_SIZE__
+ && !defšed 
+	g__NO_INLINE__
+ \
+
+476 && 
+defšed
+ 
+	g__ex‹º_šlše
+
+
+477 
+	#__USE_EXTERN_INLINES
+ 1
+
+	)
+
+485 
+	~<gnu/¡ubs.h
+>
+
+	@/usr/include/stdint.h
+
+22 #iâdeà
+_STDINT_H
+
+
+23 
+	#_STDINT_H
+ 1
+
+	)
+
+25 
+	#__GLIBC_INTERNAL_STARTING_HEADER_IMPLEMENTATION
+
+
+	)
+
+26 
+	~<b™s/libc-h—d”-¡¬t.h
+>
+
+27 
+	~<b™s/ty³s.h
+>
+
+28 
+	~<b™s/wch¬.h
+>
+
+29 
+	~<b™s/wÜdsize.h
+>
+
+34 
+	~<b™s/¡dšt-šŠ.h
+>
+
+37 
+	~<b™s/¡dšt-ušŠ.h
+>
+
+43 
+__št_Ëa¡8_t
+ 
+	tšt_Ëa¡8_t
+;
+
+44 
+__št_Ëa¡16_t
+ 
+	tšt_Ëa¡16_t
+;
+
+45 
+__št_Ëa¡32_t
+ 
+	tšt_Ëa¡32_t
+;
+
+46 
+__št_Ëa¡64_t
+ 
+	tšt_Ëa¡64_t
+;
+
+49 
+__ušt_Ëa¡8_t
+ 
+	tušt_Ëa¡8_t
+;
+
+50 
+__ušt_Ëa¡16_t
+ 
+	tušt_Ëa¡16_t
+;
+
+51 
+__ušt_Ëa¡32_t
+ 
+	tušt_Ëa¡32_t
+;
+
+52 
+__ušt_Ëa¡64_t
+ 
+	tušt_Ëa¡64_t
+;
+
+58 sigÃd 
+	tšt_ç¡8_t
+;
+
+59 #ià
+__WORDSIZE
+ == 64
+
+60 
+	tšt_ç¡16_t
+;
+
+61 
+	tšt_ç¡32_t
+;
+
+62 
+	tšt_ç¡64_t
+;
+
+64 
+	tšt_ç¡16_t
+;
+
+65 
+	tšt_ç¡32_t
+;
+
+66 
+__ex‹nsiÚ__
+
+
+67 
+	tšt_ç¡64_t
+;
+
+71 
+	tušt_ç¡8_t
+;
+
+72 #ià
+__WORDSIZE
+ == 64
+
+73 
+	tušt_ç¡16_t
+;
+
+74 
+	tušt_ç¡32_t
+;
+
+75 
+	tušt_ç¡64_t
+;
+
+77 
+	tušt_ç¡16_t
+;
+
+78 
+	tušt_ç¡32_t
+;
+
+79 
+__ex‹nsiÚ__
+
+
+80 
+	tušt_ç¡64_t
+;
+
+85 #ià
+__WORDSIZE
+ == 64
+
+86 #iâdeà
+__šŒ_t_defšed
+
+
+87 
+	tšŒ_t
+;
+
+88 
+	#__šŒ_t_defšed
+
+
+	)
+
+90 
+	tušŒ_t
+;
+
+92 #iâdeà
+__šŒ_t_defšed
+
+
+93 
+	tšŒ_t
+;
+
+94 
+	#__šŒ_t_defšed
+
+
+	)
+
+96 
+	tušŒ_t
+;
+
+101 
+__štmax_t
+ 
+	tštmax_t
+;
+
+102 
+__uštmax_t
+ 
+	tuštmax_t
+;
+
+105 #ià
+__WORDSIZE
+ == 64
+
+106 
+	#__INT64_C
+(
+c
+èø## 
+L
+
+
+	)
+
+107 
+	#__UINT64_C
+(
+c
+èø## 
+UL
+
+
+	)
+
+109 
+	#__INT64_C
+(
+c
+èø## 
+LL
+
+
+	)
+
+110 
+	#__UINT64_C
+(
+c
+èø## 
+ULL
+
+
+	)
+
+116 
+	#INT8_MIN
+ (-128)
+
+	)
+
+117 
+	#INT16_MIN
+ (-32767-1)
+
+	)
+
+118 
+	#INT32_MIN
+ (-2147483647-1)
+
+	)
+
+119 
+	#INT64_MIN
+ (-
+	`__INT64_C
+(9223372036854775807)-1)
+
+	)
+
+121 
+	#INT8_MAX
+ (127)
+
+	)
+
+122 
+	#INT16_MAX
+ (32767)
+
+	)
+
+123 
+	#INT32_MAX
+ (2147483647)
+
+	)
+
+124 
+	#INT64_MAX
+ (
+	`__INT64_C
+(9223372036854775807))
+
+	)
+
+127 
+	#UINT8_MAX
+ (255)
+
+	)
+
+128 
+	#UINT16_MAX
+ (65535)
+
+	)
+
+129 
+	#UINT32_MAX
+ (4294967295U)
+
+	)
+
+130 
+	#UINT64_MAX
+ (
+	`__UINT64_C
+(18446744073709551615))
+
+	)
+
+134 
+	#INT_LEAST8_MIN
+ (-128)
+
+	)
+
+135 
+	#INT_LEAST16_MIN
+ (-32767-1)
+
+	)
+
+136 
+	#INT_LEAST32_MIN
+ (-2147483647-1)
+
+	)
+
+137 
+	#INT_LEAST64_MIN
+ (-
+	`__INT64_C
+(9223372036854775807)-1)
+
+	)
+
+139 
+	#INT_LEAST8_MAX
+ (127)
+
+	)
+
+140 
+	#INT_LEAST16_MAX
+ (32767)
+
+	)
+
+141 
+	#INT_LEAST32_MAX
+ (2147483647)
+
+	)
+
+142 
+	#INT_LEAST64_MAX
+ (
+	`__INT64_C
+(9223372036854775807))
+
+	)
+
+145 
+	#UINT_LEAST8_MAX
+ (255)
+
+	)
+
+146 
+	#UINT_LEAST16_MAX
+ (65535)
+
+	)
+
+147 
+	#UINT_LEAST32_MAX
+ (4294967295U)
+
+	)
+
+148 
+	#UINT_LEAST64_MAX
+ (
+	`__UINT64_C
+(18446744073709551615))
+
+	)
+
+152 
+	#INT_FAST8_MIN
+ (-128)
+
+	)
+
+153 #ià
+__WORDSIZE
+ == 64
+
+154 
+	#INT_FAST16_MIN
+ (-9223372036854775807L-1)
+
+	)
+
+155 
+	#INT_FAST32_MIN
+ (-9223372036854775807L-1)
+
+	)
+
+157 
+	#INT_FAST16_MIN
+ (-2147483647-1)
+
+	)
+
+158 
+	#INT_FAST32_MIN
+ (-2147483647-1)
+
+	)
+
+160 
+	#INT_FAST64_MIN
+ (-
+	`__INT64_C
+(9223372036854775807)-1)
+
+	)
+
+162 
+	#INT_FAST8_MAX
+ (127)
+
+	)
+
+163 #ià
+__WORDSIZE
+ == 64
+
+164 
+	#INT_FAST16_MAX
+ (9223372036854775807L)
+
+	)
+
+165 
+	#INT_FAST32_MAX
+ (9223372036854775807L)
+
+	)
+
+167 
+	#INT_FAST16_MAX
+ (2147483647)
+
+	)
+
+168 
+	#INT_FAST32_MAX
+ (2147483647)
+
+	)
+
+170 
+	#INT_FAST64_MAX
+ (
+	`__INT64_C
+(9223372036854775807))
+
+	)
+
+173 
+	#UINT_FAST8_MAX
+ (255)
+
+	)
+
+174 #ià
+__WORDSIZE
+ == 64
+
+175 
+	#UINT_FAST16_MAX
+ (18446744073709551615UL)
+
+	)
+
+176 
+	#UINT_FAST32_MAX
+ (18446744073709551615UL)
+
+	)
+
+178 
+	#UINT_FAST16_MAX
+ (4294967295U)
+
+	)
+
+179 
+	#UINT_FAST32_MAX
+ (4294967295U)
+
+	)
+
+181 
+	#UINT_FAST64_MAX
+ (
+	`__UINT64_C
+(18446744073709551615))
+
+	)
+
+185 #ià
+__WORDSIZE
+ == 64
+
+186 
+	#INTPTR_MIN
+ (-9223372036854775807L-1)
+
+	)
+
+187 
+	#INTPTR_MAX
+ (9223372036854775807L)
+
+	)
+
+188 
+	#UINTPTR_MAX
+ (18446744073709551615UL)
+
+	)
+
+190 
+	#INTPTR_MIN
+ (-2147483647-1)
+
+	)
+
+191 
+	#INTPTR_MAX
+ (2147483647)
+
+	)
+
+192 
+	#UINTPTR_MAX
+ (4294967295U)
+
+	)
+
+197 
+	#INTMAX_MIN
+ (-
+	`__INT64_C
+(9223372036854775807)-1)
+
+	)
+
+199 
+	#INTMAX_MAX
+ (
+	`__INT64_C
+(9223372036854775807))
+
+	)
+
+202 
+	#UINTMAX_MAX
+ (
+	`__UINT64_C
+(18446744073709551615))
+
+	)
+
+208 #ià
+__WORDSIZE
+ == 64
+
+209 
+	#PTRDIFF_MIN
+ (-9223372036854775807L-1)
+
+	)
+
+210 
+	#PTRDIFF_MAX
+ (9223372036854775807L)
+
+	)
+
+212 #ià
+__WORDSIZE32_PTRDIFF_LONG
+
+
+213 
+	#PTRDIFF_MIN
+ (-2147483647L-1)
+
+	)
+
+214 
+	#PTRDIFF_MAX
+ (2147483647L)
+
+	)
+
+216 
+	#PTRDIFF_MIN
+ (-2147483647-1)
+
+	)
+
+217 
+	#PTRDIFF_MAX
+ (2147483647)
+
+	)
+
+222 
+	#SIG_ATOMIC_MIN
+ (-2147483647-1)
+
+	)
+
+223 
+	#SIG_ATOMIC_MAX
+ (2147483647)
+
+	)
+
+226 #ià
+__WORDSIZE
+ == 64
+
+227 
+	#SIZE_MAX
+ (18446744073709551615UL)
+
+	)
+
+229 #ià
+__WORDSIZE32_SIZE_ULONG
+
+
+230 
+	#SIZE_MAX
+ (4294967295UL)
+
+	)
+
+232 
+	#SIZE_MAX
+ (4294967295U)
+
+	)
+
+237 #iâdeà
+WCHAR_MIN
+
+
+239 
+	#WCHAR_MIN
+ 
+__WCHAR_MIN
+
+
+	)
+
+240 
+	#WCHAR_MAX
+ 
+__WCHAR_MAX
+
+
+	)
+
+244 
+	#WINT_MIN
+ (0u)
+
+	)
+
+245 
+	#WINT_MAX
+ (4294967295u)
+
+	)
+
+248 
+	#INT8_C
+(
+c
+è
+	)
+c
+
+249 
+	#INT16_C
+(
+c
+è
+	)
+c
+
+250 
+	#INT32_C
+(
+c
+è
+	)
+c
+
+251 #ià
+__WORDSIZE
+ == 64
+
+252 
+	#INT64_C
+(
+c
+èø## 
+L
+
+
+	)
+
+254 
+	#INT64_C
+(
+c
+èø## 
+LL
+
+
+	)
+
+258 
+	#UINT8_C
+(
+c
+è
+	)
+c
+
+259 
+	#UINT16_C
+(
+c
+è
+	)
+c
+
+260 
+	#UINT32_C
+(
+c
+èø## 
+U
+
+
+	)
+
+261 #ià
+__WORDSIZE
+ == 64
+
+262 
+	#UINT64_C
+(
+c
+èø## 
+UL
+
+
+	)
+
+264 
+	#UINT64_C
+(
+c
+èø## 
+ULL
+
+
+	)
+
+268 #ià
+__WORDSIZE
+ == 64
+
+269 
+	#INTMAX_C
+(
+c
+èø## 
+L
+
+
+	)
+
+270 
+	#UINTMAX_C
+(
+c
+èø## 
+UL
+
+
+	)
+
+272 
+	#INTMAX_C
+(
+c
+èø## 
+LL
+
+
+	)
+
+273 
+	#UINTMAX_C
+(
+c
+èø## 
+ULL
+
+
+	)
+
+276 #ià
+__GLIBC_USE
+ (
+IEC_60559_BFP_EXT_C2X
+)
+
+278 
+	#INT8_WIDTH
+ 8
+
+	)
+
+279 
+	#UINT8_WIDTH
+ 8
+
+	)
+
+280 
+	#INT16_WIDTH
+ 16
+
+	)
+
+281 
+	#UINT16_WIDTH
+ 16
+
+	)
+
+282 
+	#INT32_WIDTH
+ 32
+
+	)
+
+283 
+	#UINT32_WIDTH
+ 32
+
+	)
+
+284 
+	#INT64_WIDTH
+ 64
+
+	)
+
+285 
+	#UINT64_WIDTH
+ 64
+
+	)
+
+287 
+	#INT_LEAST8_WIDTH
+ 8
+
+	)
+
+288 
+	#UINT_LEAST8_WIDTH
+ 8
+
+	)
+
+289 
+	#INT_LEAST16_WIDTH
+ 16
+
+	)
+
+290 
+	#UINT_LEAST16_WIDTH
+ 16
+
+	)
+
+291 
+	#INT_LEAST32_WIDTH
+ 32
+
+	)
+
+292 
+	#UINT_LEAST32_WIDTH
+ 32
+
+	)
+
+293 
+	#INT_LEAST64_WIDTH
+ 64
+
+	)
+
+294 
+	#UINT_LEAST64_WIDTH
+ 64
+
+	)
+
+296 
+	#INT_FAST8_WIDTH
+ 8
+
+	)
+
+297 
+	#UINT_FAST8_WIDTH
+ 8
+
+	)
+
+298 
+	#INT_FAST16_WIDTH
+ 
+__WORDSIZE
+
+
+	)
+
+299 
+	#UINT_FAST16_WIDTH
+ 
+__WORDSIZE
+
+
+	)
+
+300 
+	#INT_FAST32_WIDTH
+ 
+__WORDSIZE
+
+
+	)
+
+301 
+	#UINT_FAST32_WIDTH
+ 
+__WORDSIZE
+
+
+	)
+
+302 
+	#INT_FAST64_WIDTH
+ 64
+
+	)
+
+303 
+	#UINT_FAST64_WIDTH
+ 64
+
+	)
+
+305 
+	#INTPTR_WIDTH
+ 
+__WORDSIZE
+
+
+	)
+
+306 
+	#UINTPTR_WIDTH
+ 
+__WORDSIZE
+
+
+	)
+
+308 
+	#INTMAX_WIDTH
+ 64
+
+	)
+
+309 
+	#UINTMAX_WIDTH
+ 64
+
+	)
+
+311 
+	#PTRDIFF_WIDTH
+ 
+__WORDSIZE
+
+
+	)
+
+312 
+	#SIG_ATOMIC_WIDTH
+ 32
+
+	)
+
+313 
+	#SIZE_WIDTH
+ 
+__WORDSIZE
+
+
+	)
+
+314 
+	#WCHAR_WIDTH
+ 32
+
+	)
+
+315 
+	#WINT_WIDTH
+ 32
+
+	)
+
+	@/usr/include/stdc-predef.h
+
+18 #iâdef 
+_STDC_PREDEF_H
+
+
+19 
+	#_STDC_PREDEF_H
+ 1
+
+	)
+
+36 #ifdeà
+__GCC_IEC_559
+
+
+37 #ià
+__GCC_IEC_559
+ > 0
+
+38 
+	#__STDC_IEC_559__
+ 1
+
+	)
+
+41 
+	#__STDC_IEC_559__
+ 1
+
+	)
+
+44 #ifdeà
+__GCC_IEC_559_COMPLEX
+
+
+45 #ià
+__GCC_IEC_559_COMPLEX
+ > 0
+
+46 
+	#__STDC_IEC_559_COMPLEX__
+ 1
+
+	)
+
+49 
+	#__STDC_IEC_559_COMPLEX__
+ 1
+
+	)
+
+58 
+	#__STDC_ISO_10646__
+ 201706L
+
+	)
+
 	@
 1
 .
 1
 /usr/include
-308
-7809
+317
+8012
 arch/mips/include/current.h
 arch/mips/include/elf.h
 arch/mips/include/kern/endian.h
@@ -89354,3 +111476,12 @@ vfs/vnode.c
 vm/addrspace.c
 vm/copyinout.c
 vm/kmalloc.c
+/usr/include/elf.h
+/usr/include/endian.h
+/usr/include/limits.h
+/usr/include/setjmp.h
+/usr/include/signal.h
+/usr/include/syscall.h
+/usr/include/features.h
+/usr/include/stdint.h
+/usr/include/stdc-predef.h
