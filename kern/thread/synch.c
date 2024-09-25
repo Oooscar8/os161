@@ -158,8 +158,8 @@ lock_create(const char *name)
         }
 
         // add stuff here as needed
-        spinlock_init(&lock->lk_spinlock);    /* init spinlock */
-        lock->lk_wchan = wchan_create(lock->lk_name);    /* create wait channel */
+        spinlock_init(&lock->lk_spinlock);            /* init spinlock */
+        lock->lk_wchan = wchan_create(lock->lk_name); /* create wait channel */
         if (lock->lk_wchan == NULL)
         {
                 kfree(lock->lk_name);
@@ -177,6 +177,18 @@ void lock_destroy(struct lock *lock)
         KASSERT(lock != NULL);
 
         // add stuff here as needed
+
+        /* acquire the spinlock makeing sure no other threads can modify the lock */
+        spinlock_acquire(&lock->lk_spinlock);
+
+        KASSERT(!lock->lk_locked);        /* make sure the lock is not used */
+        KASSERT(lock->lk_holder == NULL); /* make sure no thread is holding the lock */
+
+        KASSERT(wchan_isempty(lock->lk_wchan, &lock->lk_spinlock));    /* make sure wait channel is empty */
+        spinklock_release(&lock->lk_spinlock);
+
+        wchan_destroy(lock->lk_wchan);        /* destroy the wait channel */
+        spinlock_cleanup(&lock->lk_spinlock); /* clean up the spinlock */
 
         kfree(lock->lk_name);
         kfree(lock);
