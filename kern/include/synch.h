@@ -119,6 +119,8 @@ struct cv
         char *cv_name;
         // add what you need here
         // (don't forget to mark things volatile as needed)
+        struct wchan *cv_wchan;     /* lists of threads waiting on the cv */
+        struct spinlock cv_lock;    /* protect the wait channel */
 };
 
 struct cv *cv_create(const char *name);
