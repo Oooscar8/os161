@@ -158,14 +158,16 @@ lock_create(const char *name)
         }
 
         // add stuff here as needed
-        spinlock_init(&lock->lk_spinlock);            /* init spinlock */
+        spinlock_init(&lock->lk_spinlock);            /* initialize spinlock */
         lock->lk_wchan = wchan_create(lock->lk_name); /* create wait channel */
+        /* if failing to create wait channel, free the lock */
         if (lock->lk_wchan == NULL)
         {
                 kfree(lock->lk_name);
                 kfree(lock);
                 return NULL;
         }
+        /* initially no thread is holding the lock */
         lock->lk_holder = NULL;
         lock->lk_hold = 0;
 
@@ -185,11 +187,12 @@ void lock_destroy(struct lock *lock)
         KASSERT(lock->lk_holder == NULL);                           /* make sure no thread is holding the lock */
         KASSERT(wchan_isempty(lock->lk_wchan, &lock->lk_spinlock)); /* make sure wait channel is empty */
 
-        spinklock_release(&lock->lk_spinlock);
+        spinlock_release(&lock->lk_spinlock);
 
         wchan_destroy(lock->lk_wchan);        /* destroy the wait channel */
         spinlock_cleanup(&lock->lk_spinlock); /* clean up the spinlock */
 
+        /* clean up the lock structure */
         kfree(lock->lk_name);
         kfree(lock);
 }
@@ -219,8 +222,6 @@ void lock_acquire(struct lock *lock)
         lock->lk_holder = curthread;
 
         spinlock_release(&lock->lk_spinlock);
-
-        /* (void)lock; // suppress warning until code gets written */
 }
 
 void lock_release(struct lock *lock)
@@ -240,8 +241,6 @@ void lock_release(struct lock *lock)
         wchan_wakeone(lock->lk_wchan, &lock->lk_spinlock);
 
         spinlock_release(&lock->lk_spinlock);
-
-        /* (void)lock; // suppress warning until code gets written */
 }
 
 bool lock_do_i_hold(struct lock *lock)
@@ -261,8 +260,6 @@ bool lock_do_i_hold(struct lock *lock)
         spinlock_release(&lock->lk_spinlock);
 
         return do_i_hold;
-
-        /* (void)lock; // suppress warning until code gets written */
 }
 
 ////////////////////////////////////////////////////////////
