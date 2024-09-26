@@ -181,10 +181,10 @@ void lock_destroy(struct lock *lock)
         /* acquire the spinlock makeing sure no other threads can modify the lock */
         spinlock_acquire(&lock->lk_spinlock);
 
-        KASSERT(!lock->lk_locked);        /* make sure the lock is not used */
-        KASSERT(lock->lk_holder == NULL); /* make sure no thread is holding the lock */
+        KASSERT(!lock->lk_locked);                                  /* make sure the lock is not used */
+        KASSERT(lock->lk_holder == NULL);                           /* make sure no thread is holding the lock */
+        KASSERT(wchan_isempty(lock->lk_wchan, &lock->lk_spinlock)); /* make sure wait channel is empty */
 
-        KASSERT(wchan_isempty(lock->lk_wchan, &lock->lk_spinlock));    /* make sure wait channel is empty */
         spinklock_release(&lock->lk_spinlock);
 
         wchan_destroy(lock->lk_wchan);        /* destroy the wait channel */
