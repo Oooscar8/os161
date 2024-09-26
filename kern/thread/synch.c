@@ -247,10 +247,22 @@ void lock_release(struct lock *lock)
 bool lock_do_i_hold(struct lock *lock)
 {
         // Write this
+        KASSERT(lock != NULL);
 
-        (void)lock; // suppress warning until code gets written
+        /* if there is no current thread, nobody is holding the lock */
+        if (curthread == NULL)
+        {
+                return false;
+        }
 
-        return true; // dummy until code gets written
+        /* acquire the spinlock before checking whether the current threads holds the lock */
+        spinlock_acquire(&lock->lk_spinlock);
+        bool do_i_hold = (lock->lk_holder == curthread);
+        spinlock_release(&lock->lk_spinlock);
+
+        return do_i_hold;
+
+        /* (void)lock; // suppress warning until code gets written */
 }
 
 ////////////////////////////////////////////////////////////
