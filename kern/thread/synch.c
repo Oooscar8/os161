@@ -214,6 +214,7 @@ void lock_acquire(struct lock *lock)
                 wchan_sleep(lock->lk_wchan, &lock->lk_spinlock);
         }
 
+        /* acquire the lock for the current thread */
         lock->lk_hold = 1;
         lock->lk_holder = curthread;
 
@@ -225,8 +226,22 @@ void lock_acquire(struct lock *lock)
 void lock_release(struct lock *lock)
 {
         // Write this
+        KASSERT(lock != NULL);
+        /* make sure the current thread is holding the lock */
+        KASSERT(lock_do_i_hold(lock));
 
-        (void)lock; // suppress warning until code gets written
+        /* acquire the spinlock, protecting the lock and the wait channel */
+        spinlock_acquire(&lock->lk_spinlock);
+
+        /* free the lock */
+        lock->lk_hold = 0;
+        lock->lk_holder = NULL;
+        /* wake up a thread waiting on the wait channel */
+        wchan_wakeone(lock->lk_wchan, &lock->lk_spinlock);
+
+        spinlock_release(&lock->lk_spinlock);
+
+        /* (void)lock; // suppress warning until code gets written */
 }
 
 bool lock_do_i_hold(struct lock *lock)
