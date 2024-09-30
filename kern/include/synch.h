@@ -42,11 +42,10 @@
  * The name field is for easier debugging. A copy of the name is made
  * internally.
  */
-struct semaphore
-{
+struct semaphore {
         char *sem_name;
-        struct wchan *sem_wchan;
-        struct spinlock sem_lock;
+	struct wchan *sem_wchan;
+	struct spinlock sem_lock;
         volatile unsigned sem_count;
 };
 

@@ -60,7 +60,7 @@ distclean: clean
 	rm -rf $(WORKDIR)
 
 install: $(OSTREE)
-	(cd $(INSTALLTOP) && tar -cvhf - .) | (cd $(OSTREE) && tar -xvhf -)
+	(cd $(INSTALLTOP) && tar -cf - .) | (cd $(OSTREE) && tar -xvf -)
 
 
 .PHONY: all rebuild fullrebuild tools build includes tags depend
