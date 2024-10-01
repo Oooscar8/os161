@@ -12,20 +12,24 @@
 static int ropes_left = NROPES;
 
 /* Data structures for rope mappings */
+typedef struct {
+	bool is_cut;
+	int stake;
+	int hook;
+	struct lock *lock;
+} rope;
+
 typedef struct
 {
-	int hook;
-	bool is_connected;
-	struct lock *lock;
+	rope *connected_rope;
 } stake;
 
 typedef struct
 {
-	int stake;
-	bool is_connected;
-	struct lock *lock;
+	rope *connected_rope;
 } hook;
 
+static rope ropes[NROPES];
 static stake stakes[NROPES];
 static hook hooks[NROPES];
 
@@ -51,13 +55,14 @@ static void initialize_mappings()
 {
 	for (int i = 0; i < NROPES; ++i)
 	{
-		stakes[i].hook = i;
-		stakes[i].is_connected = true;
-		stakes[i].lock = lock_create("stake lock");
+		ropes[i].is_cut = false;
+		ropes[i].stake = i;
+		ropes[i].hook = i;
+        ropes[i].lock = lock_create("rope lock");
 
-		hooks[i].stake = i;
-		hooks[i].is_connected = true;
-		hooks[i].lock = lock_create("hook lock");
+		stakes[i].connected_rope = &ropes[i];
+
+		hooks[i].connected_rope = &ropes[i];
 	}
 }
 
@@ -80,8 +85,8 @@ static void cleanup_synchronization()
 	lock_destroy(balloon_exit_lock);
 	for (int i = 0; i < NROPES; ++i)
 	{
-		lock_destroy(stakes[i].lock);
-		lock_destroy(hooks[i].lock);
+		lock_destroy(ropes[i].lock);
+		lock_destroy(ropes[i].lock);
 	}
 }
 
@@ -113,7 +118,7 @@ static void wait_for_balloon()
  */
 static bool is_rope_cut(int hook)
 {
-	return (!hooks[hook].is_connected || !stakes[hooks[hook].stake].is_connected);
+	
 }
 
 /* Dandelion severs ropes from hooks. */
@@ -140,11 +145,12 @@ static void dandelion(void *p, unsigned long arg)
 		int hook = random() % NROPES;
 
 		/* Try to sever the rope. */
-		lock_acquire(hooks[hook].lock);
+		lock_acquire(hooks[hook].connected_rope.lock);
 		/* If the rope is not severed, sever it from the hook. */
 		if (!is_rope_cut(hook))
 		{
-			hooks[hook].is_connected = false;
+			hooks[hook].connected_rope = NULL;
+
 
 			lock_acquire(ropes_left_lock);
 			ropes_left--;
