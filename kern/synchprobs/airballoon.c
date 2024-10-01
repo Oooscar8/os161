@@ -10,7 +10,7 @@
 #define N_LORD_FLOWERKILLER 8
 #define NROPES 16
 static int ropes_left = NROPES;
-
+static int threads_exited = 0;
 
 /* Data structures for rope mappings */
 int hook_to_stake[NROPES];	 // mappings from hook to stake (e.g. hook_to_stake[3] = 7 means hook 3 connects to stake 7)
@@ -18,19 +18,18 @@ int stake_to_hook[NROPES];	 // mappings from stake to hook (e.g. stake_to_hook[7
 int hook_connected[NROPES];	 // 0 means hook disconnected from rope, 1 means otherwise
 int stake_connected[NROPES]; // 0 means stake disconnected from rope, 1 means otherwise
 
-
 /* Synchronization primitives */
-static struct lock *rope_locks[NROPES]; // protect each rope
-static struct lock *ropes_left_lock;	// protect global variable ropes_left
-static struct lock *rope_mapping_lock;	// protect the stake-to-hook mapping
-
+static struct lock *hook_locks[NROPES];	 // protect each hook
+static struct lock *stake_locks[NROPES]; // protect each stake
+static struct lock *ropes_left_lock;	 // protect global variable ropes_left
+static struct cv *all_threads_done_cv;
+static struct lock *threads_exit_lock;
 
 /*
  * Describe your design and any invariants or locking protocols
  * that must be maintained. Explain the exit conditions. How
  * do all threads know when they are done?
  */
-
 
 /* Initialize rope mappings and locks. */
 static void initialize()
@@ -41,12 +40,12 @@ static void initialize()
 		stake_to_hook[i] = i;
 		hook_connected[i] = 1;
 		stake_connected[i] = 1;
-		rope_locks[i] = lock_create("rope lock");
+		hook_locks[i] = lock_create("hook lock");
+		stake_locks[i] = lock_create("stake lock");
 	}
 	ropes_left_lock = lock_create("ropes_left lock");
-	rope_mapping_lock = lock_create("rope mapping lock");
+	all_threads_done_cv = 
 }
-
 
 /*
  * Helper function:
@@ -57,7 +56,6 @@ static bool is_rope_cut(int hook)
 {
 	return (!hook_connected[hook] || !stake_connected[hook_to_stake[hook]]);
 }
-
 
 /* Dandelion severs ropes from hooks. */
 static void dandelion(void *p, unsigned long arg)
@@ -83,7 +81,7 @@ static void dandelion(void *p, unsigned long arg)
 		int hook = random() % NROPES;
 
 		/* Try to sever the rope. */
-		lock_acquire(rope_locks[hook]);
+		lock_acquire(hook_locks[hook]);
 		/* If the rope is not severed, sever it from the hook. */
 		if (!is_rope_cut(hook))
 		{
@@ -94,18 +92,18 @@ static void dandelion(void *p, unsigned long arg)
 			kprintf("Dandelion severed rope %d\n", hook);
 			lock_release(ropes_left_lock);
 
-			lock_release(rope_locks[hook]);
+			lock_release(hook_locks[hook]);
 
 			/* Dandelion succeeded unhooking one rope. */
 			thread_yield();
 			continue;
 		}
-		lock_release(rope_locks[hook]);
+		lock_release(hook_locks[hook]);
 	}
 
 	kprintf("Dandelion thread done\n");
+	thread_exit();
 }
-
 
 /* Marigold severs ropes from stakes. */
 static void marigold(void *p, unsigned long arg)
@@ -130,35 +128,32 @@ static void marigold(void *p, unsigned long arg)
 		/* Randomly select a stake. */
 		int stake = random() % NROPES;
 
-		/*
-		 * Mapping from stake to hook.
-		 * Acquire the corresponding hook from the selected stake,
-		 * protected by rope_mapping_lock.
-		 */
-		lock_acquire(rope_mapping_lock);
+		/* Mapping from stake to hook, protected by stake_locks. */
+		lock_acquire(stake_locks[stake]);
 		int hook = stake_to_hook[stake];
-		lock_release(rope_mapping_lock);
+		lock_release(stake_locks[stake]);
 
-		lock_acquire(rope_locks[hook]);
-		if (is_rope_cut(hook))
+		lock_acquire(hook_locks[hook]);
+		if (!is_rope_cut(hook))
 		{
 			stake_connected[stake] = 0;
-			
+
 			lock_acquire(ropes_left_lock);
 			ropes_left--;
 			kprintf("Marigold severed rope %d from stake %d\n", hook, stake);
 			lock_release(ropes_left_lock);
 
-			lock_release(rope_locks[hook]);
+			lock_release(hook_locks[hook]);
 
 			/* Marigold succeeded unhooking one rope. */
 			thread_yield();
 			continue;
 		}
-		lock_release(rope_locks[hook]);
+		lock_release(hook_locks[hook]);
 	}
 
 	kprintf("Marigold thread done\n");
+	thread_exit();
 }
 
 static void flowerkiller(void *p, unsigned long arg)
@@ -180,11 +175,24 @@ static void balloon(void *p, unsigned long arg)
 
 	/* Implement this function */
 
+	while (true) {
+        /* Check if all ropes have been severed. */
+        lock_acquire(ropes_left_lock);
+        if (ropes_left == 0) {
+            lock_release(ropes_left_lock);
+            break;
+        }
+        lock_release(ropes_left_lock);
+        
+        thread_yield();
+    }
+
 	/* all ropes have been severed */
-	// kprintf("Balloon freed and Prince Dandelion escapes!\n");
+	kprintf("Balloon freed and Prince Dandelion escapes!\n");
 	/* balloon thread done*/
-	// kprintf("Balloon thread done\n");
+	kprintf("Balloon thread done\n");
 	/* then exit */
+	thread_exit();
 }
 
 // Change this function as necessary
