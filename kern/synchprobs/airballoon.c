@@ -14,8 +14,7 @@ static int ropes_left = NROPES;
 /* Data structures for rope mappings */
 typedef struct {
 	bool is_cut;
-	int stake;
-	int hook;
+	int rope_number;
 	struct lock *lock;
 } rope;
 
@@ -56,8 +55,7 @@ static void initialize_mappings()
 	for (int i = 0; i < NROPES; ++i)
 	{
 		ropes[i].is_cut = false;
-		ropes[i].stake = i;
-		ropes[i].hook = i;
+		ropes[i].rope_number = i;
         ropes[i].lock = lock_create("rope lock");
 
 		stakes[i].connected_rope = &ropes[i];
@@ -111,15 +109,6 @@ static void wait_for_balloon()
 	lock_release(balloon_exit_lock);
 }
 
-/*
- * Helper function:
- * Check if the rope is severed.
- * Should be protected by lock when being invoked.
- */
-static bool is_rope_cut(int hook)
-{
-	
-}
 
 /* Dandelion severs ropes from hooks. */
 static void dandelion(void *p, unsigned long arg)
@@ -143,27 +132,26 @@ static void dandelion(void *p, unsigned long arg)
 
 		/* Randomly select a hook. */
 		int hook = random() % NROPES;
+		rope *current_rope = hooks[hook].connected_rope;
 
-		/* Try to sever the rope. */
-		lock_acquire(hooks[hook].connected_rope.lock);
+		if (current_rope == NULL) {
+			continue;
+		}
+
+		lock_acquire(current_rope->lock);
 		/* If the rope is not severed, sever it from the hook. */
-		if (!is_rope_cut(hook))
+		if (!current_rope->is_cut)
 		{
+			current_rope->is_cut = true;
 			hooks[hook].connected_rope = NULL;
-
 
 			lock_acquire(ropes_left_lock);
 			ropes_left--;
 			kprintf("Dandelion severed rope %d\n", hook);
 			lock_release(ropes_left_lock);
-
-			lock_release(hooks[hook].lock);
-
-			/* Dandelion succeeded unhooking one rope. */
-			thread_yield();
-			continue;
 		}
-		lock_release(hooks[hook].lock);
+		lock_release(current_rope->lock);
+		thread_yield();
 	}
 
 	kprintf("Dandelion thread done\n");
@@ -193,29 +181,26 @@ static void marigold(void *p, unsigned long arg)
 
 		/* Randomly select a stake. */
 		int stake = random() % NROPES;
+		rope *current_rope = stakes[stake].connected_rope;
+
+		if (current_rope == NULL) {
+			continue;
+		}
 
 		/* Mapping from stake to hook, protected by stake lock. */
-		lock_acquire(stakes[stake].lock);
-		int hook = stakes[stake].hook;
-		lock_release(stakes[stake].lock);
-
-		lock_acquire(hooks[hook].lock);
-		if (!is_rope_cut(hook))
+		lock_acquire(current_rope->lock);
+		if (!current_rope->is_cut)
 		{
-			stakes[stake].is_connected = false;
+			current_rope->is_cut = true;
+			stakes[stake].connected_rope = NULL;
 
 			lock_acquire(ropes_left_lock);
 			ropes_left--;
-			kprintf("Marigold severed rope %d from stake %d\n", hook, stake);
+			kprintf("Marigold severed rope %d from stake %d\n", current_rope->rope_number, stake);
 			lock_release(ropes_left_lock);
-
-			lock_release(hooks[hook].lock);
-
-			/* Marigold succeeded unhooking one rope. */
-			thread_yield();
-			continue;
 		}
-		lock_release(hooks[hook].lock);
+		lock_release(current_rope->lock);
+		thread_yield();
 	}
 
 	kprintf("Marigold thread done\n");
@@ -254,49 +239,34 @@ static void flowerkiller(void *p, unsigned long arg)
 			}
 		}
 
-		int first_stake = (stake1 < stake2) ? stake1 : stake2;
-		int second_stake = (stake1 < stake2) ? stake2 : stake1;
+		rope *rope1 = stakes[stake1].connected_rope;
+		rope *rope2 = stakes[stake2].connected_rope;
 
-		lock_acquire(stakes[first_stake].lock);
-		lock_acquire(stakes[second_stake].lock);
-
-		int hook1 = stakes[first_stake].hook;
-		int hook2 = stakes[second_stake].hook;
-
-		int first_hook = (hook1 < hook2) ? hook1 : hook2;
-		int second_hook = (hook1 < hook2) ? hook2 : hook1;
-
-		lock_acquire(hooks[first_hook].lock);
-		lock_acquire(hooks[second_hook].lock);
-
-		if (!is_rope_cut(hook1) && !is_rope_cut(hook2))
-		{
-			stakes[first_stake].hook = hook2;
-			stakes[second_stake].hook = hook1;
-			hooks[hook1].stake = second_stake;
-			hooks[hook2].stake = first_stake;
-
-			kprintf("Lord FlowerKiller switched rope %d from stake %d to stake %d\n", hook1, first_stake, second_stake);
-			kprintf("Lord FlowerKiller switched rope %d from stake %d to stake %d\n", hook2, second_stake, first_stake);
-
-			lock_release(hooks[second_hook].lock);
-			lock_release(hooks[first_hook].lock);
-			lock_release(stakes[second_stake].lock);
-			lock_release(stakes[first_stake].lock);
-
-            /* Lord Flowerkiller succeeded swaping two ropes. */
-			thread_yield();
+		if (rope1 == NULL || rope2 == NULL) {
 			continue;
 		}
-		lock_release(hooks[second_hook].lock);
-		lock_release(hooks[first_hook].lock);
-		lock_release(stakes[second_stake].lock);
-		lock_release(stakes[first_stake].lock);
+
+		rope *first_rope = (rope1->rope_number < rope2->rope_number) ? rope1 : rope2;
+		rope *second_rope = (rope1->rope_number < rope2->rope_number) ? rope2 : rope1;
+
+		lock_acquire(first_rope->lock);
+		lock_acquire(second_rope->lock);
+		if (!rope1->is_cut && !rope2->is_cut)
+		{
+			stakes[stake1].connected_rope = rope2;
+			stakes[stake2].connected_rope = rope1;
+
+			kprintf("Lord FlowerKiller switched rope %d from stake %d to stake %d\n", rope1->rope_number, stake1, stake2);
+			kprintf("Lord FlowerKiller switched rope %d from stake %d to stake %d\n", rope2->rope_number, stake2, stake1);
+		}
+		lock_release(second_rope->lock);
+		lock_release(first_rope->lock);
+		thread_yield();
 	}
 
 	kprintf("Lord FlowerKiller thread done\n");
 	notify_thread_exit();
-	thread_exit();
+	thread_exit();  
 }
 
 static void balloon(void *p, unsigned long arg)
