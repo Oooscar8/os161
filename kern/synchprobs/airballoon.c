@@ -12,7 +12,8 @@
 static int ropes_left = NROPES;
 
 /* Data structures for rope mappings */
-typedef struct {
+typedef struct
+{
 	bool is_cut;
 	int rope_number;
 	struct lock *lock;
@@ -21,6 +22,7 @@ typedef struct {
 typedef struct
 {
 	rope *connected_rope;
+	struct lock *lock;
 } stake;
 
 typedef struct
@@ -56,9 +58,10 @@ static void initialize_mappings()
 	{
 		ropes[i].is_cut = false;
 		ropes[i].rope_number = i;
-        ropes[i].lock = lock_create("rope lock");
+		ropes[i].lock = lock_create("rope lock");
 
 		stakes[i].connected_rope = &ropes[i];
+		stakes[i].lock = lock_create("stake lock");
 
 		hooks[i].connected_rope = &ropes[i];
 	}
@@ -84,7 +87,7 @@ static void cleanup_synchronization()
 	for (int i = 0; i < NROPES; ++i)
 	{
 		lock_destroy(ropes[i].lock);
-		lock_destroy(ropes[i].lock);
+		lock_destroy(stakes[i].lock);
 	}
 }
 
@@ -108,7 +111,6 @@ static void wait_for_balloon()
 	}
 	lock_release(balloon_exit_lock);
 }
-
 
 /* Dandelion severs ropes from hooks. */
 static void dandelion(void *p, unsigned long arg)
@@ -134,7 +136,8 @@ static void dandelion(void *p, unsigned long arg)
 		int hook = random() % NROPES;
 		rope *current_rope = hooks[hook].connected_rope;
 
-		if (current_rope == NULL) {
+		if (current_rope == NULL)
+		{
 			continue;
 		}
 
@@ -181,9 +184,12 @@ static void marigold(void *p, unsigned long arg)
 
 		/* Randomly select a stake. */
 		int stake = random() % NROPES;
+		lock_acquire(stakes[stake].lock);
 		rope *current_rope = stakes[stake].connected_rope;
 
-		if (current_rope == NULL) {
+		if (current_rope == NULL)
+		{
+			lock_release(stakes[stake].lock);
 			continue;
 		}
 
@@ -200,6 +206,7 @@ static void marigold(void *p, unsigned long arg)
 			lock_release(ropes_left_lock);
 		}
 		lock_release(current_rope->lock);
+		lock_release(stakes[stake].lock);
 		thread_yield();
 	}
 
@@ -229,20 +236,24 @@ static void flowerkiller(void *p, unsigned long arg)
 
 		/* Randomly select two stakes to swap. */
 		int stake1, stake2;
-		while (true)
+		do
 		{
 			stake1 = random() % NROPES;
 			stake2 = random() % NROPES;
-			if (stake1 != stake2)
-			{
-				break;
-			}
-		}
+		} while (stake1 == stake2);
+		
+		int first_stake = (stake1 < stake2) ? stake1 : stake2;
+		int second_stake = (stake1 < stake2) ? stake2 : stake1;
 
+		lock_acquire(stakes[first_stake].lock);
+		lock_acquire(stakes[second_stake].lock);
 		rope *rope1 = stakes[stake1].connected_rope;
 		rope *rope2 = stakes[stake2].connected_rope;
 
-		if (rope1 == NULL || rope2 == NULL) {
+		if (rope1 == NULL || rope2 == NULL)
+		{
+			lock_release(stakes[second_stake].lock);
+		    lock_release(stakes[first_stake].lock);
 			continue;
 		}
 
@@ -261,12 +272,14 @@ static void flowerkiller(void *p, unsigned long arg)
 		}
 		lock_release(second_rope->lock);
 		lock_release(first_rope->lock);
+		lock_release(stakes[second_stake].lock);
+		lock_release(stakes[first_stake].lock);
 		thread_yield();
 	}
 
 	kprintf("Lord FlowerKiller thread done\n");
 	notify_thread_exit();
-	thread_exit();  
+	thread_exit();
 }
 
 static void balloon(void *p, unsigned long arg)
