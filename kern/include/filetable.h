@@ -75,7 +75,7 @@ void filetable_destroy(struct filetable *ft);
  * @return The file descriptor (non-negative integer) assigned to the
  *         new file handle on success, or EMFILE if the table is full.
  */
-int filetable_add(struct filetable *ft, struct file_handle *fh);
+int filetable_add(struct filetable *ft, struct filehandle *fh);
 
 /**
  * Retrieves a file handle from the file table given a file descriptor.
@@ -91,7 +91,7 @@ int filetable_add(struct filetable *ft, struct file_handle *fh);
  *         file descriptor on success, or NULL if the file descriptor is
  *         invalid or the slot is empty.
  */
-struct file_handle *filetable_get(struct filetable *ft, int fd);
+struct filehandle *filetable_get(struct filetable *ft, int fd);
 
 /**
  * Removes a file handle from the file table.
@@ -136,13 +136,13 @@ struct filetable *filetable_copy(struct filetable *old_ft);
  * @param flags Flags for the new file handle.
  * @return A pointer to the new file handle, or NULL if allocation fails.
  */
-struct file_handle *file_handle_create(struct vnode *vn, int flags);
+struct filehandle *file_handle_create(struct vnode *vn, int flags);
 
 /**
  * Destroys a file handle and releases associated resources.
  *
  * @param fh The file handle to destroy.
  */
-void file_handle_destroy(struct file_handle *fh);
+void file_handle_destroy(struct filehandle *fh);
 
 #endif /* _FILETABLE_H_ */
