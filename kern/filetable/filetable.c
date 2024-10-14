@@ -191,9 +191,6 @@ file_handle_create(struct vnode *vn, int flags)
         return NULL;
     }
 
-    /* Increase the reference count on the vnode */
-    VOP_INCREF(vn);
-
     return fh;
 }
 
