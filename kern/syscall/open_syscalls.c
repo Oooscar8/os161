@@ -39,6 +39,7 @@ int sys_open(userptr_t filename, int flags, mode_t mode, int *retval)
         return EINVAL;
     }
 
+    // atomic not sure
     if ((flags & O_CREAT) && (flags & O_EXCL))
     {
         result = vfs_open(kfilename, flags, mode, &vn);
@@ -49,14 +50,18 @@ int sys_open(userptr_t filename, int flags, mode_t mode, int *retval)
             return EEXIST;
         }
     }
+    else
+    {
+        result = vfs_open(kfilename, flags, mode, &vn);
+    }
 
-    result = vfs_open(kfilename, flags, mode, &vn);
     kfree(kfilename);
     if (result)
     {
         return result;
     }
 
+    // not sure
     if ((flags & O_TRUNC) && (flags & O_ACCMODE) != O_RDONLY)
     {
         result = VOP_TRUNCATE(vn, 0);
@@ -74,20 +79,23 @@ int sys_open(userptr_t filename, int flags, mode_t mode, int *retval)
         return ENOMEM;
     }
 
-    if (flags & O_APPEND) {
+    if (flags & O_APPEND)
+    {
         lock_acquire(fh->fh_lock);
 
-        struct stat* fh_vn_stat; 
+        struct stat *fh_vn_stat;
         fh_vn_stat = kmalloc(sizeof(struct stat));
-        if (fh_vn_stat == NULL) {
+        if (fh_vn_stat == NULL)
+        {
             file_handle_destroy(fh);
             vfs_close(vn);
             return ENOMEM;
         }
 
         VOP_STAT(vn, &fh_vn_stat);
-        fh->fh_offset = (off_t) fh_vn_stat->st_size;
-        if (fh->fh_offset < 0) {
+        fh->fh_offset = (off_t)fh_vn_stat->st_size;
+        if (fh->fh_offset < 0)
+        {
             file_handle_destroy(fh);
             return EIO;
         }
