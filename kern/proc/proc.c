@@ -83,17 +83,13 @@ proc_create(const char *name)
 	proc->p_cwd = NULL;
 
 	/* Initialize the file table */
-	proc->p_filetable = kmalloc(sizeof(struct filetable));
-    if (proc->p_filetable == NULL) {
-        kfree(proc->p_name);
-        kfree(proc);
-        return NULL;
-    }
-    
-    /*initialize all entries*/
-    for (int i = 0; i < OPEN_MAX; i++) {
-        proc->p_filetable->ft_entries[i] = NULL;
-    }
+	proc->p_filetable = filetable_create();
+	if (proc->p_filetable == NULL) {
+		kfree(proc->p_name);
+		kfree(proc);
+		return NULL;
+	}
+
 	return proc;
 }
 
@@ -178,28 +174,7 @@ proc_destroy(struct proc *proc)
 	}
 
 	/* Free the file table */
-    if (proc->p_filetable != NULL) {
-        lock_acquire(proc->p_filetable->ft_lock);
-        
-        /* Free all file handles */
-        for (int i = 0; i < OPEN_MAX; i++) {
-            if (proc->p_filetable->ft_entries[i] != NULL) {
-                struct filehandle *fh = proc->p_filetable->ft_entries[i];
-                fh->fh_refcount--;
-                if (fh->fh_refcount == 0) {
-                    lock_destroy(fh->fh_lock); 
-                    vfs_close(fh->fh_vnode);   
-                    kfree(fh);                
-                }
-                proc->p_filetable->ft_entries[i] = NULL;
-            }
-        }
-
-        lock_release(proc->p_filetable->ft_lock);
-        lock_destroy(proc->p_filetable->ft_lock);  
-        kfree(proc->p_filetable);
-        proc->p_filetable = NULL;
-    }
+	filetable_destroy(proc->p_filetable);
 
 	threadarray_cleanup(&proc->p_threads);
 	spinlock_cleanup(&proc->p_lock);
