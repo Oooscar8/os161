@@ -177,23 +177,28 @@ proc_destroy(struct proc *proc)
 		as_destroy(as);
 	}
 
-	 /* Free the file table */
+	/* Free the file table */
     if (proc->p_filetable != NULL) {
-        /* free all file handle */
+        lock_acquire(proc->p_filetable->ft_lock);
+        
+        /* Free all file handles */
         for (int i = 0; i < OPEN_MAX; i++) {
             if (proc->p_filetable->ft_entries[i] != NULL) {
                 struct filehandle *fh = proc->p_filetable->ft_entries[i];
                 fh->fh_refcount--;
                 if (fh->fh_refcount == 0) {
-                    lock_destroy(fh->fh_lock);
-                    vfs_close(fh->fh_vnode);
-                    kfree(fh);
-					proc->p_filetable->ft_entries[i] = NULL;
+                    lock_destroy(fh->fh_lock); 
+                    vfs_close(fh->fh_vnode);   
+                    kfree(fh);                
                 }
+                proc->p_filetable->ft_entries[i] = NULL;
             }
         }
+
+        lock_release(proc->p_filetable->ft_lock);
+        lock_destroy(proc->p_filetable->ft_lock);  
         kfree(proc->p_filetable);
-		proc->p_filetable = NULL;
+        proc->p_filetable = NULL;
     }
 
 	threadarray_cleanup(&proc->p_threads);
