@@ -93,22 +93,6 @@ int filetable_add(struct filetable *ft, struct filehandle *fh)
     return EMFILE; // full
 }
 
-struct filehandle *
-filetable_get(struct filetable *ft, int fd)
-{
-    KASSERT(ft != NULL);
-
-    if (fd < 0 || fd >= OPEN_MAX)
-    {
-        return NULL;
-    }
-
-    lock_acquire(ft->ft_lock);
-    struct filehandle *fh = ft->ft_entries[fd];
-    lock_release(ft->ft_lock);
-
-    return fh;
-}
 
 void filetable_remove(struct filetable *ft, int fd)
 {
