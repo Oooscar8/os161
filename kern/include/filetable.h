@@ -6,10 +6,10 @@
 #include <synch.h>
 
 #define OPEN_MAX 128 // Maximum number of open files
+#define MAX_OPEN_FILES 256  // Maximum number of open files in the system
 
-/*
- * This is the structure that represents an open file in the kernel.
- */
+
+/* This is the structure that represents an open file in the kernel. */
 struct filehandle
 {
     struct vnode *fh_vnode;
@@ -19,12 +19,21 @@ struct filehandle
     struct lock *fh_lock; // Lock for this filehandle
 };
 
+/* Per-process file descriptor table */
 struct filetable
 {
     struct filehandle *ft_entries[OPEN_MAX]; // Array of filehandles
     struct lock *ft_lock;                    // Lock for the filetable
 };
 
+/* Global open file table */
+struct openfiletable {
+    struct file_handle *of_entries[MAX_OPEN_FILES];
+    struct lock *of_lock;  // Lock for the open file table
+};
+
+/* Global open file table */
+struct openfiletable *system_openfiles;
 
 
 /**
@@ -119,5 +128,21 @@ void filetable_remove(struct filetable *ft, int fd);
  */
 
 struct filetable *filetable_copy(struct filetable *old_ft);
+
+/**
+ * Creates a new file handle.
+ *
+ * @param vn The vnode associated with the file.
+ * @param flags Flags for the new file handle.
+ * @return A pointer to the new file handle, or NULL if allocation fails.
+ */
+struct file_handle *file_handle_create(struct vnode *vn, int flags);
+
+/**
+ * Destroys a file handle and releases associated resources.
+ *
+ * @param fh The file handle to destroy.
+ */
+void file_handle_destroy(struct file_handle *fh);
 
 #endif /* _FILETABLE_H_ */
