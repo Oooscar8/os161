@@ -145,4 +145,33 @@ struct filehandle *file_handle_create(struct vnode *vn, int flags);
  */
 void file_handle_destroy(struct filehandle *fh);
 
+/*
+ * Initialize standard file descriptors for a process.
+ *
+ * This function initializes the standard input (fd 0), standard output (fd 1),
+ * and standard error (fd 2) file descriptors for the given process file table.
+ * It ensures that these file descriptors are always open, as assumed by most
+ * user-level code.
+ *
+ * Specifically, the function opens the console device for input and output,
+ * assigns the appropriate file handles to the file descriptors 0, 1, and 2 in
+ * the given file table, and creates file handles for each of them. The standard
+ * input is opened in read-only mode, while the standard output and standard
+ * error are opened in write-only mode.
+ *
+ * Parameters:
+ *   ft - Pointer to the file table of the process being initialized.
+ *
+ * Returns:
+ *   0 on success.
+ *   ENOMEM if memory allocation fails for any of the file handles.
+ *   Other error codes from vfs_open() if the console device cannot be opened.
+ *
+ * Errors:
+ *   This function may fail if it cannot allocate memory for file handles or
+ *   if it cannot open the console device. If an error occurs, the process
+ *   file table may be partially initialized.
+ */
+int filetable_init_standard(struct filetable *ft);
+
 #endif /* _FILETABLE_H_ */
