@@ -47,6 +47,8 @@ struct filetable *filetable_create(void);
  * synchronization primitives.
  *
  * @param ft Pointer to the file table to be destroyed.
+ * 
+ * @note The operations in this function are protected by the file table lock.
  *
  */
 void filetable_destroy(struct filetable *ft);
@@ -64,24 +66,11 @@ void filetable_destroy(struct filetable *ft);
  *
  * @return The file descriptor (non-negative integer) assigned to the
  *         new file handle on success, or EMFILE if the table is full.
+ * 
+ * @note The opreations in this function are protected by the file table lock.
  */
 int filetable_add(struct filetable *ft, struct filehandle *fh);
 
-/**
- * Retrieves a file handle from the file table given a file descriptor.
- *
- * This function checks if the given file descriptor is within valid range
- * and returns the file handle stored at the index corresponding to the
- * file descriptor. It does not modify the reference count of the file handle.
- *
- * @param ft Pointer to the file table.
- * @param fd The file descriptor of the desired file handle.
- *
- * @return A pointer to the struct file_handle associated with the given
- *         file descriptor on success, or NULL if the file descriptor is
- *         invalid or the slot is empty.
- */
-struct filehandle *filetable_get(struct filetable *ft, int fd);
 
 /**
  * Removes a file handle from the file table.
