@@ -1,0 +1,122 @@
+#ifndef _FILETABLE_H_
+#define _FILETABLE_H_
+
+#include <types.h>
+#include <vnode.h>
+#include <synch.h>
+
+#define OPEN_MAX 128 // Maximum number of open files
+
+/*
+ * This is the structure that represents an open file in the kernel.
+ */
+struct filehandle
+{
+    struct vnode *fh_vnode;
+    off_t fh_offset;
+    int fh_flags;         // (O_RDONLY, O_WRONLY, O_RDWR, etc.)
+    int fh_refcount;      // Number of references to this open file
+    struct lock *fh_lock; // Lock for this filehandle
+};
+
+struct filetable
+{
+    struct filehandle *ft_entries[OPEN_MAX]; // Array of filehandles
+    struct lock *ft_lock;                    // Lock for the filetable
+};
+
+
+
+/**
+ * Creates and initializes a new file table.
+ *
+ * This function allocates memory for a new file table structure for a process,
+ * initializes all entries to NULL, and sets up any necessary
+ * synchronization primitives.
+ *
+ * @return A pointer to the newly created struct filetable on success,
+ *         or NULL if memory allocation fails.
+ */
+struct filetable *filetable_create(void);
+
+/**
+ * Destroys a file table and releases all associated resources.
+ *
+ * This function closes all open file handles in the table, releases
+ * any resources associated with each file handle, frees the memory
+ * allocated for the file table structure, and destroys any associated
+ * synchronization primitives.
+ *
+ * @param ft Pointer to the file table to be destroyed.
+ *
+ */
+void filetable_destroy(struct filetable *ft);
+
+/**
+ * Adds a new file handle to the file table.
+ *
+ * This function finds the first available slot in the file table,
+ * adds the file handle to this slot, increments the reference count
+ * of the file handle, and returns the index of the slot as the file
+ * descriptor.
+ *
+ * @param ft Pointer to the file table.
+ * @param fh Pointer to the file handle to be added.
+ *
+ * @return The file descriptor (non-negative integer) assigned to the
+ *         new file handle on success, or EMFILE if the table is full.
+ */
+int filetable_add(struct filetable *ft, struct file_handle *fh);
+
+/**
+ * Retrieves a file handle from the file table given a file descriptor.
+ *
+ * This function checks if the given file descriptor is within valid range
+ * and returns the file handle stored at the index corresponding to the
+ * file descriptor. It does not modify the reference count of the file handle.
+ *
+ * @param ft Pointer to the file table.
+ * @param fd The file descriptor of the desired file handle.
+ *
+ * @return A pointer to the struct file_handle associated with the given
+ *         file descriptor on success, or NULL if the file descriptor is
+ *         invalid or the slot is empty.
+ */
+struct file_handle *filetable_get(struct filetable *ft, int fd);
+
+/**
+ * Removes a file handle from the file table.
+ *
+ * This function checks if the given file descriptor is valid and refers
+ * to an open file. It decrements the reference count of the file handle.
+ * If the reference count reaches zero, it closes the file and frees the
+ * file handle. Finally, it sets the table entry to NULL.
+ *
+ * @param ft Pointer to the file table.
+ * @param fd The file descriptor of the file handle to be removed.
+ *
+ * @note This function does not return an error if the file descriptor
+ *       is invalid or already closed.
+ */
+void filetable_remove(struct filetable *ft, int fd);
+
+/**
+ * Creates a copy of an existing file table.
+ *
+ * This function is typically used during process forking. It allocates
+ * memory for a new file table structure, copies all entries from the old
+ * file table to the new one, increments the reference count for each file
+ * handle in the new table, and creates new synchronization primitives for
+ * the new table.
+ *
+ * @param old_ft Pointer to the file table to be copied.
+ *
+ * @return A pointer to the newly created copy of the file table on success,
+ *         or NULL if memory allocation fails.
+ *
+ * @note This function creates a shallow copy of the file handles, meaning
+ *       the actual file state is shared between the original and the copy.
+ */
+
+
+#endif /* _FILETABLE_H_ */
