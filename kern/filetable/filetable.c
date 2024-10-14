@@ -28,7 +28,7 @@ filetable_create(void)
     }
 
     KASSERT(ft != NULL);
-    filetable_init_standard(ft);
+    filetable_init_standard(ft); //not sure called in there or not
 
     return ft;
 }
