@@ -82,6 +82,18 @@ proc_create(const char *name)
 	/* VFS fields */
 	proc->p_cwd = NULL;
 
+	/* Initialize the file table */
+	proc->p_filetable = kmalloc(sizeof(struct filetable));
+    if (proc->p_filetable == NULL) {
+        kfree(proc->p_name);
+        kfree(proc);
+        return NULL;
+    }
+    
+    /*initialize all entries*/
+    for (int i = 0; i < OPEN_MAX; i++) {
+        proc->p_filetable->ft_entries[i] = NULL;
+    }
 	return proc;
 }
 
@@ -164,6 +176,25 @@ proc_destroy(struct proc *proc)
 		}
 		as_destroy(as);
 	}
+
+	 /* Free the file table */
+    if (proc->p_filetable != NULL) {
+        /* free all file handle */
+        for (int i = 0; i < OPEN_MAX; i++) {
+            if (proc->p_filetable->ft_entries[i] != NULL) {
+                struct filehandle *fh = proc->p_filetable->ft_entries[i];
+                fh->fh_refcount--;
+                if (fh->fh_refcount == 0) {
+                    lock_destroy(fh->fh_lock);
+                    vfs_close(fh->fh_vnode);
+                    kfree(fh);
+					proc->p_filetable->ft_entries[i] = NULL;
+                }
+            }
+        }
+        kfree(proc->p_filetable);
+		proc->p_filetable = NULL;
+    }
 
 	threadarray_cleanup(&proc->p_threads);
 	spinlock_cleanup(&proc->p_lock);
