@@ -3,6 +3,8 @@
 #include <lib.h>
 #include <synch.h>
 #include <filetable.h>
+#include <kern/unistd.h>
+#include <vfs.h>
 
 struct filetable *
 filetable_create(void)
@@ -24,6 +26,9 @@ filetable_create(void)
     {
         ft->ft_entries[i] = NULL;
     }
+
+    KASSERT(ft != NULL);
+    filetable_init_standard(ft);
 
     return ft;
 }
@@ -210,4 +215,56 @@ void file_handle_destroy(struct filehandle *fh)
     /* Free the file handle structure */
     kfree(fh);
     fh = NULL;
+}
+
+int filetable_init_standard(struct filetable *ft) {
+    struct vnode *vn;
+    int result;
+
+    // Open standard input (fd 0)
+    result = vfs_open("con:", O_RDONLY, 0, &vn);
+    if (result) {
+        return result;
+    }
+
+    struct filehandle *fh = file_handle_create(vn, O_RDONLY);
+    if (fh == NULL) {
+        vfs_close(vn);
+        return ENOMEM;
+    }
+
+    int fd0 = filetable_add(ft, fh);
+    KASSERT(fd0 == STDIN_FILENO);
+
+    // Open standard output (fd 1)
+    result = vfs_open("con:", O_WRONLY, 0, &vn);
+    if (result) {
+        return result;
+    }
+
+    fh = file_handle_create(vn, O_WRONLY);
+    if (fh == NULL) {
+        vfs_close(vn);
+        return ENOMEM;
+    }
+
+    int fd1 = filetable_add(ft, fh);
+    KASSERT(fd1 == STDOUT_FILENO);
+
+    // Open standard error (fd 2)
+    result = vfs_open("con:", O_WRONLY, 0, &vn);
+    if (result) {
+        return result;
+    }
+
+    fh = file_handle_create(vn, O_WRONLY);
+    if (fh == NULL) {
+        vfs_close(vn);
+        return ENOMEM;
+    }
+
+    int fd2 = filetable_add(ft, fh);
+    KASSERT(fd2 == STDERR_FILENO);
+
+    return 0;
 }
