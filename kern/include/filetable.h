@@ -118,5 +118,6 @@ void filetable_remove(struct filetable *ft, int fd);
  *       the actual file state is shared between the original and the copy.
  */
 
+struct filetable *filetable_copy(struct filetable *old_ft);
 
 #endif /* _FILETABLE_H_ */
