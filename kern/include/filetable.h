@@ -6,7 +6,6 @@
 #include <synch.h>
 
 #define OPEN_MAX 128 // Maximum number of open files
-#define MAX_OPEN_FILES 256  // Maximum number of open files in the system
 
 
 /* This is the structure that represents an open file in the kernel. */
@@ -25,15 +24,6 @@ struct filetable
     struct filehandle *ft_entries[OPEN_MAX]; // Array of filehandles
     struct lock *ft_lock;                    // Lock for the filetable
 };
-
-/* Global open file table */
-struct openfiletable {
-    struct file_handle *of_entries[MAX_OPEN_FILES];
-    struct lock *of_lock;  // Lock for the open file table
-};
-
-/* Global open file table */
-struct openfiletable *system_openfiles;
 
 
 /**
