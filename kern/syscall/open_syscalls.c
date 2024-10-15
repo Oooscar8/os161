@@ -106,8 +106,9 @@ int sys_open(userptr_t *filename, int flags, mode_t mode, int *retval)
 
     *retval = filetable_add(curproc->p_filetable, fh);
 
+    //filetable is full
     if (*retval == -1)
-    {
+    {   
         file_handle_destroy(fh);
         return EMFILE;
     }
