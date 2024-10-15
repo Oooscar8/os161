@@ -157,7 +157,7 @@ The instruction that actually triggers a system call is:
   - Lower 32 bits are stored in **`a2`**.
   - Upper 32 bits are stored in **`a3`**.
   - If registers are insufficient, additional arguments can be fetched from the user stack, starting at **`sp+16`** for the lower 32 bits and **`sp+20`** for the upper 32 bits.
-- **arg2** (whence, 32-bit) is found in the **`a1`** register.
+- **arg2** (whence, 32-bit) is found on the user stack at **`sp+16`**.
 
 To return the 64-bit offset value:
 
