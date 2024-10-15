@@ -63,7 +63,7 @@ void filetable_destroy(struct filetable *ft);
  * @param fh Pointer to the file handle to be added.
  *
  * @return The file descriptor (non-negative integer) assigned to the
- *         new file handle on success, or EMFILE if the table is full.
+ *         new file handle on success, or -1 if the table is full.
  * 
  * @note The opreations in this function are protected by the file table lock.
  */
