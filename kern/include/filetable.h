@@ -4,9 +4,7 @@
 #include <types.h>
 #include <vnode.h>
 #include <synch.h>
-
-#define OPEN_MAX 128 // Maximum number of open files
-
+#include <limits.h>
 
 /* This is the structure that represents an open file in the kernel. */
 struct filehandle
