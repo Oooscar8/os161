@@ -82,6 +82,14 @@ proc_create(const char *name)
 	/* VFS fields */
 	proc->p_cwd = NULL;
 
+	/* Initialize the file table */
+	proc->p_filetable = filetable_create();
+	if (proc->p_filetable == NULL) {
+		kfree(proc->p_name);
+		kfree(proc);
+		return NULL;
+	}
+
 	return proc;
 }
 
@@ -164,6 +172,9 @@ proc_destroy(struct proc *proc)
 		}
 		as_destroy(as);
 	}
+
+	/* Free the file table */
+	filetable_destroy(proc->p_filetable);
 
 	threadarray_cleanup(&proc->p_threads);
 	spinlock_cleanup(&proc->p_lock);
