@@ -190,6 +190,7 @@ void file_handle_destroy(struct filehandle *fh)
     /* Decrease the reference count on the vnode */
     vfs_close(fh->fh_vnode);
 
+    lock_release(fh->fh_lock);
     /* Destroy the lock */
     lock_destroy(fh->fh_lock);
 
