@@ -14,7 +14,7 @@
 #include <vnode.h>
 #include <kern/stat.h>
 
-int sys_open(userptr_t filename, int flags, mode_t mode, int *retval)
+int sys_open(userptr_t *filename, int flags, mode_t mode, int *retval)
 {
     struct vnode *vn;
     char *kfilename;
@@ -26,7 +26,7 @@ int sys_open(userptr_t filename, int flags, mode_t mode, int *retval)
         return ENOMEM;
     }
 
-    result = copyinstr(filename, kfilename, PATH_MAX, NULL);
+    result = copyinstr((const_userptr_t) filename, kfilename, PATH_MAX, NULL);
     if (result)
     {
         kfree(kfilename);
@@ -81,9 +81,9 @@ int sys_open(userptr_t filename, int flags, mode_t mode, int *retval)
 
     if (flags & O_APPEND)
     {
-        lock_acquire(fh->fh_lock);
+        //lock_acquire(fh->fh_lock);
 
-        struct stat *fh_vn_stat;
+        struct stat *fh_vn_stat;  
         fh_vn_stat = kmalloc(sizeof(struct stat));
         if (fh_vn_stat == NULL)
         {
@@ -92,7 +92,7 @@ int sys_open(userptr_t filename, int flags, mode_t mode, int *retval)
             return ENOMEM;
         }
 
-        VOP_STAT(vn, &fh_vn_stat);
+        VOP_STAT(vn, fh_vn_stat);
         fh->fh_offset = (off_t)fh_vn_stat->st_size;
         if (fh->fh_offset < 0)
         {
@@ -101,16 +101,16 @@ int sys_open(userptr_t filename, int flags, mode_t mode, int *retval)
         }
 
         kfree(fh_vn_stat);
-        lock_release(fh->fh_lock);
+        //lock_release(fh->fh_lock);
     }
 
-    int fd = filetable_add(curproc->p_filetable, fh);
+    *retval = filetable_add(curproc->p_filetable, fh);
 
-    if (fd == EMFILE)
+    if (*retval == -1)
     {
         file_handle_destroy(fh);
         return EMFILE;
     }
 
-    return fd;
+    return 0;
 }
