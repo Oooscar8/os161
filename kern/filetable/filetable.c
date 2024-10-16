@@ -94,13 +94,13 @@ int filetable_add(struct filetable *ft, struct filehandle *fh)
 }
 
 
-void filetable_remove(struct filetable *ft, int fd)
+int filetable_remove(struct filetable *ft, int fd)
 {
     KASSERT(ft != NULL);
 
     if (fd < 0 || fd >= OPEN_MAX)
     {
-        return;
+        return -1;
     }
 
     lock_acquire(ft->ft_lock);
@@ -120,8 +120,12 @@ void filetable_remove(struct filetable *ft, int fd)
         }
 
         ft->ft_entries[fd] = NULL;
+    } else {
+        lock_release(ft->ft_lock);
+        return -1;
     }
     lock_release(ft->ft_lock);
+    return 0;
 }
 
 struct filetable *
