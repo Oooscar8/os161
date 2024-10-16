@@ -81,10 +81,10 @@ int filetable_add(struct filetable *ft, struct filehandle *fh);
  * @param ft Pointer to the file table.
  * @param fd The file descriptor of the file handle to be removed.
  *
- * @note This function does not return an error if the file descriptor
- *       is invalid or already closed.
+ * @return 0 on success, or -1 if the file descriptor is invalid.
+ *       
  */
-void filetable_remove(struct filetable *ft, int fd);
+int filetable_remove(struct filetable *ft, int fd);
 
 /**
  * Creates a copy of an existing file table.
