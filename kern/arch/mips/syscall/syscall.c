@@ -141,6 +141,11 @@ syscall(struct trapframe *tf)
 		err = sys_lseek((int) tf->tf_a0, ((off_t) tf->tf_a2 << 32) | (off_t) tf->tf_a3, whence, &retval64);
 		break;
 
+		// Add a case for the chdir syscall
+		case SYS_chdir:
+		err = sys_chdir((userptr_t *)tf->tf_a0);
+		break;
+
 	    default:
 		kprintf("Unknown syscall %d\n", callno);
 		err = ENOSYS;
