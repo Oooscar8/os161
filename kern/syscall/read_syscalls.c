@@ -53,6 +53,8 @@ sys_read(int fd, userptr_t *buf, size_t buflen, int *retval) {
 
     // Set up uio structure for reading
     uio_kinit(&iov, &u, buf, buflen, file->fh_offset, UIO_READ);
+    u.uio_segflg = UIO_USERSPACE;
+    u.uio_space = curproc->p_addrspace;
 
     // Perform the read operation
     result = VOP_READ(file->fh_vnode, &u);
