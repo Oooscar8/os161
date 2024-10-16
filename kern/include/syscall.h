@@ -63,5 +63,6 @@ int sys_close(int fd);
 int sys_read(int fd, userptr_t *buf, size_t buflen, int *retval);
 int sys_write(int fd, userptr_t *buf, size_t nbytes, int *retval);
 off_t sys_lseek(int fd, off_t pos, int whence, off_t *retval);
+int sys_chdir(userptr_t *pathname);
 
 #endif /* _SYSCALL_H_ */
