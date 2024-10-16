@@ -386,6 +386,7 @@ file      syscall/open_syscalls.c
 file      syscall/close_syscalls.c
 file      syscall/read_syscalls.c
 file      syscall/write_syscalls.c
+file      syscall/lseek_syscalls.c
 
 #
 # Startup and initialization
