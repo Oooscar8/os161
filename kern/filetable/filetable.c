@@ -5,6 +5,7 @@
 #include <filetable.h>
 #include <kern/unistd.h>
 #include <vfs.h>
+#include <kern/fcntl.h>
 
 struct filetable *
 filetable_create(void)
@@ -28,7 +29,6 @@ filetable_create(void)
     }
 
     KASSERT(ft != NULL);
-    filetable_init_standard(ft); //not sure called in there or not
 
     return ft;
 }
@@ -90,17 +90,17 @@ int filetable_add(struct filetable *ft, struct filehandle *fh)
     }
 
     lock_release(ft->ft_lock);
-    return EMFILE; // full
+    return -1; // full
 }
 
 
-void filetable_remove(struct filetable *ft, int fd)
+int filetable_remove(struct filetable *ft, int fd)
 {
     KASSERT(ft != NULL);
 
     if (fd < 0 || fd >= OPEN_MAX)
     {
-        return;
+        return -1;
     }
 
     lock_acquire(ft->ft_lock);
@@ -120,8 +120,12 @@ void filetable_remove(struct filetable *ft, int fd)
         }
 
         ft->ft_entries[fd] = NULL;
+    } else {
+        lock_release(ft->ft_lock);
+        return -1;
     }
     lock_release(ft->ft_lock);
+    return 0;
 }
 
 struct filetable *
@@ -190,6 +194,7 @@ void file_handle_destroy(struct filehandle *fh)
     /* Decrease the reference count on the vnode */
     vfs_close(fh->fh_vnode);
 
+    lock_release(fh->fh_lock);
     /* Destroy the lock */
     lock_destroy(fh->fh_lock);
 
@@ -201,9 +206,10 @@ void file_handle_destroy(struct filehandle *fh)
 int filetable_init_standard(struct filetable *ft) {
     struct vnode *vn;
     int result;
+    const char *cons = "con:";
 
     // Open standard input (fd 0)
-    result = vfs_open("con:", O_RDONLY, 0, &vn);
+    result = vfs_open(kstrdup(cons), O_RDONLY, 0, &vn);
     if (result) {
         return result;
     }
@@ -218,7 +224,7 @@ int filetable_init_standard(struct filetable *ft) {
     KASSERT(fd0 == STDIN_FILENO);
 
     // Open standard output (fd 1)
-    result = vfs_open("con:", O_WRONLY, 0, &vn);
+    result = vfs_open(kstrdup(cons), O_WRONLY, 0, &vn);
     if (result) {
         return result;
     }
@@ -233,7 +239,7 @@ int filetable_init_standard(struct filetable *ft) {
     KASSERT(fd1 == STDOUT_FILENO);
 
     // Open standard error (fd 2)
-    result = vfs_open("con:", O_WRONLY, 0, &vn);
+    result = vfs_open(kstrdup(cons), O_WRONLY, 0, &vn);
     if (result) {
         return result;
     }

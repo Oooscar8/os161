@@ -174,7 +174,9 @@ proc_destroy(struct proc *proc)
 	}
 
 	/* Free the file table */
-	filetable_destroy(proc->p_filetable);
+	if (proc->p_filetable) {
+		filetable_destroy(proc->p_filetable);
+	}
 
 	threadarray_cleanup(&proc->p_threads);
 	spinlock_cleanup(&proc->p_lock);
@@ -208,6 +210,12 @@ proc_create_runprogram(const char *name)
 
 	newproc = proc_create(name);
 	if (newproc == NULL) {
+		return NULL;
+	}
+
+	/* file handles 0 (STDIN_FILENO), 1 (STDOUT_FILENO), and 2 (STDERR_FILENO) initialization*/
+	if (filetable_init_standard(newproc->p_filetable) != 0) {
+		proc_destroy(newproc);
 		return NULL;
 	}
 

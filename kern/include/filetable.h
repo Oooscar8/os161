@@ -4,9 +4,7 @@
 #include <types.h>
 #include <vnode.h>
 #include <synch.h>
-
-#define OPEN_MAX 128 // Maximum number of open files
-
+#include <limits.h>
 
 /* This is the structure that represents an open file in the kernel. */
 struct filehandle
@@ -65,7 +63,7 @@ void filetable_destroy(struct filetable *ft);
  * @param fh Pointer to the file handle to be added.
  *
  * @return The file descriptor (non-negative integer) assigned to the
- *         new file handle on success, or EMFILE if the table is full.
+ *         new file handle on success, or -1 if the table is full.
  * 
  * @note The opreations in this function are protected by the file table lock.
  */
@@ -83,10 +81,10 @@ int filetable_add(struct filetable *ft, struct filehandle *fh);
  * @param ft Pointer to the file table.
  * @param fd The file descriptor of the file handle to be removed.
  *
- * @note This function does not return an error if the file descriptor
- *       is invalid or already closed.
+ * @return 0 on success, or -1 if the file descriptor is invalid.
+ *       
  */
-void filetable_remove(struct filetable *ft, int fd);
+int filetable_remove(struct filetable *ft, int fd);
 
 /**
  * Creates a copy of an existing file table.
