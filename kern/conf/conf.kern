@@ -388,6 +388,8 @@ file      syscall/read_syscalls.c
 file      syscall/write_syscalls.c
 file      syscall/lseek_syscalls.c
 file      syscall/chdir_syscalls.c
+file      syscall/dup2_syscalls.c
+file      syscall/__getcwd_syscalls.c
 
 #
 # Startup and initialization
