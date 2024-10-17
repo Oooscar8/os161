@@ -38,6 +38,13 @@ off_t sys_lseek(int fd, off_t pos, int whence, off_t *retval)
     lock_release(curproc->p_filetable->ft_lock);
     file->fh_refcount++;
 
+    // Check if the file is seekable
+    if (!VOP_ISSEEKABLE(file->fh_vnode)) {
+        file->fh_refcount--;
+        lock_release(file->fh_lock);
+        return ESPIPE;  
+    }
+
     // Validate the whence parameter
     if (whence != SEEK_SET && whence != SEEK_CUR && whence != SEEK_END)
     {
