@@ -9,7 +9,7 @@
 #include <proc.h>
 
 int sys__getcwd(userptr_t *buf, size_t buflen, int *retval) {
-    struct uio ku;          
+    struct uio u;          
     struct iovec iov;       
     int result;
 
@@ -17,14 +17,16 @@ int sys__getcwd(userptr_t *buf, size_t buflen, int *retval) {
         return EFAULT;
     }
 
-    uio_kinit(&iov, &ku, buf, buflen, 0, UIO_READ);
+    uio_kinit(&iov, &u, buf, buflen, 0, UIO_READ);
+    u.uio_space = curproc->p_addrspace;
+    u.uio_segflg = UIO_USERSPACE;
 
-    result = vfs_getcwd(&ku);
+    result = vfs_getcwd(&u);
     if (result) {
         return result;
     }
 
-    *retval = buflen - ku.uio_resid;
+    *retval = buflen - u.uio_resid;
 
     return 0; 
 }
