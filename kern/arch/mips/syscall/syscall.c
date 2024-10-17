@@ -177,7 +177,8 @@ syscall(struct trapframe *tf)
 		tf->tf_v0 = retval;
 		tf->tf_a3 = 0;      /* signal no error */
 		if (callno == SYS_lseek) {
-			tf->tf_v1 = retval64;
+			tf->tf_v0 = (retval64 >> 32);  
+			tf->tf_v1 = retval64;  
 		}
 	}
 
