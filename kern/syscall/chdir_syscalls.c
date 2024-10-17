@@ -14,26 +14,30 @@
 #include <vnode.h>
 #include <kern/stat.h>
 
-int sys_chdir(userptr_t *pathname)
+int sys_chdir(userptr_t *pathname, int *retval)
 {
     char *kpathname;
     int result;
+    *retval = 0;
 
     kpathname = (char *)kmalloc(PATH_MAX);
     if (kpathname == NULL)
-    {
+    {   
+        *retval = -1;
         return ENOMEM;
     }
 
     result = copyinstr((const_userptr_t)pathname, kpathname, PATH_MAX, NULL);
     if (result)
     {
+        *retval = -1;
         kfree(kpathname);
         return result;
     }
 
     result = vfs_chdir(kpathname);
     if (result) {
+        *retval = -1;
         return result;
     }
 
