@@ -49,8 +49,9 @@ filetable_create(void)
  * and setting them to NULL. It also destroys the lock associated with the file descriptor table and frees the memory.
  * 
  * @param ft The file descriptor table to be destroyed.
+ * @return 0 on success, or return error code on failure.
  */
-void filetable_destroy(struct filetable *ft)
+int filetable_destroy(struct filetable *ft)
 {
     if (ft == NULL)
     {
@@ -62,7 +63,11 @@ void filetable_destroy(struct filetable *ft)
     {
         if (ft->file_handles[i] != NULL)
         {
-            filehandle_decref(ft->file_handles[i]);
+            int result = filehandle_decref(ft->file_handles[i]);
+            if (result) {
+                lock_release(ft->ft_lock);
+                return result;
+            }
             ft->file_handles[i] = NULL;
         }
     }
@@ -70,10 +75,13 @@ void filetable_destroy(struct filetable *ft)
 
     lock_destroy(ft->ft_lock);
     kfree(ft);
+
+    return 0;
 }
 
 /**
- * @brief Add a file handle to the file descriptor table.
+ * @brief Add an entry to the process's file descriptor table that 
+ * maps a new file descriptor to this file handle.
  *
  * @param ft The file descriptor table to add the file handle to.
  * @param fh The file handle to add.
@@ -138,8 +146,9 @@ filetable_get(struct filetable *ft, int fd)
  *
  * @param ft The file descriptor table to remove the file handle from.
  * @param fd The file descriptor whose associated file handle is to be removed.
+ * @return 0 on success, or return error code on failure.
  */
-void filetable_remove(struct filetable *ft, int fd)
+int filetable_remove(struct filetable *ft, int fd)
 {
     if (fd < 0 || fd >= OPEN_MAX)
     {
@@ -149,10 +158,16 @@ void filetable_remove(struct filetable *ft, int fd)
     lock_acquire(ft->ft_lock);
     if (ft->file_handles[fd] != NULL)
     {
-        filehandle_decref(ft->file_handles[fd]);
+        int result = filehandle_decref(ft->file_handles[fd]);
+        if (result) {
+            lock_release(ft->ft_lock);
+            return result;
+        }
         ft->file_handles[fd] = NULL;
     }
     lock_release(ft->ft_lock);
+    
+    return 0;
 }
 
 
@@ -160,10 +175,22 @@ void filetable_remove(struct filetable *ft, int fd)
 //
 // File handle functions
 
+/**
+ * @brief Create a new file handle.
+ *
+ * This function allocates memory for a new file handle and initializes it with the provided vnode
+ * and flags. It also initializes the file handle's offset, reference count, and file status flags. 
+ * Additionally, it creates a lock for the file handle for synchronization purposes.
+ * 
+ * @param vn The vnode associated with the file handle.
+ * @param flags The file status flags for the file handle.
+ * @return A pointer to the newly created file handle, or NULL if memory allocation fails or 
+ * if the lock creation fails.
+ */
 struct filehandle *
 filehandle_create(struct vnode *vn, int flags)
 {
-    struct filehandle *fh = kmalloc(sizeof(struct file_handle));
+    struct filehandle *fh = kmalloc(sizeof(struct filehandle));
     if (fh == NULL)
     {
         return NULL;
@@ -171,7 +198,7 @@ filehandle_create(struct vnode *vn, int flags)
 
     fh->vn = vn;
     fh->offset = 0;
-    fh->refcount = 1;
+    fh->refcount = 0;
     fh->flags = flags;
     fh->fh_lock = lock_create("file_handle_lock");
     if (fh->fh_lock == NULL)
@@ -183,6 +210,14 @@ filehandle_create(struct vnode *vn, int flags)
     return fh;
 }
 
+/**
+ * @brief Destroy a file handle.
+ *
+ * This function closes the vnode associated with the file handle, destroys the lock associated with the file handle, and
+ * frees the memory allocated for the file handle. It is called when the reference count of a file handle reaches 0.
+ *
+ * @param fh The file handle to be destroyed.
+ */
 void filehandle_destroy(struct filehandle *fh)
 {
     if (fh == NULL)
@@ -195,6 +230,16 @@ void filehandle_destroy(struct filehandle *fh)
     kfree(fh);
 }
 
+/**
+ * @brief Increment the reference count of a file handle.
+ *
+ * This function increments the reference count of a file handle, which is used to determine when a file handle can be
+ * safely destroyed. The reference count is incremented atomically to ensure the integrity of the file handle.
+ *
+ * @param fh The file handle whose reference count to increment.
+ *
+ * @return 0 on success, EINVAL if the file handle is NULL.
+ */
 int filehandle_incref(struct filehandle *fh)
 {
     if (fh == NULL)
@@ -209,6 +254,18 @@ int filehandle_incref(struct filehandle *fh)
     return 0;
 }
 
+/**
+ * @brief Decrement the reference count of a file handle.
+ *
+ * This function decreases the reference count of the provided file handle.
+ * If the reference count reaches zero, the file handle is destroyed, 
+ * releasing any resources associated with it. The function is protected
+ * by a lock to ensure thread safety during the operation.
+ * 
+ * @param fh The file handle whose reference count is to be decremented.
+ * 
+ * @return 0 on success, or EINVAL if the file handle is NULL.
+ */
 int filehandle_decref(struct filehandle *fh)
 {
     if (fh == NULL)
