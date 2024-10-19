@@ -85,7 +85,7 @@ proc_create(const char *name)
 
     /* File descriptor table */
 	proc->p_ft = filetable_create();
-	KASSERT(p_ft != NULL);
+	KASSERT(proc->p_ft != NULL);
 
 	return proc;
 }

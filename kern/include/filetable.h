@@ -26,12 +26,12 @@ struct filetable *filetable_create(void);
 void filetable_destroy(struct filetable *ft);
 int filetable_add(struct filetable *ft, struct filehandle *fh);
 struct filehandle *filetable_get(struct filetable *ft, int fd);
-void filetable_remove(struct filetable *ft, int fd);
+int filetable_remove(struct filetable *ft, int fd);
 
 /* File handle functions */
 struct filehandle *filehandle_create(struct vnode *vn, int flags);
 void filehandle_destroy(struct filehandle *fh);
-int filehandle_incref(struct filehandle *fh);
-int filehandle_decref(struct filehandle *fh);
+void filehandle_incref(struct filehandle *fh);
+void filehandle_decref(struct filehandle *fh);
 
 #endif /* _FILETABLE_H_ */

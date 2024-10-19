@@ -8,7 +8,7 @@
 #include <current.h>
 #include <vfs.h>
 #include <vnode.h>
-#include <include/syscall.h>
+#include <syscall.h>
 #include <copyinout.h>
 #include <filetable.h>
 

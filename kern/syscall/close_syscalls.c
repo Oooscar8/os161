@@ -8,6 +8,7 @@
 #include <synch.h>
 #include <vfs.h>
 #include <vnode.h>
+#include <syscall.h>
 #include <filetable.h>
 
 /**

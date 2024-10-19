@@ -3,6 +3,7 @@
 #include <lib.h>
 #include <synch.h>
 #include <vnode.h>
+#include <vfs.h>
 #include <filetable.h>
 
 //////////////////////////////////////////////////
@@ -67,8 +68,6 @@ void filetable_destroy(struct filetable *ft)
 
     lock_destroy(ft->ft_lock);
     kfree(ft);
-
-    return 0;
 }
 
 /**
