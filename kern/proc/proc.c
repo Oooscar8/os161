@@ -48,6 +48,7 @@
 #include <current.h>
 #include <addrspace.h>
 #include <vnode.h>
+#include <filetable.h>
 
 /*
  * The process for the kernel; this holds all the kernel-only threads.
@@ -82,6 +83,10 @@ proc_create(const char *name)
 	/* VFS fields */
 	proc->p_cwd = NULL;
 
+    /* File descriptor table */
+	proc->p_ft = filetable_create();
+	KASSERT(p_ft != NULL);
+
 	return proc;
 }
 
@@ -115,6 +120,12 @@ proc_destroy(struct proc *proc)
 	if (proc->p_cwd) {
 		VOP_DECREF(proc->p_cwd);
 		proc->p_cwd = NULL;
+	}
+
+	/* File descriptor table */
+	if (proc->p_ft) {
+		filetable_destroy(proc->p_ft);
+		proc->p_ft = NULL;
 	}
 
 	/* VM fields */

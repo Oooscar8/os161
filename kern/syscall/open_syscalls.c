@@ -36,7 +36,7 @@ int sys_open(const_userptr_t filename, int flags, mode_t mode)
     result = copyinstr(filename, kfilename, PATH_MAX, &actual_len);
     if (result)
     {
-        return result;      // Indicate failure
+        return -result;      // Indicate failure
     }
 
     /* Open the file */
@@ -44,17 +44,13 @@ int sys_open(const_userptr_t filename, int flags, mode_t mode)
     result = vfs_open(kfilename, flags, mode, &vn);
     if (result)
     {
-        return result;      // Indicate failure
+        return -result;      // Indicate failure
     }
 
     /* Create the file handle */
     struct filehandle *fh;
     fh = filehandle_create(vn, flags);
-    if (fh == NULL)
-    {
-        vfs_close(vn);
-        return ENOMEM;      // Indicate failure
-    }
+    KASSERT(fh != NULL);
 
     /* Add the file handle to the file descriptor table */
     int fd = filetable_add(curproc->p_ft, fh);
@@ -62,7 +58,7 @@ int sys_open(const_userptr_t filename, int flags, mode_t mode)
     {
         filehandle_destroy(fh);
         vfs_close(vn);
-        return EMFILE;      // Indicate failure
+        return -EMFILE;      // Indicate failure
     }
 
     return fd;

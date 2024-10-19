@@ -49,25 +49,17 @@ filetable_create(void)
  * and setting them to NULL. It also destroys the lock associated with the file descriptor table and frees the memory.
  * 
  * @param ft The file descriptor table to be destroyed.
- * @return 0 on success, or return error code on failure.
  */
-int filetable_destroy(struct filetable *ft)
+void filetable_destroy(struct filetable *ft)
 {
-    if (ft == NULL)
-    {
-        return;
-    }
+    KASSERT(ft != NULL);
 
     lock_acquire(ft->ft_lock);
     for (int i = 0; i < OPEN_MAX; i++)
     {
         if (ft->file_handles[i] != NULL)
         {
-            int result = filehandle_decref(ft->file_handles[i]);
-            if (result) {
-                lock_release(ft->ft_lock);
-                return result;
-            }
+            filehandle_decref(ft->file_handles[i]);
             ft->file_handles[i] = NULL;
         }
     }
@@ -146,24 +138,24 @@ filetable_get(struct filetable *ft, int fd)
  *
  * @param ft The file descriptor table to remove the file handle from.
  * @param fd The file descriptor whose associated file handle is to be removed.
- * @return 0 on success, or return error code on failure.
+ * @return 0 on success, or EBADF if the file descriptor is not valid.
  */
 int filetable_remove(struct filetable *ft, int fd)
 {
     if (fd < 0 || fd >= OPEN_MAX)
     {
-        return;
+        return EBADF;
     }
 
     lock_acquire(ft->ft_lock);
     if (ft->file_handles[fd] != NULL)
     {
-        int result = filehandle_decref(ft->file_handles[fd]);
-        if (result) {
-            lock_release(ft->ft_lock);
-            return result;
-        }
+        filehandle_decref(ft->file_handles[fd]);
         ft->file_handles[fd] = NULL;
+    }
+    else {
+        lock_release(ft->ft_lock);
+        return EBADF;
     }
     lock_release(ft->ft_lock);
     
@@ -184,28 +176,20 @@ int filetable_remove(struct filetable *ft, int fd)
  * 
  * @param vn The vnode associated with the file handle.
  * @param flags The file status flags for the file handle.
- * @return A pointer to the newly created file handle, or NULL if memory allocation fails or 
- * if the lock creation fails.
+ * @return A pointer to the newly created file handle.
  */
 struct filehandle *
 filehandle_create(struct vnode *vn, int flags)
 {
     struct filehandle *fh = kmalloc(sizeof(struct filehandle));
-    if (fh == NULL)
-    {
-        return NULL;
-    }
+    KASSERT(fh != NULL);
 
     fh->vn = vn;
     fh->offset = 0;
     fh->refcount = 0;
     fh->flags = flags;
     fh->fh_lock = lock_create("file_handle_lock");
-    if (fh->fh_lock == NULL)
-    {
-        kfree(fh);
-        return NULL;
-    }
+    KASSERT(fh->fh_lock != NULL);
 
     return fh;
 }
@@ -220,10 +204,7 @@ filehandle_create(struct vnode *vn, int flags)
  */
 void filehandle_destroy(struct filehandle *fh)
 {
-    if (fh == NULL)
-    {
-        return;
-    }
+    KASSERT(fh != NULL);
 
     vfs_close(fh->vn);
     lock_destroy(fh->fh_lock);
@@ -237,21 +218,14 @@ void filehandle_destroy(struct filehandle *fh)
  * safely destroyed. The reference count is incremented atomically to ensure the integrity of the file handle.
  *
  * @param fh The file handle whose reference count to increment.
- *
- * @return 0 on success, EINVAL if the file handle is NULL.
  */
-int filehandle_incref(struct filehandle *fh)
+void filehandle_incref(struct filehandle *fh)
 {
-    if (fh == NULL)
-    {
-        return EINVAL;
-    }
+    KASSERT(fh != NULL);
 
     lock_acquire(fh->fh_lock);
     fh->refcount++;
     lock_release(fh->fh_lock);
-
-    return 0;
 }
 
 /**
@@ -263,15 +237,10 @@ int filehandle_incref(struct filehandle *fh)
  * by a lock to ensure thread safety during the operation.
  * 
  * @param fh The file handle whose reference count is to be decremented.
- * 
- * @return 0 on success, or EINVAL if the file handle is NULL.
  */
-int filehandle_decref(struct filehandle *fh)
+void filehandle_decref(struct filehandle *fh)
 {
-    if (fh == NULL)
-    {
-        return EINVAL;
-    }
+    KASSERT(fh != NULL);
 
     lock_acquire(fh->fh_lock);
     fh->refcount--;
@@ -282,6 +251,4 @@ int filehandle_decref(struct filehandle *fh)
     {
         filehandle_destroy(fh);
     }
-
-    return 0;
 }
