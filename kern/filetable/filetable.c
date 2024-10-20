@@ -37,21 +37,31 @@ filetable_create(void)
         return NULL;
     }
 
+    for (int i = 0; i < OPEN_MAX; i++)
+    {
+        ft->file_handles[i] = NULL;
+    }
+
+    return ft;
+}
+
+void filetable_stdio_init(struct filetable *ft) {
     // Initialize standard I/O
     struct filehandle *stdin_handle = create_stdio_handle("con:", O_RDONLY);
     struct filehandle *stdout_handle = create_stdio_handle("con:", O_WRONLY);
     struct filehandle *stderr_handle = create_stdio_handle("con:", O_WRONLY);
 
-    for (int i = 0; i < OPEN_MAX; i++)
-    {
-        ft->file_handles[i] = NULL;
-    }
-    
-    filetable_add(ft, stdin_handle);
-    filetable_add(ft, stdout_handle);
-    filetable_add(ft, stderr_handle);
+    KASSERT(stdin_handle != NULL);
+    KASSERT(stdout_handle != NULL);
+    KASSERT(stderr_handle != NULL);
 
-    return ft;
+    int fd0 = filetable_add(ft, stdin_handle);
+    int fd1 = filetable_add(ft, stdout_handle);
+    int fd2 = filetable_add(ft, stderr_handle);
+
+    KASSERT(fd0 == 0);
+    KASSERT(fd1 == 1);
+    KASSERT(fd2 == 2);
 }
 
 /**

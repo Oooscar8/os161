@@ -211,6 +211,8 @@ proc_create_runprogram(const char *name)
 		return NULL;
 	}
 
+	filetable_stdio_init(newproc->p_ft);
+
 	/* VM fields */
 
 	newproc->p_addrspace = NULL;
