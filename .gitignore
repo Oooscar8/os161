@@ -1,3 +1,14 @@
 defs.mk
 /build
 /kern/compile
+
+configure
+*.a
+*.o
+host-*
+*.ho
+*/install/*
+*/compile/*
+**/lib/**
+**/*bin*/**
+cscope.*
