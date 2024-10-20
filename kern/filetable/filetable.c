@@ -35,9 +35,17 @@ filetable_create(void)
         return NULL;
     }
 
+    // Initialize standard I/O
+    ft->file_handles[STDIN_FILENO] = create_stdio_handle("con:", O_RDONLY);
+    ft->file_handles[STDOUT_FILENO] = create_stdio_handle("con:", O_WRONLY);
+    ft->file_handles[STDERR_FILENO] = create_stdio_handle("con:", O_WRONLY);
+
     for (int i = 0; i < OPEN_MAX; i++)
     {
         ft->file_handles[i] = NULL;
+    }
+    for (int i = 0; i <= STDERR_FILENO; i++) {
+        filetable_add(ft, ft->file_handles[i]);
     }
 
     return ft;
@@ -167,6 +175,35 @@ int filetable_remove(struct filetable *ft, int fd)
 // File handle functions
 
 /**
+ * @brief Create a file handle for standard I/O.
+ * 
+ * @param device The device name (e.g., "con:")
+ * @param flags The flags for opening the device
+ * @return struct filehandle* A pointer to the created file handle, or NULL on failure
+ */
+struct filehandle *
+create_stdio_handle(const char *device, int flags)
+{
+    struct vnode *vn;
+    int result = vfs_open(device, flags, 0, &vn);
+    if (result) {
+        return NULL;
+    }
+    
+    struct filehandle *fh = kmalloc(sizeof(struct filehandle));
+    KASSERT(fh != NULL);
+    
+    fh->vn = vn;
+    fh->offset = 0;
+    fh->refcount = 0;
+    fh->flags = flags;
+    fh->fh_lock = lock_create("file_handle_lock");
+    KASSERT(fh->fh_lock != NULL);
+    
+    return fh;
+}
+
+/**S
  * @brief Create a new file handle.
  *
  * This function allocates memory for a new file handle and initializes it with the provided vnode
