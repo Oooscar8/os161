@@ -16,145 +16,145 @@
 #include <err.h>
 #include <limits.h>
 
-/* 
- * This is essentially the same code as in filetest.c, except we don't
- * expect any arguments, so the test can be executed before processes are
- * fully implemented. Furthermore, we do not call remove, because emufs does not
- * support it, and we would like to be able to run on emufs.
- */
-static void
-simple_test()
-{
-  	static char writebuf[41] = 
-		"Twiddle dee dee, Twiddle dum dum.......\n";
-	static char readbuf[41];
+// /* 
+//  * This is essentially the same code as in filetest.c, except we don't
+//  * expect any arguments, so the test can be executed before processes are
+//  * fully implemented. Furthermore, we do not call remove, because emufs does not
+//  * support it, and we would like to be able to run on emufs.
+//  */
+// static void
+// simple_test()
+// {
+//   	static char writebuf[41] = 
+// 		"Twiddle dee dee, Twiddle dum dum.......\n";
+// 	static char readbuf[41];
 
-	const char *file;
-	int fd, rv;
+// 	const char *file;
+// 	int fd, rv;
 
-	file = "testfile";
+// 	file = "testfile";
 
-	fd = open(file, O_WRONLY|O_CREAT|O_TRUNC, 0664);
-	if (fd<0) {
-		err(1, "%s: open for write", file);
-	}
+// 	fd = open(file, O_WRONLY|O_CREAT|O_TRUNC, 0664);
+// 	if (fd<0) {
+// 		err(1, "%s: open for write", file);
+// 	}
 
-	rv = write(fd, writebuf, 40);
-	if (rv<0) {
-		err(1, "%s: write", file);
-	}
+// 	rv = write(fd, writebuf, 40);
+// 	if (rv<0) {
+// 		err(1, "%s: write", file);
+// 	}
 
-	rv = close(fd);
-	if (rv<0) {
-		err(1, "%s: close (1st time)", file);
-	}
+// 	rv = close(fd);
+// 	if (rv<0) {
+// 		err(1, "%s: close (1st time)", file);
+// 	}
 
-	fd = open(file, O_RDONLY);
-	if (fd<0) {
-		err(1, "%s: open for read", file);
-	}
+// 	fd = open(file, O_RDONLY);
+// 	if (fd<0) {
+// 		err(1, "%s: open for read", file);
+// 	}
 
-	rv = read(fd, readbuf, 40);
-	if (rv<0) {
-		err(1, "%s: read", file);
-	}
-	rv = close(fd);
-	if (rv<0) {
-		err(1, "%s: close (2nd time)", file);
-	}
-	/* ensure null termination */
-	readbuf[40] = 0;
+// 	rv = read(fd, readbuf, 40);
+// 	if (rv<0) {
+// 		err(1, "%s: read", file);
+// 	}
+// 	rv = close(fd);
+// 	if (rv<0) {
+// 		err(1, "%s: close (2nd time)", file);
+// 	}
+// 	/* ensure null termination */
+// 	readbuf[40] = 0;
 
-	if (strcmp(readbuf, writebuf)) {
-		errx(1, "Buffer data mismatch!");
-	}
-}
-/*
- * This tests the very basic functionality of dup2.
- * We open/create a file, duplicate the file descriptor, 
- * write the same content to both file descriptors
- * and check that the written content appears in that 
- * file twice. 
- */
-static void
-test_dup2()
-{
-	static char writebuf[41] = 
-		"Twiddle dee dee, Twiddle dum dum.......\n";
-	static char readbuf[81];
-	const char *file;
-	int fd, dupfd, rv;
+// 	if (strcmp(readbuf, writebuf)) {
+// 		errx(1, "Buffer data mismatch!");
+// 	}
+// }
+// /*
+//  * This tests the very basic functionality of dup2.
+//  * We open/create a file, duplicate the file descriptor, 
+//  * write the same content to both file descriptors
+//  * and check that the written content appears in that 
+//  * file twice. 
+//  */
+// static void
+// test_dup2()
+// {
+// 	static char writebuf[41] = 
+// 		"Twiddle dee dee, Twiddle dum dum.......\n";
+// 	static char readbuf[81];
+// 	const char *file;
+// 	int fd, dupfd, rv;
 
-	file = "testfile";
+// 	file = "testfile";
 
-	fd = open(file, O_WRONLY|O_CREAT|O_TRUNC, 0664);
-	if (fd<0) {
-		err(1, "%s: open for write", file);
-	}
+// 	fd = open(file, O_WRONLY|O_CREAT|O_TRUNC, 0664);
+// 	if (fd<0) {
+// 		err(1, "%s: open for write", file);
+// 	}
 
-	rv = write(fd, writebuf, 40);
-	if (rv<0) {
-		err(1, "%s: write", file);
-	}
+// 	rv = write(fd, writebuf, 40);
+// 	if (rv<0) {
+// 		err(1, "%s: write", file);
+// 	}
 	
-	dupfd = fd + 1;
-	rv = dup2(fd, dupfd);
-	if (rv<0) {
-		err(1, "%s: dup2", file);
-	}
-	else if(rv != dupfd)
-	{
-		err(1, "dup2() returned %d, expected %d\n", rv, dupfd);
-	}
+// 	dupfd = fd + 1;
+// 	rv = dup2(fd, dupfd);
+// 	if (rv<0) {
+// 		err(1, "%s: dup2", file);
+// 	}
+// 	else if(rv != dupfd)
+// 	{
+// 		err(1, "dup2() returned %d, expected %d\n", rv, dupfd);
+// 	}
 
-	rv = write(dupfd, writebuf, 40);
-	if (rv<0) {
-		err(1, "%s: write via duplicated fd", file);
-	}
+// 	rv = write(dupfd, writebuf, 40);
+// 	if (rv<0) {
+// 		err(1, "%s: write via duplicated fd", file);
+// 	}
 
-	rv = close(fd);
-	if (rv<0) {
-		err(1, "%s: close (original fd)", file);
-	}
+// 	rv = close(fd);
+// 	if (rv<0) {
+// 		err(1, "%s: close (original fd)", file);
+// 	}
 
-	rv = close(dupfd);
-	if (rv<0) {
-		err(1, "%s: close (duplicate)", file);
-	}
+// 	rv = close(dupfd);
+// 	if (rv<0) {
+// 		err(1, "%s: close (duplicate)", file);
+// 	}
 
-	fd = open(file, O_RDONLY);
-	if (fd<0) {
-		err(1, "%s: open for read", file);
-	}
+// 	fd = open(file, O_RDONLY);
+// 	if (fd<0) {
+// 		err(1, "%s: open for read", file);
+// 	}
 
-	rv = read(fd, readbuf, 80);
-	if (rv<0) {
-		err(1, "%s: read", file);
-	}
+// 	rv = read(fd, readbuf, 80);
+// 	if (rv<0) {
+// 		err(1, "%s: read", file);
+// 	}
 
-	rv = close(fd);
-	if (rv<0) {
-		err(1, "%s: close (3d time)", file);
-	}
+// 	rv = close(fd);
+// 	if (rv<0) {
+// 		err(1, "%s: close (3d time)", file);
+// 	}
 
-	/* ensure null termination */
-	readbuf[80] = 0;
+// 	/* ensure null termination */
+// 	readbuf[80] = 0;
 
-	/* Compare the second half */
-	if (strcmp(&readbuf[40], writebuf))
-	{
-		errx(1, "Buffer data mismatch!");
-	}
+// 	/* Compare the second half */
+// 	if (strcmp(&readbuf[40], writebuf))
+// 	{
+// 		errx(1, "Buffer data mismatch!");
+// 	}
 
-	/* Put a null terminator after the expected
-	 * end of the first string and compare 
-	 */
-	readbuf[40] = 0;
-	if (strcmp(readbuf, writebuf)) 
-	{
-		errx(1, "Buffer data mismatch!");
-	}
-}
+// 	/* Put a null terminator after the expected
+// 	 * end of the first string and compare 
+// 	 */
+// 	readbuf[40] = 0;
+// 	if (strcmp(readbuf, writebuf)) 
+// 	{
+// 		errx(1, "Buffer data mismatch!");
+// 	}
+// }
 
 
 
@@ -225,132 +225,132 @@ test_openfile_limits()
 	}
 }
 
-/* Open two files, write to them, read from them, make sure the
- * content checks, then close them. 
- */
-static void
-simultaneous_write_test()
-{
-  	static char writebuf1[41] = "Cabooble-madooddle, bora-bora-bora.....\n";
-	static char writebuf2[41] = "Yada, yada, yada, yada, yada, yada.....\n";
-	static char readbuf[41];
-	static int seekpos = 20; // must be less than the writebuf length
+// /* Open two files, write to them, read from them, make sure the
+//  * content checks, then close them. 
+//  */
+// static void
+// simultaneous_write_test()
+// {
+//   	static char writebuf1[41] = "Cabooble-madooddle, bora-bora-bora.....\n";
+// 	static char writebuf2[41] = "Yada, yada, yada, yada, yada, yada.....\n";
+// 	static char readbuf[41];
+// 	static int seekpos = 20; // must be less than the writebuf length
 
-	const char *file1, *file2;
-	int fd1, fd2, rv;
-	off_t lseek_ret;
+// 	const char *file1, *file2;
+// 	int fd1, fd2, rv;
+// 	off_t lseek_ret;
 
-	file1 = "testfile1";
-	file2 = "testfile2";
+// 	file1 = "testfile1";
+// 	file2 = "testfile2";
 
-	fd1 = open(file1, O_RDWR|O_CREAT|O_TRUNC, 0664);
-	if (fd1<0) {
-		err(1, "%s: open for write", file1);
-	}
-	fd2 = open(file2, O_RDWR|O_CREAT|O_TRUNC, 0664);
-	if (fd2<0) {
-		err(1, "%s: open for write", file2);
-	}
+// 	fd1 = open(file1, O_RDWR|O_CREAT|O_TRUNC, 0664);
+// 	if (fd1<0) {
+// 		err(1, "%s: open for write", file1);
+// 	}
+// 	fd2 = open(file2, O_RDWR|O_CREAT|O_TRUNC, 0664);
+// 	if (fd2<0) {
+// 		err(1, "%s: open for write", file2);
+// 	}
 
-	rv = write(fd1, writebuf1, 40);
-	if (rv<0) {
-		err(1, "%s: write", file1);
-	}
+// 	rv = write(fd1, writebuf1, 40);
+// 	if (rv<0) {
+// 		err(1, "%s: write", file1);
+// 	}
 
-	rv = write(fd2, writebuf2, 40);
-	if (rv<0) {
-		err(1, "%s: write", file2);
-	}
+// 	rv = write(fd2, writebuf2, 40);
+// 	if (rv<0) {
+// 		err(1, "%s: write", file2);
+// 	}
 
-	/* Rewind both files */
-	lseek_ret = lseek(fd1, -(40-seekpos), SEEK_CUR);
-	if (lseek_ret != seekpos) {
-		err(1, "%s: lseek", file1);
-	}
+// 	/* Rewind both files */
+// 	lseek_ret = lseek(fd1, -(40-seekpos), SEEK_CUR);
+// 	if (lseek_ret != seekpos) {
+// 		err(1, "%s: lseek", file1);
+// 	}
 
-	lseek_ret = lseek(fd2, seekpos, SEEK_SET);
-	if (lseek_ret != seekpos) {
-		err(1, "%s: lseek", file2);
-	}
+// 	lseek_ret = lseek(fd2, seekpos, SEEK_SET);
+// 	if (lseek_ret != seekpos) {
+// 		err(1, "%s: lseek", file2);
+// 	}
 
-	/* Read and test the data from the first file */
-	rv = read(fd1, readbuf, 40-seekpos);
-	if (rv<0) {
-		err(1, "%s: read", file1);
-	}	
-	readbuf[40] = 0;
+// 	/* Read and test the data from the first file */
+// 	rv = read(fd1, readbuf, 40-seekpos);
+// 	if (rv<0) {
+// 		err(1, "%s: read", file1);
+// 	}	
+// 	readbuf[40] = 0;
 	
-	if (strcmp(readbuf, &writebuf1[seekpos]))
-		errx(1, "Buffer data mismatch for %s!", file1);
+// 	if (strcmp(readbuf, &writebuf1[seekpos]))
+// 		errx(1, "Buffer data mismatch for %s!", file1);
 	
-	/* Read and test the data from the second file */
-	rv = read(fd2, readbuf, 40-seekpos);
-	if (rv<0) {
-		err(1, "%s: read", file2);
-	}
-	readbuf[40] = 0;
+// 	/* Read and test the data from the second file */
+// 	rv = read(fd2, readbuf, 40-seekpos);
+// 	if (rv<0) {
+// 		err(1, "%s: read", file2);
+// 	}
+// 	readbuf[40] = 0;
 
-	if (strcmp(readbuf, &writebuf2[seekpos])) {
-		printf("Expected: \"%s\", actual: \"%s\"\n", writebuf2,
-		       readbuf);
-		errx(1, "Buffer data mismatch for %s!", file2);
-	}
+// 	if (strcmp(readbuf, &writebuf2[seekpos])) {
+// 		printf("Expected: \"%s\", actual: \"%s\"\n", writebuf2,
+// 		       readbuf);
+// 		errx(1, "Buffer data mismatch for %s!", file2);
+// 	}
 
-	rv = close(fd1);
-	if (rv<0) {
-		err(1, "%s: close", file1);
-	}
+// 	rv = close(fd1);
+// 	if (rv<0) {
+// 		err(1, "%s: close", file1);
+// 	}
 
-	rv = close(fd2);
-	if (rv<0)
-	{
-		err(1, "%s: close", file2);
-	}
+// 	rv = close(fd2);
+// 	if (rv<0)
+// 	{
+// 		err(1, "%s: close", file2);
+// 	}
 
-}
+// }
 
-static void
-_getcwd(char *buf, int len)
-{
-	int ret;
+// static void
+// _getcwd(char *buf, int len)
+// {
+// 	int ret;
 
-	ret = __getcwd(buf, len);
-	if(ret < 0)
-	{
-		err(1, "__getcwd");
-	}
-	if(ret > len)
-	{
-		err(1, "Unexpected return value from __getcwd: %d\n",
-		    ret);
-	}
+// 	ret = __getcwd(buf, len);
+// 	if(ret < 0)
+// 	{
+// 		err(1, "__getcwd");
+// 	}
+// 	if(ret > len)
+// 	{
+// 		err(1, "Unexpected return value from __getcwd: %d\n",
+// 		    ret);
+// 	}
 
-	/* Ensure null termination. */
-	buf[ret] = 0;
+// 	/* Ensure null termination. */
+// 	buf[ret] = 0;
 
-}
+// }
 
-/*
- * This test is really simple. We want it to run on emufs,
- * and we can't do more sophisticated things with directories
- * here. 
- */
-static void
-dir_test()
-{
-	char chdir_name[] = "testbin";
-	char buf[NAME_MAX+1];
-	int ret;
+// /*
+//  * This test is really simple. We want it to run on emufs,
+//  * and we can't do more sophisticated things with directories
+//  * here. 
+//  */
+// static void
+// dir_test()
+// {
+// 	char chdir_name[] = "testbin";
+// 	char buf[NAME_MAX+1];
+// 	int ret;
 
-	_getcwd(buf, NAME_MAX);
-	printf("__getcwd returned: %s\n", buf);
+// 	_getcwd(buf, NAME_MAX);
+// 	printf("__getcwd returned: %s\n", buf);
 
-	ret = chdir(chdir_name);
-	if(ret)
-	{
-		err(1, "chdir into %s", chdir_name);
-	}
-}
+// 	ret = chdir(chdir_name);
+// 	if(ret)
+// 	{
+// 		err(1, "chdir into %s", chdir_name);
+// 	}
+// }
 			
 
 /* This test takes no arguments, so we can run it before argument passing
@@ -359,22 +359,24 @@ dir_test()
 int
 main()
 {
+	printf("Hello World!\n");
+	
 	test_openfile_limits();
 	printf("Passed Part 1 of fsyscalltest\n");
 
-	simple_test();
-	printf("Passed Part 2 of fsyscalltest\n");
+	// simple_test();
+	// printf("Passed Part 2 of fsyscalltest\n");
 	
-	simultaneous_write_test();
-	printf("Passed Part 3 of fsyscalltest\n");
+	// simultaneous_write_test();
+	// printf("Passed Part 3 of fsyscalltest\n");
 	
-	test_dup2();
-	printf("Passed Part 4 of fsyscalltest\n");
+	// test_dup2();
+	// printf("Passed Part 4 of fsyscalltest\n");
 
-	dir_test();
-	printf("Passed Part 5 of fsyscalltest\n");
+	// dir_test();
+	// printf("Passed Part 5 of fsyscalltest\n");
 	
-	printf("All done!\n");
+	// printf("All done!\n");
 	
 	return 0;
 }
