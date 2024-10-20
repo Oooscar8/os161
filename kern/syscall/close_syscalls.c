@@ -28,7 +28,7 @@ sys_close(int fd)
 {   
     /* Check if the file descriptor is valid */
     if (fd < 0 || fd >= OPEN_MAX) {
-        return -EBADF;       // Indicate failure
+        return EBADF;       // Indicate failure
     }
     
     /* Get the current process's file descriptor table */
@@ -38,13 +38,13 @@ sys_close(int fd)
     /* Get the file handle indexed by the file descriptor */
     struct filehandle *fh = filetable_get(ft, fd);
     if (fh == NULL) {
-        return -EBADF;       // Indicate failure
+        return EBADF;       // Indicate failure
     }
 
     /* Remove the file handle from the file descriptor table */
     int result = filetable_remove(ft, fd);
     if (result) {
-        return -result;      // Indicate failure
+        return result;      // Indicate failure
     }
     
     return 0;

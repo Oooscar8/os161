@@ -14,7 +14,7 @@
  * @brief Create a new file descriptor table.
  *
  * This function allocates memory for a new file descriptor table and initializes it by creating a lock
- * for synchronization. It also initializes the file handles array by setting all elements to NULL.
+ * for synchronization. It also initializes the file handles array with standard I/O.
  *
  * @return A pointer to the newly created file descriptor table, 
  * or NULL if memory allocation fails or if the lock creation fails.
@@ -179,16 +179,14 @@ int filetable_remove(struct filetable *ft, int fd)
  * 
  * @param device The device name (e.g., "con:")
  * @param flags The flags for opening the device
- * @return struct filehandle* A pointer to the created file handle, or NULL on failure
+ * @return The newly-create file handle
  */
 struct filehandle *
 create_stdio_handle(const char *device, int flags)
 {
     struct vnode *vn;
     int result = vfs_open(device, flags, 0, &vn);
-    if (result) {
-        return NULL;
-    }
+    KASSERT(result == 0);
     
     struct filehandle *fh = kmalloc(sizeof(struct filehandle));
     KASSERT(fh != NULL);

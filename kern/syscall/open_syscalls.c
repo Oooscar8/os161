@@ -26,7 +26,7 @@
  * @return A file descriptor is returned on success, otherwise an
  * error code is returned to indicate the nature of the failure.
  */
-int sys_open(const_userptr_t filename, int flags, mode_t mode)
+int sys_open(const_userptr_t filename, int flags, mode_t mode, uint32_t *retval)
 {
     char kfilename[PATH_MAX];
     size_t actual_len;
@@ -36,7 +36,7 @@ int sys_open(const_userptr_t filename, int flags, mode_t mode)
     result = copyinstr(filename, kfilename, PATH_MAX, &actual_len);
     if (result)
     {
-        return -result;      // Indicate failure
+        return result;      // Indicate failure
     }
 
     /* Open the file */
@@ -44,7 +44,7 @@ int sys_open(const_userptr_t filename, int flags, mode_t mode)
     result = vfs_open(kfilename, flags, mode, &vn);
     if (result)
     {
-        return -result;      // Indicate failure
+        return result;      // Indicate failure
     }
 
     /* Create the file handle */
@@ -58,8 +58,8 @@ int sys_open(const_userptr_t filename, int flags, mode_t mode)
     {
         filehandle_destroy(fh);
         vfs_close(vn);
-        return -EMFILE;      // Indicate failure
+        return EMFILE;      // Indicate failure
     }
 
-    return fd;
+    *retval = fd;
 }
