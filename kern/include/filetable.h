@@ -29,6 +29,7 @@ struct filehandle *filetable_get(struct filetable *ft, int fd);
 int filetable_remove(struct filetable *ft, int fd);
 
 /* File handle functions */
+struct filehandle *create_stdio_handle(const char *device, int flags);
 struct filehandle *filehandle_create(struct vnode *vn, int flags);
 void filehandle_destroy(struct filehandle *fh);
 void filehandle_incref(struct filehandle *fh);

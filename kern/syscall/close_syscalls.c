@@ -20,8 +20,9 @@
  * is invalid, the function returns an error code.
  *
  * @param fd The file descriptor to be closed.
- * @return 0 on success, or -EBADF if the file descriptor is invalid
- *         or if an error occurs during the removal of the file handle.
+ * 
+ * @return 0 on success, otherwise an error code is returned to indicate the
+ * nature of the failure.
  */
 int
 sys_close(int fd)

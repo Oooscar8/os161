@@ -4,6 +4,8 @@
 #include <synch.h>
 #include <vnode.h>
 #include <vfs.h>
+#include <kern/fcntl.h>
+#include <kern/unistd.h>
 #include <filetable.h>
 
 //////////////////////////////////////////////////
@@ -185,7 +187,7 @@ struct filehandle *
 create_stdio_handle(const char *device, int flags)
 {
     struct vnode *vn;
-    int result = vfs_open(device, flags, 0, &vn);
+    int result = vfs_open((char*)device, flags, 0, &vn);
     KASSERT(result == 0);
     
     struct filehandle *fh = kmalloc(sizeof(struct filehandle));

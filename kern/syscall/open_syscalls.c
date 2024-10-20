@@ -22,11 +22,12 @@
  * @param filename[in] - The path of the file to open.
  * @param flags[in]    - The flags to open the file with.
  * @param mode[in]     - The mode to open the file with.
+ * @param retval[out]  - The file descriptor of the opened file.
  *
- * @return A file descriptor is returned on success, otherwise an
- * error code is returned to indicate the nature of the failure.
+ * @return 0 on success, otherwise an error code is returned to indicate the
+ * nature of the failure.
  */
-int sys_open(const_userptr_t filename, int flags, mode_t mode, uint32_t *retval)
+int sys_open(const_userptr_t filename, int flags, mode_t mode, int32_t *retval)
 {
     char kfilename[PATH_MAX];
     size_t actual_len;
@@ -62,4 +63,5 @@ int sys_open(const_userptr_t filename, int flags, mode_t mode, uint32_t *retval)
     }
 
     *retval = fd;
+    return 0;
 }
