@@ -187,7 +187,7 @@ struct filehandle *
 create_stdio_handle(const char *device, int flags)
 {
     struct vnode *vn;
-    int result = vfs_open((char*)device, flags, 0, &vn);
+    int result = vfs_open(kstrdup(device), flags, 0, &vn);
     KASSERT(result == 0);
     
     struct filehandle *fh = kmalloc(sizeof(struct filehandle));
@@ -203,7 +203,7 @@ create_stdio_handle(const char *device, int flags)
     return fh;
 }
 
-/**S
+/**
  * @brief Create a new file handle.
  *
  * This function allocates memory for a new file handle and initializes it with the provided vnode
