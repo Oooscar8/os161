@@ -38,17 +38,18 @@ filetable_create(void)
     }
 
     // Initialize standard I/O
-    ft->file_handles[STDIN_FILENO] = create_stdio_handle("con:", O_RDONLY);
-    ft->file_handles[STDOUT_FILENO] = create_stdio_handle("con:", O_WRONLY);
-    ft->file_handles[STDERR_FILENO] = create_stdio_handle("con:", O_WRONLY);
+    struct filehandle *stdin_handle = create_stdio_handle("con:", O_RDONLY);
+    struct filehandle *stdout_handle = create_stdio_handle("con:", O_WRONLY);
+    struct filehandle *stderr_handle = create_stdio_handle("con:", O_WRONLY);
 
     for (int i = 0; i < OPEN_MAX; i++)
     {
         ft->file_handles[i] = NULL;
     }
-    for (int i = 0; i <= STDERR_FILENO; i++) {
-        filetable_add(ft, ft->file_handles[i]);
-    }
+    
+    filetable_add(ft, stdin_handle);
+    filetable_add(ft, stdout_handle);
+    filetable_add(ft, stderr_handle);
 
     return ft;
 }
