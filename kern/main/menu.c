@@ -710,6 +710,8 @@ menu(char *args)
 
 	menu_execute(args, 1);
 
+	while (1) {}
+
 	while (1) {
 		kprintf("OS/161 kernel [? for menu]: ");
 		kgets(buf, sizeof(buf));
