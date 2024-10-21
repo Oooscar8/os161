@@ -15,8 +15,7 @@
 #include <filetable.h>
 #include <syscall.h>
 
-int
-sys_read(int fd, userptr_t buf_ptr, size_t nbytes, int32_t *retval)
+int sys_read(int fd, userptr_t buf_ptr, size_t nbytes, int32_t *retval)
 {
     struct filetable *ft;
     struct filehandle *fh;
@@ -26,7 +25,8 @@ sys_read(int fd, userptr_t buf_ptr, size_t nbytes, int32_t *retval)
     int result;
 
     // Check if file descriptor is valid
-    if (fd < 0 || fd >= OPEN_MAX) {
+    if (fd < 0 || fd >= OPEN_MAX)
+    {
         return EBADF;
     }
 
@@ -36,17 +36,20 @@ sys_read(int fd, userptr_t buf_ptr, size_t nbytes, int32_t *retval)
 
     // Get the file handle from the file descriptor table
     fh = filetable_get(ft, fd);
-    if (fh == NULL) {
+    if (fh == NULL)
+    {
         return EBADF;
     }
 
     // Check if the file is opened for reading
-    if ((fh->flags & O_ACCMODE) == O_WRONLY) {
+    if ((fh->flags & O_ACCMODE) == O_WRONLY)
+    {
         return EBADF;
     }
 
     // Handle zero-length read
-    if (nbytes == 0) {
+    if (nbytes == 0)
+    {
         *retval = 0;
         return 0;
     }
@@ -64,7 +67,8 @@ sys_read(int fd, userptr_t buf_ptr, size_t nbytes, int32_t *retval)
     // Perform the read operation
     result = VOP_READ(fh->vn, &u);
 
-    if (result) {
+    if (result)
+    {
         kfree(kbuf);
         lock_release(fh->fh_lock);
         return result;
@@ -80,14 +84,18 @@ sys_read(int fd, userptr_t buf_ptr, size_t nbytes, int32_t *retval)
     lock_release(fh->fh_lock);
 
     // Copy data from kernel space to user space
-    result = copyout(kbuf, buf_ptr, *retval);
-    
+    if (*retval > 0)
+    {
+        result = copyout(kbuf, buf_ptr, *retval);
+        if (result)
+        {
+            kfree(kbuf);
+            return result;
+        }
+    }
+
     // Free the kernel buffer
     kfree(kbuf);
-
-    if (result) {
-        return result;
-    }
 
     return 0;
 }
