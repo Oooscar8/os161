@@ -56,8 +56,6 @@ int sys_write(int fd, userptr_t *buf, size_t nbytes, int *retval)
 
     // Set up uio structure for writing
     uio_kinit(&iov, &u, buf, nbytes, file->fh_offset, UIO_WRITE);
-    u.uio_segflg = UIO_USERSPACE;
-    u.uio_space = curproc->p_addrspace;
 
     // Perform the write operation
     result = VOP_WRITE(file->fh_vnode, &u);
