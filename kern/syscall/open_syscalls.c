@@ -58,7 +58,6 @@ int sys_open(const_userptr_t filename, int flags, mode_t mode, int32_t *retval)
     if (fd == -1)
     {
         filehandle_destroy(fh);
-        vfs_close(vn);
         return EMFILE;      // Indicate failure
     }
 
