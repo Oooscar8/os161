@@ -10,6 +10,7 @@
 #include <vfs.h>
 #include <vnode.h>
 #include <copyinout.h>
+#include <limits.h>
 #include <syscall.h>
 
 int
@@ -17,8 +18,6 @@ sys_chdir(const_userptr_t pathname)
 {
     int result;
     char *kpath;
-    struct vnode *new_cwd;
-    mode_t file_type;
 
     // Allocate kernel buffer for the pathname
     kpath = kmalloc(PATH_MAX);
