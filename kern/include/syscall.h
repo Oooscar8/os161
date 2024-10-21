@@ -61,5 +61,6 @@ int sys___time(userptr_t user_seconds, userptr_t user_nanoseconds);
 int sys_open(const_userptr_t filename, int flags, mode_t mode, int32_t *retval);
 int sys_close(int fd);
 int sys_write(int fd, const_userptr_t buf_ptr, size_t nbytes, int32_t *retval);
+int sys_read(int fd, userptr_t buf_ptr, size_t nbytes, int32_t *retval)
 
 #endif /* _SYSCALL_H_ */
