@@ -37,7 +37,7 @@ int sys_dup2(int oldfd, int newfd, int32_t *retval)
     lock_acquire(ft->ft_lock);
 
     // Get the file handle for oldfd
-    old_fh = filetable_get(ft, oldfd);
+    old_fh = ft->file_handles[oldfd];
     if (old_fh == NULL)
     {
         lock_release(ft->ft_lock);
@@ -45,8 +45,8 @@ int sys_dup2(int oldfd, int newfd, int32_t *retval)
     }
 
     // Get the file handle for newfd
-    new_fh = filetable_get(ft, newfd);
-    
+    new_fh = ft->file_handles[newfd];
+
     // Check if newfd is already open, if so, close it
     if (new_fh != NULL)
     {
