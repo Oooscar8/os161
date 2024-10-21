@@ -9,6 +9,7 @@
 #include <vfs.h>
 #include <vnode.h>
 #include <copyinout.h>
+#include <syscall.h>
 
 int
 sys___getcwd(userptr_t buf, size_t buflen, int32_t *retval)
