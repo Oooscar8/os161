@@ -33,19 +33,20 @@ int sys_dup2(int oldfd, int newfd, int32_t *retval)
         return 0;
     }
 
+    // Acquire the lock for the file descriptor table
+    lock_acquire(ft->ft_lock);
+
     // Get the file handle for oldfd
     old_fh = filetable_get(ft, oldfd);
     if (old_fh == NULL)
     {
+        lock_release(ft->ft_lock);
         return EBADF;
     }
 
     // Get the file handle for newfd
     new_fh = filetable_get(ft, newfd);
-
-    // Acquire the lock for the file descriptor table
-    lock_acquire(ft->ft_lock);
-
+    
     // Check if newfd is already open, if so, close it
     if (new_fh != NULL)
     {
