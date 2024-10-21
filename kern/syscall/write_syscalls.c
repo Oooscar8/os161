@@ -11,7 +11,7 @@
 #include <synch.h>
 #include <vfs.h>
 #include <vnode.h>
-#include <file.h>
+#include <filetable.h>
 #include <syscall.h>
 #include <copyinout.h>
 
