@@ -36,12 +36,6 @@ sys_close(int fd)
     struct filetable *ft = curproc->p_ft;
     KASSERT(ft != NULL);
 
-    /* Get the file handle indexed by the file descriptor */
-    struct filehandle *fh = filetable_get(ft, fd);
-    if (fh == NULL) {
-        return EBADF;       // Indicate failure
-    }
-
     /* Remove the file handle from the file descriptor table */
     int result = filetable_remove(ft, fd);
     if (result) {
