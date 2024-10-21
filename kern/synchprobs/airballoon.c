@@ -372,6 +372,13 @@ static void balloon(void *p, unsigned long arg)
 	thread_exit();
 }
 
+/* This function initializes the main thread global variables. */
+static void main_thread_init() {
+	ropes_left = NROPES;
+	threads_exited = 0;
+    balloon_finished = false;
+}
+
 // Change this function as necessary
 int airballoon(int nargs, char **args)
 {
@@ -381,6 +388,9 @@ int airballoon(int nargs, char **args)
 	(void)nargs;
 	(void)args;
 	(void)ropes_left;
+
+    /* Initialize global variables. */
+	main_thread_init();
 
     /* Initialize rope mappings and synchronization primitives. */
 	initialize_mappings();
