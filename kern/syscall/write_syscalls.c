@@ -15,7 +15,7 @@
 #include <syscall.h>
 #include <copyinout.h>
 
-int sys_write(int fd, userptr_t buf_ptr, size_t nbytes, int32_t *retval)
+int sys_write(int fd, const_userptr_t buf_ptr, size_t nbytes, int32_t *retval)
 {
     struct filetable *ft;
     struct filehandle *fh;

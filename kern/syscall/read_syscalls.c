@@ -13,6 +13,7 @@
 #include <vnode.h>
 #include <copyinout.h>
 #include <filetable.h>
+#include <syscall.h>
 
 int
 sys_read(int fd, userptr_t buf_ptr, size_t nbytes, int32_t *retval)

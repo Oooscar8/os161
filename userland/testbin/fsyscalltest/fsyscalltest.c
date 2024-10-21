@@ -16,66 +16,67 @@
 #include <err.h>
 #include <limits.h>
 
-// /*
-//  * This is essentially the same code as in filetest.c, except we don't
-//  * expect any arguments, so the test can be executed before processes are
-//  * fully implemented. Furthermore, we do not call remove, because emufs does not
-//  * support it, and we would like to be able to run on emufs.
-//  */
-// static void
-// simple_test()
-// {
-//   	static char writebuf[41] =
-// 		"Twiddle dee dee, Twiddle dum dum.......\n";
-// 	static char readbuf[41];
+/*
+ * This is essentially the same code as in filetest.c, except we don't
+ * expect any arguments, so the test can be executed before processes are
+ * fully implemented. Furthermore, we do not call remove, because emufs does not
+ * support it, and we would like to be able to run on emufs.
+ */
+static void
+simple_test()
+{
+  	static char writebuf[41] =
+		"Twiddle dee dee, Twiddle dum dum.......\n";
+	static char readbuf[41];
 
-// 	const char *file;
-// 	int fd, rv;
+	const char *file;
+	int fd, rv;
 
-// 	file = "testfile";
+	file = "testfile";
 
-// 	fd = open(file, O_WRONLY|O_CREAT|O_TRUNC, 0664);
-// 	if (fd<0) {
-// 		err(1, "%s: open for write", file);
-// 	}
+	fd = open(file, O_WRONLY|O_CREAT|O_TRUNC, 0664);
+	if (fd<0) {
+		err(1, "%s: open for write", file);
+	}
 
-// 	rv = write(fd, writebuf, 40);
-// 	if (rv<0) {
-// 		err(1, "%s: write", file);
-// 	}
+	rv = write(fd, writebuf, 40);
+	if (rv<0) {
+		err(1, "%s: write", file);
+	}
 
-// 	rv = close(fd);
-// 	if (rv<0) {
-// 		err(1, "%s: close (1st time)", file);
-// 	}
+	rv = close(fd);
+	if (rv<0) {
+		err(1, "%s: close (1st time)", file);
+	}
 
-// 	fd = open(file, O_RDONLY);
-// 	if (fd<0) {
-// 		err(1, "%s: open for read", file);
-// 	}
+	fd = open(file, O_RDONLY);
+	if (fd<0) {
+		err(1, "%s: open for read", file);
+	}
 
-// 	rv = read(fd, readbuf, 40);
-// 	if (rv<0) {
-// 		err(1, "%s: read", file);
-// 	}
-// 	rv = close(fd);
-// 	if (rv<0) {
-// 		err(1, "%s: close (2nd time)", file);
-// 	}
-// 	/* ensure null termination */
-// 	readbuf[40] = 0;
+	rv = read(fd, readbuf, 40);
+	if (rv<0) {
+		err(1, "%s: read", file);
+	}
+	rv = close(fd);
+	if (rv<0) {
+		err(1, "%s: close (2nd time)", file);
+	}
+	/* ensure null termination */
+	readbuf[40] = 0;
 
-// 	if (strcmp(readbuf, writebuf)) {
-// 		errx(1, "Buffer data mismatch!");
-// 	}
-// }
-// /*
-//  * This tests the very basic functionality of dup2.
-//  * We open/create a file, duplicate the file descriptor,
-//  * write the same content to both file descriptors
-//  * and check that the written content appears in that
-//  * file twice.
-//  */
+	if (strcmp(readbuf, writebuf)) {
+		errx(1, "Buffer data mismatch!");
+	}
+}
+
+/*
+ * This tests the very basic functionality of dup2.
+ * We open/create a file, duplicate the file descriptor,
+ * write the same content to both file descriptors
+ * and check that the written content appears in that
+ * file twice.
+ */
 // static void
 // test_dup2()
 // {
@@ -358,8 +359,8 @@ int main()
 	test_openfile_limits();
 	printf("Passed Part 1 of fsyscalltest\n");
 
-	// simple_test();
-	// printf("Passed Part 2 of fsyscalltest\n");
+	simple_test();
+    printf("Passed Part 2 of fsyscalltest\n");
 
 	// simultaneous_write_test();
 	// printf("Passed Part 3 of fsyscalltest\n");
