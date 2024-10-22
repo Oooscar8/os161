@@ -14,8 +14,14 @@
 #include <vnode.h>
 #include <kern/stat.h>
 
-
-
+/**
+ * sys_close - close a file descriptor
+ * @fd: the file descriptor to be closed
+ *
+ * This system call closes a file descriptor and releases any system
+ * resources associated with it. If the file descriptor is invalid,
+ * this function returns EBADF. Otherwise, it returns 0.
+ */
 int sys_close(int fd)
 {
     

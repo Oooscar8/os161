@@ -14,6 +14,23 @@
 #include <vnode.h>
 #include <kern/stat.h>
 
+/**
+ * sys_chdir - change current directory of current process
+ *
+ *
+ * Errors:
+ * - ENOENT: the named directory does not exist
+ * - EIO: a hard I/O error occurred while trying to change the current
+ *   directory
+ * - EFAULT: pathname was an invalid pointer
+ * - EINVAL: pathname is not a valid path
+ * - ENAMETOOLONG: the length of the pathname exceeded PATH_MAX
+ * - ENOTDIR: a component of pathname is not a directory, or pathname is
+ *   not a directory
+ * - EPERM: the process does not have the ability to change its current
+ *   directory (this is only possible if the process is running with
+ *   privileges, and should never happen)
+ */
 int sys_chdir(userptr_t *pathname, int *retval)
 {
     char *kpathname;

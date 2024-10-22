@@ -14,6 +14,22 @@
 #include <vnode.h>
 #include <kern/stat.h>
 
+/**
+ * sys_write - write data to a file
+ *
+ * Writes up to nbytes bytes to the file specified by fd, at the
+ * current offset specified by the file, taking the data from the
+ * space pointed to by buf. The file must be open for writing.
+ *
+ * On success, the number of bytes written is returned in retval.
+ * If an error occurs, an appropriate error code is returned.
+ *
+ * Errors:
+ *  - EBADF: fd is not a valid file descriptor, or is not open for
+ *    writing.
+ *  - EFAULT: buf is an invalid address.
+ *  - EIO: a hardware I/O error occurred writing the data.
+ */
 int sys_write(int fd, userptr_t *buf, size_t nbytes, int *retval)
 {
     struct filehandle *file;

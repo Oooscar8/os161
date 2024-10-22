@@ -14,6 +14,17 @@
 #include <vnode.h>
 #include <kern/stat.h>
 
+/**
+ * sys_open - open a file
+ * @param filename: the name of the file to open
+ * @param flags: flags to control the opening of the file
+ * @param mode: the mode to open the file with
+ * @param retval: pointer to store the file descriptor of the opened file
+ *
+ * Opens the file specified by filename with the given flags and mode.
+ *
+ * Returns 0 on success, an error code otherwise.
+ */
 int sys_open(userptr_t *filename, int flags, mode_t mode, int *retval)
 {
     struct vnode *vn;
@@ -33,43 +44,11 @@ int sys_open(userptr_t *filename, int flags, mode_t mode, int *retval)
         return result;
     }
 
-    if ((flags & O_ACCMODE) != O_RDONLY && (flags & O_ACCMODE) != O_WRONLY && (flags & O_ACCMODE) != O_RDWR)
-    {
-        kfree(kfilename);
-        return EINVAL;
-    }
-
-    // atomic not sure
-    if ((flags & O_CREAT) && (flags & O_EXCL))
-    {
-        result = vfs_open(kfilename, flags, mode, &vn);
-        if (result == 0)
-        {
-            vfs_close(vn);
-            kfree(kfilename);
-            return EEXIST;
-        }
-    }
-    else
-    {
-        result = vfs_open(kfilename, flags, mode, &vn);
-    }
-
-    kfree(kfilename);
+    /* Open the file */
+    result = vfs_open(kfilename, flags, mode, &vn);
     if (result)
     {
-        return result;
-    }
-
-    // not sure
-    if ((flags & O_TRUNC) && (flags & O_ACCMODE) != O_RDONLY)
-    {
-        result = VOP_TRUNCATE(vn, 0);
-        if (result)
-        {
-            vfs_close(vn);
-            return result;
-        }
+        return result;      // Indicate failure
     }
 
     struct filehandle *fh = file_handle_create(vn, flags);
@@ -77,31 +56,6 @@ int sys_open(userptr_t *filename, int flags, mode_t mode, int *retval)
     {
         vfs_close(vn);
         return ENOMEM;
-    }
-
-    if (flags & O_APPEND)
-    {
-        //lock_acquire(fh->fh_lock);
-
-        struct stat *fh_vn_stat;  
-        fh_vn_stat = kmalloc(sizeof(struct stat));
-        if (fh_vn_stat == NULL)
-        {
-            file_handle_destroy(fh);
-            vfs_close(vn);
-            return ENOMEM;
-        }
-
-        VOP_STAT(vn, fh_vn_stat);
-        fh->fh_offset = (off_t)fh_vn_stat->st_size;
-        if (fh->fh_offset < 0)
-        {
-            file_handle_destroy(fh);
-            return EIO;
-        }
-
-        kfree(fh_vn_stat);
-        //lock_release(fh->fh_lock);
     }
 
     *retval = filetable_add(curproc->p_filetable, fh);
