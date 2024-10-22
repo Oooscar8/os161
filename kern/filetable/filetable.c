@@ -253,7 +253,10 @@ void filehandle_destroy(struct filehandle *fh)
 {
     KASSERT(fh != NULL);
 
+    lock_acquire(fh->fh_lock);
     vfs_close(fh->vn);
+    lock_release(fh->fh_lock);
+    
     lock_destroy(fh->fh_lock);
     kfree(fh);
 }

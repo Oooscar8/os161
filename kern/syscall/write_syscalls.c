@@ -35,15 +35,21 @@ int sys_write(int fd, const_userptr_t buf_ptr, size_t nbytes, int32_t *retval)
     KASSERT(ft != NULL);
 
     // Get the file handle from the file descriptor table
-    fh = filetable_get(ft, fd);
+    lock_acquire(ft->ft_lock);
+    fh = ft->file_handles[fd];
     if (fh == NULL)
     {
         return EBADF;
     }
+    
+    // lock the file handle
+    lock_acquire(fh->fh_lock);
+    lock_release(ft->ft_lock);
 
     // Check if the file is opened for writing
     if ((fh->flags & O_ACCMODE) == O_RDONLY)
     {
+        lock_release(fh->fh_lock);
         return EBADF;
     }
 
@@ -51,6 +57,7 @@ int sys_write(int fd, const_userptr_t buf_ptr, size_t nbytes, int32_t *retval)
     if (nbytes == 0)
     {
         *retval = 0;
+        lock_release(fh->fh_lock);
         return 0;
     }
 
@@ -62,14 +69,12 @@ int sys_write(int fd, const_userptr_t buf_ptr, size_t nbytes, int32_t *retval)
     if (result)
     {
         kfree(kbuf);
+        lock_release(fh->fh_lock);
         return result;
     }
 
     // Set up the uio structure
     uio_kinit(&iov, &u, kbuf, nbytes, fh->offset, UIO_WRITE);
-
-    // Acquire the lock for the file handle
-    lock_acquire(fh->fh_lock);
 
     // Perform the write operation
     result = VOP_WRITE(fh->vn, &u);
