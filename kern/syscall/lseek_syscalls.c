@@ -14,6 +14,25 @@
 #include <vnode.h>
 #include <kern/stat.h>
 
+/**
+ * sys_lseek - change current position in file
+ *
+ * Changes the current seek position of the file handle specified by
+ * fd to a new position based on pos and whence.
+ *
+ * If whence is
+ * - SEEK_SET, the new position is pos.
+ * - SEEK_CUR, the new position is the current position plus pos.
+ * - SEEK_END, the new position is the position of end-of-file
+ *   plus pos.
+ *
+ * If the file descriptor is invalid, EBADF is returned.
+ * If the file is not seekable, ESPIPE is returned.
+ * If the whence parameter is invalid, EINVAL is returned.
+ * If the new position is negative, EINVAL is returned.
+ *
+ * On success, the new position is returned in retval.
+ */
 off_t sys_lseek(int fd, off_t pos, int whence, off_t *retval)
 {
     *retval = -1;

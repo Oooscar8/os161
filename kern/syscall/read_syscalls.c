@@ -14,7 +14,25 @@
 #include <vnode.h>
 #include <kern/stat.h>
 
-
+/**
+ * sys_read - read data from a file
+ *
+ * Reads up to buflen bytes from the file specified by fd, at the
+ * location in the file specified by the current seek position of the
+ * file, and stores them in the space pointed to by buf. The file must
+ * be open for reading.
+ *
+ * If buflen is 0, sys_read returns 0 and has no other effect.
+ * If the file offset reaches the end of the file, sys_read returns 0.
+ * On success, the number of bytes read is returned in retval.
+ * If an error occurs, sys_read returns an appropriate error code.
+ *
+ * Errors:
+ *  - EBADF: fd is not a valid file descriptor, or is not open for
+ *    reading.
+ *  - EFAULT: buf is an invalid address.
+ *  - EIO: a hardware I/O error occurred reading the data.
+ */
 int
 sys_read(int fd, userptr_t *buf, size_t buflen, int *retval) {
     struct filehandle *file;

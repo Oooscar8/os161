@@ -14,6 +14,20 @@
 #include <vnode.h>
 #include <kern/stat.h>
 
+/**
+ * sys_dup2 - clone file handles
+ *
+ * Duplicates the file handle specified by oldfd onto the file handle
+ * newfd. If newfd is already open, it is closed first.
+ *
+ * On success, the new file descriptor is returned in retval and 0 is
+ * returned.
+ *
+ * Errors:
+ *  - EBADF: oldfd is not a valid file descriptor, or newfd is a value
+ *    that cannot be a valid file descriptor.
+ *  - EIO: a hardware I/O error occurred.
+ */
 int sys_dup2(int oldfd, int newfd, int *retval) {
     struct filehandle *file;
     struct filehandle *newfile;

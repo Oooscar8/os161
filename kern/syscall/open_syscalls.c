@@ -14,6 +14,17 @@
 #include <vnode.h>
 #include <kern/stat.h>
 
+/**
+ * sys_open - open a file
+ * @param filename: the name of the file to open
+ * @param flags: flags to control the opening of the file
+ * @param mode: the mode to open the file with
+ * @param retval: pointer to store the file descriptor of the opened file
+ *
+ * Opens the file specified by filename with the given flags and mode.
+ *
+ * Returns 0 on success, an error code otherwise.
+ */
 int sys_open(userptr_t *filename, int flags, mode_t mode, int *retval)
 {
     struct vnode *vn;

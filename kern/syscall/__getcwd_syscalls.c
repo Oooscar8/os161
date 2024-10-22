@@ -8,6 +8,16 @@
 #include <syscall.h>
 #include <proc.h>
 
+/**
+ * sys__getcwd - get current working directory
+ * @param buf: pointer to pointer to userland buffer to store cwd in
+ * @param buflen: size of userland buffer
+ * @param retval: pointer to int to store length of cwd in
+ *
+ * Copies the current working directory into the userland buffer.
+ *
+ * Returns 0 on success, an error code otherwise.
+ */
 int sys__getcwd(userptr_t *buf, size_t buflen, int *retval) {
     struct uio u;          
     struct iovec iov;       
