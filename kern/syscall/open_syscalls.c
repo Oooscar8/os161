@@ -57,7 +57,7 @@ int sys_open(const_userptr_t filename, int flags, mode_t mode, int32_t *retval)
     int fd = filetable_add(curproc->p_ft, fh);
     if (fd == -1)
     {
-        filehandle_destroy(fh);
+        filehandle_decref(fh);
         return EMFILE;      // Indicate failure
     }
 
