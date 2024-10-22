@@ -219,18 +219,18 @@ filehandle_create(struct vnode *vn, int flags)
  * @brief Destroy a file handle.
  *
  * This function closes the vnode associated with the file handle, destroys the lock associated with the file handle, and
- * frees the memory allocated for the file handle. It is called when the reference count of a file handle reaches 0.
+ * frees the memory allocated for the file handle.
+ * It is called when the reference count of a file handle reaches 0 and the lock for the file handle is locked.
  *
  * @param fh The file handle to be destroyed.
  */
 void filehandle_destroy(struct filehandle *fh)
 {
     KASSERT(fh != NULL);
+    KASSERT(lock_do_i_hold(fh->fh_lock));
 
-    lock_acquire(fh->fh_lock);
     vfs_close(fh->vn);
     lock_release(fh->fh_lock);
-
     lock_destroy(fh->fh_lock);
     kfree(fh);
 }
@@ -268,11 +268,10 @@ void filehandle_decref(struct filehandle *fh)
 
     lock_acquire(fh->fh_lock);
     fh->refcount--;
-    int count = fh->refcount;
-    lock_release(fh->fh_lock);
-
-    if (count == 0)
+    if (fh->refcount == 0)
     {
         filehandle_destroy(fh);
+        return;
     }
+    lock_release(fh->fh_lock);
 }
