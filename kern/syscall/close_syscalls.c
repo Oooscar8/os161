@@ -11,19 +11,6 @@
 #include <syscall.h>
 #include <filetable.h>
 
-/**
- * Closes the file associated with the given file descriptor.
- *
- * This function checks the validity of the file descriptor, retrieves
- * the current process's file descriptor table, and removes the file
- * handle associated with the file descriptor. If the file descriptor
- * is invalid, the function returns an error code.
- *
- * @param fd The file descriptor to be closed.
- * 
- * @return 0 on success, otherwise an error code is returned to indicate the
- * nature of the failure.
- */
 int
 sys_close(int fd)
 {   
