@@ -22,7 +22,7 @@ int sys_dup2(int oldfd, int newfd, int32_t *retval)
         return EBADF;
     }
 
-    // Get the current process's file descriptortable
+    // Get the current process's file descriptor table
     ft = curproc->p_ft;
     KASSERT(ft != NULL);
 
