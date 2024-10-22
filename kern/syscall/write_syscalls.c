@@ -39,9 +39,10 @@ int sys_write(int fd, const_userptr_t buf_ptr, size_t nbytes, int32_t *retval)
     fh = ft->file_handles[fd];
     if (fh == NULL)
     {
+        lock_release(ft->ft_lock);
         return EBADF;
     }
-    
+
     // lock the file handle
     lock_acquire(fh->fh_lock);
     lock_release(ft->ft_lock);
