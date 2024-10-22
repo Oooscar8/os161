@@ -58,7 +58,7 @@ int sys_dup2(int oldfd, int newfd, int32_t *retval)
     ft->file_handles[newfd] = old_fh;
     filehandle_incref(old_fh);
 
-    // Release the lock for the file table
+    // Release the lock for the file decriptor table
     lock_release(ft->ft_lock);
 
     // Set the return value
