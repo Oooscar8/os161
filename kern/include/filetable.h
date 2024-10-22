@@ -26,7 +26,6 @@ struct filetable *filetable_create(void);
 void filetable_stdio_init(struct filetable *ft);
 void filetable_destroy(struct filetable *ft);
 int filetable_add(struct filetable *ft, struct filehandle *fh);
-struct filehandle *filetable_get(struct filetable *ft, int fd);
 int filetable_remove(struct filetable *ft, int fd);
 
 /* File handle functions */

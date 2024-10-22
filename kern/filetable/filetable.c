@@ -123,32 +123,6 @@ int filetable_add(struct filetable *ft, struct filehandle *fh)
 }
 
 /**
- * @brief Get the file handle associated with the given file descriptor from the file descriptor table.
- *
- * @param ft The file descriptor table to retrieve the file handle from.
- * @param fd The file descriptor to get the file handle for.
- *
- * @return The file handle associated with the provided file descriptor, 
- * or NULL if the file descriptor is out of bounds 
- * or there is no file handle associated with the file descriptor.
- */
-struct filehandle *
-filetable_get(struct filetable *ft, int fd)
-{
-    if (fd < 0 || fd >= OPEN_MAX)
-    {
-        return NULL;
-    }
-
-    struct filehandle *fh;
-    lock_acquire(ft->ft_lock);
-    fh = ft->file_handles[fd];
-    lock_release(ft->ft_lock);
-
-    return fh;
-}
-
-/**
  * @brief Remove a file handle from the file descriptor table.
  *
  * This function removes the file handle associated with the specified
@@ -256,7 +230,7 @@ void filehandle_destroy(struct filehandle *fh)
     lock_acquire(fh->fh_lock);
     vfs_close(fh->vn);
     lock_release(fh->fh_lock);
-    
+
     lock_destroy(fh->fh_lock);
     kfree(fh);
 }

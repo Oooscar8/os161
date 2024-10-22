@@ -43,6 +43,7 @@ int sys_read(int fd, userptr_t buf_ptr, size_t nbytes, int32_t *retval)
         return EBADF;
     }
 
+    // Acquire the lock for the file handle
     lock_acquire(fh->fh_lock);
     lock_release(ft->ft_lock);
 

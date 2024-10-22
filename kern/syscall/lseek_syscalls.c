@@ -33,13 +33,16 @@ sys_lseek(int fd, off_t pos, int whence, off_t *retval)
     KASSERT(ft != NULL);
 
     // Get the file handle from the file descriptor table
-    fh = filetable_get(ft, fd);
+    lock_acquire(ft->ft_lock);
+    fh = ft->file_handles[fd];
     if (fh == NULL) {
+        lock_release(ft->ft_lock);
         return EBADF;
     }
 
     // Acquire the lock for the file handle
     lock_acquire(fh->fh_lock);
+    lock_release(ft->ft_lock);
 
     // Check if the file supports seeking
     if (!VOP_ISSEEKABLE(fh->vn)) {
