@@ -63,7 +63,7 @@ int sys_open(userptr_t *filename, int flags, mode_t mode, int *retval)
     //filetable is full
     if (*retval == -1)
     {   
-        file_handle_destroy(fh);
+        filehandle_decref(fh);
         return EMFILE;
     }
 

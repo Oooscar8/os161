@@ -117,6 +117,7 @@ struct filehandle *file_handle_create(struct vnode *vn, int flags);
 
 /**
  * Destroys a file handle and releases associated resources.
+ * It is called when the reference count of a file handle reaches 0 and the lock for the file handle is locked.
  *
  * @param fh The file handle to destroy.
  */
@@ -150,5 +151,27 @@ void file_handle_destroy(struct filehandle *fh);
  *   file table may be partially initialized.
  */
 int filetable_init_standard(struct filetable *ft);
+
+/**
+ * @brief Increment the reference count of a file handle.
+ *
+ * This function increments the reference count of a file handle, which is used to determine when a file handle can be
+ * safely destroyed. The reference count is incremented atomically to ensure the integrity of the file handle.
+ *
+ * @param fh The file handle whose reference count to increment.
+ */
+void filehandle_incref(struct filehandle *fh);
+
+/**
+ * @brief Decrement the reference count of a file handle.
+ *
+ * This function decreases the reference count of the provided file handle.
+ * If the reference count reaches zero, the file handle is destroyed, 
+ * releasing any resources associated with it. The function is protected
+ * by a lock to ensure thread safety during the operation.
+ * 
+ * @param fh The file handle whose reference count is to be decremented.
+ */
+void filehandle_decref(struct filehandle *fh);
 
 #endif /* _FILETABLE_H_ */

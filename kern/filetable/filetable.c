@@ -42,20 +42,8 @@ void filetable_destroy(struct filetable *ft)
     {
         if (ft->ft_entries[i] != NULL)
         {
-
-            // decrement the reference count
-            lock_acquire(ft->ft_entries[i]->fh_lock);
-            ft->ft_entries[i]->fh_refcount--;
-
-            if (ft->ft_entries[i]->fh_refcount == 0)
-            {
-                lock_release(ft->ft_entries[i]->fh_lock);
-                file_handle_destroy(ft->ft_entries[i]);
-            }
-            else
-            {
-                lock_release(ft->ft_entries[i]->fh_lock);
-            }
+            filehandle_decref(ft->ft_entries[i]);
+            ft->ft_entries[i] = NULL;
         }
         ft->ft_entries[i] = NULL;
     }
@@ -105,22 +93,11 @@ int filetable_remove(struct filetable *ft, int fd)
 
     lock_acquire(ft->ft_lock);
     if (ft->ft_entries[fd] != NULL)
-    {   
-        // decrement the reference count
-        lock_acquire(ft->ft_entries[fd]->fh_lock);
-
-        if (--ft->ft_entries[fd]->fh_refcount == 0)
-        {
-            lock_release(ft->ft_entries[fd]->fh_lock);
-            file_handle_destroy(ft->ft_entries[fd]);
-        }
-        else
-        {
-            lock_release(ft->ft_entries[fd]->fh_lock);
-        }
-
+    {
+        filehandle_decref(ft->ft_entries[fd]);
         ft->ft_entries[fd] = NULL;
-    } else {
+    }
+    else {
         lock_release(ft->ft_lock);
         return -1;
     }
@@ -184,23 +161,13 @@ file_handle_create(struct vnode *vn, int flags)
 
 void file_handle_destroy(struct filehandle *fh)
 {
-    if (fh == NULL) {
-        return;
-    }
+    KASSERT(fh != NULL);
+    KASSERT(lock_do_i_hold(fh->fh_lock));
 
-    lock_acquire(fh->fh_lock);
-    KASSERT(fh->fh_refcount == 0);
-
-    /* Decrease the reference count on the vnode */
     vfs_close(fh->fh_vnode);
-
     lock_release(fh->fh_lock);
-    /* Destroy the lock */
     lock_destroy(fh->fh_lock);
-
-    /* Free the file handle structure */
     kfree(fh);
-    fh = NULL;
 }
 
 int filetable_init_standard(struct filetable *ft) {
@@ -254,4 +221,27 @@ int filetable_init_standard(struct filetable *ft) {
     KASSERT(fd2 == STDERR_FILENO);
 
     return 0;
+}
+
+void filehandle_incref(struct filehandle *fh)
+{
+    KASSERT(fh != NULL);
+
+    lock_acquire(fh->fh_lock);
+    fh->fh_refcount++;
+    lock_release(fh->fh_lock);
+}
+
+void filehandle_decref(struct filehandle *fh)
+{
+    KASSERT(fh != NULL);
+
+    lock_acquire(fh->fh_lock);
+    fh->fh_refcount--;
+    if (fh->fh_refcount == 0)
+    {
+        file_handle_destroy(fh);
+        return;
+    }
+    lock_release(fh->fh_lock);
 }
