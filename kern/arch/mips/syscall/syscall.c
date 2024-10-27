@@ -36,6 +36,8 @@
 #include <current.h>
 #include <syscall.h>
 #include <copyinout.h>
+#include <vm.h>
+#include <addrspace.h>
 
 
 /*
@@ -156,6 +158,16 @@ syscall(struct trapframe *tf)
 		err = sys__getcwd((userptr_t *)tf->tf_a0, tf->tf_a1, &retval);
 		break;
 
+		// Add a case for the fork syscall
+		case SYS_fork:
+		err = sys_fork(tf, &retval);
+		break;
+
+		// Add a case for the getpid syscall
+		case SYS_getpid:
+		err = sys_getpid(&retval);
+		break;
+
 	    default:
 		kprintf("Unknown syscall %d\n", callno);
 		err = ENOSYS;
@@ -206,5 +218,14 @@ syscall(struct trapframe *tf)
 void
 enter_forked_process(struct trapframe *tf)
 {
-	(void)tf;
+    struct trapframe child_tf;
+    child_tf = *tf;
+
+    child_tf.tf_v0 = 0;        
+    child_tf.tf_a3 = 0;        
+    child_tf.tf_epc += 4;      
+
+    as_activate();
+
+    mips_usermode(&child_tf);
 }

@@ -59,6 +59,8 @@ struct proc {
 
 	/* add more material here as needed */
 	struct filetable *p_filetable;      /* Pointer to the process's file table */
+
+	pid_t p_pid;                        /* Process ID */
 };
 
 /* This is the process structure for the kernel and for kernel-only threads. */
@@ -84,6 +86,9 @@ struct addrspace *proc_getas(void);
 
 /* Change the address space of the current process, and return the old one. */
 struct addrspace *proc_setas(struct addrspace *);
+
+/* Create a proc structure for a forked process. */
+struct proc *proc_create_fork(const char *name);
 
 
 #endif /* _PROC_H_ */
