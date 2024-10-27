@@ -48,6 +48,8 @@
 #include <current.h>
 #include <addrspace.h>
 #include <vnode.h>
+#include <filetable.h>
+#include <pid.h>
 
 /*
  * The process for the kernel; this holds all the kernel-only threads.
@@ -81,6 +83,9 @@ proc_create(const char *name)
 
 	/* VFS fields */
 	proc->p_cwd = NULL;
+
+	/* PID */
+    proc->p_pid = PID_MIN;
 
 	/* Initialize the file table */
 	proc->p_filetable = filetable_create();
@@ -178,6 +183,9 @@ proc_destroy(struct proc *proc)
 		filetable_destroy(proc->p_filetable);
 	}
 
+	/* Free the pid struct */
+	pid_free(proc->p_pid, 0);
+
 	threadarray_cleanup(&proc->p_threads);
 	spinlock_cleanup(&proc->p_lock);
 
@@ -190,7 +198,13 @@ proc_destroy(struct proc *proc)
  */
 void
 proc_bootstrap(void)
-{
+{	
+	/* Initialize the PID system */
+    int result = pid_bootstrap();
+    if (result) {
+        panic("pid_bootstrap failed\n");
+    }
+
 	kproc = proc_create("[kernel]");
 	if (kproc == NULL) {
 		panic("proc_create for kproc failed\n");
@@ -347,4 +361,35 @@ proc_setas(struct addrspace *newas)
 	proc->p_addrspace = newas;
 	spinlock_release(&proc->p_lock);
 	return oldas;
+}
+
+/*
+ * Create a proc structure for a forked process.
+ */
+struct proc *
+proc_create_fork(const char *name)
+{
+    struct proc *newproc;
+
+    newproc = proc_create(name);
+    if (newproc == NULL) {
+        return NULL;
+    }
+
+    /* Duplicate the file table from the parent process */
+    newproc->p_filetable = filetable_copy(curproc->p_filetable);
+	if (newproc->p_filetable == NULL) {
+		proc_destroy(newproc);
+		return NULL;
+	}
+
+    /* Copy the current working directory if it exists */
+    spinlock_acquire(&curproc->p_lock);
+    if (curproc->p_cwd != NULL) {
+        VOP_INCREF(curproc->p_cwd);  // Increment reference count
+        newproc->p_cwd = curproc->p_cwd;
+    }
+    spinlock_release(&curproc->p_lock);
+
+    return newproc;
 }
