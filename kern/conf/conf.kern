@@ -331,6 +331,7 @@ file      thread/threadlist.c
 #
 
 file      proc/proc.c
+file      proc/pid.c
 
 #
 # filetable
@@ -390,6 +391,9 @@ file      syscall/lseek_syscalls.c
 file      syscall/chdir_syscalls.c
 file      syscall/dup2_syscalls.c
 file      syscall/__getcwd_syscalls.c
+file      syscall/fork_syscalls.c  
+file      syscall/getpid_syscalls.c
+file      syscall/_exit_syscalls.c
 
 #
 # Startup and initialization
