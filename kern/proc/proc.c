@@ -85,7 +85,7 @@ proc_create(const char *name)
 	proc->p_cwd = NULL;
 
 	/* PID */
-    proc->p_pid = PID_MIN;
+    proc->p_pid = PID_MIN - 1;
 
 	/* Initialize the file table */
 	proc->p_filetable = filetable_create();
@@ -233,6 +233,13 @@ proc_create_runprogram(const char *name)
 		return NULL;
 	}
 
+	/* pid */
+	newproc->p_pid = pid_alloc(curproc->p_pid);
+	if (newproc->p_pid == NO_PID) {
+		proc_destroy(newproc);
+		return NULL;
+	}
+	
 	/* VM fields */
 
 	newproc->p_addrspace = NULL;

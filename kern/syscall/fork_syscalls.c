@@ -9,6 +9,7 @@
 #include <copyinout.h>
 #include <syscall.h>
 #include <filetable.h>
+#include <pid.h>
 
 pid_t sys_fork(struct trapframe *tf, pid_t *retval) {
     KASSERT(curproc != NULL);
@@ -27,9 +28,13 @@ pid_t sys_fork(struct trapframe *tf, pid_t *retval) {
         return result; 
     }
 
-    spinlock_acquire(&child_proc->p_lock);
     child_proc->p_addrspace = child_as;
-    spinlock_release(&child_proc->p_lock);
+    child_proc->p_pid = pid_alloc(curproc->p_pid);
+    if (child_proc->p_pid == NO_PID) {
+        as_destroy(child_as);
+        proc_destroy(child_proc);
+        return ENPROC;
+    }
 
     // Copy the trapframe to the kernel heap.
     struct trapframe *child_tf = kmalloc(sizeof(struct trapframe));

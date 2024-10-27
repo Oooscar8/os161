@@ -20,6 +20,18 @@ is_pid_valid(pid_t pid)
     return (pid >= PID_MIN && pid <= PID_MAX);
 }
 
+static bool 
+pid_exists_nlock(pid_t pid) 
+{
+    if (!is_pid_valid(pid)) {
+        return false;
+    }
+
+    bool exists = (pid_manager.pid_table[pid].pid != NO_PID);
+
+    return exists;
+}
+
 static void 
 pid_entry_init(struct pid_entry *entry, pid_t pid, pid_t parent_pid) 
 {
@@ -113,11 +125,8 @@ pid_free(pid_t pid, int exit_code)
     entry->state = PROC_EXITED;
     entry->exit_code = exit_code;
 
-    // notify the parent process
-    cv_broadcast(entry->wait_cv, pid_manager.pid_lock);
-
     // if the parent process has exited, free the PID directly
-    if (!pid_exists(entry->parent_pid) || 
+    if (!pid_exists_nlock(entry->parent_pid) || 
         (pid_manager.pid_table[entry->parent_pid].state & PROC_EXITED)) {
         cv_destroy(entry->wait_cv);
         entry->wait_cv = NULL;
@@ -126,6 +135,8 @@ pid_free(pid_t pid, int exit_code)
     } else {
         // mark the process as a zombie
         entry->state |= PROC_ZOMBIE;
+        // notify the parent process
+        cv_broadcast(entry->wait_cv, pid_manager.pid_lock);
     }
 
     lock_release(pid_manager.pid_lock);
@@ -212,7 +223,7 @@ pid_cleanup(void)
         struct pid_entry *entry = &pid_manager.pid_table[pid];
         if (entry->pid != NO_PID && 
             (entry->state & PROC_ZOMBIE) && 
-            (!pid_exists(entry->parent_pid) || 
+            (!pid_exists_nlock(entry->parent_pid) || 
              (pid_manager.pid_table[entry->parent_pid].state & PROC_EXITED))) {
             
             cv_destroy(entry->wait_cv);
