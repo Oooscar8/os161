@@ -59,6 +59,8 @@ struct proc {
 
 	/* add more material here as needed */
 	struct filetable *p_filetable;      /* Pointer to the process's file table */
+
+	pid_t p_pid;                        /* Process ID */
 };
 
 /* This is the process structure for the kernel and for kernel-only threads. */
