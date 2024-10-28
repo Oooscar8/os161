@@ -254,6 +254,21 @@ proc_create_fork(const char *name)
 		return NULL;
 	}
 
+    newproc->p_addrspace = NULL;
+	newproc->p_filetable = NULL;
+
+	/*
+	 * Lock the current process to copy its current directory.
+	 * (We don't need to lock the new process, though, as we have
+	 * the only reference to it.)
+	 */
+	spinlock_acquire(&curproc->p_lock);
+	if (curproc->p_cwd != NULL) {
+		VOP_INCREF(curproc->p_cwd);
+		newproc->p_cwd = curproc->p_cwd;
+	}
+	spinlock_release(&curproc->p_lock);
+
 	return newproc;
 }
 

@@ -220,6 +220,8 @@ enter_forked_process(struct trapframe *tf)
 
 	// Copy trapframe to our kernel stack
 	child_tf = *tf;
+
+	kfree(tf);
     
     // Child process returns 0 from fork()
     child_tf.tf_v0 = 0;  

@@ -27,10 +27,19 @@ int sys_fork(struct trapframe *tf, pid_t *retval)
     }
     *child_tf = *tf;
 
+    // Create new process structure
+    child_proc = proc_create_fork("child");
+    if (child_proc == NULL)
+    {
+        kfree(child_tf);
+        return ENOMEM;
+    }
+
     // Copy address space
     result = as_copy(proc_getas(), &child_as);
     if (result)
     {
+        proc_destroy(child_proc);
         kfree(child_tf);
         return result;
     }
@@ -39,16 +48,7 @@ int sys_fork(struct trapframe *tf, pid_t *retval)
     child_ft = filetable_copy(curproc->p_filetable);
     if (child_ft == NULL)
     {
-        as_destroy(child_as);
-        kfree(child_tf);
-        return ENOMEM;
-    }
-
-    // Create new process structure
-    child_proc = proc_create_fork("child");
-    if (child_proc == NULL)
-    {
-        filetable_destroy(child_ft);
+        proc_destroy(child_proc);
         as_destroy(child_as);
         kfree(child_tf);
         return ENOMEM;
@@ -70,7 +70,6 @@ int sys_fork(struct trapframe *tf, pid_t *retval)
     if (result)
     {
         proc_destroy(child_proc);
-        kfree(child_tf);
         return result;
     }
 
