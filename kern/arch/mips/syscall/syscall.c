@@ -36,6 +36,7 @@
 #include <current.h>
 #include <syscall.h>
 #include <copyinout.h>
+#include <addrspace.h>
 
 
 /*
@@ -157,7 +158,7 @@ syscall(struct trapframe *tf)
 		break;
 
 		case SYS_fork:
-		err = sys_fork(tf, int *retval);
+		err = sys_fork(tf, &retval);
 		break;
 
 	    default:
@@ -211,18 +212,22 @@ void
 enter_forked_process(struct trapframe *tf)
 {
 	(void)tf;
+	struct trapframe child_tf;  // create child's trapframe on the stack
+
+	// Copy trapframe to our kernel stack
+	child_tf = *tf;
     
     // Child process returns 0 from fork()
-    tf->tf_v0 = 0;  
+    child_tf.tf_v0 = 0;  
     
     // Advance to next instruction
-    tf->tf_epc += 4;
+    child_tf.tf_epc += 4;
 
     // Activate child's address space
     as_activate();
 
     // Enter user mode with child's trapframe
-    mips_usermode(&tf);
+    mips_usermode(&child_tf);
 
     panic("enter_forked_process: mips_usermode returned\n");
 }

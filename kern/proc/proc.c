@@ -127,14 +127,13 @@ proc_create(const char *name)
 		return NULL;
 	}
 
-	/* Allocate PID */
-    proc->p_pid = pid_allocate();
-    if (proc->p_pid == -1) {
-        filetable_destroy(proc->p_filetable);
-        kfree(proc->p_name);
-        kfree(proc);
-        return NULL;
-    }
+	/* Initialize the PID */
+	proc->p_pid = pid_allocate();
+	if (proc->p_pid == -1) {
+		kfree(proc->p_name);
+		kfree(proc);
+		return NULL;
+	}
 
 	return proc;
 }
@@ -241,6 +240,20 @@ proc_bootstrap(void)
 	if (kproc == NULL) {
 		panic("proc_create for kproc failed\n");
 	}
+}
+
+/* Create a fresh proc for use by fork. */
+struct proc *
+proc_create_fork(const char *name)
+{
+	struct proc *newproc;
+
+	newproc = proc_create(name);
+	if (newproc == NULL) {
+		return NULL;
+	}
+
+	return newproc;
 }
 
 /*

@@ -9,6 +9,7 @@
 #include <test.h>
 #include <addrspace.h>
 #include <mips/trapframe.h>
+#include <proc.h>
 
 int sys_fork(struct trapframe *tf, int *retval)
 {
@@ -44,7 +45,7 @@ int sys_fork(struct trapframe *tf, int *retval)
     }
 
     // Create new process structure
-    child_proc = proc_create("child");
+    child_proc = proc_create_fork("child");
     if (child_proc == NULL)
     {
         filetable_destroy(child_ft);
@@ -61,8 +62,8 @@ int sys_fork(struct trapframe *tf, int *retval)
     result = thread_fork(
         curthread->t_name,
         child_proc,
-        enter_forked_process,    // New entry point function
-        child_tf,           // Pass parent trapframe as data1
+        (void (*)(void *, unsigned long))enter_forked_process,    // New entry point function
+        child_tf,           // Pass child trapframe as data1
         0                    // Unused data2
     );
 
@@ -74,5 +75,7 @@ int sys_fork(struct trapframe *tf, int *retval)
     }
 
     // Parent returns child's PID
-    return (int)child_proc->p_pid;
+    *retval = (int)child_proc->p_pid;
+
+    return 0;
 }

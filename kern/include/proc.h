@@ -72,6 +72,9 @@ void pid_bootstrap(void);
 /* Call once during system startup to allocate data structures. */
 void proc_bootstrap(void);
 
+/* Create a fresh proc for use by fork. */
+struct proc *proc_create_fork(const char *name);
+
 /* Create a fresh process for use by runprogram(). */
 struct proc *proc_create_runprogram(const char *name);
 
