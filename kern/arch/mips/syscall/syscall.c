@@ -158,7 +158,11 @@ syscall(struct trapframe *tf)
 		break;
 
 		case SYS_fork:
-		err = sys_fork(tf, &retval);
+		err = sys_fork(tf, (pid_t *)&retval);
+		break;
+
+		case SYS_getpid:
+		err = sys_getpid((pid_t *)&retval);
 		break;
 
 	    default:

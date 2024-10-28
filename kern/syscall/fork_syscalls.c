@@ -11,7 +11,7 @@
 #include <mips/trapframe.h>
 #include <proc.h>
 
-int sys_fork(struct trapframe *tf, int *retval)
+int sys_fork(struct trapframe *tf, pid_t *retval)
 {
     struct trapframe *child_tf;  // Child's trapframe
     struct addrspace *child_as;  // Child's address space
@@ -75,7 +75,7 @@ int sys_fork(struct trapframe *tf, int *retval)
     }
 
     // Parent returns child's PID
-    *retval = (int)child_proc->p_pid;
+    *retval = child_proc->p_pid;
 
     return 0;
 }

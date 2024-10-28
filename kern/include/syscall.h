@@ -66,6 +66,7 @@ off_t sys_lseek(int fd, off_t pos, int whence, off_t *retval);
 int sys_chdir(userptr_t *pathname, int *retval);
 int sys_dup2(int oldfd, int newfd, int *retval);
 int sys__getcwd(userptr_t *buf, size_t buflen, int *retval);
-int sys_fork(struct trapframe *tf, int *retval);
+int sys_fork(struct trapframe *tf, pid_t *retval);
+int sys_getpid(pid_t *retval);
 
 #endif /* _SYSCALL_H_ */
