@@ -54,6 +54,43 @@
  */
 struct proc *kproc;
 
+/* Global variables for PID management */
+static pid_t next_pid = PID_MIN;        /* Next PID to assign */
+static struct spinlock pid_lock;         /* Lock for pid allocation */
+
+/* Initialize the PID system. Called from bootstrap. */
+void
+pid_bootstrap(void)
+{
+    spinlock_init(&pid_lock);
+}
+
+/*
+ * Allocate a new PID.
+ * Returns PID_MIN to PID_MAX on success, 
+ * or -1 if no PIDs are available.
+ */
+static pid_t
+pid_allocate(void)
+{
+    pid_t pid;
+
+    spinlock_acquire(&pid_lock);
+	if (next_pid > PID_MAX) {
+		spinlock_release(&pid_lock);
+		return -1;
+	}
+
+    /* Get next available PID */
+    pid = next_pid;
+    
+    /* Increment PID for next allocation */
+    next_pid++;
+    
+    spinlock_release(&pid_lock);
+    return pid;
+}
+
 /*
  * Create a proc structure.
  */
@@ -89,6 +126,15 @@ proc_create(const char *name)
 		kfree(proc);
 		return NULL;
 	}
+
+	/* Allocate PID */
+    proc->p_pid = pid_allocate();
+    if (proc->p_pid == -1) {
+        filetable_destroy(proc->p_filetable);
+        kfree(proc->p_name);
+        kfree(proc);
+        return NULL;
+    }
 
 	return proc;
 }
