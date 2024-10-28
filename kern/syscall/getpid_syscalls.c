@@ -1,7 +1,8 @@
 #include <types.h>
 #include <kern/errno.h> 
 #include <proc.h>     
-#include <current.h>   
+#include <current.h>
+#include <syscall.h>   
 
 /*  
  * System call for getting process ID.

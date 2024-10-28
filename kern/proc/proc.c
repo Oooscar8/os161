@@ -77,6 +77,7 @@ pid_allocate(void)
 
     spinlock_acquire(&pid_lock);
 	if (next_pid > PID_MAX) {
+		kprintf("No more PIDs available\n");
 		spinlock_release(&pid_lock);
 		return -1;
 	}
