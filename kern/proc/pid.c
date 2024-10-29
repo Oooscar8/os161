@@ -7,8 +7,9 @@
 #include <pid.h>
 
 /* PID status codes */
-#define PID_FREE    0
-#define PID_USED    1
+#define PID_FREE    0   /* Process dead/PID available for reuse */
+#define PID_USED    1    /* Process running/PID in use */
+#define PID_ZOMBIE     2    /* Process has exited but not been waited for */
 
 /* Number of PIDs available */
 #define PID_COUNT   (PID_MAX - PID_MIN + 1)
@@ -16,7 +17,7 @@
 /* PID table entry structure */
 struct pid_entry {
     pid_t pid;               /* Process ID */
-    int status;             /* PID_FREE or PID_USED */
+    int status;             /* PID_FREE or PID_USED or PID_ZOMBIE */
     struct proc *proc;      /* Pointer to process structure */
 };
 
@@ -126,7 +127,30 @@ pid_allocate(struct proc *proc)
 }
 
 /*
- * Free a PID and clear its process association
+ * Mark a process as zombie
+ */
+void
+pid_make_zombie(pid_t pid)
+{
+    int index;
+
+    if (pid < PID_MIN || pid > PID_MAX) {
+        return;
+    }
+
+    index = pid_to_index(pid);
+
+    spinlock_acquire(&pid_lock);
+
+    if (pid_table[index].status == PID_USED) {
+        pid_table[index].status = PID_ZOMBIE;
+    }
+    
+    spinlock_release(&pid_lock);
+}
+
+/*
+ * Free a PID - should only be called after process has been waited for
  */
 void 
 pid_free(pid_t pid) 
@@ -142,12 +166,12 @@ pid_free(pid_t pid)
 
     spinlock_acquire(&pid_lock);
     
-    /* Only free if PID is currently in use */
-    if (pid_table[index].status == PID_USED) {
-        pid_table[index].status = PID_FREE;
-        pid_table[index].proc = NULL;
-        pid_count--;
-    }
+    /* Check if process is in zombie state */
+    KASSERT(pid_table[index].status == PID_ZOMBIE);
+
+    pid_table[index].status = PID_FREE;
+    pid_table[index].proc = NULL;
+    pid_count--;
     
     spinlock_release(&pid_lock);
 }
@@ -169,7 +193,7 @@ pid_get_proc(pid_t pid)
     spinlock_acquire(&pid_lock);
     
     int index = pid_to_index(pid);
-    if (pid_table[index].status == PID_USED) {
+    if (pid_table[index].status != PID_FREED) {
         p = pid_table[index].proc;
     }
     
@@ -178,22 +202,38 @@ pid_get_proc(pid_t pid)
 }
 
 /*
- * Check if a PID is used (is currently allocated)
- * Returns 1 if PID is used, 0 otherwise
+ * Check if PID exists (is either running or zombie)
  */
 int 
-pid_used(pid_t pid) 
+pid_exists(pid_t pid) 
 {
-    int used = 0;
+    int exists = 0;
     
-    /* Validate PID */
     if (pid < PID_MIN || pid > PID_MAX) {
         return 0;
     }
 
     spinlock_acquire(&pid_lock);
-    used = (pid_table[pid_to_index(pid)].status == PID_USED);
+    exists = (pid_table[pid_to_index(pid)].status != PID_FREE);
     spinlock_release(&pid_lock);
     
-    return used;
+    return exists;
+}
+
+/*
+ * Check PID status
+ * Returns PID_FREE, PID_USED, or PID_ZOMBIE
+ */
+int
+pid_get_status(pid_t pid)
+{
+    int status;
+    
+    KASSERT(pid >= PID_MIN && pid <= PID_MAX);
+
+    spinlock_acquire(&pid_lock);
+    status = pid_table[pid_to_index(pid)].status;
+    spinlock_release(&pid_lock);
+    
+    return status;
 }

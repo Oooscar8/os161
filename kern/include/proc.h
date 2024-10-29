@@ -43,6 +43,11 @@
 struct addrspace;
 struct vnode;
 
+/* Process states */
+#define PROC_RUNNING    0  /* Process is running */
+#define PROC_ZOMBIE     1  /* Process has exited but not been waited for */
+#define PROC_DEAD       2  /* Process has exited and been waited for */
+
 /*
  * Process structure.
  */
@@ -60,7 +65,13 @@ struct proc {
 	/* add more material here as needed */
 	struct filetable *p_filetable;      /* Pointer to the process's file table */
 
-	pid_t p_pid;                        /* Process ID */
+	pid_t p_pid;                  /* Process ID */
+
+	struct proc *p_parent;        /* Parent process */
+
+	int p_state;                  /* RUNNING/ZOMBIE/DEAD */
+
+	int p_exitcode;               /* Exit code from _exit() */
 };
 
 /* This is the process structure for the kernel and for kernel-only threads. */
