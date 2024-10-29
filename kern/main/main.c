@@ -49,6 +49,7 @@
 #include <syscall.h>
 #include <test.h>
 #include <version.h>
+#include <pid.h>
 #include "autoconf.h"  // for pseudoconfig
 
 

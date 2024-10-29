@@ -48,49 +48,12 @@
 #include <current.h>
 #include <addrspace.h>
 #include <vnode.h>
+#include <pid.h>
 
 /*
  * The process for the kernel; this holds all the kernel-only threads.
  */
 struct proc *kproc;
-
-/* Global variables for PID management */
-static pid_t next_pid = PID_MIN;        /* Next PID to assign */
-static struct spinlock pid_lock;         /* Lock for pid allocation */
-
-/* Initialize the PID system. Called from bootstrap. */
-void
-pid_bootstrap(void)
-{
-    spinlock_init(&pid_lock);
-}
-
-/*
- * Allocate a new PID.
- * Returns PID_MIN to PID_MAX on success, 
- * or -1 if no PIDs are available.
- */
-static pid_t
-pid_allocate(void)
-{
-    pid_t pid;
-
-    spinlock_acquire(&pid_lock);
-	if (next_pid > PID_MAX) {
-		kprintf("No more PIDs available\n");
-		spinlock_release(&pid_lock);
-		return -1;
-	}
-
-    /* Get next available PID */
-    pid = next_pid;
-    
-    /* Increment PID for next allocation */
-    next_pid++;
-    
-    spinlock_release(&pid_lock);
-    return pid;
-}
 
 /*
  * Create a proc structure.
@@ -255,7 +218,14 @@ proc_create_fork(const char *name)
 	}
 
     newproc->p_addrspace = NULL;
-	newproc->p_filetable = NULL;
+	
+	/* Copy file table from parent process. */
+    newproc->p_filetable = filetable_copy(curproc->p_filetable);
+    if (newproc->p_filetable == NULL)
+    {
+        proc_destroy(newproc);
+        return NULL;
+    }
 
 	/*
 	 * Lock the current process to copy its current directory.

@@ -15,7 +15,6 @@ int sys_fork(struct trapframe *tf, pid_t *retval)
 {
     struct trapframe *child_tf;  // Child's trapframe
     struct addrspace *child_as;  // Child's address space
-    struct filetable *child_ft;  // Child's file table
     struct proc *child_proc;     // Child process
     int result;
 
@@ -44,18 +43,7 @@ int sys_fork(struct trapframe *tf, pid_t *retval)
         return result;
     }
 
-    // Copy file table
-    child_ft = filetable_copy(curproc->p_filetable);
-    if (child_ft == NULL)
-    {
-        proc_destroy(child_proc);
-        as_destroy(child_as);
-        kfree(child_tf);
-        return ENOMEM;
-    }
-
     // Set up child process
-    child_proc->p_filetable = child_ft;
     child_proc->p_addrspace = child_as;
 
     // Create new thread for child process

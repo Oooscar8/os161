@@ -66,9 +66,6 @@ struct proc {
 /* This is the process structure for the kernel and for kernel-only threads. */
 extern struct proc *kproc;
 
-/* Call once during system startup to initialize the PID system. */
-void pid_bootstrap(void);
-
 /* Call once during system startup to allocate data structures. */
 void proc_bootstrap(void);
 
