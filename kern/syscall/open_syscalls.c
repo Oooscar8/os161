@@ -47,7 +47,8 @@ int sys_open(userptr_t *filename, int flags, mode_t mode, int *retval)
     /* Open the file */
     result = vfs_open(kfilename, flags, mode, &vn);
     if (result)
-    {
+    {   
+        kfree(kfilename);
         return result;      // Indicate failure
     }
 
@@ -55,6 +56,7 @@ int sys_open(userptr_t *filename, int flags, mode_t mode, int *retval)
     if (fh == NULL)
     {
         vfs_close(vn);
+        kfree(kfilename);
         return ENOMEM;
     }
 
@@ -64,8 +66,10 @@ int sys_open(userptr_t *filename, int flags, mode_t mode, int *retval)
     if (*retval == -1)
     {   
         filehandle_decref(fh);
+        kfree(kfilename);
         return EMFILE;
     }
 
+    kfree(kfilename);
     return 0;
 }
