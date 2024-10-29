@@ -52,10 +52,6 @@ pid_bootstrap(void)
     spinlock_init(&pid_lock);
     pid_count = 0;
     next_pid = PID_MIN;
-
-    /* Reserve PID 1 for init process if needed */
-    pid_table[0].status = PID_USED;
-    pid_count++;
 }
 
 /*
@@ -142,9 +138,9 @@ pid_free(pid_t pid)
         return;
     }
 
-    spinlock_acquire(&pid_lock);
-    
     index = pid_to_index(pid);
+
+    spinlock_acquire(&pid_lock);
     
     /* Only free if PID is currently in use */
     if (pid_table[index].status == PID_USED) {
@@ -182,13 +178,13 @@ pid_get_proc(pid_t pid)
 }
 
 /*
- * Check if a PID exists (is currently allocated)
- * Returns 1 if PID exists, 0 otherwise
+ * Check if a PID is used (is currently allocated)
+ * Returns 1 if PID is used, 0 otherwise
  */
 int 
-pid_exists(pid_t pid) 
+pid_used(pid_t pid) 
 {
-    int exists = 0;
+    int used = 0;
     
     /* Validate PID */
     if (pid < PID_MIN || pid > PID_MAX) {
@@ -196,27 +192,8 @@ pid_exists(pid_t pid)
     }
 
     spinlock_acquire(&pid_lock);
-    exists = (pid_table[pid_to_index(pid)].status == PID_USED);
+    used = (pid_table[pid_to_index(pid)].status == PID_USED);
     spinlock_release(&pid_lock);
     
-    return exists;
-}
-
-/*
- * Get the parent PID of a given PID
- * Returns the parent PID if found, ENOPID if not found
- */
-pid_t
-pid_get_ppid(pid_t pid)
-{
-    pid_t ppid = ENOPID;
-    struct proc *p;
-
-    /* Get the process structure */
-    p = pid_get_proc(pid);
-    if (p != NULL && p->p_parent != NULL) {
-        ppid = p->p_parent->p_pid;
-    }
-
-    return ppid;
+    return used;
 }

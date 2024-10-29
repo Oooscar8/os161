@@ -91,9 +91,10 @@ proc_create(const char *name)
 		return NULL;
 	}
 
-	/* Initialize the PID */
-	proc->p_pid = pid_allocate();
-	if (proc->p_pid == -1) {
+    /* Allocate PID */
+	proc->p_pid = pid_allocate(proc);
+	if (proc->p_pid == ENOPID) {
+		filetable_destroy(proc->p_filetable);
 		kfree(proc->p_name);
 		kfree(proc);
 		return NULL;
@@ -186,6 +187,9 @@ proc_destroy(struct proc *proc)
 	if (proc->p_filetable) {
 		filetable_destroy(proc->p_filetable);
 	}
+
+	/* Free PID */
+	pid_free(proc->p_pid);
 
 	threadarray_cleanup(&proc->p_threads);
 	spinlock_cleanup(&proc->p_lock);
