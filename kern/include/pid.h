@@ -20,6 +20,7 @@ struct pid_entry {
     pid_t parent_pid;       /* Parent process ID */
     int exit_code;          /* Process exit code */
     struct cv *wait_cv;     /* Condition variable for wait/exit synchronization */
+    struct proc *proc;      /* Pointer to the process structure */
 };
 
 /** 
@@ -46,7 +47,7 @@ int pid_bootstrap(void);
  *   - Allocated PID on success
  *   - NO_PID if no PIDs are available
  **/
-pid_t pid_alloc(pid_t parent_pid);
+pid_t pid_alloc(pid_t parent_pid, struct proc *p);
 
 /**
  * Function: pid_free

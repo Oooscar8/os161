@@ -183,8 +183,6 @@ proc_destroy(struct proc *proc)
 		filetable_destroy(proc->p_filetable);
 	}
 
-	/* Free the pid struct */
-	pid_free(proc->p_pid, 0);
 
 	threadarray_cleanup(&proc->p_threads);
 	spinlock_cleanup(&proc->p_lock);
@@ -234,7 +232,7 @@ proc_create_runprogram(const char *name)
 	}
 
 	/* pid */
-	newproc->p_pid = pid_alloc(curproc->p_pid);
+	newproc->p_pid = pid_alloc(curproc->p_pid, newproc);
 	if (newproc->p_pid == NO_PID) {
 		proc_destroy(newproc);
 		return NULL;

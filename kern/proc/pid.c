@@ -5,6 +5,7 @@
 #include <pid.h>
 #include <limits.h>
 #include <kern/errno.h>
+#include <current.h>
 
 static struct {
     struct pid_entry *pid_table;     
@@ -33,13 +34,14 @@ pid_exists_nlock(pid_t pid)
 }
 
 static void 
-pid_entry_init(struct pid_entry *entry, pid_t pid, pid_t parent_pid) 
+pid_entry_init(struct pid_entry *entry, pid_t pid, pid_t parent_pid, struct proc *p) 
 {
     entry->pid = pid;
     entry->state = PROC_RUNNING;
     entry->parent_pid = parent_pid;
     entry->exit_code = 0;
     entry->wait_cv = cv_create("pid_wait_cv");
+    entry->proc = p;
     KASSERT(entry->wait_cv != NULL);
 }
 
@@ -72,7 +74,7 @@ pid_bootstrap(void)
 }
 
 pid_t 
-pid_alloc(pid_t parent_pid) 
+pid_alloc(pid_t parent_pid, struct proc *p) 
 {
     pid_t new_pid = NO_PID;
     
@@ -87,7 +89,7 @@ pid_alloc(pid_t parent_pid)
     do {
         if (pid_manager.pid_table[pid_manager.next_pid].pid == NO_PID) {
             new_pid = pid_manager.next_pid;
-            pid_entry_init(&pid_manager.pid_table[new_pid], new_pid, parent_pid);
+            pid_entry_init(&pid_manager.pid_table[new_pid], new_pid, parent_pid, p);
             pid_manager.pid_count++;
             break;
         }
@@ -172,6 +174,10 @@ pid_wait(pid_t pid, int *status, int options)
 
     // free the PID if the child process is a zombie
     if (entry->state & PROC_ZOMBIE) {
+        struct proc *p = entry->proc;
+        KASSERT(p != NULL);
+        // KASSERT(threadarray_num(&p->p_threads) == 0);
+        // proc_destroy(p);
         cv_destroy(entry->wait_cv);
         entry->wait_cv = NULL;
         entry->pid = NO_PID;
@@ -226,6 +232,12 @@ pid_cleanup(void)
             (!pid_exists_nlock(entry->parent_pid) || 
              (pid_manager.pid_table[entry->parent_pid].state & PROC_EXITED))) {
             
+             struct proc *p = entry->proc;
+            if (p != NULL) {
+                proc_destroy(p);  
+                entry->proc = NULL;
+            }
+
             cv_destroy(entry->wait_cv);
             entry->wait_cv = NULL;
             entry->pid = NO_PID;

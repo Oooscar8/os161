@@ -23,7 +23,8 @@ sys__exit(int exitcode)
 
     struct proc *p = curproc;
     pid_free(p->p_pid, exit_code);
+    pid_cleanup();
     
-    thread_exit();
+    thread_exit_d();
     panic("sys__exit returned\n");
 }

@@ -29,7 +29,7 @@ pid_t sys_fork(struct trapframe *tf, pid_t *retval) {
     }
 
     child_proc->p_addrspace = child_as;
-    child_proc->p_pid = pid_alloc(curproc->p_pid);
+    child_proc->p_pid = pid_alloc(curproc->p_pid, child_proc);
     if (child_proc->p_pid == NO_PID) {
         as_destroy(child_as);
         proc_destroy(child_proc);
