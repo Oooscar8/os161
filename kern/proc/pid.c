@@ -249,3 +249,16 @@ pid_cleanup(void)
     lock_release(pid_manager.pid_lock);
     return cleaned;
 }
+
+bool status_is_zombie(pid_t pid) 
+{
+    if (!is_pid_valid(pid)) {
+        return false;
+    }
+
+    lock_acquire(pid_manager.pid_lock);
+    bool is_zombie = (pid_manager.pid_table[pid].state & (PROC_ZOMBIE | PROC_EXITED));
+    lock_release(pid_manager.pid_lock);
+
+    return is_zombie;
+}
