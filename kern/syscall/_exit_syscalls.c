@@ -6,6 +6,7 @@
 #include <mips/trapframe.h>
 #include <syscall.h>
 #include <thread.h>
+#include <kern/wait.h>
 
 void 
 sys__exit(int exitcode)
@@ -16,7 +17,7 @@ sys__exit(int exitcode)
         panic("Trying to exit the kernel process!\n");
     }
 
-    int exit_code = exitcode & 0x7f;  
+    int exit_code = _MKWAIT_EXIT(exitcode);
 
     DEBUG(DB_SYSCALL, "Process %d (_exit: %d)\n", 
           curproc->p_pid, exit_code);
