@@ -121,5 +121,6 @@ pid_t get_process_parent(pid_t pid);
 int pid_cleanup(void);
 
 bool status_is_zombie(pid_t pid);
+void pid_destroy(pid_t pid);
 
 #endif /* _PID_H_ */
