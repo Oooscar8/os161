@@ -50,6 +50,7 @@
 #include <addrspace.h>
 #include <mainbus.h>
 #include <vnode.h>
+#include <pid.h>
 
 #include "opt-synchprobs.h"
 
@@ -284,6 +285,7 @@ exorcise(void)
 	while ((z = threadlist_remhead(&curcpu->c_zombies)) != NULL) {
 		KASSERT(z != curthread);
 		KASSERT(z->t_state == S_ZOMBIE);
+		kprintf("exorcising %s\n", z->t_name);
 		thread_destroy(z);
 	}
 }
@@ -790,8 +792,8 @@ void
 thread_exit(void)
 {
 	struct thread *cur;
-
 	cur = curthread;
+    //struct proc *proc = cur->t_proc;
 
 	/*
 	 * Detach from our process. You might need to move this action
@@ -802,38 +804,24 @@ thread_exit(void)
 	/* Make sure we *are* detached (move this only if you're sure!) */
 	KASSERT(cur->t_proc == NULL);
 
+    // if (proc != NULL) {
+    //     spinlock_acquire(&proc->p_lock);
+    //     if (proc->p_exited) {
+    //         spinlock_release(&proc->p_lock);
+    //         proc_destroy(proc);
+    //     } else {
+    //         spinlock_release(&proc->p_lock);
+    //     }
+    // }
+
+
 	/* Check the stack guard band. */
 	thread_checkstack(cur);
 
 	/* Interrupts off on this processor */
         splhigh();
-	thread_switch(S_ZOMBIE, NULL, NULL);
-	panic("braaaaaaaiiiiiiiiiiinssssss\n");
-}
-
-void
-thread_exit_d(void)
-{
-	struct thread *cur;
-
-	cur = curthread;
-	struct proc *p = cur->t_proc; 
-
-	/*
-	 * Detach from our process. You might need to move this action
-	 * around, depending on how your wait/exit works.
-	 */
-	proc_remthread(cur);
-
-	/* Make sure we *are* detached (move this only if you're sure!) */
-	KASSERT(cur->t_proc == NULL);
-
-	/* Check the stack guard band. */
-	thread_checkstack(cur);
-	proc_destroy(p);
-
-	/* Interrupts off on this processor */
-        splhigh();
+	
+	pid_cleanup();
 	thread_switch(S_ZOMBIE, NULL, NULL);
 	panic("braaaaaaaiiiiiiiiiiinssssss\n");
 }

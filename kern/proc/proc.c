@@ -95,6 +95,8 @@ proc_create(const char *name)
 		return NULL;
 	}
 
+	proc->p_destroyed = false;
+
 	return proc;
 }
 
@@ -183,6 +185,8 @@ proc_destroy(struct proc *proc)
 		filetable_destroy(proc->p_filetable);
 	}
 
+	/* Clean up the PID */
+	pid_destroy(proc->p_pid);
 
 	threadarray_cleanup(&proc->p_threads);
 	spinlock_cleanup(&proc->p_lock);

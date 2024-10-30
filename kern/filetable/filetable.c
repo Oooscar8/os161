@@ -45,7 +45,6 @@ void filetable_destroy(struct filetable *ft)
             filehandle_decref(ft->ft_entries[i]);
             ft->ft_entries[i] = NULL;
         }
-        ft->ft_entries[i] = NULL;
     }
     lock_release(ft->ft_lock);
 

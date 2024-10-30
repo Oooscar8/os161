@@ -105,6 +105,7 @@ pid_alloc(pid_t parent_pid, struct proc *p)
     }
 
     lock_release(pid_manager.pid_lock);
+    KASSERT(new_pid >= PID_MIN && new_pid <= PID_MAX);
     return new_pid;
 }
 
@@ -130,10 +131,7 @@ pid_free(pid_t pid, int exit_code)
     // if the parent process has exited, free the PID directly
     if (!pid_exists_nlock(entry->parent_pid) || 
         (pid_manager.pid_table[entry->parent_pid].state & PROC_EXITED)) {
-        cv_destroy(entry->wait_cv);
-        entry->wait_cv = NULL;
-        entry->pid = NO_PID;
-        pid_manager.pid_count--;
+        entry->state |= PROC_ZOMBIE;
     } else {
         // mark the process as a zombie
         entry->state |= PROC_ZOMBIE;
@@ -176,12 +174,11 @@ pid_wait(pid_t pid, int *status, int options)
     if (entry->state & PROC_ZOMBIE) {
         struct proc *p = entry->proc;
         KASSERT(p != NULL);
-        // KASSERT(threadarray_num(&p->p_threads) == 0);
-        // proc_destroy(p);
-        cv_destroy(entry->wait_cv);
-        entry->wait_cv = NULL;
-        entry->pid = NO_PID;
-        pid_manager.pid_count--;
+        if (threadarray_num(&p->p_threads) == 0) {
+            lock_release(pid_manager.pid_lock);
+            proc_destroy(p);
+            return pid;
+        }
     }
 
     lock_release(pid_manager.pid_lock);
@@ -234,14 +231,16 @@ pid_cleanup(void)
             
              struct proc *p = entry->proc;
             if (p != NULL) {
+                lock_release(pid_manager.pid_lock);
                 proc_destroy(p);  
+                lock_acquire(pid_manager.pid_lock);
                 entry->proc = NULL;
             }
 
-            cv_destroy(entry->wait_cv);
-            entry->wait_cv = NULL;
-            entry->pid = NO_PID;
-            pid_manager.pid_count--;
+            // cv_destroy(entry->wait_cv);
+            // entry->wait_cv = NULL;
+            // entry->pid = NO_PID;
+            // pid_manager.pid_count--;
             cleaned++;
         }
     }
@@ -261,4 +260,21 @@ bool status_is_zombie(pid_t pid)
     lock_release(pid_manager.pid_lock);
 
     return is_zombie;
+}
+
+void pid_destroy(pid_t pid) 
+{
+    if (!is_pid_valid(pid)) {
+        return;
+    }
+
+    lock_acquire(pid_manager.pid_lock);
+    struct pid_entry *entry = &pid_manager.pid_table[pid];
+    if (entry->pid != NO_PID) {
+        cv_destroy(entry->wait_cv);
+        entry->wait_cv = NULL;
+        entry->pid = NO_PID;
+    }
+    pid_manager.pid_count--;
+    lock_release(pid_manager.pid_lock);
 }
