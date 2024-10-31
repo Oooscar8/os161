@@ -40,12 +40,6 @@ sys_waitpid(pid_t pid, int* status, int options, int *retval)
 
     spinlock_release(&child->p_lock);
     
-    /* Remove from PID table */
-    spinlock_acquire(&pid_lock);
-    pid_table[pid_to_index(pid)].proc = NULL;
-    pid_count--;
-    spinlock_release(&pid_lock);
-    
     /* Now safe to destroy the process */
     proc_destroy(child);
 

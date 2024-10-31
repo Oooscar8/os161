@@ -14,31 +14,29 @@ sys__exit(int exitcode)
     curproc->p_exitcode = _MKWAIT_EXIT(exitcode);
     curproc->p_state = PROC_ZOMBIE;
 
-    /* 
-     * Reassign all children to init process (PID 1)
-     * This is done before becoming a zombie so we maintain
-     * a consistent process hierarchy
-     */
-    struct proc *p;
+    /* Check children and cleanup any that are zombies */
     spinlock_acquire(&pid_lock);
-    for (int i = 0; i < MAX_PROCS; i++) {
+    for (int i = 0; i < PID_COUNT; i++) {
         p = pid_table[i].proc;
         if (p != NULL && p->p_parent == curproc) {
-            spinlock_acquire(&p->p_lock);         
-            p->p_parent = pid_table[PID_INIT].proc;
-            
-            /* If child is already zombie, signal init to collect it */
+            spinlock_acquire(&p->p_lock);
             if (p->p_state == PROC_ZOMBIE) {
-                V(p->p_sem);
+                /* Child is zombie, can clean it up now */
+                proc_destroy(p);
             }
             spinlock_release(&p->p_lock);
         }
     }
     spinlock_release(&pid_lock);
-
-    /* Signal any waiting parent */
-    if (curproc->p_parent != NULL) {
-        V(curproc->p_sem);  /* Wake up parent if it's waiting */
+    
+    /* Check if parent is alive (not zombie or dead) */
+    if (curproc->p_parent != NULL && 
+        curproc->p_parent->p_state != PROC_ZOMBIE && 
+        curproc->p_parent->p_state != PROC_DEAD) {
+        V(curproc->p_sem);  // Wake up parent if it's waiting
+    } else {
+        /* Parent is gone, self-cleanup */
+        proc_destroy(curproc);
     } 
     
     spinlock_release(&curproc->p_lock);

@@ -194,6 +194,12 @@ proc_destroy(struct proc *proc)
 		filetable_destroy(proc->p_filetable);
 	}
 
+	/* Remove from PID table */
+    spinlock_acquire(&pid_lock);
+    pid_table[pid_to_index(pid)].proc = NULL;
+    pid_count--;
+    spinlock_release(&pid_lock);
+
 	threadarray_cleanup(&proc->p_threads);
 	spinlock_cleanup(&proc->p_lock);
 	sem_destroy(proc->p_sem);
