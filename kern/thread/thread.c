@@ -285,7 +285,7 @@ exorcise(void)
 	while ((z = threadlist_remhead(&curcpu->c_zombies)) != NULL) {
 		KASSERT(z != curthread);
 		KASSERT(z->t_state == S_ZOMBIE);
-		kprintf("exorcising %s\n", z->t_name);
+		//("exorcising %s\n", z->t_name);
 		thread_destroy(z);
 	}
 }
@@ -793,7 +793,6 @@ thread_exit(void)
 {
 	struct thread *cur;
 	cur = curthread;
-    //struct proc *proc = cur->t_proc;
 
 	/*
 	 * Detach from our process. You might need to move this action
@@ -804,24 +803,15 @@ thread_exit(void)
 	/* Make sure we *are* detached (move this only if you're sure!) */
 	KASSERT(cur->t_proc == NULL);
 
-    // if (proc != NULL) {
-    //     spinlock_acquire(&proc->p_lock);
-    //     if (proc->p_exited) {
-    //         spinlock_release(&proc->p_lock);
-    //         proc_destroy(proc);
-    //     } else {
-    //         spinlock_release(&proc->p_lock);
-    //     }
-    // }
-
-
 	/* Check the stack guard band. */
 	thread_checkstack(cur);
 
 	/* Interrupts off on this processor */
         splhigh();
 	
+	/* Destory the zombie process*/
 	pid_cleanup();
+	
 	thread_switch(S_ZOMBIE, NULL, NULL);
 	panic("braaaaaaaiiiiiiiiiiinssssss\n");
 }

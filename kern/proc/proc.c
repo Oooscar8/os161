@@ -95,8 +95,6 @@ proc_create(const char *name)
 		return NULL;
 	}
 
-	proc->p_destroyed = false;
-
 	return proc;
 }
 
