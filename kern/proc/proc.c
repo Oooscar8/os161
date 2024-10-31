@@ -219,7 +219,7 @@ proc_bootstrap(void)
 		panic("proc_create for kproc failed\n");
 	}
 
-	/* Kernel process gets PID 0 */
+	/* Allocate PID for kernel process */
 	kproc->p_pid = PID_KERNEL;
 }
 

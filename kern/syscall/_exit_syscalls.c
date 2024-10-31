@@ -26,30 +26,29 @@ sys__exit(int exitcode)
     curproc->p_exitcode = _MKWAIT_EXIT(exitcode);
     curproc->p_state = PROC_ZOMBIE;
 
-    /* Check children and cleanup any that are zombies */
+    /* 
+     * Reassign all children to kernel process. 
+     */
     struct proc *p;
     spinlock_acquire(&pid_lock);
     for (int i = 0; i < PID_COUNT; i++) {
         p = pid_table[i].proc;
         if (p != NULL && p->p_parent == curproc) {
-            spinlock_acquire(&p->p_lock);
+            spinlock_acquire(&p->p_lock);         
+            p->p_parent = kproc;
+            
+            /* If child is already zombie, signal init to collect it */
             if (p->p_state == PROC_ZOMBIE) {
-                /* Child is zombie, can clean it up now */
-                proc_destroy(p);
+                V(p->p_sem);
             }
             spinlock_release(&p->p_lock);
         }
     }
     spinlock_release(&pid_lock);
-    
-    /* Check if parent is alive (not zombie or dead) */
-    if (curproc->p_parent != NULL && 
-        curproc->p_parent->p_state != PROC_ZOMBIE && 
-        curproc->p_parent->p_state != PROC_DEAD) {
-        V(curproc->p_sem);  // Wake up parent if it's waiting
-    } else {
-        /* Parent is gone, self-cleanup */
-        proc_destroy(curproc);
+
+    /* Signal any waiting parent */
+    if (curproc->p_parent != NULL) {
+        V(curproc->p_sem);  /* Wake up parent if it's waiting */
     } 
     
     spinlock_release(&curproc->p_lock);

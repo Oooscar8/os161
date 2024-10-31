@@ -42,6 +42,13 @@ sys_waitpid(pid_t pid, userptr_t status, int options, int *retval)
     /* Get exit status while holding the spinlock */
     spinlock_acquire(&child->p_lock);
 
+    /* Wait for child's thread to fully exit */
+    while (threadarray_num(&child->p_threads) > 0) {
+        spinlock_release(&child->p_lock);
+        thread_yield();  // Give child thread chance to exit
+        spinlock_acquire(&child->p_lock);
+    }
+
     exitcode = child->p_exitcode;
 
     /* 
