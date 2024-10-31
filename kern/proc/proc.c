@@ -91,15 +91,21 @@ proc_create(const char *name)
 		return NULL;
 	}
 
-    /* Allocate PID */
-	proc->p_pid = pid_allocate(proc);
-	if (proc->p_pid == ENOPID) {
-		filetable_destroy(proc->p_filetable);
-		kfree(proc->p_name);
-		kfree(proc);
-		return NULL;
-	}
+	/* Process PID fields. Will be set by caller */
+    proc->p_pid = 0;
 
+	/* Parent process fields */
+    proc->p_parent = NULL;
+
+	/* Process state fields */
+    proc->p_state = PROC_RUNNING;
+
+	/* Process semaphore fields */
+	proc->p_sem = sem_create("proc_sem", 0);
+
+	/* Process exit fields */
+    proc->p_exitcode = 0;
+	
 	return proc;
 }
 
@@ -190,6 +196,7 @@ proc_destroy(struct proc *proc)
 
 	threadarray_cleanup(&proc->p_threads);
 	spinlock_cleanup(&proc->p_lock);
+	sem_destroy(proc->p_sem);
 
 	kfree(proc->p_name);
 	kfree(proc);
@@ -205,6 +212,9 @@ proc_bootstrap(void)
 	if (kproc == NULL) {
 		panic("proc_create for kproc failed\n");
 	}
+
+	/* Kernel process gets PID 1 */
+	kproc->p_pid = 1;
 }
 
 /* Create a fresh proc for use by fork. */
@@ -227,6 +237,16 @@ proc_create_fork(const char *name)
         proc_destroy(newproc);
         return NULL;
     }
+
+	/* Allocate PID */
+    newproc->p_pid = pid_allocate(newproc);
+    if (newproc->p_pid == ENOPID) {
+        proc_destroy(newproc);
+        return NULL;
+    }
+
+	/* Set parent process for fork. */
+	newproc->p_parent = curproc;
 
 	/*
 	 * Lock the current process to copy its current directory.
@@ -264,6 +284,13 @@ proc_create_runprogram(const char *name)
 		proc_destroy(newproc);
 		return NULL;
 	}
+
+	/* Allocate PID */
+    newproc->p_pid = pid_allocate(newproc);
+    if (newproc->p_pid == ENOPID) {
+        proc_destroy(newproc);
+        return NULL;
+    }
 
 	/* VM fields */
 

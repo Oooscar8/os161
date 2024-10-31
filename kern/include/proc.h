@@ -71,6 +71,8 @@ struct proc {
 
 	int p_state;                  /* RUNNING/ZOMBIE/DEAD */
 
+	struct semaphore *p_sem;               /* Semaphore for waiting on process termination */
+
 	int p_exitcode;               /* Exit code from _exit() */
 };
 
