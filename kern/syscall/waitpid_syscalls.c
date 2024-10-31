@@ -2,7 +2,7 @@
  * Waitpid system call.
  */
 int
-sys_waitpid(pid_t pid, userptr_t status, int options)
+sys_waitpid(pid_t pid, int* status, int options, int *retval)
 {
     struct proc *child;
     int exitcode;
@@ -28,13 +28,21 @@ sys_waitpid(pid_t pid, userptr_t status, int options)
     
     /* Get exit status while holding the spinlock */
     spinlock_acquire(&child->p_lock);
+
     KASSERT(child->p_state == PROC_ZOMBIE);
     exitcode = child->p_exitcode;
+
+    /* 
+     * Mark as dead - means this process has been waited for
+     * and is ready for cleanup
+     */
+    child->p_state = PROC_DEAD;
+
     spinlock_release(&child->p_lock);
     
     /* Copy out the exit status if requested */
     if (status != NULL) {
-        int result = copyout(&exitcode, status, sizeof(int));
+        int result = copyout(&exitcode, (userptr_t)status, sizeof(int));
         if (result) {
             /* Still need to clean up the child */
             spinlock_acquire(&pid_lock);
@@ -56,5 +64,6 @@ sys_waitpid(pid_t pid, userptr_t status, int options)
     /* Now safe to destroy the process */
     proc_destroy(child);
     
-    return pid;
+    *retval = pid;
+    return 0;
 }

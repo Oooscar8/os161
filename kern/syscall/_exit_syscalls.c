@@ -3,25 +3,23 @@
  */
 void
 sys__exit(int exitcode)
-{
-    struct proc *cur = curproc;
-    
-    KASSERT(cur != NULL);
-    KASSERT(cur != kproc);    /* Kernel process cannot exit */
+{   
+    KASSERT(curproc != NULL);
+    KASSERT(curproc != kproc);    /* Kernel process cannot exit */
     
     /* Get the lock */
-    spinlock_acquire(&cur->p_lock);
+    spinlock_acquire(&curproc->p_lock);
     
     /* Set exit code and change state to zombie */
-    cur->p_exitcode = _MKWAIT_EXIT(exitcode);
-    cur->p_state = PROC_ZOMBIE;
+    curproc->p_exitcode = _MKWAIT_EXIT(exitcode);
+    curproc->p_state = PROC_ZOMBIE;
 
     /* Signal any waiting parent */
-    if (cur->p_parent != NULL) {
-        V(cur->p_sem);  /* Wake up parent if it's waiting */
+    if (curproc->p_parent != NULL) {
+        V(curproc->p_sem);  /* Wake up parent if it's waiting */
     } 
     
-    spinlock_release(&cur->p_lock);
+    spinlock_release(&curproc->p_lock);
     
     thread_exit();
     
