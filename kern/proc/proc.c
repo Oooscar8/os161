@@ -100,9 +100,6 @@ proc_create(const char *name)
 	/* Process state fields */
     proc->p_state = PROC_RUNNING;
 
-	/* Process semaphore fields */
-	proc->p_sem = sem_create("proc_sem", 0);
-
 	/* Process exit fields */
     proc->p_exitcode = 0;
 
@@ -194,15 +191,8 @@ proc_destroy(struct proc *proc)
 		filetable_destroy(proc->p_filetable);
 	}
 
-	/* Remove from PID table */
-    spinlock_acquire(&pid_lock);
-    pid_table[pid_to_index(proc->p_pid)].proc = NULL;
-    pid_count--;
-    spinlock_release(&pid_lock);
-
 	threadarray_cleanup(&proc->p_threads);
 	spinlock_cleanup(&proc->p_lock);
-	sem_destroy(proc->p_sem);
 
 	kfree(proc->p_name);
 	kfree(proc);

@@ -36,32 +36,19 @@ sys_waitpid(pid_t pid, userptr_t status, int options, int *retval)
         return ECHILD;  /* Not a child of calling process */
     }
     
-    /* Wait for child to exit */
-    P(child->p_sem);
-    
     spinlock_acquire(&child->p_lock);
 
-    /* Wait for child's thread to fully exit */
-    while (threadarray_num(&child->p_threads) > 0) {
+    /* Wait for child to become zombie */
+    while (child->p_state != PROC_ZOMBIE) {
         spinlock_release(&child->p_lock);
-        thread_yield();  // Give child thread chance to exit
+        thread_yield();
         spinlock_acquire(&child->p_lock);
     }
 
     /* Get exit status while holding the spinlock */
     exitcode = child->p_exitcode;
 
-    /* 
-     * Mark as dead - means this process has been waited for
-     * and is ready for cleanup
-     */
-    KASSERT(child->p_state == PROC_ZOMBIE);
-    child->p_state = PROC_DEAD;
-
     spinlock_release(&child->p_lock);
-    
-    /* Now safe to destroy the process */
-    proc_destroy(child);
 
     /* Now copy out exit status if requested */
     if (status != NULL) {
