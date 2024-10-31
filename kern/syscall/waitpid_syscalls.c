@@ -1,8 +1,21 @@
+#include <types.h>
+#include <kern/errno.h>
+#include <kern/wait.h>
+#include <lib.h>
+#include <proc.h>
+#include <thread.h>
+#include <current.h>
+#include <synch.h>
+#include <spinlock.h>
+#include <copyinout.h>
+#include <pid.h>
+#include <syscall.h>
+
 /*
  * Waitpid system call.
  */
 int
-sys_waitpid(pid_t pid, int* status, int options, int *retval)
+sys_waitpid(pid_t pid, userptr_t status, int options, int *retval)
 {
     struct proc *child;
     int exitcode;
@@ -45,7 +58,7 @@ sys_waitpid(pid_t pid, int* status, int options, int *retval)
 
     /* Now copy out exit status if requested */
     if (status != NULL) {
-        int result = copyout(&exitcode, (userptr_t)status, sizeof(int));
+        int result = copyout(&exitcode, status, sizeof(int));
         if (result) {
             return EFAULT;
         }

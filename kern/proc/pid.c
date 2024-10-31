@@ -6,24 +6,6 @@
 #include <current.h>
 #include <pid.h>
 
-#define PID_KERNEL    0
-#define PID_INIT    1
-
-/* Number of PIDs available */
-#define PID_COUNT   (PID_MAX - PID_MIN + 1)
-
-/* PID table entry structure */
-struct pid_entry {
-    pid_t pid;               /* Process ID */
-    struct proc *proc;      /* Pointer to process structure */
-};
-
-/* Global PID management state */
-static struct pid_entry *pid_table;     /* PID allocation table */
-static struct spinlock pid_lock;        /* Lock for PID operations */
-static unsigned int pid_count;          /* Number of PIDs in use */
-static pid_t next_pid;                  /* Next PID to try for allocation */
-
 /*
  * Initialize the PID management system
  * Called during system bootstrap
@@ -54,8 +36,7 @@ pid_bootstrap(void)
 /*
  * Convert PID to table index
  */
-static inline int 
-pid_to_index(pid_t pid) 
+int pid_to_index(pid_t pid) 
 {
     KASSERT(pid >= PID_MIN && pid <= PID_MAX);
     return pid - PID_MIN;

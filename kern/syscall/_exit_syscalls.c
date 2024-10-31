@@ -1,3 +1,15 @@
+#include <types.h>
+#include <kern/errno.h>
+#include <kern/wait.h>
+#include <lib.h>
+#include <proc.h>
+#include <thread.h>
+#include <current.h>
+#include <synch.h>
+#include <spinlock.h>
+#include <pid.h>
+#include <syscall.h>
+
 /*
  * Exit system call.
  */
@@ -15,6 +27,7 @@ sys__exit(int exitcode)
     curproc->p_state = PROC_ZOMBIE;
 
     /* Check children and cleanup any that are zombies */
+    struct proc *p;
     spinlock_acquire(&pid_lock);
     for (int i = 0; i < PID_COUNT; i++) {
         p = pid_table[i].proc;

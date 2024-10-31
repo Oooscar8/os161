@@ -196,7 +196,7 @@ proc_destroy(struct proc *proc)
 
 	/* Remove from PID table */
     spinlock_acquire(&pid_lock);
-    pid_table[pid_to_index(pid)].proc = NULL;
+    pid_table[pid_to_index(proc->p_pid)].proc = NULL;
     pid_count--;
     spinlock_release(&pid_lock);
 
