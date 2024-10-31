@@ -213,8 +213,8 @@ proc_bootstrap(void)
 		panic("proc_create for kproc failed\n");
 	}
 
-	/* Kernel process gets PID 1 */
-	kproc->p_pid = 1;
+	/* Kernel process gets PID 0 */
+	kproc->p_pid = PID_KERNEL;
 }
 
 /* Create a fresh proc for use by fork. */

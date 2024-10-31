@@ -6,6 +6,9 @@
 #include <current.h>
 #include <pid.h>
 
+#define PID_KERNEL    0
+#define PID_INIT    1
+
 /* Number of PIDs available */
 #define PID_COUNT   (PID_MAX - PID_MIN + 1)
 

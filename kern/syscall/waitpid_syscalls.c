@@ -29,31 +29,16 @@ sys_waitpid(pid_t pid, int* status, int options, int *retval)
     /* Get exit status while holding the spinlock */
     spinlock_acquire(&child->p_lock);
 
-    KASSERT(child->p_state == PROC_ZOMBIE);
     exitcode = child->p_exitcode;
 
     /* 
      * Mark as dead - means this process has been waited for
      * and is ready for cleanup
      */
+    KASSERT(child->p_state == PROC_ZOMBIE);
     child->p_state = PROC_DEAD;
 
     spinlock_release(&child->p_lock);
-    
-    /* Copy out the exit status if requested */
-    if (status != NULL) {
-        int result = copyout(&exitcode, (userptr_t)status, sizeof(int));
-        if (result) {
-            /* Still need to clean up the child */
-            spinlock_acquire(&pid_lock);
-            pid_table[pid_to_index(pid)].proc = NULL;
-            pid_count--;
-            spinlock_release(&pid_lock);
-            
-            proc_destroy(child);
-            return EFAULT;
-        }
-    }
     
     /* Remove from PID table */
     spinlock_acquire(&pid_lock);
@@ -63,6 +48,14 @@ sys_waitpid(pid_t pid, int* status, int options, int *retval)
     
     /* Now safe to destroy the process */
     proc_destroy(child);
+
+    /* Now copy out exit status if requested */
+    if (status != NULL) {
+        int result = copyout(&exitcode, (userptr_t)status, sizeof(int));
+        if (result) {
+            return EFAULT;
+        }
+    }
     
     *retval = pid;
     return 0;
