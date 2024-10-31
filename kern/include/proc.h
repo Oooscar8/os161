@@ -74,8 +74,6 @@ struct proc {
 	struct semaphore *p_sem;               /* Semaphore for waiting on process termination */
 
 	int p_exitcode;               /* Exit code from _exit() */
-
-	bool p_parent_alive;          /* Track if parent is still alive */
 };
 
 /* This is the process structure for the kernel and for kernel-only threads. */

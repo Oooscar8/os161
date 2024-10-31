@@ -105,7 +105,7 @@ proc_create(const char *name)
 
 	/* Process exit fields */
     proc->p_exitcode = 0;
-	
+
 	return proc;
 }
 
