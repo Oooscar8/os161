@@ -26,12 +26,12 @@ sys__exit(int exitcode)
     curproc->p_exitcode = _MKWAIT_EXIT(exitcode);
     curproc->p_state = PROC_ZOMBIE;
 
+    /* Signal parent if waiting */
+    V(curproc->p_sem);
+
     /* 
      * If parent is kproc, mark as DEAD
-     * proc will be destroyed when it's safe to do so
      */
-    spinlock_acquire(&pid_lock);
-
     if (curproc->p_parent == kproc) {
         curproc->p_state = PROC_DEAD;
     }
@@ -39,6 +39,7 @@ sys__exit(int exitcode)
     /* 
      * Mark all zombie children as DEAD and reassign live ones to kernel process.
      */
+    spinlock_acquire(&pid_lock);
     struct proc *p;
     int i;
     for (i = 0; i < PID_COUNT; i++) {

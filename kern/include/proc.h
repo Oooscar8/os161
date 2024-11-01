@@ -69,6 +69,8 @@ struct proc {
 
 	struct proc *p_parent;        /* Parent process */
 
+	struct semaphore *p_sem;      /* Process's semaphore for waiting */
+
 	int p_state;                  /* RUNNING/ZOMBIE/DEAD */
 
 	int p_exitcode;               /* Exit code from _exit() */

@@ -97,6 +97,9 @@ proc_create(const char *name)
 	/* Parent process fields */
     proc->p_parent = NULL;
 
+	/* Semaphore for waiting */
+	proc->p_sem = sem_create("proc_sem", 0);
+
 	/* Process state fields */
     proc->p_state = PROC_RUNNING;
 
@@ -193,6 +196,7 @@ proc_destroy(struct proc *proc)
 
 	threadarray_cleanup(&proc->p_threads);
 	spinlock_cleanup(&proc->p_lock);
+	sem_destroy(proc->p_sem);
 
 	kfree(proc->p_name);
 	kfree(proc);

@@ -37,11 +37,10 @@ sys_waitpid(pid_t pid, userptr_t status, int options, int *retval)
     }
     
     spinlock_acquire(&child->p_lock);
-
-    /* Wait for child to become zombie */
-    while (child->p_state != PROC_ZOMBIE) {
+    /* Wait for child to exit */
+    if (child->p_state != PROC_ZOMBIE) {
         spinlock_release(&child->p_lock);
-        thread_yield();
+        P(child->p_sem);
         spinlock_acquire(&child->p_lock);
     }
 
