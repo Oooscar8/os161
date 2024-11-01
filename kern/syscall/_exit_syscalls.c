@@ -36,28 +36,30 @@ sys__exit(int exitcode)
         curproc->p_state = PROC_DEAD;
     }
 
-    /* 
+    /*
      * Mark all zombie children as DEAD and reassign live ones to kernel process.
      */
-    spinlock_acquire(&pid_lock);
     struct proc *p;
-    int i;
-    for (i = 0; i < PID_COUNT; i++) {
-        p = pid_table[i].proc;
-        if (p != NULL && p->p_parent == curproc) {
-            spinlock_acquire(&p->p_lock);         
-            if (p->p_state == PROC_ZOMBIE) {
-                // If child process is already in zombie state, mark it as DEAD.
-                p->p_state = PROC_DEAD;
-            } else {
-                // If child process is still running, reassign it to kernel process.
-                p->p_parent = kproc;
-            }
-            spinlock_release(&p->p_lock);
+    for (unsigned i = 0; i < array_num(curproc->p_children); i++) {
+        p = array_get(curproc->p_children, i);
+        spinlock_acquire(&p->p_lock);
+        
+        if (p->p_state == PROC_ZOMBIE) {
+            // If child process is already in zombie state, mark it as DEAD.
+            p->p_state = PROC_DEAD;
+        } else {
+            // If child process is still running, reassign it to kernel process.
+            p->p_parent = kproc;
+            
+            // Add to kproc's children list
+            spinlock_acquire(&kproc->p_lock);
+            KASSERT(array_add(kproc->p_children, p, NULL) == 0);
+            spinlock_release(&kproc->p_lock);
         }
+
+        spinlock_release(&p->p_lock);
     }
 
-    spinlock_release(&pid_lock);
     spinlock_release(&curproc->p_lock);
     
     thread_exit();

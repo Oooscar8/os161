@@ -803,7 +803,6 @@ void thread_exit(void)
 {
 	struct thread *cur;
 	struct proc *p;
-	int i;
 
 	cur = curthread;
 	p = cur->t_proc;
@@ -817,31 +816,56 @@ void thread_exit(void)
 	/* Make sure we *are* detached (move this only if you're sure!) */
 	KASSERT(cur->t_proc == NULL);
 
-	if (p != NULL && threadarray_num(&p->p_threads) == 0)
-	{
-		/* Destroy all DEAD children first */
-		spinlock_acquire(&pid_lock);
-		for (i = 0; i < PID_COUNT; i++)
-		{
-			struct proc *child = pid_table[i].proc;
-			if (child != NULL && child->p_parent == p &&
-				child->p_state == PROC_DEAD)
-			{
-				pid_table[i].proc = NULL;
-				pid_count--;
-				spinlock_release(&pid_lock);
-				proc_destroy(child);
-				spinlock_acquire(&pid_lock);
-			}
-		}
-		spinlock_release(&pid_lock);
 
-		/* If self is DEAD, destroy self */
-		if (p->p_state == PROC_DEAD)
-		{
-			proc_destroy(p);
-		}
-	}
+    /* 
+	 * Destroy all zombie children and reassign live ones to kernel process
+	 * If self is dead, destroy self 
+	 */
+	if (p != NULL && threadarray_num(&p->p_threads) == 0) {
+        for (unsigned i = 0; i < array_num(p->p_children); i++) {
+            struct proc *child = array_get(p->p_children, i);
+            
+			spinlock_acquire(&child->p_lock);
+            if (child->p_state == PROC_DEAD) {
+                // Remove this child from our array
+                array_remove(p->p_children, i);
+                i--; // Adjust index since we removed an element
+                
+                // If the child is in pid_table, remove it
+                spinlock_acquire(&pid_lock);
+                pid_table[pid_to_index(child->p_pid)].proc = NULL;
+				pid_count--;
+                spinlock_release(&pid_lock);
+                
+				spinlock_release(&child->p_lock);
+                proc_destroy(child);
+            }
+			else {
+				// Reassign to kproc if not dead
+                child->p_parent = kproc;
+                // Add to kproc's children list
+                spinlock_acquire(&kproc->p_lock);
+                KASSERT(array_add(kproc->p_children, child, NULL) == 0);
+                spinlock_release(&kproc->p_lock);
+
+                spinlock_release(&child->p_lock);
+
+                // Remove from our children array
+                array_remove(p->p_children, i);
+                i--; // Adjust index
+			}
+        }
+        
+        /* If self is DEAD, destroy self */
+        if (p->p_state == PROC_DEAD) {
+            spinlock_acquire(&pid_lock);
+            pid_table[pid_to_index(p->p_pid)].proc = NULL;
+            pid_count--;
+            spinlock_release(&pid_lock);
+            
+            proc_destroy(p);
+        }
+    }
 
 	/* Check the stack guard band. */
 	thread_checkstack(cur);

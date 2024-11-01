@@ -69,6 +69,8 @@ struct proc {
 
 	struct proc *p_parent;        /* Parent process */
 
+	struct array *p_children;     /* Array of child processes */
+
 	struct semaphore *p_sem;      /* Process's semaphore for waiting */
 
 	int p_state;                  /* RUNNING/ZOMBIE/DEAD */

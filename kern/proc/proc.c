@@ -97,6 +97,9 @@ proc_create(const char *name)
 	/* Parent process fields */
     proc->p_parent = NULL;
 
+	/* Child processes fields */
+	proc->p_children = array_create();
+
 	/* Semaphore for waiting */
 	proc->p_sem = sem_create("proc_sem", 0);
 
@@ -194,6 +197,11 @@ proc_destroy(struct proc *proc)
 		filetable_destroy(proc->p_filetable);
 	}
 
+	/* Free the children array */
+	if (proc->p_children) {
+		array_destroy(proc->p_children);
+	}
+
 	threadarray_cleanup(&proc->p_threads);
 	spinlock_cleanup(&proc->p_lock);
 	sem_destroy(proc->p_sem);
@@ -247,6 +255,12 @@ proc_create_fork(const char *name)
 
 	/* Set parent process for fork. */
 	newproc->p_parent = curproc;
+
+	/* Add to parent's child array */
+	if (array_add(curproc->p_children, newproc, NULL)) {
+		proc_destroy(newproc);
+		return NULL;
+	}
 
 	/*
 	 * Lock the current process to copy its current directory.
