@@ -120,7 +120,45 @@ pid_t get_process_parent(pid_t pid);
  **/
 int pid_cleanup(void);
 
+/**
+ * Function: status_is_zombie
+ * 
+ * Description: Checks if a given process is in zombie or exited state. Thread-safe 
+ *             implementation that safely checks process state flags.
+ * 
+ * @param
+ *   pid - The PID of the process to check
+ * 
+ * @return 
+ *   - true if process is zombie or has exited
+ *   - false if process is not zombie/exited or PID is invalid
+ * 
+ * Notes: 
+ *   - This function acquires and releases the PID lock internally
+ *   - Returns false for invalid PIDs
+ *   - A process is considered zombie if it has either PROC_ZOMBIE or 
+ *     PROC_EXITED flag set
+ **/
 bool status_is_zombie(pid_t pid);
+
+/**
+ * Function: pid_destroy
+ * 
+ * Description: Completely destroys a PID entry and releases all associated 
+ *             resources. Must be called only when no other processes are waiting 
+ *             on this PID.
+ * 
+ * @param
+ *   pid - The PID to be destroyed
+ * 
+ * Notes:
+ *   - This function acquires and releases the PID lock internally
+ *   - Safely handles invalid PIDs (no-op)
+ *   - Destroys the wait condition variable
+ *   - Resets the PID entry to initial state
+ *   - Decrements the global PID count
+ *   - Should only be called after ensuring no processes are waiting on this PID
+ **/
 void pid_destroy(pid_t pid);
 
 #endif /* _PID_H_ */
