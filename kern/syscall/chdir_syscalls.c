@@ -31,7 +31,7 @@
  *   directory (this is only possible if the process is running with
  *   privileges, and should never happen)
  */
-int sys_chdir(userptr_t *pathname, int *retval)
+int sys_chdir(userptr_t pathname, int *retval)
 {
     char *kpathname;
     int result;

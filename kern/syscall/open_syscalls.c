@@ -25,7 +25,7 @@
  *
  * Returns 0 on success, an error code otherwise.
  */
-int sys_open(userptr_t *filename, int flags, mode_t mode, int *retval)
+int sys_open(userptr_t filename, int flags, mode_t mode, int *retval)
 {
     struct vnode *vn;
     char *kfilename;
