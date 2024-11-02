@@ -38,44 +38,45 @@ int sys_dup2(int oldfd, int newfd, int *retval) {
         return EBADF;
     }
 
+    // If oldfd equals newfd, just return newfd
+    if (oldfd == newfd) {
+        lock_acquire(curproc->p_filetable->ft_lock);
+        if (curproc->p_filetable->ft_entries[oldfd] == NULL) {
+            lock_release(curproc->p_filetable->ft_lock);
+            return EBADF;
+        }
+        lock_release(curproc->p_filetable->ft_lock);
+        *retval = newfd;
+        return 0;
+    }
+
     lock_acquire(curproc->p_filetable->ft_lock);
+    
+    // Check if oldfd is valid
     file = curproc->p_filetable->ft_entries[oldfd];
     if (file == NULL) {
         lock_release(curproc->p_filetable->ft_lock);
         return EBADF;
     }
 
-    // Check if the new file descriptor is already open
-    newfile = curproc->p_filetable->ft_entries[newfd];
-    if (newfile != NULL) {
-        if (newfile == file) {
-            lock_release(curproc->p_filetable->ft_lock);
-            *retval = newfd;
-            return 0;
-        }
-        
-        lock_acquire(file->fh_lock);
-        lock_acquire(newfile->fh_lock);
-        
-        // Close the new file descriptor
-        sys_close(newfd);
-        file->fh_refcount++;
-        curproc->p_filetable->ft_entries[newfd] = file;
-        
-        lock_release(newfile->fh_lock);
-        lock_release(file->fh_lock);
-        lock_release(curproc->p_filetable->ft_lock);
-        *retval = newfd;
-        return 0;
-    }
-
-    // Copy the file handle to the new file descriptor
     lock_acquire(file->fh_lock);
     file->fh_refcount++;
-    curproc->p_filetable->ft_entries[newfd] = file;
     lock_release(file->fh_lock);
+
+    // Check if newfd is already open
+    newfile = curproc->p_filetable->ft_entries[newfd];
+    if (newfile != NULL) {
+        curproc->p_filetable->ft_entries[newfd] = NULL;
+        lock_release(curproc->p_filetable->ft_lock);
+        
+        sys_close(newfd);
+        
+        lock_acquire(curproc->p_filetable->ft_lock);
+    }
+
+    curproc->p_filetable->ft_entries[newfd] = file;
     lock_release(curproc->p_filetable->ft_lock);
-    
+
     *retval = newfd;
     return 0;
 }
