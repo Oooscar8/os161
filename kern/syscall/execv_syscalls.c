@@ -99,7 +99,6 @@ int sys_execv(const char *program, char **args) {
         return result;
     }
 
-
     kargs = kmalloc((nargs + 1) * sizeof(char *));
     char *argbuf = kmalloc(total_size);
     size_t offset = 0;
@@ -209,7 +208,7 @@ static int copyout_args(char **kargs, int nargs, vaddr_t *stackptr) {
             return EFAULT;
         }
         size_t len = strlen(kargs[i]) + 1;
-        total_size += ROUNDUP(len, 8);
+        total_size += ROUNDUP(len, 4);
     }
 
     // Allocate space for argument pointers
@@ -219,10 +218,10 @@ static int copyout_args(char **kargs, int nargs, vaddr_t *stackptr) {
     }
 
     // align it
-    stack = (stack - total_size) & ~0x7;
+    stack = (stack - total_size) & ~0x3;
     vaddr_t cur_ptr = stack;
     
-    cur_ptr += ROUNDUP((nargs + 1) * sizeof(vaddr_t), 8);
+    cur_ptr += ROUNDUP((nargs + 1) * sizeof(vaddr_t), 4);
 
     size_t actual_len;
     // save addresses
@@ -234,7 +233,7 @@ static int copyout_args(char **kargs, int nargs, vaddr_t *stackptr) {
             return result;
         }
         argv_ptrs[i] = cur_ptr;
-        cur_ptr += ROUNDUP(len, 8);
+        cur_ptr += ROUNDUP(len, 4);
     }
     argv_ptrs[nargs] = 0;
 
