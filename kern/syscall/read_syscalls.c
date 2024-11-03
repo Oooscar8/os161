@@ -34,7 +34,7 @@
  *  - EIO: a hardware I/O error occurred reading the data.
  */
 int
-sys_read(int fd, userptr_t *buf, size_t buflen, int *retval) {
+sys_read(int fd, userptr_t buf, size_t buflen, int *retval) {
     struct filehandle *file;
     struct iovec iov;
     struct uio u;
@@ -60,13 +60,6 @@ sys_read(int fd, userptr_t *buf, size_t buflen, int *retval) {
         file->fh_refcount--;
         lock_release(file->fh_lock);
         return EBADF;
-    }
-
-    // Validate user buffer using copyin
-    if (buf == NULL) {
-        file->fh_refcount--;
-        lock_release(file->fh_lock);
-        return EFAULT;
     }
 
     // Set up uio structure for reading

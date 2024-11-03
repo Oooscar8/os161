@@ -30,7 +30,7 @@
  *  - EFAULT: buf is an invalid address.
  *  - EIO: a hardware I/O error occurred writing the data.
  */
-int sys_write(int fd, userptr_t *buf, size_t nbytes, int *retval)
+int sys_write(int fd, userptr_t buf, size_t nbytes, int *retval)
 {
     struct filehandle *file;
     struct iovec iov;
@@ -60,14 +60,6 @@ int sys_write(int fd, userptr_t *buf, size_t nbytes, int *retval)
         file->fh_refcount--;
         lock_release(file->fh_lock);
         return EBADF;
-    }
-
-    // Validate user buffer
-     if (buf == NULL)
-    {
-        file->fh_refcount--;
-        lock_release(file->fh_lock);
-        return EFAULT;
     }
 
     // Set up uio structure for writing

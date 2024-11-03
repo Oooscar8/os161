@@ -18,7 +18,7 @@
  *
  * Returns 0 on success, an error code otherwise.
  */
-int sys__getcwd(userptr_t *buf, size_t buflen, int *retval) {
+int sys__getcwd(userptr_t buf, size_t buflen, int *retval) {
     struct uio u;          
     struct iovec iov;       
     int result;

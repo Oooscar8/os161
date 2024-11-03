@@ -45,7 +45,6 @@ void filetable_destroy(struct filetable *ft)
             filehandle_decref(ft->ft_entries[i]);
             ft->ft_entries[i] = NULL;
         }
-        ft->ft_entries[i] = NULL;
     }
     lock_release(ft->ft_lock);
 
@@ -121,9 +120,7 @@ filetable_copy(struct filetable *old_ft)
     for (int i = 0; i < OPEN_MAX; i++) {
         if (old_ft->ft_entries[i] != NULL) {
             new_ft->ft_entries[i] = old_ft->ft_entries[i];
-            lock_acquire(new_ft->ft_entries[i]->fh_lock);
             new_ft->ft_entries[i]->fh_refcount++;
-            lock_release(new_ft->ft_entries[i]->fh_lock);
         }
     }
 
@@ -176,7 +173,9 @@ int filetable_init_standard(struct filetable *ft) {
     const char *cons = "con:";
 
     // Open standard input (fd 0)
-    result = vfs_open(kstrdup(cons), O_RDONLY, 0, &vn);
+    char *cons1 = kstrdup(cons);
+    result = vfs_open(cons1, O_RDONLY, 0, &vn);
+    kfree(cons1);
     if (result) {
         return result;
     }
@@ -191,7 +190,9 @@ int filetable_init_standard(struct filetable *ft) {
     KASSERT(fd0 == STDIN_FILENO);
 
     // Open standard output (fd 1)
-    result = vfs_open(kstrdup(cons), O_WRONLY, 0, &vn);
+    cons1 = kstrdup(cons);
+    result = vfs_open(cons1, O_WRONLY, 0, &vn);
+    kfree(cons1);
     if (result) {
         return result;
     }
@@ -206,7 +207,9 @@ int filetable_init_standard(struct filetable *ft) {
     KASSERT(fd1 == STDOUT_FILENO);
 
     // Open standard error (fd 2)
-    result = vfs_open(kstrdup(cons), O_WRONLY, 0, &vn);
+    char *cons2 = kstrdup(cons);
+    result = vfs_open(cons2, O_WRONLY, 0, &vn);
+    kfree(cons2);
     if (result) {
         return result;
     }
