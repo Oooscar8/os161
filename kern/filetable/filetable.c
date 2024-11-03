@@ -45,7 +45,6 @@ void filetable_destroy(struct filetable *ft)
             filehandle_decref(ft->ft_entries[i]);
             ft->ft_entries[i] = NULL;
         }
-        ft->ft_entries[i] = NULL;
     }
     lock_release(ft->ft_lock);
 
@@ -121,9 +120,7 @@ filetable_copy(struct filetable *old_ft)
     for (int i = 0; i < OPEN_MAX; i++) {
         if (old_ft->ft_entries[i] != NULL) {
             new_ft->ft_entries[i] = old_ft->ft_entries[i];
-            lock_acquire(new_ft->ft_entries[i]->fh_lock);
             new_ft->ft_entries[i]->fh_refcount++;
-            lock_release(new_ft->ft_entries[i]->fh_lock);
         }
     }
 

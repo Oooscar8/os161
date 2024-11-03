@@ -42,6 +42,8 @@ sys_waitpid(pid_t pid, int *status, int options, int *retval)
         }
     }
 
+    pid_cleanup();
+    
     *retval = pid;  
     return 0;
 }

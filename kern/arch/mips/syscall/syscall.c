@@ -118,7 +118,7 @@ syscall(struct trapframe *tf)
 	    /* Add stuff here */
 		// Add a case for the open syscall
 		case SYS_open:
-		err = sys_open((userptr_t *)tf->tf_a0, 
+		err = sys_open((userptr_t)tf->tf_a0, 
 				tf->tf_a1, tf->tf_a2, &retval);
 		break;
 		
@@ -129,12 +129,12 @@ syscall(struct trapframe *tf)
 
 		// Add a case for the read syscall
 		case SYS_read:
-		err = sys_read(tf->tf_a0, (userptr_t *)tf->tf_a1, tf->tf_a2, &retval);
+		err = sys_read(tf->tf_a0, (userptr_t)tf->tf_a1, tf->tf_a2, &retval);
 		break;
 
 		// Add a case for the write syscall
 		case SYS_write:
-		err = sys_write(tf->tf_a0, (userptr_t *)tf->tf_a1, tf->tf_a2, &retval);
+		err = sys_write(tf->tf_a0, (userptr_t)tf->tf_a1, tf->tf_a2, &retval);
 		break;
 
 		// Add a case for the lseek syscall
@@ -145,7 +145,7 @@ syscall(struct trapframe *tf)
 
 		// Add a case for the chdir syscall
 		case SYS_chdir:
-		err = sys_chdir((userptr_t *)tf->tf_a0, &retval);
+		err = sys_chdir((userptr_t)tf->tf_a0, &retval);
 		break;
 
 		// Add a case for the dup2 syscall
@@ -155,7 +155,7 @@ syscall(struct trapframe *tf)
 
 		// Add a case for the getcwd syscall
 		case SYS___getcwd:
-		err = sys__getcwd((userptr_t *)tf->tf_a0, tf->tf_a1, &retval);
+		err = sys__getcwd((userptr_t)tf->tf_a0, tf->tf_a1, &retval);
 		break;
 
 		// Add a case for the fork syscall
@@ -177,6 +177,11 @@ syscall(struct trapframe *tf)
 		// Add a case for the waitpid syscall
 		case SYS_waitpid:
 		err = sys_waitpid(tf->tf_a0, (int *)tf->tf_a1, tf->tf_a2, &retval);
+		break;
+
+		// Add a case for the execv syscall
+		case SYS_execv:
+		err = sys_execv((const char *)tf->tf_a0, (char **)tf->tf_a1);
 		break;
 
 	    default:
