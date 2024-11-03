@@ -147,7 +147,6 @@ common_prog(int nargs, char **args)
 		thread_yield();
 	}
 
-	//proc_destroy(proc);
 	return 0;
 }
 
