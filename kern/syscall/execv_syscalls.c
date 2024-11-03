@@ -238,7 +238,7 @@ static int copyout_args(char **kargs, int nargs, vaddr_t *stackptr) {
     }
     argv_ptrs[nargs] = 0;
 
-    // Copy the argv array itself - this still uses copyout since it's not a string
+    // Copy the argv array
     result = copyout(argv_ptrs, (userptr_t)stack, (nargs + 1) * sizeof(vaddr_t));
     kfree(argv_ptrs);
     if (result) {
