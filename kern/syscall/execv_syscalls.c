@@ -25,16 +25,10 @@ count_args(char **args, size_t *nargs_ret, size_t *total_size_ret)
     size_t total_size = 0;
     int result;
     
-    char *kbuf = kmalloc(ARG_MAX);
-    if (kbuf == NULL) {
-        return ENOMEM;
-    }
-
     while (1) {
         char *arg_ptr;
         result = copyin((userptr_t)&args[nargs], &arg_ptr, sizeof(char *));
         if (result) {
-            kfree(kbuf);
             return result;
         }
 
@@ -43,31 +37,19 @@ count_args(char **args, size_t *nargs_ret, size_t *total_size_ret)
         }
 
         if (nargs >= ARG_MAX / sizeof(char *)) {
-            kfree(kbuf);
             return E2BIG;
         }
 
         size_t len;
-        result = copyinstr((userptr_t)arg_ptr, kbuf, ARG_MAX - total_size, &len);
+        len = strlen(arg_ptr) + 1;
         
-        if (result) {
-            if (result == ENAMETOOLONG) {
-                kfree(kbuf);
-                return E2BIG;
-            }
-            kfree(kbuf);
-            return result;
-        }
-
         if (len > ARG_MAX - total_size) {
-            kfree(kbuf);
             return E2BIG;
         }
         total_size += len;
         nargs++;
     }
 
-    kfree(kbuf);
 
     if (nargs == 0) {
         return EINVAL;
