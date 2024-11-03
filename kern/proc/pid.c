@@ -135,3 +135,13 @@ pid_get_proc(pid_t pid)
     spinlock_release(&pid_lock);
     return p;
 }
+
+/* 
+ * Remove process from PID table 
+ */
+void proc_remove_pid(struct proc *proc) {
+    spinlock_acquire(&pid_lock);
+    pid_table[pid_to_index(proc->p_pid)].proc = NULL;
+    pid_count--;
+    spinlock_release(&pid_lock);
+}

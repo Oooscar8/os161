@@ -816,54 +816,24 @@ void thread_exit(void)
 	/* Make sure we *are* detached (move this only if you're sure!) */
 	KASSERT(cur->t_proc == NULL);
 
-
     /* 
-	 * Destroy all zombie children and reassign live ones to kernel process
-	 * If self is dead, destroy self 
-	 */
-	if (p != NULL && threadarray_num(&p->p_threads) == 0) {
-        for (unsigned i = 0; i < array_num(p->p_children); i++) {
-            struct proc *child = array_get(p->p_children, i);
-            
-			spinlock_acquire(&child->p_lock);
-            if (child->p_state == PROC_DEAD) {
-                // Remove this child from our array
-                array_remove(p->p_children, i);
-                i--; // Adjust index since we removed an element
-                
-                // If the child is in pid_table, remove it
-                spinlock_acquire(&pid_lock);
-                pid_table[pid_to_index(child->p_pid)].proc = NULL;
-				pid_count--;
-                spinlock_release(&pid_lock);
-                
-				spinlock_release(&child->p_lock);
-                proc_destroy(child);
-            }
-			else {
-				// Reassign to kproc if not dead
-                child->p_parent = kproc;
-                // Add to kproc's children list
-                spinlock_acquire(&kproc->p_lock);
-                KASSERT(array_add(kproc->p_children, child, NULL) == 0);
-                spinlock_release(&kproc->p_lock);
+     * Clean up process if:
+     * 1. This is the last thread AND
+     * 2. Either:
+     *    - Process is marked DEAD (normal case) OR
+     *    - Process has no parent (orphaned case)
+     */
+    if (p != NULL) {
+		spinlock_acquire(&p->p_lock);
+        if (threadarray_num(&p->p_threads) == 0 && 
+            (p->p_state == PROC_DEAD || p->p_parent == NULL)) {
+            spinlock_release(&p->p_lock);
 
-                spinlock_release(&child->p_lock);
-
-                // Remove from our children array
-                array_remove(p->p_children, i);
-                i--; // Adjust index
-			}
-        }
-        
-        /* If self is DEAD, destroy self */
-        if (p->p_state == PROC_DEAD) {
-            spinlock_acquire(&pid_lock);
-            pid_table[pid_to_index(p->p_pid)].proc = NULL;
-            pid_count--;
-            spinlock_release(&pid_lock);
-            
+			/* Clean up process */
+			proc_remove_pid(p);
             proc_destroy(p);
+        } else {
+            spinlock_release(&p->p_lock);
         }
     }
 

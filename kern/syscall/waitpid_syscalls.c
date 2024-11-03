@@ -32,13 +32,14 @@ sys_waitpid(pid_t pid, userptr_t status, int options, int *retval)
     }
     
     /* Verify this is our child */
+    spinlock_acquire(&child->p_lock);
     if (child->p_parent != curproc) {
+        spinlock_release(&child->p_lock);
         return ECHILD;  /* Not a child of calling process */
     }
-    
-    spinlock_acquire(&child->p_lock);
+
     /* Wait for child to exit */
-    if (child->p_state != PROC_ZOMBIE) {
+    if (child->p_state == PROC_RUNNING) {
         spinlock_release(&child->p_lock);
         P(child->p_sem);
         spinlock_acquire(&child->p_lock);
@@ -46,6 +47,7 @@ sys_waitpid(pid_t pid, userptr_t status, int options, int *retval)
 
     /* Get exit status while holding the spinlock */
     exitcode = child->p_exitcode;
+    child->p_state = PROC_DEAD;
 
     spinlock_release(&child->p_lock);
 

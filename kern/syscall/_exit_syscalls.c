@@ -26,41 +26,50 @@ sys__exit(int exitcode)
     curproc->p_exitcode = _MKWAIT_EXIT(exitcode);
     curproc->p_state = PROC_ZOMBIE;
 
-    /* Signal parent if waiting */
-    V(curproc->p_sem);
-
     /* 
-     * If parent is kproc, mark as DEAD
+     * Handle children
+     * - zombies and dead children get cleaned up immediately,
+     * - running processes become orphans that clean themselves up
      */
-    if (curproc->p_parent == kproc) {
-        curproc->p_state = PROC_DEAD;
-    }
-
-    /*
-     * Mark all zombie children as DEAD and reassign live ones to kernel process.
-     */
-    struct proc *p;
+    struct proc *child;
     for (unsigned i = 0; i < array_num(curproc->p_children); i++) {
-        p = array_get(curproc->p_children, i);
-        spinlock_acquire(&p->p_lock);
+        child = array_get(curproc->p_children, i);
+        spinlock_acquire(&child->p_lock);
         
-        if (p->p_state == PROC_ZOMBIE) {
-            // If child process is already in zombie state, mark it as DEAD.
-            p->p_state = PROC_DEAD;
-        } else {
-            // If child process is still running, reassign it to kernel process.
-            p->p_parent = kproc;
-            
-            // Add to kproc's children list
-            spinlock_acquire(&kproc->p_lock);
-            KASSERT(array_add(kproc->p_children, p, NULL) == 0);
-            spinlock_release(&kproc->p_lock);
-        }
+        /* Clean up zombie or dead child immediately */
+        if (child->p_state == PROC_ZOMBIE || child->p_state == PROC_DEAD) {
+            child->p_state = PROC_DEAD;
+            spinlock_release(&child->p_lock);
 
-        spinlock_release(&p->p_lock);
+            /* Remove from children array */
+            array_remove(curproc->p_children, i);
+            i--;
+
+            spinlock_release(&curproc->p_lock);
+            /* Clean up the zombie or dead child */
+            proc_remove_pid(child);
+            proc_destroy(child);
+            spinlock_acquire(&curproc->p_lock);
+        } else {
+            /* Mark as orphaned - will self-cleanup when done */
+            child->p_parent = NULL;
+            spinlock_release(&child->p_lock);
+            
+            /* Remove from our children array */
+            array_remove(curproc->p_children, i);
+            i--;
+        }
     }
 
-    spinlock_release(&curproc->p_lock);
+    /* Signal parent if we have one, otherwise self-cleanup */
+    if (curproc->p_parent != NULL) {
+        spinlock_release(&curproc->p_lock);
+        V(curproc->p_sem);  // Wake up waiting parent
+    } else {
+        /* Orphaned process cleans itself up */
+        curproc->p_state = PROC_DEAD;
+        spinlock_release(&curproc->p_lock);
+    }
     
     thread_exit();
     

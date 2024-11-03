@@ -48,4 +48,9 @@ int pid_to_index(pid_t pid);
  */
 struct proc *pid_get_proc(pid_t pid);
 
+/* 
+ * Remove process from PID table. 
+ */
+void proc_remove_pid(struct proc *proc);
+
 #endif /* _PID_H_ */
