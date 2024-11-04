@@ -306,6 +306,9 @@ proc_create_runprogram(const char *name)
         return NULL;
     }
 
+	/* Set parent process for runprogram. */
+	newproc->p_parent = curproc;
+
 	/* VM fields */
 
 	newproc->p_addrspace = NULL;

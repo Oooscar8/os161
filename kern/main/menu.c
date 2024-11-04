@@ -115,6 +115,7 @@ common_prog(int nargs, char **args)
 {
 	struct proc *proc;
 	int result;
+	pid_t pid;
 
 #if OPT_SYNCHPROBS
 	kprintf("Warning: this probably won't work with a "
@@ -126,6 +127,9 @@ common_prog(int nargs, char **args)
 	if (proc == NULL) {
 		return ENOMEM;
 	}
+
+	/* Save the pid before we fork */
+    pid = proc->p_pid;
 
 	result = thread_fork(args[0] /* thread name */,
 			proc /* new process */,
@@ -141,6 +145,12 @@ common_prog(int nargs, char **args)
 	 * The new process will be destroyed when the program exits...
 	 * once you write the code for handling that.
 	 */
+	/* Wait for the subprogramto finish */
+    result = sys_waitpid(pid, NULL, 0, &result);
+    if (result) {
+        kprintf("waitpid failed: %s\n", strerror(result));
+        return result;
+    }
 
 	return 0;
 }

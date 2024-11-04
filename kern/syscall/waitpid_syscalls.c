@@ -51,6 +51,15 @@ sys_waitpid(pid_t pid, userptr_t status, int options, int *retval)
 
     spinlock_release(&child->p_lock);
 
+    if (curproc == kproc) {
+        /* 
+         * If we're the kernel, we do not exit, so we need to
+         * clean up the child process here.
+         */
+        proc_remove_pid(child);
+        proc_destroy(child);
+    }
+
     /* Now copy out exit status if requested */
     if (status != NULL) {
         int result = copyout(&exitcode, status, sizeof(int));

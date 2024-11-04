@@ -819,7 +819,7 @@ void thread_exit(void)
     /* 
      * Clean up process if:
      * 1. This is the last thread AND
-     * 2. Either:
+     * 2. One of the following is true:
      *    - Process is marked DEAD (normal case) OR
      *    - Process has no parent (orphaned case)
      */
