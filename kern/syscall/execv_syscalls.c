@@ -201,7 +201,7 @@ int sys_execv(const char *program, char **args) {
     enter_new_process(nargs,        
                      (userptr_t)stackptr,      
                      NULL,          
-                     stackptr,     
+                     stackptr - sizeof(vaddr_t),
                      entry_point); 
     
     panic("enter_new_process returned\n");
