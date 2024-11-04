@@ -74,6 +74,8 @@ struct proc {
 
 	struct semaphore *p_sem;      /* Process's semaphore for waiting */
 
+	struct cv *p_cv;              /* Process's condition variable for waiting */
+
 	int p_state;                  /* RUNNING/ZOMBIE/DEAD */
 
 	int p_exitcode;               /* Exit code from _exit() */

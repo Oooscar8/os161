@@ -38,7 +38,7 @@ void sys__exit(int exitcode)
         if (child->p_state == PROC_ZOMBIE || child->p_state == PROC_DEAD)
         {
             KASSERT(array_num(child->p_children) == 0);
-            
+
             child->p_state = PROC_DEAD;
 
             /* Remove from children array */
@@ -61,7 +61,7 @@ void sys__exit(int exitcode)
     /* Signal parent if we have one, otherwise self-cleanup */
     if (curproc->p_parent != NULL)
     {
-        V(curproc->p_sem); // Wake up waiting parent
+        cv_signal(curproc->p_cv, curproc->p_mutex); // Wake up waiting parent
     }
     else
     {

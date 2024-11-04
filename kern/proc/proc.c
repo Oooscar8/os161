@@ -109,6 +109,9 @@ proc_create(const char *name)
 	/* Semaphore for waiting */
 	proc->p_sem = sem_create("proc_sem", 0);
 
+	/* CV for waiting */
+	proc->p_cv = cv_create("proc_cv");
+
 	/* Process state fields */
     proc->p_state = PROC_RUNNING;
 
@@ -212,6 +215,7 @@ proc_destroy(struct proc *proc)
 	spinlock_cleanup(&proc->p_lock);
 	lock_destroy(proc->p_mutex);
 	sem_destroy(proc->p_sem);
+	cv_destroy(proc->p_cv);
 
 	kfree(proc->p_name);
 	kfree(proc);

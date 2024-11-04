@@ -39,10 +39,8 @@ sys_waitpid(pid_t pid, userptr_t status, int options, int *retval)
     }
 
     /* Wait for child to exit */
-    if (child->p_state == PROC_RUNNING) {
-        lock_release(child->p_mutex);
-        P(child->p_sem);
-        lock_acquire(child->p_mutex);
+    while (child->p_state == PROC_RUNNING) {
+        cv_wait(child->p_cv, child->p_mutex);
     }
 
     /* Get exit status while holding the lock */
