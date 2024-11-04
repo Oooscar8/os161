@@ -18,17 +18,24 @@ static int copyout_args(char **kargs, int nargs, vaddr_t *stackptr);
 static int count_args(char **args, size_t *nargs_ret, size_t *total_size_ret);
 
 /* Count the number of arguments and the total size of the arguments */
-static int
-count_args(char **args, size_t *nargs_ret, size_t *total_size_ret)
-{
+static int count_args(char **args, size_t *nargs_ret, size_t *total_size_ret) {
     size_t nargs = 0;
     size_t total_size = 0;
     int result;
-    
+    size_t len;
+
+    const size_t INITIAL_BUF_SIZE = 4096;
+    char *kbuf = kmalloc(INITIAL_BUF_SIZE);
+    if (kbuf == NULL) {
+        return ENOMEM;
+    }
+    size_t current_buf_size = INITIAL_BUF_SIZE;
+
     while (1) {
         char *arg_ptr;
         result = copyin((userptr_t)&args[nargs], &arg_ptr, sizeof(char *));
         if (result) {
+            kfree(kbuf);
             return result;
         }
 
@@ -37,19 +44,43 @@ count_args(char **args, size_t *nargs_ret, size_t *total_size_ret)
         }
 
         if (nargs >= ARG_MAX / sizeof(char *)) {
+            kfree(kbuf);
             return E2BIG;
         }
 
-        size_t len;
-        len = strlen(arg_ptr) + 1;
+        result = copyinstr((userptr_t)arg_ptr, kbuf, current_buf_size - total_size, &len);
         
+        if (result == ENAMETOOLONG && current_buf_size < ARG_MAX) {
+            char *new_buf = kmalloc(ARG_MAX);
+            if (new_buf == NULL) {
+                kfree(kbuf);
+                return ENOMEM;
+            }
+            kfree(kbuf);
+            kbuf = new_buf;
+            current_buf_size = ARG_MAX;
+            
+            result = copyinstr((userptr_t)arg_ptr, kbuf, ARG_MAX - total_size, &len);
+        }
+
+        if (result) {
+            if (result == ENAMETOOLONG) {
+                kfree(kbuf);
+                return E2BIG;
+            }
+            kfree(kbuf);
+            return result;
+        }
+
         if (len > ARG_MAX - total_size) {
+            kfree(kbuf);
             return E2BIG;
         }
         total_size += len;
         nargs++;
     }
 
+    kfree(kbuf);
 
     if (nargs == 0) {
         return EINVAL;
@@ -65,10 +96,10 @@ int sys_execv(const char *program, char **args) {
         return EFAULT;
     }
     
-    char *kprogram = kmalloc(PATH_MAX);
+    char kprogram[PATH_MAX];
     int result = copyinstr((userptr_t)program, kprogram, PATH_MAX, NULL);
     if (result) {
-        kfree(kprogram);
+        //kfree(kprogram);
         return result;
     }
     
@@ -77,7 +108,7 @@ int sys_execv(const char *program, char **args) {
     size_t total_size;
     result = count_args(args, &nargs, &total_size);
     if (result) {
-        kfree(kprogram);
+        //kfree(kprogram);
         return result;
     }
 
@@ -91,7 +122,7 @@ int sys_execv(const char *program, char **args) {
         size_t len;
         result = copyinstr((userptr_t)args[i], kargs[i], ARG_MAX - offset, &len);
         if (result) {
-            kfree(kprogram);
+            //kfree(kprogram);
             kfree(kargs);
             kfree(argbuf);
             return result;
@@ -103,7 +134,7 @@ int sys_execv(const char *program, char **args) {
     struct vnode *v;
     result = vfs_open(kprogram, O_RDONLY, 0, &v);
     if (result) {
-        kfree(kprogram);
+        //kfree(kprogram);
         kfree(kargs);
         kfree(argbuf);
         return result;
@@ -115,7 +146,7 @@ int sys_execv(const char *program, char **args) {
     new_as = as_create();
     if (new_as == NULL) {
         vfs_close(v);
-        kfree(kprogram);
+        //kfree(kprogram);
         kfree(kargs);
         kfree(argbuf);
         return result;
@@ -130,7 +161,7 @@ int sys_execv(const char *program, char **args) {
         as_activate();
         as_destroy(new_as);
         vfs_close(v);
-        kfree(kprogram);
+        //kfree(kprogram);
         kfree(kargs);
         kfree(argbuf);
         return result;
@@ -144,7 +175,7 @@ int sys_execv(const char *program, char **args) {
         proc_setas(old_as);
         as_activate();
         as_destroy(new_as);
-        kfree(kprogram);
+        //kfree(kprogram);
         kfree(kargs);
         kfree(argbuf);
         return result;
@@ -155,13 +186,13 @@ int sys_execv(const char *program, char **args) {
         proc_setas(old_as);
         as_activate();
         as_destroy(new_as);
-        kfree(kprogram);
+        //kfree(kprogram);
         kfree(kargs);
         kfree(argbuf);
         return result;
     }
     
-    kfree(kprogram);
+    //kfree(kprogram);
     kfree(kargs);
     kfree(argbuf);
 
