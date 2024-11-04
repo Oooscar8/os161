@@ -50,7 +50,7 @@ vfs_getcurdir(struct vnode **ret)
 {
 	int rv = 0;
 
-	lock_acquire(curproc->p_lock);
+	spinlock_acquire(&curproc->p_lock);
 	if (curproc->p_cwd!=NULL) {
 		VOP_INCREF(curproc->p_cwd);
 		*ret = curproc->p_cwd;
@@ -58,7 +58,7 @@ vfs_getcurdir(struct vnode **ret)
 	else {
 		rv = ENOENT;
 	}
-	lock_release(curproc->p_lock);
+	spinlock_release(&curproc->p_lock);
 
 	return rv;
 }
@@ -84,10 +84,10 @@ vfs_setcurdir(struct vnode *dir)
 
 	VOP_INCREF(dir);
 
-    lock_acquire(curproc->p_lock);
+	spinlock_acquire(&curproc->p_lock);
 	old = curproc->p_cwd;
 	curproc->p_cwd = dir;
-	lock_release(curproc->p_lock);
+	spinlock_release(&curproc->p_lock);
 
 	if (old!=NULL) {
 		VOP_DECREF(old);
@@ -104,10 +104,10 @@ vfs_clearcurdir(void)
 {
 	struct vnode *old;
 
-	lock_acquire(curproc->p_lock);
+	spinlock_acquire(&curproc->p_lock);
 	old = curproc->p_cwd;
 	curproc->p_cwd = NULL;
-	lock_release(curproc->p_lock);
+	spinlock_release(&curproc->p_lock);
 
 	if (old!=NULL) {
 		VOP_DECREF(old);

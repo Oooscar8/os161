@@ -19,7 +19,7 @@ void sys__exit(int exitcode)
     KASSERT(curproc != kproc); /* Kernel process cannot exit */
 
     /* Get the lock */
-    lock_acquire(curproc->p_lock);
+    lock_acquire(curproc->p_mutex);
 
     /* Set exit code and change state to zombie */
     curproc->p_exitcode = _MKWAIT_EXIT(exitcode);
@@ -69,7 +69,7 @@ void sys__exit(int exitcode)
         curproc->p_state = PROC_DEAD;
     }
 
-    lock_release(curproc->p_lock);
+    lock_release(curproc->p_mutex);
 
     thread_exit();
 

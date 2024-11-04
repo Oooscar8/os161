@@ -32,24 +32,24 @@ sys_waitpid(pid_t pid, userptr_t status, int options, int *retval)
     }
     
     /* Verify this is our child */
-    lock_acquire(child->p_lock);
+    lock_acquire(child->p_mutex);
     if (child->p_parent != curproc) {
-        lock_release(child->p_lock);
+        lock_release(child->p_mutex);
         return ECHILD;  /* Not a child of calling process */
     }
 
     /* Wait for child to exit */
     if (child->p_state == PROC_RUNNING) {
-        lock_release(child->p_lock);
+        lock_release(child->p_mutex);
         P(child->p_sem);
-        lock_acquire(child->p_lock);
+        lock_acquire(child->p_mutex);
     }
 
     /* Get exit status while holding the lock */
     exitcode = child->p_exitcode;
     child->p_state = PROC_DEAD;
 
-    lock_release(child->p_lock);
+    lock_release(child->p_mutex);
 
     if (curproc == kproc) {
         /* 

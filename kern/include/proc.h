@@ -53,7 +53,8 @@ struct vnode;
  */
 struct proc {
 	char *p_name;			/* Name of this process */
-	struct lock *p_lock;		/* Lock for this structure */
+	struct spinlock p_lock;		/* Lock for this structure */
+	struct lock *p_mutex;		/* Protects long-running operations like waitpid/_exit */
 	struct threadarray p_threads;	/* Threads in this process */
 
 	/* VM */

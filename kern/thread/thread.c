@@ -824,16 +824,16 @@ void thread_exit(void)
      *    - Process has no parent (orphaned case)
      */
     if (p != NULL) {
-		lock_acquire(p->p_lock);
+		lock_acquire(p->p_mutex);
         if (threadarray_num(&p->p_threads) == 0 && 
             (p->p_state == PROC_DEAD || p->p_parent == NULL)) {
-            lock_release(p->p_lock);
+            lock_release(p->p_mutex);
 
 			/* Clean up process */
 			proc_remove_pid(p);
             proc_destroy(p);
         } else {
-            lock_release(p->p_lock);
+            lock_release(p->p_mutex);
         }
     }
 

@@ -208,6 +208,8 @@ void lock_acquire(struct lock *lock)
         // Write this
 
         KASSERT(lock != NULL);
+        /* must not acquire the lock in an interrupt handler */
+        KASSERT(!curthread->t_in_interrupt);
 
         /* acquire the spinlock, protecting the lock and the wait channel */
         spinlock_acquire(&lock->lk_spinlock);
