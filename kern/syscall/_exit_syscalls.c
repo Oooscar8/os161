@@ -19,7 +19,7 @@ void sys__exit(int exitcode)
     KASSERT(curproc != kproc); /* Kernel process cannot exit */
 
     /* Get the lock */
-    spinlock_acquire(&curproc->p_lock);
+    lock_acquire(curproc->p_lock);
 
     /* Set exit code and change state to zombie */
     curproc->p_exitcode = _MKWAIT_EXIT(exitcode);
@@ -34,23 +34,19 @@ void sys__exit(int exitcode)
     while (array_num(curproc->p_children) > 0)
     {
         child = array_get(curproc->p_children, 0);
-        spinlock_acquire(&child->p_lock);
 
         if (child->p_state == PROC_ZOMBIE || child->p_state == PROC_DEAD)
         {
+            KASSERT(array_num(child->p_children) == 0);
+            
             child->p_state = PROC_DEAD;
 
             /* Remove from children array */
             array_remove(curproc->p_children, 0);
 
-            spinlock_release(&child->p_lock);
-            spinlock_release(&curproc->p_lock);
-
             /* Clean up the zombie/dead child */
             proc_remove_pid(child);
             proc_destroy(child);
-
-            spinlock_acquire(&curproc->p_lock);
         }
         else
         {
@@ -59,23 +55,21 @@ void sys__exit(int exitcode)
 
             /* Remove from children array */
             array_remove(curproc->p_children, 0);
-
-            spinlock_release(&child->p_lock);
         }
     }
 
     /* Signal parent if we have one, otherwise self-cleanup */
     if (curproc->p_parent != NULL)
     {
-        spinlock_release(&curproc->p_lock);
         V(curproc->p_sem); // Wake up waiting parent
     }
     else
     {
         /* Orphaned process cleans itself up */
         curproc->p_state = PROC_DEAD;
-        spinlock_release(&curproc->p_lock);
     }
+
+    lock_release(curproc->p_lock);
 
     thread_exit();
 
