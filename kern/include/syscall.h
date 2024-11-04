@@ -70,5 +70,6 @@ int sys_fork(struct trapframe *tf, pid_t *retval);
 int sys_getpid(pid_t *retval);
 int sys_waitpid(pid_t pid, userptr_t status, int options, int *retval);
 void sys__exit(int exitcode);
+int sys_execv(const_userptr_t program, userptr_t *args);
 
 #endif /* _SYSCALL_H_ */
