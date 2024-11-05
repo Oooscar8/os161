@@ -226,7 +226,7 @@ int sys_execv(const_userptr_t program, userptr_t *args)
         }
 
         /* Set the last pointer to NULL */
-        const_userptr_t null_val = 0;
+        void* null_val = NULL;
         result = copyout(&null_val, (userptr_t)(stackptr + nargs * sizeof(userptr_t)),
                          sizeof(userptr_t));
         if (result)
