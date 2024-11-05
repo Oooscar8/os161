@@ -236,7 +236,10 @@ enter_forked_process(struct trapframe *tf)
 	kfree(tf);
     
     // Child process returns 0 from fork()
-    child_tf.tf_v0 = 0;  
+    child_tf.tf_v0 = 0;
+
+	/* signal no error */ 
+	child_tf.tf_a3 = 0;  
     
     // Advance to next instruction
     child_tf.tf_epc += 4;
