@@ -55,7 +55,7 @@ int sys_execv(const_userptr_t program, userptr_t *args)
         while (true)
         {
             userptr_t arg;
-            result = copyin((const_userptr_t)args[nargs], arg, sizeof(userptr_t));
+            result = copyin((const_userptr_t)&args[nargs], &arg, sizeof(userptr_t));
             if (result)
             {
                 goto err1;
@@ -85,11 +85,10 @@ int sys_execv(const_userptr_t program, userptr_t *args)
 
         /* Calculate total bytes needed for strings */
         total_bytes = 0;
-        char *argstr;
         for (int i = 0; i < nargs; i++)
         {
             size_t len;
-            result = copyinstr((const_userptr_t)kargs[i], argstr, ARG_MAX, &len);
+            result = copyinstr((const_userptr_t)kargs[i], NULL, ARG_MAX, &len);
             if (result)
             {
                 goto err2;
@@ -135,7 +134,7 @@ int sys_execv(const_userptr_t program, userptr_t *args)
         goto err3;
     }
 
-    /* Step 4: Create new address space */
+    /* Create new address space */
     new_as = as_create();
     if (new_as == NULL)
     {
@@ -144,24 +143,22 @@ int sys_execv(const_userptr_t program, userptr_t *args)
         goto err3;
     }
 
-    /* Step 5: Switch to new address space */
+    /* Switch to new address space */
     old_as = proc_setas(new_as);
     as_activate();
 
-    /* Step 6: Load the executable */
+    /* Load the new executable */
     result = load_elf(v, &entrypoint);
+    vfs_close(v);
     if (result)
     {
         proc_setas(old_as);
         as_activate();
         as_destroy(new_as);
-        vfs_close(v);
         goto err3;
     }
 
-    vfs_close(v);
-
-    /* Step 7: Define the user stack */
+    /* Define the user stack */
     result = as_define_stack(new_as, &stackptr);
     if (result)
     {
@@ -171,48 +168,58 @@ int sys_execv(const_userptr_t program, userptr_t *args)
         goto err3;
     }
 
-    /* Step 8: Copy arguments to user stack */
+    /* Copy arguments to user stack */
     if (nargs > 0)
     {
-        vaddr_t stack_ptr = stackptr;
-        userptr_t *arg_ptrs;
-        userptr_t argv_ptr;
+        size_t ptrs_space = (nargs + 1) * sizeof(userptr_t); // +1 for NULL terminator
 
-        /* Allocate space for argument pointers */
-        stack_ptr -= (nargs + 1) * sizeof(userptr_t);
-        stack_ptr = ROUNDDOWN(stack_ptr, 8); // Ensure proper alignment
-        arg_ptrs = (userptr_t *)kmalloc((nargs + 1) * sizeof(userptr_t));
-        if (arg_ptrs == NULL)
-        {
-            result = ENOMEM;
-            proc_setas(old_as);
-            as_activate();
-            as_destroy(new_as);
-            goto err3;
-        }
-        argv_ptr = (userptr_t)stack_ptr;
+        /* Adjust stack pointer for strings */
+        stackptr -= total_bytes;
+        stackptr = ROUNDUP(stackptr - 7, 8);
 
-        /* Copy strings to user stack and build pointer array */
-        for (int i = nargs - 1; i >= 0; i--)
+        /* Remember where strings start */
+        vaddr_t strings_start = stackptr;
+
+        /* Copy strings and save their user-space addresses in kargs */
+        for (int i = 0; i < nargs; i++)
         {
-            size_t len = strlen(kargs[i]) + 1;
-            stack_ptr -= ROUNDUP(len, 4);
-            result = copyout(kargs[i], (userptr_t)stack_ptr, len);
+            size_t got;
+            /* Copy string to user stack */
+            result = copyoutstr((const char *)kargs[i], (userptr_t)stackptr, ARG_MAX, &got);
             if (result)
             {
-                kfree(arg_ptrs);
                 proc_setas(old_as);
                 as_activate();
                 as_destroy(new_as);
                 goto err3;
             }
-            arg_ptrs[i] = (userptr_t)stack_ptr;
+            /* Save user space address in kargs */
+            kargs[i] = (char *)stackptr;
+            stackptr += ROUNDUP(got, 4); // Move to next aligned position
         }
-        arg_ptrs[nargs] = NULL;
 
-        /* Copy argument pointer array */
-        result = copyout(arg_ptrs, argv_ptr, (nargs + 1) * sizeof(userptr_t));
-        kfree(arg_ptrs);
+        /* Adjust stack pointer for argv array */
+        stackptr = strings_start - ptrs_space;
+        stackptr = ROUNDUP(stackptr - 7, 8);
+
+        /* Copy out argv array */
+        for (int i = 0; i < nargs; i++)
+        {
+            result = copyout((const_userptr_t)kargs[i], (userptr_t)(stackptr + i * sizeof(userptr_t)),
+                             sizeof(userptr_t));
+            if (result)
+            {
+                proc_setas(old_as);
+                as_activate();
+                as_destroy(new_as);
+                goto err3;
+            }
+        }
+
+        /* Set the last pointer to NULL */
+        const_userptr_t null_ptr = NULL;
+        result = copyout(null_ptr, (userptr_t)(stackptr + nargs * sizeof(userptr_t)),
+                         sizeof(userptr_t));
         if (result)
         {
             proc_setas(old_as);
@@ -220,24 +227,21 @@ int sys_execv(const_userptr_t program, userptr_t *args)
             as_destroy(new_as);
             goto err3;
         }
-
-        /* Update stack pointer */
-        stackptr = (vaddr_t)argv_ptr;
     }
 
-    /* Step 9: Clean up old address space */
+    /* Clean up */
     as_destroy(old_as);
-    kfree(kprogram);
+    if (kprogram)
+        kfree(kprogram);
     if (kargs)
         kfree(kargs);
     if (kargbuf)
         kfree(kargbuf);
 
-    /* Step 10: Enter user mode */
-    enter_new_process(nargs /*argc*/, (userptr_t)stackptr /*userspace addr of argv*/,
-                      stackptr, entrypoint);
+    /* Enter user mode */
+    enter_new_process(nargs /*argc*/, (userptr_t)stackptr /*argv*/, NULL /*env*/, stackptr, entrypoint);
 
-    /* enter_new_process does not return */
+    /* Should not get here */
     panic("enter_new_process returned\n");
 
 err3:
