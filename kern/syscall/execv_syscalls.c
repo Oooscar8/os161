@@ -214,7 +214,7 @@ int sys_execv(const_userptr_t program, userptr_t *args)
         /* Copy out argv array */
         for (int i = 0; i < nargs; i++)
         {
-            result = copyout((const_userptr_t)kargs[i], (userptr_t)(stackptr + i * sizeof(userptr_t)),
+            result = copyout((const_userptr_t)&kargs[i], (userptr_t)(stackptr + i * sizeof(userptr_t)),
                              sizeof(userptr_t));
             if (result)
             {
