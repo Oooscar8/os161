@@ -145,7 +145,7 @@ common_prog(int nargs, char **args)
 	 * The new process will be destroyed when the program exits...
 	 * once you write the code for handling that.
 	 */
-	/* Wait for the subprogramto finish */
+	/* Wait for the subprogram to finish */
     result = sys_waitpid(pid, NULL, 0, &result);
     if (result) {
         kprintf("waitpid failed: %s\n", strerror(result));

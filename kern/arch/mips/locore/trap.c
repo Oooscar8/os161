@@ -39,6 +39,9 @@
 #include <vm.h>
 #include <mainbus.h>
 #include <syscall.h>
+#include <proc.h>
+#include <pid.h>
+#include <kern/wait.h>
 
 
 /* in exception-*.S */
@@ -114,7 +117,67 @@ kill_curthread(vaddr_t epc, unsigned code, vaddr_t vaddr)
 
 	kprintf("Fatal user mode trap %u sig %d (%s, epc 0x%x, vaddr 0x%x)\n",
 		code, sig, trapcodenames[code], epc, vaddr);
-	panic("I don't know how to handle this\n");
+	
+	KASSERT(curproc != NULL);
+    KASSERT(curproc != kproc); /* Kernel process cannot be killed */
+
+    /* Get the lock */
+    lock_acquire(curproc->p_mutex);
+
+    /* Set exit code for signal death and change state to zombie */
+    curproc->p_exitcode = _MKWAIT_SIG(sig);
+    curproc->p_state = PROC_ZOMBIE;
+
+    /*
+     * Handle children
+     * - zombies and dead children get cleaned up immediately,
+     * - running processes become orphans that clean themselves up
+     */
+    struct proc *child;
+    while (array_num(curproc->p_children) > 0)
+    {
+        child = array_get(curproc->p_children, 0);
+
+        if (child->p_state == PROC_ZOMBIE || child->p_state == PROC_DEAD)
+        {
+            KASSERT(array_num(child->p_children) == 0);
+
+            child->p_state = PROC_DEAD;
+
+            /* Remove from children array */
+            array_remove(curproc->p_children, 0);
+
+            /* Clean up the zombie/dead child */
+            proc_remove_pid(child);
+            proc_destroy(child);
+        }
+        else
+        {
+            /* Mark as orphaned - will self-cleanup when done */
+            child->p_parent = NULL;
+
+            /* Remove from children array */
+            array_remove(curproc->p_children, 0);
+        }
+    }
+
+    /* Signal parent if we have one, otherwise self-cleanup */
+    if (curproc->p_parent != NULL)
+    {
+        cv_signal(curproc->p_cv, curproc->p_mutex); // Wake up waiting parent
+    }
+    else
+    {
+        /* Orphaned process cleans itself up */
+        curproc->p_state = PROC_DEAD;
+    }
+
+    lock_release(curproc->p_mutex);
+
+    thread_exit();
+
+	/* Should never reach here */
+    panic("thread_exit returned in kill_curthread!\n");
 }
 
 /*
