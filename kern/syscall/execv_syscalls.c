@@ -65,40 +65,62 @@ int sys_execv(const_userptr_t program, userptr_t *args)
             nargs++;
         }
 
+        /* Allocate temporary array for user argument pointers */
+        userptr_t *user_args = kmalloc(nargs * sizeof(userptr_t));
+        if (user_args == NULL)
+        {
+            result = ENOMEM;
+            goto err1;
+        }
+
+        /* Copy the array of argument pointers from user space */
+        result = copyin((const_userptr_t)args, user_args, nargs * sizeof(char *));
+        if (result)
+        {
+            goto err1;
+        }
+
+        /* Calculate total bytes needed for strings */
+        total_bytes = 0;
+        /* Allocate a temporary buffer for measuring strings */
+        char *temp_buf = kmalloc(ARG_MAX);
+        if (temp_buf == NULL)
+        {
+            kfree(user_args);
+            result = ENOMEM;
+            goto err1;
+        }
+
+        for (int i = 0; i < nargs; i++)
+        {
+            size_t len;
+            result = copyinstr((const_userptr_t)(user_args[i]), temp_buf, ARG_MAX, &len);
+            if (result)
+            {
+                kfree(temp_buf);
+                kfree(user_args);
+                goto err1;
+            }
+            total_bytes += ROUNDUP(len, 4); // Align to 4 bytes
+        }
+        kfree(temp_buf);
+
         /* Allocate kernel args array */
         if (nargs > 0)
         {
             kargs = kmalloc(nargs * sizeof(char *));
             if (kargs == NULL)
             {
+                kfree(user_args);
                 result = ENOMEM;
                 goto err1;
             }
         }
 
-        /* Copy the array of argument pointers from user space */
-        result = copyin((const_userptr_t)args, kargs, nargs * sizeof(char *));
-        if (result)
-        {
-            goto err2;
-        }
-
-        /* Calculate total bytes needed for strings */
-        total_bytes = 0;
-        for (int i = 0; i < nargs; i++)
-        {
-            size_t len;
-            result = copyinstr((const_userptr_t)kargs[i], NULL, ARG_MAX, &len);
-            if (result)
-            {
-                goto err2;
-            }
-            total_bytes += ROUNDUP(len, 4); // Align to 4 bytes
-        }
-
         /* Check if total size exceeds ARG_MAX */
         if (total_bytes > ARG_MAX)
         {
+            kfree(user_args);
             result = E2BIG;
             goto err2;
         }
@@ -107,6 +129,7 @@ int sys_execv(const_userptr_t program, userptr_t *args)
         kargbuf = kmalloc(total_bytes);
         if (kargbuf == NULL)
         {
+            kfree(user_args);
             result = ENOMEM;
             goto err2;
         }
@@ -117,14 +140,16 @@ int sys_execv(const_userptr_t program, userptr_t *args)
         {
             size_t len;
             /* Copy string from user space */
-            result = copyinstr((const_userptr_t)kargs[i], bufptr, ARG_MAX, &len);
+            result = copyinstr((const_userptr_t)(user_args[i]), bufptr, ARG_MAX, &len);
             if (result)
             {
+                kfree(user_args);
                 goto err3;
             }
             kargs[i] = bufptr; /* Store pointer to string in kernel array */
             bufptr += ROUNDUP(len, 4);
         }
+        kfree(user_args);
     }
 
     /* Open the executable */
