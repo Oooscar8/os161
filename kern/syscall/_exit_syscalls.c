@@ -17,15 +17,17 @@ sys__exit(int exitcode)
         panic("Trying to exit the kernel process!\n");
     }
 
-    int exit_code = _MKWAIT_EXIT(exitcode);
-
-    DEBUG(DB_SYSCALL, "Process %d (_exit: %d)\n", 
-          curproc->p_pid, exit_code);
+     int exit_status;
+    
+    if (exitcode & 0x80) {  
+        int sig = (exitcode >> 8) & 0x7f;
+        exit_status = _MKWAIT_SIG(sig);
+    } else {
+        exit_status = _MKWAIT_EXIT(exitcode);
+    }
 
     struct proc *p = curproc;
-    //proc_remthread(curthread);
-    pid_free(p->p_pid, exit_code);
-    //pid_cleanup();
+    pid_free(p->p_pid, exit_status);
     thread_exit();
     panic("sys__exit returned\n");
 }
