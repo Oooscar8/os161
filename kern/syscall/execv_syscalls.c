@@ -86,25 +86,17 @@ int sys_execv(const_userptr_t program, userptr_t *args)
 
     /* Calculate total bytes needed for strings */
     total_bytes = 0;
-    char *temp_buf = kmalloc(ARG_MAX);
-    if (temp_buf == NULL)
-    {
-        result = ENOMEM;
-        goto err2;
-    }
-
     for (int i = 0; i < nargs; i++)
     {
         size_t len;
-        result = copyinstr((const_userptr_t)kargs[i], temp_buf, ARG_MAX, &len);
+        char temp_buf;
+        result = copyinstr((const_userptr_t)kargs[i], &temp_buf, ARG_MAX, &len);
         if (result)
         {
-            kfree(temp_buf);
             goto err2;
         }
         total_bytes += ROUNDUP(len, 4); // Align to 4 bytes
     }
-    kfree(temp_buf);
 
     /* Check if total size exceeds ARG_MAX */
     if (total_bytes > ARG_MAX)
