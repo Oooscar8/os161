@@ -21,7 +21,6 @@ int sys_write(int fd, const_userptr_t buf_ptr, size_t nbytes, int32_t *retval)
     struct filehandle *fh;
     struct iovec iov;
     struct uio u;
-    void *kbuf;
     int result;
 
     // Check if file descriptor is valid
@@ -54,35 +53,16 @@ int sys_write(int fd, const_userptr_t buf_ptr, size_t nbytes, int32_t *retval)
         return EBADF;
     }
 
-    // Handle zero-length write
-    if (nbytes == 0)
-    {
-        *retval = 0;
-        lock_release(fh->fh_lock);
-        return 0;
-    }
-
-    // Allocate kernel buffer
-    kbuf = kmalloc(nbytes);
-    KASSERT(kbuf != NULL);
-    // Copy data from user space to kernel space
-    result = copyin(buf_ptr, kbuf, nbytes);
-    if (result)
-    {
-        kfree(kbuf);
-        lock_release(fh->fh_lock);
-        return result;
-    }
-
     // Set up the uio structure
-    uio_kinit(&iov, &u, kbuf, nbytes, fh->offset, UIO_WRITE);
+    uio_kinit(&iov, &u, (void *)buf_ptr, nbytes, fh->offset, UIO_WRITE);
+    u.uio_segflg = UIO_USERSPACE;
+    u.uio_space = curproc->p_addrspace;
 
     // Perform the write operation
     result = VOP_WRITE(fh->vn, &u);
 
     if (result)
     {
-        kfree(kbuf);
         lock_release(fh->fh_lock);
         return result;
     }
@@ -93,9 +73,6 @@ int sys_write(int fd, const_userptr_t buf_ptr, size_t nbytes, int32_t *retval)
 
     // Release the lock for the file handle
     lock_release(fh->fh_lock);
-
-    // Free the kernel buffer
-    kfree(kbuf);
 
     return 0;
 }
