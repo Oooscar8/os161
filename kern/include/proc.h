@@ -64,7 +64,7 @@ struct proc {
 	struct vnode *p_cwd;		/* current working directory */
 
 	/* add more material here as needed */
-	struct filetable *p_filetable;      /* Pointer to the process's file table */
+	struct filetable *p_ft;		/* per-process file descriptor table */
 
 	pid_t p_pid;                  /* Process ID */
 

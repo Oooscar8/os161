@@ -1,63 +1,44 @@
 #include <types.h>
 #include <kern/errno.h>
 #include <kern/fcntl.h>
-#include <lib.h>
-#include <vfs.h>
-#include <current.h>
-#include <proc.h>
-#include <uio.h>
-#include <copyinout.h>
-#include <syscall.h>
-#include <kern/seek.h>
-#include <filetable.h>
-#include <limits.h>
-#include <vnode.h>
+#include <kern/limits.h>
 #include <kern/stat.h>
+#include <lib.h>
+#include <uio.h>
+#include <proc.h>
+#include <current.h>
+#include <vfs.h>
+#include <vnode.h>
+#include <copyinout.h>
+#include <limits.h>
+#include <syscall.h>
 
-/**
- * sys_chdir - change current directory of current process
- *
- *
- * Errors:
- * - ENOENT: the named directory does not exist
- * - EIO: a hard I/O error occurred while trying to change the current
- *   directory
- * - EFAULT: pathname was an invalid pointer
- * - EINVAL: pathname is not a valid path
- * - ENAMETOOLONG: the length of the pathname exceeded PATH_MAX
- * - ENOTDIR: a component of pathname is not a directory, or pathname is
- *   not a directory
- * - EPERM: the process does not have the ability to change its current
- *   directory (this is only possible if the process is running with
- *   privileges, and should never happen)
- */
-int sys_chdir(userptr_t pathname, int *retval)
+int
+sys_chdir(const_userptr_t pathname)
 {
-    char *kpathname;
     int result;
-    *retval = 0;
+    char *kpath;
 
-    kpathname = (char *)kmalloc(PATH_MAX);
-    if (kpathname == NULL)
-    {   
-        *retval = -1;
-        return ENOMEM;
-    }
+    // Allocate kernel buffer for the pathname
+    kpath = kmalloc(PATH_MAX);
+    KASSERT(kpath != NULL);
 
-    result = copyinstr((const_userptr_t)pathname, kpathname, PATH_MAX, NULL);
-    if (result)
-    {
-        *retval = -1;
-        kfree(kpathname);
-        return result;
-    }
-
-    result = vfs_chdir(kpathname);
+    // Copy the pathname from user space to kernel space
+    result = copyinstr(pathname, kpath, PATH_MAX, NULL);
     if (result) {
-        *retval = -1;
+        kfree(kpath);
         return result;
     }
 
-    kfree(kpathname);
+    // Do the actual directory change
+    result = vfs_chdir(kpath);
+
+    // Free the kernel buffer
+    kfree(kpath);
+
+    if (result) {
+        return result;
+    }
+
     return 0;
 }

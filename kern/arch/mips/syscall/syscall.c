@@ -38,7 +38,6 @@
 #include <copyinout.h>
 #include <addrspace.h>
 
-
 /*
  * System call dispatcher.
  *
@@ -77,12 +76,11 @@
  * stack, starting at sp+16 to skip over the slots for the
  * registerized values, with copyin().
  */
-void
-syscall(struct trapframe *tf)
+void syscall(struct trapframe *tf)
 {
 	int callno;
 	int32_t retval;
-	off_t retval64;
+	int64_t retval64;
 	int err;
 
 	KASSERT(curthread != NULL);
@@ -102,104 +100,104 @@ syscall(struct trapframe *tf)
 
 	retval = 0;
 	retval64 = 0;
-	int whence;
 
-	switch (callno) {
-	    case SYS_reboot:
+	switch (callno)
+	{
+	case SYS_reboot:
 		err = sys_reboot(tf->tf_a0);
 		break;
 
-	    case SYS___time:
+	case SYS___time:
 		err = sys___time((userptr_t)tf->tf_a0,
-				 (userptr_t)tf->tf_a1);
+						 (userptr_t)tf->tf_a1);
 		break;
 
-	    /* Add stuff here */
-		// Add a case for the open syscall
-		case SYS_open:
-		err = sys_open((userptr_t)tf->tf_a0, 
-				tf->tf_a1, tf->tf_a2, &retval);
+	/* Add stuff here */
+	case SYS_open:
+		err = sys_open((const_userptr_t)tf->tf_a0, tf->tf_a1, tf->tf_a2, &retval);
 		break;
-		
-		// Add a case for the close syscall
-		case SYS_close:
+
+	case SYS_close:
 		err = sys_close(tf->tf_a0);
 		break;
 
-		// Add a case for the read syscall
-		case SYS_read:
+	case SYS_write:
+		err = sys_write(tf->tf_a0, (const_userptr_t)tf->tf_a1, tf->tf_a2, &retval);
+		break;
+
+	case SYS_read:
 		err = sys_read(tf->tf_a0, (userptr_t)tf->tf_a1, tf->tf_a2, &retval);
 		break;
 
-		// Add a case for the write syscall
-		case SYS_write:
-		err = sys_write(tf->tf_a0, (userptr_t)tf->tf_a1, tf->tf_a2, &retval);
+	case SYS_lseek:
+	{
+		int whence;
+		err = copyin((const_userptr_t)(tf->tf_sp + 16), &whence, sizeof(int));
+		if (err)
+		{
+			break;
+		}
+		err = sys_lseek(tf->tf_a0, ((off_t)tf->tf_a2 << 32) | (off_t)tf->tf_a3, whence, &retval64);
 		break;
+	}
 
-		// Add a case for the lseek syscall
-		case SYS_lseek:
-		copyin((const_userptr_t)(tf->tf_sp + 16), &whence, sizeof(whence));
-		err = sys_lseek((int) tf->tf_a0, ((off_t) tf->tf_a2 << 32) | (off_t) tf->tf_a3, whence, &retval64);
-		break;
-
-		// Add a case for the chdir syscall
-		case SYS_chdir:
-		err = sys_chdir((userptr_t)tf->tf_a0, &retval);
-		break;
-
-		// Add a case for the dup2 syscall
-		case SYS_dup2:
+	case SYS_dup2:
 		err = sys_dup2(tf->tf_a0, tf->tf_a1, &retval);
 		break;
 
-		// Add a case for the getcwd syscall
-		case SYS___getcwd:
-		err = sys__getcwd((userptr_t)tf->tf_a0, tf->tf_a1, &retval);
+	case SYS_chdir:
+		err = sys_chdir((const_userptr_t)tf->tf_a0);
 		break;
 
-		case SYS_fork:
+	case SYS___getcwd:
+		err = sys___getcwd((userptr_t)tf->tf_a0, tf->tf_a1, &retval);
+		break;
+
+	case SYS_fork:
 		err = sys_fork(tf, (pid_t *)&retval);
 		break;
 
-		case SYS_getpid:
+	case SYS_getpid:
 		err = sys_getpid((pid_t *)&retval);
 		break;
 
-		case SYS_waitpid:
+	case SYS_waitpid:
 		err = sys_waitpid((pid_t)tf->tf_a0, (userptr_t)tf->tf_a1, tf->tf_a2, &retval);
 		break;
 
-		case SYS__exit:
+	case SYS__exit:
 		sys__exit(tf->tf_a0);
 		break;
 
-		case SYS_execv:
-		err = sys_execv((const_userptr_t)tf->tf_a0, (userptr_t*)tf->tf_a1);
+	case SYS_execv:
+		err = sys_execv((const_userptr_t)tf->tf_a0, (userptr_t *)tf->tf_a1);
 		break;
 
-	    default:
+	default:
 		kprintf("Unknown syscall %d\n", callno);
 		err = ENOSYS;
 		break;
 	}
 
-
-	if (err) {
+	if (err)
+	{
 		/*
 		 * Return the error code. This gets converted at
 		 * userlevel to a return value of -1 and the error
 		 * code in errno.
 		 */
 		tf->tf_v0 = err;
-		tf->tf_a3 = 1;      /* signal an error */
+		tf->tf_a3 = 1; /* signal an error */
 	}
-	else {
+	else
+	{
 		/* Success. */
 		tf->tf_v0 = retval;
-		tf->tf_a3 = 0;      /* signal no error */
-		if (callno == SYS_lseek) {
-			tf->tf_v0 = (retval64 >> 32);  
-			tf->tf_v1 = retval64;  
+		tf->tf_a3 = 0; /* signal no error */
+		if (callno == SYS_lseek)
+		{
+			tf->tf_v0 = retval64 >> 32;
+			tf->tf_v1 = retval64;
 		}
 	}
 
@@ -224,31 +222,30 @@ syscall(struct trapframe *tf)
  *
  * Thus, you can trash it and do things another way if you prefer.
  */
-void
-enter_forked_process(struct trapframe *tf)
+void enter_forked_process(struct trapframe *tf)
 {
 	(void)tf;
-	struct trapframe child_tf;  // create child's trapframe on the stack
+	struct trapframe child_tf; // create child's trapframe on the stack
 
 	// Copy trapframe to our kernel stack
 	child_tf = *tf;
 
 	kfree(tf);
-    
-    // Child process returns 0 from fork()
-    child_tf.tf_v0 = 0;
 
-	/* signal no error */ 
-	child_tf.tf_a3 = 0;  
-    
-    // Advance to next instruction
-    child_tf.tf_epc += 4;
+	// Child process returns 0 from fork()
+	child_tf.tf_v0 = 0;
 
-    // Activate child's address space
-    as_activate();
+	/* signal no error */
+	child_tf.tf_a3 = 0;
 
-    // Enter user mode with child's trapframe
-    mips_usermode(&child_tf);
+	// Advance to next instruction
+	child_tf.tf_epc += 4;
 
-    panic("enter_forked_process: mips_usermode returned\n");
+	// Activate child's address space
+	as_activate();
+
+	// Enter user mode with child's trapframe
+	mips_usermode(&child_tf);
+
+	panic("enter_forked_process: mips_usermode returned\n");
 }

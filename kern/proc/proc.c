@@ -90,10 +90,11 @@ proc_create(const char *name)
 	proc->p_cwd = NULL;
 
 	/* Initialize the file table */
-	proc->p_filetable = filetable_create();
-	if (proc->p_filetable == NULL) {
+	proc->p_ft = filetable_create();
+	if (proc->p_ft == NULL) {
 		kfree(proc->p_name);
 		kfree(proc);
+		lock_destroy(proc->p_mutex);
 		return NULL;
 	}
 
@@ -202,8 +203,8 @@ proc_destroy(struct proc *proc)
 	}
 
 	/* Free the file table */
-	if (proc->p_filetable) {
-		filetable_destroy(proc->p_filetable);
+	if (proc->p_ft) {
+		filetable_destroy(proc->p_ft);
 	}
 
 	/* Free the children array */
@@ -250,8 +251,8 @@ proc_create_fork(const char *name)
     newproc->p_addrspace = NULL;
 	
 	/* Copy file table from parent process. */
-    newproc->p_filetable = filetable_copy(curproc->p_filetable);
-    if (newproc->p_filetable == NULL)
+    newproc->p_ft = filetable_copy(curproc->p_ft);
+    if (newproc->p_ft == NULL)
     {
         proc_destroy(newproc);
         return NULL;
@@ -304,11 +305,7 @@ proc_create_runprogram(const char *name)
 		return NULL;
 	}
 
-	/* file handles 0 (STDIN_FILENO), 1 (STDOUT_FILENO), and 2 (STDERR_FILENO) initialization*/
-	if (filetable_init_standard(newproc->p_filetable) != 0) {
-		proc_destroy(newproc);
-		return NULL;
-	}
+	filetable_stdio_init(newproc->p_ft);
 
 	/* Allocate PID */
     newproc->p_pid = pid_allocate(newproc);
