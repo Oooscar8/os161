@@ -45,12 +45,14 @@
 
 bool vm_initialized = false;
 static struct spinlock stealmem_lock = SPINLOCK_INITIALIZER;
+static struct spinlock alloc_lock = SPINLOCK_INITIALIZER;
+
 
 void vm_bootstrap(void)
 {
-	pmm_init();
 	pagetable_bootstrap();
 	pagetable_init();
+	pmm_init();
 	vm_initialized = true;
 }
 
@@ -68,11 +70,16 @@ getppages(unsigned long npages)
 	else
 	{
 		KASSERT(npages == 1);
-		return pmm_alloc_page();
+		spinlock_acquire(&alloc_lock);
+		paddr_t addr = pmm_alloc_page();
+		spinlock_release(&alloc_lock);
+		if (addr == 0) {
+			panic("out of memory\n");
+		}
+		return addr;
 	}
 }
 
-/* Allocate/free some kernel-space virtual pages */
 vaddr_t
 alloc_kpages(unsigned npages)
 {
@@ -89,8 +96,15 @@ alloc_kpages(unsigned npages)
 	else
 	{
 		KASSERT(npages == 1);
+		spinlock_acquire(&alloc_lock);
 		vaddr_t va = vaa_alloc_kpage();
+		KASSERT(va %PAGE_SIZE == 0);
+		KASSERT(pa %PAGE_SIZE == 0);
 		pte_map(kernel_pt, va, pa, PTE_WRITE);
+		
+		//zero out the page
+    	memset((void *)va, 0, PAGE_SIZE);
+		spinlock_release(&alloc_lock);
 		return va;
 	}
 }
@@ -102,12 +116,15 @@ void free_kpages(vaddr_t addr)
 	{
 		return;
 	}
-	else
-	{
+	else if (addr >= MIPS_KSEG2)
+	{	
+		spinlock_acquire(&alloc_lock);
 		vaa_free_kpage(addr);
+		tlb_invalidate(addr);
 		paddr_t paddr = pagetable_translate(kernel_pt, addr, NULL);
 		pte_unmap(kernel_pt, addr);
 		pmm_free_page(paddr);
+		spinlock_release(&alloc_lock);
 	}
 }
 
@@ -171,3 +188,55 @@ int vm_fault(int faulttype, vaddr_t faultaddress)
 	splx(spl);
 	return EFAULT;
 }
+
+
+// /* 跟踪最老的TLB条目的索引 */
+// static uint32_t tlb_next_victim = 0;
+
+// /* 
+//  * 从TLB中查找空闲条目
+//  * 返回找到的索引,如果没有空闲条目则返回-1
+//  */
+// static int
+// tlb_find_empty(void) 
+// {
+//     int i;
+//     uint32_t entryhi, entrylo;
+
+//     for (i = 0; i < NUM_TLB; i++) {
+//         tlb_read(&entryhi, &entrylo, i);
+//         if (entrylo & TLBLO_VALID) {
+//             continue;
+//         }
+//         return i;
+//     }
+//     return -1;
+// }
+
+// /*
+//  * 将虚拟地址和物理页帧映射写入TLB
+//  * 如果TLB已满,执行FIFO替换
+//  */
+// int
+// tlb_insert(vaddr_t vaddr, paddr_t paddr)
+// {
+//     uint32_t ehi, elo;
+//     int i;
+
+//     /* 制作TLB条目 */
+//     ehi = vaddr & TLBHI_VPAGE;
+//     elo = (paddr & TLBLO_PPAGE) | TLBLO_VALID;
+
+//     /* 查找空闲TLB条目 */
+//     i = tlb_find_empty();
+    
+//     if (i < 0) {
+//         /* TLB已满 - 使用FIFO替换 */
+//         i = tlb_next_victim;
+//         tlb_next_victim = (tlb_next_victim + 1) % NUM_TLB;
+//     }
+
+//     /* 写入新的TLB条目 */
+//     tlb_write(ehi, elo, i);
+//     return 0;
+// }

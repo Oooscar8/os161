@@ -106,7 +106,7 @@ paddr_t pmm_alloc_page(void)
     addr = base_addr + (page_index * PAGE_SIZE);
 
     /* Release the lock */
-    spinlock_release(&pmm_lock);
+   spinlock_release(&pmm_lock);
 
     return addr;
 }
@@ -159,15 +159,18 @@ int pmm_free_page(paddr_t addr)
 
     /* Verify the address is page-aligned */
     if ((addr & PAGE_FRAME) != addr) {
+        panic("pmm_free_page: invalid address\n");
         return EINVAL;
     }
 
     /* Calculate page index */
     if (addr < base_addr) {
+        panic("pmm_free_page: address out of range\n");
         return EINVAL;
     }
     page_index = (addr - base_addr) / PAGE_SIZE;
     if (page_index >= total_pages) {
+        panic("pmm_free_page: address out of range\n");
         return EINVAL;
     }
 
@@ -177,6 +180,7 @@ int pmm_free_page(paddr_t addr)
     /* Check if page is already free */
     if (!BITMAP_TEST(bitmap, page_index)) {
         spinlock_release(&pmm_lock);
+        panic("pmm_free_page: page already free\n");
         return EINVAL;
     }
 

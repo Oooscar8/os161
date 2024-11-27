@@ -16,17 +16,6 @@
 #include <mips/tlb.h>
 #include <pmm.h>
 
-/* Static helper functions */
-static struct pte *pte_alloc(void) {
-    /* Allocate a page for PTEs */
-    struct pte *pte_page = (struct pte *)kmalloc(PAGE_SIZE);
-    if (pte_page == NULL) {
-        return NULL;
-    }
-    /* Zero out the new page table */
-    bzero(pte_page, PAGE_SIZE);
-    return pte_page;
-}
 
 static void pte_free(struct pte *pte) {
     kfree(pte);
@@ -130,7 +119,7 @@ int pte_map(struct page_table *pt, vaddr_t vaddr, paddr_t paddr, uint32_t flags)
         return PT_ALIGN;
     }
 
-    //spinlock_acquire(&pt->pt_lock);
+    spinlock_acquire(&pt->pt_lock);
 
     /* Get the page directory entry */
     pde = &pt->pgdir[pde_index];
@@ -166,7 +155,9 @@ int pte_map(struct page_table *pt, vaddr_t vaddr, paddr_t paddr, uint32_t flags)
                 elo = pde_paddr | TLBLO_DIRTY | TLBLO_VALID;
                 tlb_write(ehi, elo, i);
                 splx(spl);
+                spinlock_release(&pt->pt_lock);
                 pte_map(pt, vaddr, paddr, flags);
+                spinlock_acquire(&pt->pt_lock);
                 flag = 1;
                 break;
             }
@@ -176,19 +167,7 @@ int pte_map(struct page_table *pt, vaddr_t vaddr, paddr_t paddr, uint32_t flags)
                 panic("No TLB entry available\n");
             }
             
-        } else {
-            pte_page = pte_alloc();
-            if (pte_page == NULL) {
-                //spinlock_release(&pt->pt_lock);
-                return PT_NOMEM;
-            }
-        
-            pde->pt_pfn = (vaddr_t)pte_page >> PAGE_SHIFT;
-            pde->valid = 1;
-            pde->write = !!(flags & PTE_WRITE);
-            pde->user = !!(flags & PTE_USER);
         }
-        
     }
 
     /* Get the page table */
@@ -197,7 +176,7 @@ int pte_map(struct page_table *pt, vaddr_t vaddr, paddr_t paddr, uint32_t flags)
 
     /* Check if already mapped */
     if (pte->valid) {
-        //spinlock_release(&pt->pt_lock);
+        spinlock_release(&pt->pt_lock);
         return PT_PRESENT;
     }
 
@@ -210,10 +189,8 @@ int pte_map(struct page_table *pt, vaddr_t vaddr, paddr_t paddr, uint32_t flags)
     pte->dirty = 0;
     pte->accessed = 0;
 
-    /* Flush TLB */
-    //tlb_invalidate(pt, vaddr);
+    spinlock_release(&pt->pt_lock);
 
-    //spinlock_release(&pt->pt_lock);
     return PT_OK;
 }
 
@@ -224,6 +201,7 @@ int pte_unmap(struct page_table *pt, vaddr_t vaddr) {
     struct pte *pte;
     
     /* Get the page directory entry */
+    spinlock_acquire(&pt->pt_lock);
     pde = &pt->pgdir[PDE_INDEX(vaddr)];
     if (!pde->valid) {
         return PT_NOTPRESENT;
@@ -240,32 +218,12 @@ int pte_unmap(struct page_table *pt, vaddr_t vaddr) {
 
     /* Remove mapping */
     pte->valid = 0;
+    spinlock_release(&pt->pt_lock);
     
     /* Flush TLB */
-    tlb_invalidate(pt, vaddr);
+    tlb_invalidate(vaddr);
 
     return PT_OK;
-}
-
-/* Get PTE entry for a virtual address */
-struct pte *pte_get(struct page_table *pt, vaddr_t vaddr) {
-    struct pde *pde;
-    struct pte *pte_page;
-    
-    //spinlock_acquire(&pt->pt_lock);
-
-    /* Get page directory entry */
-    pde = &pt->pgdir[PDE_INDEX(vaddr)];
-    if (!pde->valid) {
-        //spinlock_release(&pt->pt_lock);
-        return NULL;
-    }
-
-    /* Get page table */
-    pte_page = (struct pte *)(pde->pt_pfn << PAGE_SHIFT);
-    
-    /* Return PTE */
-    return &pte_page[PTE_INDEX(vaddr)];
 }
 
 /* Translate virtual to physical address */
@@ -274,13 +232,16 @@ paddr_t pagetable_translate(struct page_table *pt, vaddr_t vaddr, uint32_t *flag
     struct pde *pde;
     
     /* Get page directory entry */
+    //spinlock_acquire(&pt->pt_lock);
     pde = &pt->pgdir[PDE_INDEX(vaddr)];
     if (!pde->valid) {
+        spinlock_release(&pt->pt_lock);
         return PT_NOTPRESENT;
     }
 
     /* Get page table */
     pte = (struct pte *)(pde->pt_pfn << PAGE_SHIFT);
+    pte = &pte[PTE_INDEX(vaddr)];
     
     if (pte == NULL || !pte->valid) {
         if (flags) *flags = 0;
@@ -294,7 +255,9 @@ paddr_t pagetable_translate(struct page_table *pt, vaddr_t vaddr, uint32_t *flag
         if (pte->nocache) *flags |= PTE_NOCACHE;
     }
 
-    return (pte->pfn << PAGE_SHIFT) | (vaddr & PAGE_MASK);
+    paddr_t ret = (pte->pfn << PAGE_SHIFT) | (vaddr & PAGE_MASK);
+    //spinlock_release(&pt->pt_lock);
+    return ret;
 }
 
 /* Map a contiguous region */
@@ -318,20 +281,22 @@ int pagetable_map_region(struct page_table *pt, vaddr_t vaddr,
     return PT_OK;
 }
 
-void tlb_invalidate(struct page_table *pt, vaddr_t vaddr) 
+void
+tlb_invalidate(vaddr_t vaddr) 
 {
-    (void)pt; 
-    
-    uint32_t entryhi, entrylo;
-    int index;
-    
-    entryhi = vaddr & TLBHI_VPAGE;
-    entrylo = 0;  
-    
-    index = tlb_probe(entryhi, entrylo);
-    
-    if (index >= 0) {
-        tlb_write(TLBHI_INVALID(index), TLBLO_INVALID(), index);
+    int spl;
+    spl = splhigh();
+    uint32_t ehi, elo;
+    int i;
+
+    for (i = 0; i < NUM_TLB; i++) {
+        tlb_read(&ehi, &elo, i);
+        if ((ehi & TLBHI_VPAGE) == (vaddr & TLBHI_VPAGE)) {
+            tlb_write(TLBHI_INVALID(i), 0, i);
+            splx(spl);
+            return;
+            
+        }
     }
 }
 

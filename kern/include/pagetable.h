@@ -75,7 +75,7 @@ struct pde {
     uint32_t write:1;      /* Write permission */
     uint32_t user:1;       /* User mode access */
     uint32_t _reserved:9;  /* Reserved */
-    uint32_t pt_pfn:20;    /* Page table physical frame number */
+    uint32_t pt_pfn:20;    /* Page table virtual addr */
 };
 
 /*
@@ -238,10 +238,9 @@ int pagetable_check_access(struct page_table *pt, vaddr_t vaddr, uint32_t prot);
 /**
  * Invalidate TLB entry for a virtual address.
  * 
- * @param pt: Page table containing address
  * @param vaddr: Virtual address to invalidate
  */
-void tlb_invalidate(struct page_table *pt, vaddr_t vaddr);
+void tlb_invalidate(vaddr_t vaddr);
 
 /**
  * Invalidate all TLB entries.
@@ -262,15 +261,6 @@ void tlb_invalidate_asid(unsigned int asid);
  * @param vaddr: Virtual address to update
  */
 void tlb_update(struct page_table *pt, vaddr_t vaddr);
-
-/**
- * Check if virtual address is in TLB.
- * 
- * @param vaddr: Virtual address to check
- * @param asid: Address space ID to check
- * @return: TLB index if found, -1 if not in TLB
- */
-int tlb_probe(vaddr_t vaddr, unsigned int asid);
 
 /*
  * Memory Region Operations
