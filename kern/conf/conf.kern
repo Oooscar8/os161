@@ -345,8 +345,14 @@ file filetable/filetable.c
 #
 
 file      vm/kmalloc.c
+file      vm/vm.c
+file      vm/addrspace.c
+file      vm/pmm.c 
+file      vm/vaa.c 
+file      vm/pagetable.c
+# file      vm/tlb.c
 
-optofffile dumbvm   vm/addrspace.c
+# optofffile dumbvm   vm/addrspace.c
 
 #
 # Network
