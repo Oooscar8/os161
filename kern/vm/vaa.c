@@ -19,9 +19,9 @@
 #define BITMAP_TEST(bitmap, bit)  ((bitmap)[WORD_OFFSET(bit)] & (1UL << BIT_OFFSET(bit)))
 
 /* Global state */
-static unsigned long *kernel_bitmap = NULL;  /* Bitmap for kernel pages */
-static size_t kernel_total_pages = 0;       /* Total pages in kernel space */
-static size_t kernel_free_pages = 0;        /* Number of free kernel pages */
+static volatile unsigned long *volatile kernel_bitmap = NULL;  /* Bitmap for kernel pages */
+static volatile size_t kernel_total_pages = 0;       /* Total pages in kernel space */
+static volatile size_t kernel_free_pages = 0;        /* Number of free kernel pages */
 static struct spinlock vaa_lock; /* Lock for VAA operations */
 
 /* Internal functions */
@@ -43,7 +43,7 @@ static void init_kernel_region(void)
     }
 
     /* Initialize bitmap - clear all bits (0 = free, 1 = allocated) */
-    memset(kernel_bitmap, 0, bitmap_size);
+    //memset(kernel_bitmap, 0, bitmap_size);
 }
 
 /* Find first fit of n continuous free pages */

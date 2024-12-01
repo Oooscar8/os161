@@ -73,7 +73,8 @@ getppages(unsigned long npages)
 		spinlock_acquire(&alloc_lock);
 		paddr_t addr = pmm_alloc_page();
 		spinlock_release(&alloc_lock);
-		if (addr == 0) {
+		if (addr == 0)
+		{
 			panic("out of memory\n");
 		}
 		return addr;
@@ -98,29 +99,28 @@ alloc_kpages(unsigned npages)
 		KASSERT(npages == 1);
 		spinlock_acquire(&alloc_lock);
 		vaddr_t va = vaa_alloc_kpage();
-		KASSERT(va %PAGE_SIZE == 0);
-		KASSERT(pa %PAGE_SIZE == 0);
-		pte_map(kernel_pt, va, pa, PTE_WRITE);
 		
-		//zero out the page
-    	memset((void *)va, 0, PAGE_SIZE);
+		pte_map(kernel_pt, va, pa, PTE_WRITE);
+
+		// zero out the page
+		memset((void *)va, 0, PAGE_SIZE);
 		spinlock_release(&alloc_lock);
+		KASSERT(va >= MIPS_KSEG2);
 		return va;
 	}
 }
 
 void free_kpages(vaddr_t addr)
-{	
-	//not free pages allocated by ram_stealmem
+{
+	// not free pages allocated by ram_stealmem
 	if (!vm_initialized || (addr >= MIPS_KSEG0 && addr < MIPS_KSEG1))
 	{
 		return;
 	}
 	else if (addr >= MIPS_KSEG2)
-	{	
+	{
 		spinlock_acquire(&alloc_lock);
 		vaa_free_kpage(addr);
-		tlb_invalidate(addr);
 		paddr_t paddr = pagetable_translate(kernel_pt, addr, NULL);
 		pte_unmap(kernel_pt, addr);
 		pmm_free_page(paddr);
@@ -128,25 +128,10 @@ void free_kpages(vaddr_t addr)
 	}
 }
 
-void vm_tlbshootdown_all(void)
-{
-	panic("dumbvm tried to do tlb shootdown?!\n");
-}
-
-void vm_tlbshootdown(const struct tlbshootdown *ts)
-{
-	(void)ts;
-	panic("dumbvm tried to do tlb shootdown?!\n");
-}
-
 int vm_fault(int faulttype, vaddr_t faultaddress)
 {
 	paddr_t paddr;
-	if (faultaddress >= MIPS_KSEG0 && faultaddress < MIPS_KSEG1)
-	{
-		paddr = faultaddress - MIPS_KSEG0;
-	}
-	if (faultaddress >= MIPS_KSEG2 )
+	if (faultaddress >= MIPS_KSEG2)
 	{
 		uint32_t flags;
 		paddr = pagetable_translate(kernel_pt, faultaddress, &flags);
@@ -163,80 +148,6 @@ int vm_fault(int faulttype, vaddr_t faultaddress)
 			}
 		}
 	}
-
-	uint32_t ehi, elo;
-	int i, spl;
-
-	spl = splhigh();
-
-	for (i = 0; i < NUM_TLB; i++)
-	{
-		tlb_read(&ehi, &elo, i);
-		if (elo & TLBLO_VALID)
-		{
-			continue;
-		}
-		ehi = faultaddress;
-		elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
-		DEBUG(DB_VM, "dumbvm: 0x%x -> 0x%x\n", faultaddress, paddr);
-		tlb_write(ehi, elo, i);
-		splx(spl);
-		return 0;
-	}
-
-	kprintf("dumbvm: Ran out of TLB entries - cannot handle page fault\n");
-	splx(spl);
-	return EFAULT;
+	
+	return tlb_write_entry(paddr, faultaddress);
 }
-
-
-// /* 跟踪最老的TLB条目的索引 */
-// static uint32_t tlb_next_victim = 0;
-
-// /* 
-//  * 从TLB中查找空闲条目
-//  * 返回找到的索引,如果没有空闲条目则返回-1
-//  */
-// static int
-// tlb_find_empty(void) 
-// {
-//     int i;
-//     uint32_t entryhi, entrylo;
-
-//     for (i = 0; i < NUM_TLB; i++) {
-//         tlb_read(&entryhi, &entrylo, i);
-//         if (entrylo & TLBLO_VALID) {
-//             continue;
-//         }
-//         return i;
-//     }
-//     return -1;
-// }
-
-// /*
-//  * 将虚拟地址和物理页帧映射写入TLB
-//  * 如果TLB已满,执行FIFO替换
-//  */
-// int
-// tlb_insert(vaddr_t vaddr, paddr_t paddr)
-// {
-//     uint32_t ehi, elo;
-//     int i;
-
-//     /* 制作TLB条目 */
-//     ehi = vaddr & TLBHI_VPAGE;
-//     elo = (paddr & TLBLO_PPAGE) | TLBLO_VALID;
-
-//     /* 查找空闲TLB条目 */
-//     i = tlb_find_empty();
-    
-//     if (i < 0) {
-//         /* TLB已满 - 使用FIFO替换 */
-//         i = tlb_next_victim;
-//         tlb_next_victim = (tlb_next_victim + 1) % NUM_TLB;
-//     }
-
-//     /* 写入新的TLB条目 */
-//     tlb_write(ehi, elo, i);
-//     return 0;
-// }

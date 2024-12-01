@@ -90,19 +90,6 @@ struct page_table {
     unsigned int asid;          /* Address space ID for TLB */
 };
 
-/* 
- * TLB Entry Structure
- */
-struct tlb_entry {
-    vaddr_t vaddr;      /* Virtual address */
-    paddr_t paddr;      /* Physical address */
-    uint32_t valid:1;   /* Valid bit */
-    uint32_t dirty:1;   /* Dirty bit */
-    uint32_t nocache:1; /* No cache bit */
-    uint32_t asid:8;    /* Address space ID */
-    uint32_t user:1;    /* User mode access */
-};
-
 struct page_table *kernel_pt;
 
 /*
@@ -186,15 +173,6 @@ int pte_map(struct page_table *pt, vaddr_t vaddr, paddr_t paddr, uint32_t flags)
  */
 int pte_unmap(struct page_table *pt, vaddr_t vaddr);
 
-/**
- * Get PTE entry for a virtual address.
- * 
- * @param pt: Page table to search
- * @param vaddr: Virtual address to lookup
- * @return: Pointer to PTE if found, NULL if not mapped
- * @note: Returns with page table lock held
- */
-struct pte *pte_get(struct page_table *pt, vaddr_t vaddr);
 
 /**
  * Modify protection flags for an existing mapping.
@@ -230,37 +208,6 @@ paddr_t pagetable_translate(struct page_table *pt, vaddr_t vaddr, uint32_t *flag
  * @return: 0 if access allowed, error code if not
  */
 int pagetable_check_access(struct page_table *pt, vaddr_t vaddr, uint32_t prot);
-
-/*
- * TLB Management Functions 
- */
-
-/**
- * Invalidate TLB entry for a virtual address.
- * 
- * @param vaddr: Virtual address to invalidate
- */
-void tlb_invalidate(vaddr_t vaddr);
-
-/**
- * Invalidate all TLB entries.
- */
-void tlb_invalidate_all(void);
-
-/**
- * Invalidate all TLB entries for given ASID.
- * 
- * @param asid: Address space ID to invalidate
- */
-void tlb_invalidate_asid(unsigned int asid);
-
-/**
- * Update TLB entry for a virtual address.
- * 
- * @param pt: Page table containing mapping
- * @param vaddr: Virtual address to update
- */
-void tlb_update(struct page_table *pt, vaddr_t vaddr);
 
 /*
  * Memory Region Operations

@@ -6,7 +6,7 @@
 #include <kern/errno.h>
 
 /* Global variables */
-static unsigned long *bitmap;     /* Bitmap array */
+static volatile unsigned long *volatile bitmap;     /* Bitmap array */
 static struct spinlock pmm_lock;  /* Lock for PMM operations */
 static size_t total_pages;        /* Total number of pages */
 static size_t free_pages;         /* Number of free pages */
@@ -33,6 +33,8 @@ int pmm_init(void)
     last_addr = ram_getsize();
     base_addr = ram_getfirstfree();
 
+    base_addr = ROUNDUP(base_addr, PAGE_SIZE);
+
     /* Calculate total number of pages */
     total_pages = (last_addr - base_addr) / PAGE_SIZE;
     free_pages = total_pages;
@@ -52,7 +54,7 @@ int pmm_init(void)
     }
 
     /* Initialize bitmap - clear all bits (0 = free, 1 = allocated) */
-    memset(bitmap, 0, bitmap_size);
+    //memset(bitmap, 0, bitmap_size);
 
     return 0;
 }

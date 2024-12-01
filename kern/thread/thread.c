@@ -34,6 +34,7 @@
 #define THREADINLINE
 
 #include <types.h>
+#include <pmm.h>
 #include <kern/errno.h>
 #include <lib.h>
 #include <array.h>
@@ -53,7 +54,6 @@
 #include <pid.h>
 
 #include "opt-synchprobs.h"
-
 
 /* Magic number used as a guard value on kernel thread stacks. */
 #define THREAD_STACK_MAGIC 0xbaadf00d
@@ -160,6 +160,21 @@ thread_create(const char *name)
 
 	return thread;
 }
+
+void flush_tlb(struct  tlbshootdown *mapping)
+{	
+	int spl = splhigh();
+	struct cpu *c;
+	for (unsigned int i = 0; i < cpuarray_num(&allcpus); i++) {
+		c = cpuarray_get(&allcpus, i);
+		if (c != curcpu) {
+			ipi_tlbshootdown(c, mapping);
+		}
+	}
+	splx(spl);
+
+}
+
 
 /*
  * Create a CPU structure. This is used for the bootup CPU and
@@ -651,6 +666,7 @@ thread_switch(threadstate_t newstate, struct wchan *wc, struct spinlock *lk)
 		}
 	} while (next == NULL);
 	curcpu->c_isidle = false;
+	thread_checkstack(next);
 
 	/*
 	 * Note that curcpu->c_curthread may be the same variable as
@@ -1193,7 +1209,7 @@ void
 interprocessor_interrupt(void)
 {
 	uint32_t bits;
-	int i;
+	//int i;
 
 	spinlock_acquire(&curcpu->c_ipi_lock);
 	bits = curcpu->c_ipi_pending;
@@ -1226,7 +1242,7 @@ interprocessor_interrupt(void)
 			vm_tlbshootdown_all();
 		}
 		else {
-			for (i=0; i<curcpu->c_numshootdown; i++) {
+			for (int i=0; i<curcpu->c_numshootdown; i++) {
 				vm_tlbshootdown(&curcpu->c_shootdown[i]);
 			}
 		}

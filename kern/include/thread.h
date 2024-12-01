@@ -39,6 +39,8 @@
 #include <array.h>
 #include <spinlock.h>
 #include <threadlist.h>
+#include <mips/tlb.h>
+#include <vm.h>
 
 struct cpu;
 
@@ -167,6 +169,8 @@ void schedule(void);
  * timer interrupt.
  */
 void thread_consider_migration(void);
+
+void flush_tlb(struct  tlbshootdown *mapping);
 
 
 #endif /* _THREAD_H_ */

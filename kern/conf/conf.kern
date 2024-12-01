@@ -350,7 +350,7 @@ file      vm/addrspace.c
 file      vm/pmm.c 
 file      vm/vaa.c 
 file      vm/pagetable.c
-# file      vm/tlb.c
+file      vm/tlb.c
 
 # optofffile dumbvm   vm/addrspace.c
 

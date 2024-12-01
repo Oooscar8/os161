@@ -30,6 +30,8 @@
 #ifndef _MIPS_TLB_H_
 #define _MIPS_TLB_H_
 
+#include <vm.h>
+
 /*
  * MIPS-specific TLB access functions.
  *
@@ -101,5 +103,46 @@ int tlb_probe(uint32_t entryhi, uint32_t entrylo);
 
 #define NUM_TLB  64
 
+
+/*
+ * TLB Management Functions 
+ */
+
+int tlb_write_entry(paddr_t pa, vaddr_t va);
+/**
+ * Invalidate TLB entry for a virtual address.
+ * 
+ * @param vaddr: Virtual address to invalidate
+ */
+void tlb_invalidate_entry(vaddr_t vaddr);
+
+/**
+ * Invalidate all TLB entries.
+ */
+void tlb_invalidate_all(void);
+
+/**
+ * Invalidate all TLB entries for given ASID.
+ * 
+ * @param asid: Address space ID to invalidate
+ */
+void tlb_invalidate_asid(unsigned int asid);
+
+/**
+ * Update TLB entry for a virtual address.
+ * 
+ * @param pt: Page table containing mapping
+ * @param vaddr: Virtual address to update
+ */
+
+
+
+/* TLB shootdown handling called from interprocessor_interrupt */
+void vm_tlbshootdown_all(void);
+void vm_tlbshootdown(const struct tlbshootdown *);
+
+void tlbshootdown_init(struct thread *t);
+void tlbshootdown_handle(struct tlbshootdown *ts);
+void tlbshootdown_broadcast(vaddr_t vaddr, pid_t pid);
 
 #endif /* _MIPS_TLB_H_ */
