@@ -77,8 +77,12 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr) {
     /* Get the PTE for this virtual address */
     pte = pte_get(pt, vaddr);
     if (pte == NULL || !PTE_ONSWAP(pte)) {
+        if (pte != NULL) {
+            spinlock_release(&pt->pt_lock);
+        }
         return SWAP_INVALID;
     }
+    spinlock_release(&pt->pt_lock);
 
     spinlock_acquire(&swap_manager.swap_lock);
 
@@ -94,6 +98,8 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr) {
         return SWAP_FULL;
     }
 
+    spinlock_release(&swap_manager.swap_lock);
+
     /* Write page to swap space */
     uio_kinit(&iov, &ku, (void *)vaddr, PAGE_SIZE,
               SWAP_PAGE_TO_OFFSET(slot), UIO_WRITE);
@@ -104,15 +110,20 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr) {
         return SWAP_IO_ERROR;
     }
 
+    spinlock_acquire(&swap_manager.swap_lock);
+
     /* Update swap entry */
     swap_manager.entries[slot].pid = curproc->p_pid;
     swap_manager.entries[slot].used = true;
     swap_manager.count++;
 
-    /* Update PTE */
-    PTE_SET_SWAP_SLOT(pte, slot);
-
     spinlock_release(&swap_manager.swap_lock);
+
+    /* Update PTE */
+    spinlock_acquire(&pt->pt_lock);
+    PTE_SET_SWAP_SLOT(pte, slot);
+    spinlock_release(&pt->pt_lock);
+    
     return SWAP_SUCCESS;
 }
 
@@ -133,6 +144,9 @@ int swap_in_page(struct page_table *pt, vaddr_t vaddr) {
     /* Get PTE and verify page is on swap */
     pte = pte_get(pt, vaddr);
     if (pte == NULL || !PTE_ONSWAP(pte)) {
+        if (pte != NULL) {
+            spinlock_release(&pt->pt_lock);
+        }
         return SWAP_INVALID;
     }
 
@@ -142,15 +156,17 @@ int swap_in_page(struct page_table *pt, vaddr_t vaddr) {
     /* Allocate physical page */
     pa = alloc_kpages(1);
     if (pa == 0) {
+        spinlock_release(&pt->pt_lock);
         return SWAP_NOMEM;
     }
 
-    /* Map the physical page */
-    result = pte_map(pt, vaddr, pa, 0);
-    if (result) {
-        free_kpages(pa);
-        return result;
-    }
+    /* Set pfn and valid bit, clear swap bit, keep other flags unchanged */
+    pte->pfn_or_swap_slot = pa >> PAGE_SHIFT;
+    pte->valid = 1;
+    pte->swap = 0;
+
+    /* Release page table lock before I/O */
+    spinlock_release(&pt->pt_lock);
 
     /* Read page from swap directly to mapped page */
     uio_kinit(&iov, &ku, (void *)vaddr, PAGE_SIZE,
