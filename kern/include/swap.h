@@ -2,10 +2,9 @@
 #define _SWAP_H_
 
 #include <types.h>
+#include <vm.h>
 #include <vnode.h>
 #include <spinlock.h>
-#include <vm.h>
-#include <pagetable.h>
 
 /* 
  * Swap disk configurations 
@@ -14,19 +13,30 @@
 #define SWAP_MAX_PAGES 4096       /* Maximum pages that can be swapped */
 
 /*
- * Swap error codes  
+ * Swap error codes 
  */
 #define SWAP_SUCCESS    0         /* Operation successful */
-#define SWAP_FULL      -1         /* No free swap slots */
-#define SWAP_IO_ERROR  -2         /* I/O error occurred */
-#define SWAP_INVALID   -3         /* Invalid swap entry */
-#define SWAP_NOMEM     -4         /* Out of memory */
+#define SWAP_FULL      -1        /* No free swap slots */
+#define SWAP_IO_ERROR  -2        /* I/O error occurred */
+#define SWAP_INVALID   -3        /* Invalid swap entry */
+#define SWAP_NOMEM     -4        /* Out of memory */
+#define SWAP_ALIGN     -5        /* Alignment error */
+
+/*
+ * PTE manipulation macros for swap
+ */
+#define PTE_ONSWAP(pte) (!((pte)->valid) && ((pte)->swap))
+#define PTE_GET_SWAP_SLOT(pte) ((pte)->pfn_or_swap_slot)
+#define PTE_SET_SWAP_SLOT(pte, slot) do { \
+    (pte)->valid = 0; \
+    (pte)->swap = 1; \
+    (pte)->pfn_or_swap_slot = (slot); \
+} while(0)
 
 /*
  * Structures for swap management
  */
 struct swap_entry {
-    vaddr_t vaddr;               /* Virtual address of the swapped page */
     pid_t pid;                   /* Process ID */
     bool used;                   /* Entry in use */
 };
@@ -41,9 +51,7 @@ struct swap_manager {
 /* Global instance */
 extern struct swap_manager swap_manager;
 
-/*
- * Function declarations
- */
+/* Function declarations */
 int swap_init(void);
 void swap_shutdown(void);
 int swap_out_page(struct page_table *pt, vaddr_t vaddr);
