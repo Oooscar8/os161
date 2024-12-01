@@ -156,6 +156,7 @@ int pte_map(struct page_table *pt, vaddr_t vaddr, paddr_t paddr, uint32_t flags)
     pte->nocache = !!(flags & PTE_NOCACHE);
     pte->dirty = 0;
     pte->accessed = 0;
+    pte->swap = 0;
 
     spinlock_release(&pt->pt_lock);
     return PT_OK;
