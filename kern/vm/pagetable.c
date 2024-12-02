@@ -260,3 +260,25 @@ int pagetable_map_region(struct page_table *pt, vaddr_t vaddr,
     }
     return PT_OK;
 }
+
+struct pte *pte_get(struct page_table *pt, vaddr_t vaddr) {
+    struct pde *pde;
+    struct pte *pte_page;
+
+    KASSERT(pt != NULL);
+    
+    spinlock_acquire(&pt->pt_lock);
+    
+    /* Get PDE */
+    pde = &pt->pgdir[PDE_INDEX(vaddr)];
+    if (!pde->valid) {
+        spinlock_release(&pt->pt_lock);
+        return NULL;
+    }
+    
+    /* Get the page table */
+    pte_page = (struct pte *)(pde->pt_pfn << PAGE_SHIFT);
+    
+    /* Return PTE */
+    return &pt_page[PTE_INDEX(vaddr)];
+}

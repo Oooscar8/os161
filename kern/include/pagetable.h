@@ -237,6 +237,16 @@ int pagetable_map_region(struct page_table *pt, vaddr_t vaddr,
  */
 int pagetable_unmap_region(struct page_table *pt, vaddr_t vaddr, size_t npages);
 
+/**
+ * Get PTE entry for a virtual address.
+ * Obtains and returns PTE pointer for given virtual address.
+ * 
+ * @param pt: Page table to lookup
+ * @param vaddr: Virtual address to get PTE for (must be page-aligned)
+ * @return: Pointer to PTE if found and valid, NULL if not mapped
+ * @note: Returns with pt_lock held if PTE found, caller must release
+ */
+struct pte *pte_get(struct page_table *pt, vaddr_t vaddr);
 
 /* Error codes */
 #define PT_OK           0    /* Success */
