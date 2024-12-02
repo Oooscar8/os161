@@ -76,49 +76,65 @@ fifo_evict_page(struct page_table *pt, vaddr_t *evicted_addr)
     return PR_OK;
 }
 
-int
-fifo_page_fault(struct page_table *pt, vaddr_t faultaddr)
-{
-    paddr_t newframe;
-    vaddr_t evicted_addr;
-    uint32_t flags;
+int fifo_page_fault(struct page_table *pt, vaddr_t faultaddr) {
     int result;
+    paddr_t paddr;
+    struct pte *pte;
 
-    /* Try to get a new frame first */
-    newframe = getppages(1);
-    if (newframe == 0) {
-        /* No free frames, need to evict a page */
+    /* Get the page table entry */
+    pte = pte_get(pt, faultaddr);
+    if (pte == NULL) {
+        return PR_ERROR;
+    }
+
+    /* Check if page is in swap space */
+    if (PTE_ONSWAP(pte)) {
+        spinlock_release(&pt->pt_lock);
+        result = swap_in_page(pt, (faultaddr & PAGE_FRAME));
+        if (result != SWAP_SUCCESS) {
+            return PR_ERROR;
+        }
+        return PR_OK;
+    }
+
+    spinlock_release(&pt->pt_lock);
+    
+    /* Page not in swap - need to allocate new physical page */
+    paddr = getppages(1);
+    if (paddr == 0) {
+        /* Memory full, need to evict */
+        vaddr_t evicted_addr;
+        /* Cannot use reserved slot for new pages */
         result = fifo_evict_page(pt, &evicted_addr);
         if (result != PR_OK) {
             return result;
         }
-        newframe = evicted_addr;
+        
+        /* Try allocation again after eviction */
+        paddr = getppages(1);
+        if (paddr == 0) {
+            return PR_NOSPACE;
+        }
     }
 
-    /* If page was swapped, bring it back */
-    result = swap_in_page(pt, faultaddr);
-    if (result == SWAP_SUCCESS) {
-        /* Map the page */
-        flags = PTE_VALID | PTE_USER | PTE_WRITE;
-        result = pte_map(pt, faultaddr, newframe, flags);
-        if (result != 0) {
-            return PR_ERROR;
-        }
+    /* Map faultaddr to the new physical page */
+    result = pte_map(pt, (faultaddr & PAGE_FRAME), paddr, PTE_WRITE);
+    if (result != PT_OK) {
+        free_ppages(paddr);
+        return PR_ERROR;
     }
 
     /* Add new page to FIFO queue */
     spinlock_acquire(&fifo.lock);
     
-    /* Check if queue is full */
     if ((fifo.tail + 1) % fifo.nframes == fifo.head) {
         spinlock_release(&fifo.lock);
+        free_kpages(faultaddr & PAGE_FRAME);
         return PR_NOSPACE;
     }
-
-    /* Add page to queue */
+    
     fifo.pages[fifo.tail] = faultaddr;
     fifo.tail = (fifo.tail + 1) % fifo.nframes;
-
     spinlock_release(&fifo.lock);
 
     return PR_OK;

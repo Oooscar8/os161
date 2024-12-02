@@ -46,6 +46,7 @@ struct swap_manager {
     struct spinlock swap_lock;   /* Lock for swap operations */
     struct swap_entry *entries;  /* Array of swap entries */
     unsigned int count;          /* Number of used entries */
+    bool emergency_slot_use;     // Flag to allow using the last(reserved) slot
 };
 
 /* Global instance */

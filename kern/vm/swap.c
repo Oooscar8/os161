@@ -29,6 +29,7 @@ int swap_init(void) {
     memset(swap_manager.entries, 0, sizeof(struct swap_entry) * SWAP_MAX_PAGES);
     
     swap_manager.count = 0;
+    swap_manager.emergency_slot_use = false;
 
     /* Open swap device */
     result = vfs_open((char *)SWAP_DEVICE, O_RDWR, 0, &swap_manager.swap_dev);
@@ -76,7 +77,7 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr) {
     
     /* Get the PTE for this virtual address */
     pte = pte_get(pt, vaddr);
-    if (pte == NULL || !PTE_ONSWAP(pte)) {
+    if (pte == NULL || !pte->valid) {
         if (pte != NULL) {
             spinlock_release(&pt->pt_lock);
         }
@@ -87,7 +88,7 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr) {
     spinlock_acquire(&swap_manager.swap_lock);
 
     /* Find a free swap slot */
-    if (swap_manager.count >= SWAP_MAX_PAGES) {
+    if (swap_manager.count >= SWAP_MAX_PAGES - 1 && !swap_manager.emergency_slot_use) {
         spinlock_release(&swap_manager.swap_lock);
         return SWAP_FULL;
     }
@@ -98,6 +99,11 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr) {
         return SWAP_FULL;
     }
 
+    /* Update swap entry */
+    swap_manager.entries[slot].pid = curproc->p_pid;
+    swap_manager.entries[slot].used = true;
+    swap_manager.count++;
+
     spinlock_release(&swap_manager.swap_lock);
 
     /* Write page to swap space */
@@ -106,23 +112,24 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr) {
 
     result = VOP_WRITE(swap_manager.swap_dev, &ku);
     if (result) {
+        /* Clear swap entry if I/O error occurred */
+        spinlock_acquire(&swap_manager.swap_lock);
+        swap_manager.entries[slot].used = false;
+        swap_manager.count--;
         spinlock_release(&swap_manager.swap_lock);
         return SWAP_IO_ERROR;
     }
-
-    spinlock_acquire(&swap_manager.swap_lock);
-
-    /* Update swap entry */
-    swap_manager.entries[slot].pid = curproc->p_pid;
-    swap_manager.entries[slot].used = true;
-    swap_manager.count++;
-
-    spinlock_release(&swap_manager.swap_lock);
 
     /* Update PTE */
     spinlock_acquire(&pt->pt_lock);
     PTE_SET_SWAP_SLOT(pte, slot);
     spinlock_release(&pt->pt_lock);
+
+     /* Invalidate TLB entry on current CPU */
+    tlb_invalidate_entry(vaddr);
+    
+    /* Broadcast TLB shootdown to other CPUs */
+    tlbshootdown_broadcast(vaddr, pt->pid);
     
     return SWAP_SUCCESS;
 }
@@ -157,7 +164,38 @@ int swap_in_page(struct page_table *pt, vaddr_t vaddr) {
     pa = alloc_kpages(1);
     if (pa == 0) {
         spinlock_release(&pt->pt_lock);
-        return SWAP_NOMEM;
+
+        /* Allow using the last(reserved) slot for this swap out */
+        spinlock_acquire(&swap_manager.swap_lock);
+        swap_manager.emergency_slot_use = true;
+        spinlock_release(&swap_manager.swap_lock);
+        
+        /* Use FIFO to select victim page */
+        vaddr_t victim_vaddr;
+        result = fifo_evict_page(pt, &victim_vaddr);
+
+        /* Reset emergency flag */
+        spinlock_acquire(&swap_manager.swap_lock);
+        swap_manager.emergency_slot_use = false;
+        spinlock_release(&swap_manager.swap_lock);
+
+        if (result != PR_OK) {
+            return SWAP_NOMEM;
+        }
+        
+        /* Retry physical page allocation */
+        pa = alloc_kpages(1);
+        if (pa == 0) {
+            return SWAP_NOMEM;
+        }
+        
+        /* Verify page state */
+        pte = pte_get(pt, vaddr);
+        if (pte == NULL || !PTE_ONSWAP(pte)) {
+            spinlock_release(&pt->pt_lock);
+            free_kpages(pa);
+            return SWAP_INVALID;
+        }
     }
 
     /* Set pfn and valid bit, clear swap bit, keep other flags unchanged */
@@ -186,5 +224,6 @@ int swap_in_page(struct page_table *pt, vaddr_t vaddr) {
     swap_manager.count--;
 
     spinlock_release(&swap_manager.swap_lock);
+
     return SWAP_SUCCESS;
 }
