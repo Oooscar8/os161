@@ -18,6 +18,7 @@
 #include <cpu.h>
 #include <membar.h>
 #include <thread.h>
+#include <pagetable.h>
 
 static struct tlbshootdown ts;
 
@@ -73,25 +74,60 @@ int tlb_write_entry(paddr_t pa, vaddr_t va) {
 
     for (i = 0; i < NUM_TLB; i++) {
         tlb_read(&ehi, &elo, i);
-        if ((elo & TLBLO_VALID) && (ehi == (va & TLBHI_VPAGE))) {
+        if ((elo & TLBLO_VALID) && ((ehi & TLBHI_VPAGE) == (va & TLBHI_VPAGE))) {
             elo = (pa & TLBLO_PPAGE) | TLBLO_VALID | TLBLO_DIRTY;
             tlb_write(ehi, elo, i);
             return 0;
         }
     }
 
+    i = tlb_evict();
+    /* Create TLB entry */
+    // pid_t pid = curproc->p_pid;
+    // if (va >= MIPS_KSEG2) {
+    //     pid = 0;
+    // }
+    ehi = (va & TLBHI_VPAGE) | (0 << 6); 
+    elo = pa | TLBLO_VALID | TLBLO_DIRTY;
+    tlb_write(ehi, elo, i);
+
+    return 0;
+}
+
+int
+tlb_evict(void)
+{
+    uint32_t entryhi, entrylo;
+    int i;
+    
+    //KASSERT(curthread->t_in_interrupt || curthread->t_iplhigh_count > 0);
+
+    /* First try to find an invalid entry */
     for (i = 0; i < NUM_TLB; i++) {
-        tlb_read(&ehi, &elo, i);
-        if (!(elo & TLBLO_VALID)) {
-            ehi = va & TLBHI_VPAGE; 
-            elo = (pa & TLBLO_PPAGE) | TLBLO_VALID | TLBLO_DIRTY;
-            tlb_write(ehi, elo, i);
-            return 0;
+        tlb_read(&entryhi, &entrylo, i);
+        if (!(entrylo & TLBLO_VALID)) {
+            return i;
+        }
+    }
+    
+    /* Then look for an entry with non-zero ASID */
+    for (i = 0; i < NUM_TLB; i++) {
+        tlb_read(&entryhi, &entrylo, i);
+        if (((entryhi & TLBHI_PID) >> 6) != 0) {
+            return i;
         }
     }
 
-    panic("tlb_write: All TLB entries are valid\n");
-    return EFAULT;  
+    /* If no other choice, choose first ASID 0 entry */
+    for (i = 0; i < NUM_TLB; i++) {
+        tlb_read(&entryhi, &entrylo, i);
+        if (((entryhi & TLBHI_PID) >> 6) == 0) {
+            return i;
+        }
+    }
+
+    /* Should never get here - all TLB entries should fall into one of above categories */
+    panic("tlb_evict: Cannot find entry to evict\n");
 }
 
 // static void
