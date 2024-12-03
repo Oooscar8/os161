@@ -32,8 +32,7 @@ void pagetable_init(void) {
     if (pt == NULL) {
         panic("Failed to create kernel page table\n");
     }
-    pt->pid = 0;
-    pt->asid = 0;
+    pt->pid = 1;
     kernel_pt = pt;
 }
 
@@ -63,7 +62,6 @@ struct page_table *pagetable_create(void) {
     pt->pid = 0;  /* Will be set by process creation code */
     pt->heap_start = 0;
     pt->heap_end = 0;
-    pt->asid = 0; /* Will be assigned by VM system */
     
     return pt;
 }
@@ -257,5 +255,77 @@ int pagetable_map_region(struct page_table *pt, vaddr_t vaddr,
             return result;
         }
     }
+    return PT_OK;
+}
+
+int pagetable_copy(struct page_table *src_pt, struct page_table *dst_pt) {
+    int i, j;
+    struct pde *src_pde, *dst_pde;
+    struct pte *src_pte, *dst_pte;
+    paddr_t new_pt_paddr;
+
+    /* Verify parameters */
+    if (src_pt == NULL || dst_pt == NULL) {
+        return PT_NOTPRESENT;
+    }
+
+    /* Acquire locks for both page tables */
+    spinlock_acquire(&src_pt->pt_lock);
+    spinlock_acquire(&dst_pt->pt_lock);
+
+    /* Copy page directory entries */
+    for (i = 0; i < PD_ENTRIES; i++) {
+        src_pde = &src_pt->pgdir[i];
+        dst_pde = &dst_pt->pgdir[i];
+
+        if (src_pde->valid) {
+            /* Allocate new page table if entry is valid */
+            new_pt_paddr = pmm_alloc_page();
+            if (new_pt_paddr == 0) {
+                /* Failed to allocate - cleanup and return */
+                spinlock_release(&dst_pt->pt_lock);
+                spinlock_release(&src_pt->pt_lock);
+                pagetable_destroy(dst_pt);
+                return PT_NOMEM;
+            }
+
+            //directly map the kernel page table, to avoid the deadlock (call pte_map)
+            vaddr_t new_pt_vaddr = PADDR_TO_KVADDR(new_pt_paddr);
+
+            /* Setup page directory entry */
+            dst_pde->pt_pfn = new_pt_vaddr >> PAGE_SHIFT;
+            dst_pde->valid = 1;
+            dst_pde->write = src_pde->write;
+            dst_pde->user = src_pde->user;
+
+            /* Get source and destination page tables */
+            src_pte = (struct pte *)(src_pde->pt_pfn << PAGE_SHIFT);
+            dst_pte = (struct pte *)(dst_pde->pt_pfn << PAGE_SHIFT);
+
+            /* Copy all page table entries */
+            for (j = 0; j < PT_ENTRIES_PER_PAGE; j++) {
+                if (src_pte[j].valid) {
+                    /* Copy PTE attributes */
+                    dst_pte[j].pfn = src_pte[j].pfn;
+                    dst_pte[j].valid = 1;
+                    dst_pte[j].write = src_pte[j].write;
+                    dst_pte[j].user = src_pte[j].user;
+                    dst_pte[j].nocache = src_pte[j].nocache;
+                    dst_pte[j].dirty = src_pte[j].dirty;
+                    dst_pte[j].accessed = src_pte[j].accessed;
+                }
+            }
+        }
+    }
+
+    /* Copy other page table attributes */
+    dst_pt->heap_start = src_pt->heap_start;
+    dst_pt->heap_end = src_pt->heap_end;
+    /* Don't copy ASID - it should be assigned by the VM system */
+
+    /* Release locks */
+    spinlock_release(&dst_pt->pt_lock);
+    spinlock_release(&src_pt->pt_lock);
+
     return PT_OK;
 }

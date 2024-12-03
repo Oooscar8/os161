@@ -10,7 +10,6 @@ static volatile unsigned long *volatile bitmap;     /* Bitmap array */
 static struct spinlock pmm_lock;  /* Lock for PMM operations */
 static size_t total_pages;        /* Total number of pages */
 static size_t free_pages;         /* Number of free pages */
-static paddr_t base_addr;         /* First free physical address */
 
 /* Bitmap operations */
 #define BITS_PER_WORD (sizeof(unsigned long) * 8)
@@ -31,16 +30,16 @@ int pmm_init(void)
 
     /* Get physical memory range */
     last_addr = ram_getsize();
-    base_addr = ram_getfirstfree();
+    paddr_t base_addr = ram_getfirstfree();
 
     base_addr = ROUNDUP(base_addr, PAGE_SIZE);
 
     /* Calculate total number of pages */
-    total_pages = (last_addr - base_addr) / PAGE_SIZE;
-    free_pages = total_pages;
+    free_pages = (last_addr - base_addr) / PAGE_SIZE;
+    total_pages = last_addr / PAGE_SIZE;
 
     /* Check if we have any memory to manage */
-    if (total_pages == 0) {
+    if (free_pages == 0) {
         return ENOMEM;
     }
 
@@ -53,8 +52,11 @@ int pmm_init(void)
         return ENOMEM;
     }
 
-    /* Initialize bitmap - clear all bits (0 = free, 1 = allocated) */
-    //memset(bitmap, 0, bitmap_size);
+    /* Initialize bitmap - (0 = free, 1 = allocated) */
+    size_t early_pages = total_pages - free_pages;
+    for (size_t i = 0; i < early_pages + 1; i++) {
+        BITMAP_SET(bitmap, i);
+    }
 
     return 0;
 }
@@ -105,7 +107,7 @@ paddr_t pmm_alloc_page(void)
     free_pages--;
 
     /* Calculate physical address */
-    addr = base_addr + (page_index * PAGE_SIZE);
+    addr = page_index * PAGE_SIZE;
 
     /* Release the lock */
    spinlock_release(&pmm_lock);
@@ -146,7 +148,7 @@ paddr_t pmm_alloc_npages(size_t npages)
     free_pages -= npages;
 
     /* Calculate base physical address */
-    base_paddr = base_addr + (start_index * PAGE_SIZE);
+    base_paddr = start_index * PAGE_SIZE;
 
     /* Release the lock */
     spinlock_release(&pmm_lock);
@@ -157,6 +159,9 @@ paddr_t pmm_alloc_npages(size_t npages)
 /* Free a physical page */
 int pmm_free_page(paddr_t addr)
 {
+    if (addr == 0) {
+        return 0;
+    }
     size_t page_index;
 
     /* Verify the address is page-aligned */
@@ -166,11 +171,11 @@ int pmm_free_page(paddr_t addr)
     }
 
     /* Calculate page index */
-    if (addr < base_addr) {
+    if ( addr >= total_pages * PAGE_SIZE) {
         panic("pmm_free_page: address out of range\n");
         return EINVAL;
     }
-    page_index = (addr - base_addr) / PAGE_SIZE;
+    page_index = addr / PAGE_SIZE;
     if (page_index >= total_pages) {
         panic("pmm_free_page: address out of range\n");
         return EINVAL;

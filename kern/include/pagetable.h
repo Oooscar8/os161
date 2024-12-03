@@ -87,7 +87,6 @@ struct page_table {
     pid_t pid;                   /* Process ID */
     vaddr_t heap_start;         /* Start of process heap */
     vaddr_t heap_end;           /* End of process heap */
-    unsigned int asid;          /* Address space ID for TLB */
 };
 
 struct page_table *kernel_pt;
@@ -236,6 +235,39 @@ int pagetable_map_region(struct page_table *pt, vaddr_t vaddr,
  */
 int pagetable_unmap_region(struct page_table *pt, vaddr_t vaddr, size_t npages);
 
+/*
+ * pagetable_copy - Copy page table from source to destination
+ * 
+ * Arguments:
+ *   src_pt  - Source page table to copy from
+ *   dst_pt  - Destination page table to copy to
+ *
+ * Returns:
+ *   PT_OK         - Copy successful
+ *   PT_NOMEM      - Memory allocation failed
+ *   PT_NOTPRESENT - Invalid source page table
+ * 
+ * This function creates a deep copy of the source page table (src_pt) into the 
+ * destination page table (dst_pt). It follows this process:
+ *
+ * 1. For each valid page directory entry (PDE) in the source:
+ *    - If needed, allocates a new page table in the destination
+ *    - Copies page table entries (PTEs) from source to destination
+ * 
+ * 2. For each valid page table entry (PTE) in each page table:
+ *    - Copies all attributes (valid, write, user, nocache, etc.)
+ *    - Maps to the same physical pages as the source
+ *
+ * Note: The function acquires the spinlocks of both page tables during copy
+ * to ensure consistency. The physical pages themselves are not copied, only
+ * the page table structures and mappings.
+ *
+ * Error handling:
+ * - If memory allocation fails during copying, all allocated memory is freed
+ *   and PT_NOMEM is returned
+ * - If source page table is invalid, returns PT_NOTPRESENT
+ */
+int pagetable_copy(struct page_table *src_pt, struct page_table *dst_pt);
 
 /* Error codes */
 #define PT_OK           0    /* Success */

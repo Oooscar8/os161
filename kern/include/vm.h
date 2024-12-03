@@ -38,6 +38,7 @@
 
 
 #include <machine/vm.h>
+#include <pagetable.h>
 
 /* Fault-type arguments to vm_fault() */
 #define VM_FAULT_READ        0    /* A read was attempted */
@@ -54,5 +55,7 @@ int vm_fault(int faulttype, vaddr_t faultaddress);
 /* Allocate/free kernel heap pages (called by kmalloc/kfree) */
 vaddr_t alloc_kpages(unsigned npages);
 void free_kpages(vaddr_t addr);
+
+void vm_activate(struct page_table *pt);
 
 #endif /* _VM_H_ */

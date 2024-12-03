@@ -113,8 +113,17 @@ alloc_kpages(unsigned npages)
 void free_kpages(vaddr_t addr)
 {
 	// not free pages allocated by ram_stealmem
-	if (!vm_initialized || (addr >= MIPS_KSEG0 && addr < MIPS_KSEG1))
+	if (!vm_initialized)
 	{
+		return;
+	}
+	//free direct map pages
+	else if (addr >= MIPS_KSEG0 && addr < MIPS_KSEG2)
+	{
+		spinlock_acquire(&alloc_lock);
+		paddr_t paddr = addr - MIPS_KSEG0;
+		pmm_free_page(paddr);
+		spinlock_release(&alloc_lock);
 		return;
 	}
 	else if (addr >= MIPS_KSEG2)
@@ -125,12 +134,18 @@ void free_kpages(vaddr_t addr)
 		pte_unmap(kernel_pt, addr);
 		pmm_free_page(paddr);
 		spinlock_release(&alloc_lock);
+		return;
+	}
+	//user space pages
+	else {
+		return;
 	}
 }
 
 int vm_fault(int faulttype, vaddr_t faultaddress)
 {
-	paddr_t paddr;
+	paddr_t paddr = 0;
+
 	if (faultaddress >= MIPS_KSEG2)
 	{
 		uint32_t flags;
@@ -147,7 +162,95 @@ int vm_fault(int faulttype, vaddr_t faultaddress)
 				return EFAULT;
 			}
 		}
+
+		uint32_t entryhi, entrylo;
+		entryhi = faultaddress & TLBHI_VPAGE;
+		entrylo = (paddr & TLBLO_PPAGE) | TLBLO_VALID | TLBLO_DIRTY | TLBLO_GLOBAL;
+		return tlb_write_entry(entryhi, entrylo);
+	} else if (faultaddress < USERSTACK) {
+		struct addrspace *as;
+    	struct page_table *pt;
+    	uint32_t flags;
+
+    	/* Get current address space */
+    	as = proc_getas();
+    	if (as == NULL) {
+        	return EFAULT;
+    	}
+    	pt = as->pt;
+        /* Check if address is in stack region */
+        if (faultaddress >= USERSTACK - 4096 && 
+            faultaddress < USERSTACK) {
+            paddr = pagetable_translate(pt, faultaddress, &flags);
+            if (paddr == 0) { 
+                paddr = getppages(1);
+                if (paddr == 0) {
+                    return ENOMEM;
+                }
+                
+                int result = pte_map(pt, faultaddress & PAGE_FRAME, 
+                                   paddr, PTE_USER | PTE_WRITE);
+                if (result != PT_OK) {
+                    pmm_free_page(paddr);
+                    return EFAULT;
+                }
+                
+                /* Zero the page */
+                memset((void *)PADDR_TO_KVADDR(paddr), 0, PAGE_SIZE);
+            }
+            
+            /* Write TLB entry */
+            uint32_t entryhi = (faultaddress & TLBHI_VPAGE) | (pt->pid & 0x3f) << 6;
+            uint32_t entrylo = (paddr & TLBLO_PPAGE) | TLBLO_VALID | TLBLO_DIRTY;
+                              
+            return tlb_write_entry(entryhi, entrylo);
+        }
+        
+        // /* Check if address is in heap region */
+        // else if (faultaddress >= as->heap_start && 
+        //          faultaddress < as->heap_end) {
+        //     // Similar handling for heap region
+        //     // ...
+        // }
 	}
 	
-	return tlb_write_entry(paddr, faultaddress);
+	return EFAULT;
+}
+
+void 
+vm_activate(struct page_table *pt)
+{
+    int spl = splhigh();
+
+    KASSERT(pt != NULL);
+    KASSERT(curthread->t_in_interrupt == false);
+
+    uint32_t entryhi, entrylo;
+    spinlock_acquire(&pt->pt_lock);
+
+    /* Invalidate all TLB entries first */
+    tlb_invalidate_all();
+
+    /* Load kernel mappings into TLB */
+    for (uint32_t i = 0; i < PD_ENTRIES; i++) {
+        if (pt->pgdir[i].valid) {
+            struct pte *pte = (struct pte *)(pt->pgdir[i].pt_pfn << PAGE_SHIFT);
+            for (uint32_t j = 0; j < PT_ENTRIES_PER_PAGE; j++) {
+                if (pte[j].valid) {
+                    vaddr_t vaddr = (i << PDE_SHIFT) | (j << PTE_SHIFT);
+                    paddr_t paddr = pte[j].pfn << PAGE_SHIFT;
+                    
+                    /* Create TLB entry with ASID */
+                    entryhi = (vaddr & TLBHI_VPAGE) | 
+                             ((pt->pid & 0x3f) << 6);
+                    entrylo = (paddr & TLBLO_PPAGE) | TLBLO_VALID | TLBLO_DIRTY;
+
+                    tlb_write_entry(entryhi, entrylo);
+                }
+            }
+        }
+    }
+
+    spinlock_release(&pt->pt_lock);
+    splx(spl);
 }
