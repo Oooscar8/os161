@@ -37,6 +37,7 @@
 
 #include <vm.h>
 #include "opt-dumbvm.h"
+#include <pagetable.h>
 
 struct vnode;
 
@@ -59,6 +60,24 @@ struct addrspace {
         paddr_t as_stackpbase;
 #else
         /* Put stuff here for your VM system */
+        struct page_table *pt;
+        
+        /* text segment */
+        vaddr_t as_vbase1;   
+        size_t as_npages1;   
+    
+        /* data segment */
+        vaddr_t as_vbase2;   
+        size_t as_npages2;   
+    
+        vaddr_t as_stackptr; 
+    
+        /* heap */
+        vaddr_t heap_start;  
+        vaddr_t heap_end;    
+    
+        int as_text_prot;    
+        int as_data_prot;   
 #endif
 };
 
@@ -127,6 +146,10 @@ int               as_define_stack(struct addrspace *as, vaddr_t *initstackptr);
  */
 
 int load_elf(struct vnode *v, vaddr_t *entrypoint);
+
+#define PF_R 0x4  /* read */
+#define PF_W 0x2  /* write */
+#define PF_X 0x1  /* exec */
 
 
 #endif /* _ADDRSPACE_H_ */
