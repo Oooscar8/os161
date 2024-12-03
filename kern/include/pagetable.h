@@ -63,8 +63,9 @@ struct pte {
     uint32_t user:1;       /* User mode access */
     uint32_t nocache:1;    /* Cache disable */
     uint32_t cacheid:2;    /* Cache control */
-    uint32_t pfn:20;       /* Physical page frame number */
-    uint32_t _reserved:4;  /* Reserved */
+    uint32_t swap:1;       /* Swap slot */
+    uint32_t pfn_or_swap_slot:20;       /* Physical page frame number or swap slot number */
+    uint32_t _reserved:3;  /* Reserved */
 };
 
 /* 
@@ -235,6 +236,16 @@ int pagetable_map_region(struct page_table *pt, vaddr_t vaddr,
  */
 int pagetable_unmap_region(struct page_table *pt, vaddr_t vaddr, size_t npages);
 
+/**
+ * Get PTE entry for a virtual address.
+ * Obtains and returns PTE pointer for given virtual address.
+ * 
+ * @param pt: Page table to lookup
+ * @param vaddr: Virtual address to get PTE for (must be page-aligned)
+ * @return: Pointer to PTE if found and valid, NULL if not mapped
+ * @note: Returns with pt_lock held if PTE found, caller must release
+ */
+struct pte *pte_get(struct page_table *pt, vaddr_t vaddr);
 /*
  * pagetable_copy - Copy page table from source to destination
  * 
