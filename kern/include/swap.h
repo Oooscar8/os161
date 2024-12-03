@@ -10,7 +10,21 @@
  * Swap disk configurations 
  */
 #define SWAP_DEVICE "lhd0raw:"    /* Raw disk device for swap */
-#define SWAP_MAX_PAGES 4096       /* Maximum pages that can be swapped */
+#define SWAP_MAX_PAGES 1280       /* Maximum pages that can be swapped */
+
+/* Number of bits per word */
+#define BITS_PER_WORD (sizeof(unsigned long) * 8)
+/* Size of bitmap array in words, rounded up */
+#define SWAP_BITMAP_WORDS ((SWAP_MAX_PAGES + BITS_PER_WORD - 1) / BITS_PER_WORD)
+/* Bitmap operations for swap */
+#define SWAP_WORD_OFFSET(slot)  ((slot) / BITS_PER_WORD)
+#define SWAP_BIT_OFFSET(slot)   ((slot) % BITS_PER_WORD)
+#define SWAP_BITMAP_SET(bitmap, slot) \
+    ((bitmap)[SWAP_WORD_OFFSET(slot)] |= (1UL << SWAP_BIT_OFFSET(slot)))
+#define SWAP_BITMAP_CLEAR(bitmap, slot) \
+    ((bitmap)[SWAP_WORD_OFFSET(slot)] &= ~(1UL << SWAP_BIT_OFFSET(slot)))
+#define SWAP_BITMAP_TEST(bitmap, slot) \
+    ((bitmap)[SWAP_WORD_OFFSET(slot)] & (1UL << SWAP_BIT_OFFSET(slot)))
 
 /*
  * Swap error codes 
@@ -37,16 +51,14 @@
  * Structures for swap management
  */
 struct swap_entry {
-    pid_t pid;                   /* Process ID */
     bool used;                   /* Entry in use */
 };
 
 struct swap_manager {
     struct vnode *swap_dev;      /* Swap device vnode */
     struct spinlock swap_lock;   /* Lock for swap operations */
-    struct swap_entry *entries;  /* Array of swap entries */
+    unsigned long bitmap[SWAP_BITMAP_WORDS]; /* Bitmap: 1=used, 0=free */
     unsigned int count;          /* Number of used entries */
-    bool emergency_slot_use;     // Flag to allow using the last(reserved) slot
 };
 
 /* Global instance */
@@ -55,7 +67,7 @@ extern struct swap_manager swap_manager;
 /* Function declarations */
 int swap_init(void);
 void swap_shutdown(void);
-int swap_out_page(struct page_table *pt, vaddr_t vaddr);
+int swap_out_page(struct page_table *pt, vaddr_t vaddr, bool emergency);
 int swap_in_page(struct page_table *pt, vaddr_t vaddr);
 
 /* Utility macro */

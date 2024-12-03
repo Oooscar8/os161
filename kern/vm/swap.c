@@ -19,22 +19,14 @@ int swap_init(void) {
     /* Initialize swap lock */
     spinlock_init(&swap_manager.swap_lock);
 
-    /* Allocate swap entries array */
-    swap_manager.entries = kmalloc(sizeof(struct swap_entry) * SWAP_MAX_PAGES);
-    if (swap_manager.entries == NULL) {
-        return SWAP_NOMEM;
-    }
-
-    /* Initialize all entries as unused */
-    memset(swap_manager.entries, 0, sizeof(struct swap_entry) * SWAP_MAX_PAGES);
+    /* Initialize bitmap to 0 (all slots free) */
+    memset(swap_manager.bitmap, 0, sizeof(unsigned long) * SWAP_BITMAP_WORDS);
     
     swap_manager.count = 0;
-    swap_manager.emergency_slot_use = false;
 
     /* Open swap device */
     result = vfs_open((char *)SWAP_DEVICE, O_RDWR, 0, &swap_manager.swap_dev);
     if (result) {
-        kfree(swap_manager.entries);
         return SWAP_IO_ERROR;
     }
 
@@ -45,24 +37,23 @@ void swap_shutdown(void) {
     if (swap_manager.swap_dev != NULL) {
         vfs_close(swap_manager.swap_dev);
     }
-    
-    if (swap_manager.entries != NULL) {
-        kfree(swap_manager.entries);
-    }
 
     spinlock_cleanup(&swap_manager.swap_lock);
 }
 
 static int find_free_slot(void) {
-    for (unsigned int i = 0; i < SWAP_MAX_PAGES; i++) {
-        if (!swap_manager.entries[i].used) {
-            return i;
+    unsigned int slot;
+    
+    for (slot = 0; slot < SWAP_MAX_PAGES; slot++) {
+        if (!SWAP_BITMAP_TEST(swap_manager.bitmap, slot)) {
+            return slot;
         }
     }
-    return SWAP_FULL;
+    
+    return -1;
 }
 
-int swap_out_page(struct page_table *pt, vaddr_t vaddr) {
+int swap_out_page(struct page_table *pt, vaddr_t vaddr, bool emergency) {
     struct iovec iov;
     struct uio ku;
     int result;
@@ -74,21 +65,11 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr) {
     if (vaddr & PAGE_MASK) {
         return SWAP_ALIGN;
     }
-    
-    /* Get the PTE for this virtual address */
-    pte = pte_get(pt, vaddr);
-    if (pte == NULL || !pte->valid) {
-        if (pte != NULL) {
-            spinlock_release(&pt->pt_lock);
-        }
-        return SWAP_INVALID;
-    }
-    spinlock_release(&pt->pt_lock);
 
     spinlock_acquire(&swap_manager.swap_lock);
 
     /* Find a free swap slot */
-    if (swap_manager.count >= SWAP_MAX_PAGES - 1 && !swap_manager.emergency_slot_use) {
+    if (swap_manager.count >= SWAP_MAX_PAGES - 1 && !emergency) {
         spinlock_release(&swap_manager.swap_lock);
         return SWAP_FULL;
     }
@@ -99,9 +80,8 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr) {
         return SWAP_FULL;
     }
 
-    /* Update swap entry */
-    swap_manager.entries[slot].pid = curproc->p_pid;
-    swap_manager.entries[slot].used = true;
+    /* Mark slot as used in bitmap */
+    SWAP_BITMAP_SET(swap_manager.bitmap, slot);
     swap_manager.count++;
 
     spinlock_release(&swap_manager.swap_lock);
@@ -114,15 +94,24 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr) {
     if (result) {
         /* Clear swap entry if I/O error occurred */
         spinlock_acquire(&swap_manager.swap_lock);
-        swap_manager.entries[slot].used = false;
+        SWAP_BITMAP_CLEAR(swap_manager.bitmap, slot);
         swap_manager.count--;
         spinlock_release(&swap_manager.swap_lock);
         return SWAP_IO_ERROR;
     }
 
+    /* Get the PTE for this virtual address */
+    pte = pte_get(pt, vaddr);
+    if (pte == NULL || !pte->valid) {
+        if (pte != NULL) {
+            spinlock_release(&pt->pt_lock);
+        }
+        return SWAP_INVALID;
+    }
+
     /* Update PTE */
-    spinlock_acquire(&pt->pt_lock);
     PTE_SET_SWAP_SLOT(pte, slot);
+
     spinlock_release(&pt->pt_lock);
 
      /* Invalidate TLB entry on current CPU */
@@ -147,6 +136,24 @@ int swap_in_page(struct page_table *pt, vaddr_t vaddr) {
     if (vaddr & PAGE_MASK) {
         return SWAP_ALIGN;
     }
+    
+    /* Get a physical page */
+    pa = getppages(1);
+    /* If physical memory is full, evict a page before swapping in */
+    if (pa == 0) {
+        /* Use FIFO to select victim page */
+        vaddr_t victim_vaddr;
+        result = fifo_evict_page(pt, &victim_vaddr);
+        if (result != PR_OK) {
+            return SWAP_NOMEM;
+        }
+        
+        /* Retry getting a physical page */
+        pa = getppages(1);
+        if (pa == 0) {
+            return SWAP_NOMEM;
+        }
+    }
 
     /* Get PTE and verify page is on swap */
     pte = pte_get(pt, vaddr);
@@ -154,49 +161,12 @@ int swap_in_page(struct page_table *pt, vaddr_t vaddr) {
         if (pte != NULL) {
             spinlock_release(&pt->pt_lock);
         }
+        kfree_pages(pa);
         return SWAP_INVALID;
     }
 
     /* Get swap slot number */
     slot = PTE_GET_SWAP_SLOT(pte);
-    
-    /* Allocate physical page */
-    pa = alloc_kpages(1);
-    if (pa == 0) {
-        spinlock_release(&pt->pt_lock);
-
-        /* Allow using the last(reserved) slot for this swap out */
-        spinlock_acquire(&swap_manager.swap_lock);
-        swap_manager.emergency_slot_use = true;
-        spinlock_release(&swap_manager.swap_lock);
-        
-        /* Use FIFO to select victim page */
-        vaddr_t victim_vaddr;
-        result = fifo_evict_page(pt, &victim_vaddr);
-
-        /* Reset emergency flag */
-        spinlock_acquire(&swap_manager.swap_lock);
-        swap_manager.emergency_slot_use = false;
-        spinlock_release(&swap_manager.swap_lock);
-
-        if (result != PR_OK) {
-            return SWAP_NOMEM;
-        }
-        
-        /* Retry physical page allocation */
-        pa = alloc_kpages(1);
-        if (pa == 0) {
-            return SWAP_NOMEM;
-        }
-        
-        /* Verify page state */
-        pte = pte_get(pt, vaddr);
-        if (pte == NULL || !PTE_ONSWAP(pte)) {
-            spinlock_release(&pt->pt_lock);
-            free_kpages(pa);
-            return SWAP_INVALID;
-        }
-    }
 
     /* Set pfn and valid bit, clear swap bit, keep other flags unchanged */
     pte->pfn_or_swap_slot = pa >> PAGE_SHIFT;
@@ -212,15 +182,19 @@ int swap_in_page(struct page_table *pt, vaddr_t vaddr) {
 
     result = VOP_READ(swap_manager.swap_dev, &ku);
     if (result) {
-        pte_unmap(pt, vaddr);
+        spinlock_acquire(&pt->pt_lock);
+        pte->pfn_or_swap_slot = slot;
+        pte->valid = 0;
+        pte->swap = 1;
+        spinlock_release(&pt->pt_lock);
         free_kpages(pa);
         return SWAP_IO_ERROR;
     }
 
     spinlock_acquire(&swap_manager.swap_lock);
 
-    /* Mark swap entry as free */
-    swap_manager.entries[slot].used = false;
+    /* Mark swap slot as free */
+    SWAP_BITMAP_CLEAR(swap_manager.bitmap, slot);
     swap_manager.count--;
 
     spinlock_release(&swap_manager.swap_lock);
