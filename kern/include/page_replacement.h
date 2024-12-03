@@ -4,13 +4,18 @@
 #include <types.h>
 #include <pagetable.h>
 
+/* Node structure for the linked list */
+struct fifo_node {
+    vaddr_t page_addr;           /* Virtual address of the page */
+    struct page_table *pt;       /* Page table this page belongs to */
+    struct fifo_node *next;      /* Next node in the list */
+};
+
 /* FIFO queue structure */
 struct fifo_queue {
-    vaddr_t *pages;           /* Array of virtual addresses in physical frames */
-    unsigned int head;        /* Index for next page to be removed */
-    unsigned int tail;        /* Index for inserting new page */
-    unsigned int nframes;     /* Total number of frames */
-    struct spinlock lock;     /* Lock for FIFO queue */
+    struct fifo_node *head;      /* First node (oldest page) */
+    struct fifo_node *tail;      /* Last node (newest page) */
+    struct spinlock fifo_lock;        /* Lock for FIFO queue */
 };
 
 /* Error codes */
@@ -44,5 +49,9 @@ int fifo_page_fault(struct page_table *pt, vaddr_t faultaddr);
  * @return: 0 on success, error code on failure
  */
 int fifo_evict_page(struct page_table *pt, vaddr_t *evicted_addr);
+
+int fifo_add_page(struct page_table *pt, vaddr_t addr);
+
+int fifo_remove_page(struct page_table *pt, vaddr_t addr);
 
 #endif /* _PAGE_REPLACEMENT_H_ */
