@@ -147,7 +147,7 @@ int pte_map(struct page_table *pt, vaddr_t vaddr, paddr_t paddr, uint32_t flags)
     }
 
     /* Create the mapping */
-    pte->pfn = paddr >> PAGE_SHIFT;
+    pte->pfn_or_swap_slot = paddr >> PAGE_SHIFT;
     pte->valid = 1;
     pte->write = !!(flags & PTE_WRITE);
     pte->user = !!(flags & PTE_USER);
@@ -233,7 +233,7 @@ paddr_t pagetable_translate(struct page_table *pt, vaddr_t vaddr, uint32_t *flag
         if (pte->nocache) *flags |= PTE_NOCACHE;
     }
 
-    ret = (pte->pfn << PAGE_SHIFT) | (vaddr & PAGE_MASK);
+    ret = (pte->pfn_or_swap_slot << PAGE_SHIFT) | (vaddr & PAGE_MASK);
     spinlock_release(&pt->pt_lock);
     return ret;
 }
@@ -278,7 +278,7 @@ struct pte *pte_get(struct page_table *pt, vaddr_t vaddr) {
     pte_page = (struct pte *)(pde->pt_pfn << PAGE_SHIFT);
     
     /* Return PTE */
-    return &pt_page[PTE_INDEX(vaddr)];
+    return &pte_page[PTE_INDEX(vaddr)];
 }
 
 int pagetable_copy(struct page_table *src_pt, struct page_table *dst_pt) {
@@ -329,7 +329,7 @@ int pagetable_copy(struct page_table *src_pt, struct page_table *dst_pt) {
             for (j = 0; j < PT_ENTRIES_PER_PAGE; j++) {
                 if (src_pte[j].valid) {
                     /* Copy PTE attributes */
-                    dst_pte[j].pfn = src_pte[j].pfn;
+                    dst_pte[j].pfn_or_swap_slot = src_pte[j].pfn_or_swap_slot;
                     dst_pte[j].valid = 1;
                     dst_pte[j].write = src_pte[j].write;
                     dst_pte[j].user = src_pte[j].user;

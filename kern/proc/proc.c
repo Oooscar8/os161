@@ -50,6 +50,7 @@
 #include <vnode.h>
 #include <filetable.h>
 #include <pid.h>
+#include <pagetable.h>
 
 /*
  * The process for the kernel; this holds all the kernel-only threads.
@@ -239,10 +240,21 @@ proc_create_runprogram(const char *name)
 		proc_destroy(newproc);
 		return NULL;
 	}
-	
-	/* VM fields */
 
-	newproc->p_addrspace = NULL;
+	/* VM fields */
+	newproc->p_addrspace = as_create();
+	if (newproc->p_addrspace == NULL) {
+		proc_destroy(newproc);
+		return NULL;
+	}
+
+	if (newproc->p_addrspace->pt == NULL) {
+		proc_destroy(newproc);
+		return NULL;
+	}
+
+	newproc->p_addrspace->pt->pid = newproc->p_pid;
+
 
 	/* VFS fields */
 

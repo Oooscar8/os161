@@ -55,7 +55,7 @@ void vm_bootstrap(void)
 	pmm_init();
 	vm_initialized = true;
 
-	swap_init();
+	//swap_init();
 }
 
 static paddr_t
@@ -240,7 +240,7 @@ vm_activate(struct page_table *pt)
             for (uint32_t j = 0; j < PT_ENTRIES_PER_PAGE; j++) {
                 if (pte[j].valid) {
                     vaddr_t vaddr = (i << PDE_SHIFT) | (j << PTE_SHIFT);
-                    paddr_t paddr = pte[j].pfn << PAGE_SHIFT;
+                    paddr_t paddr = pte[j].pfn_or_swap_slot << PAGE_SHIFT;
                     
                     /* Create TLB entry with ASID */
                     entryhi = (vaddr & TLBHI_VPAGE) | 
