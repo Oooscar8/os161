@@ -12,11 +12,13 @@
 #define SWAP_DEVICE "lhd0raw:"    /* Raw disk device for swap */
 #define SWAP_MAX_PAGES 1280       /* Maximum pages that can be swapped */
 
+/* 
+ * Bitmap operations for swap 
+ */
 /* Number of bits per word */
 #define BITS_PER_WORD (sizeof(unsigned long) * 8)
 /* Size of bitmap array in words, rounded up */
 #define SWAP_BITMAP_WORDS ((SWAP_MAX_PAGES + BITS_PER_WORD - 1) / BITS_PER_WORD)
-/* Bitmap operations for swap */
 #define SWAP_WORD_OFFSET(slot)  ((slot) / BITS_PER_WORD)
 #define SWAP_BIT_OFFSET(slot)   ((slot) % BITS_PER_WORD)
 #define SWAP_BITMAP_SET(bitmap, slot) \
@@ -50,10 +52,6 @@
 /*
  * Structures for swap management
  */
-struct swap_entry {
-    bool used;                   /* Entry in use */
-};
-
 struct swap_manager {
     struct vnode *swap_dev;      /* Swap device vnode */
     struct spinlock swap_lock;   /* Lock for swap operations */
