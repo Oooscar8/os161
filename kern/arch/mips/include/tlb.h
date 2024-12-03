@@ -80,7 +80,7 @@ int tlb_probe(uint32_t entryhi, uint32_t entrylo);
 
 /* Fields in the high-order word */
 #define TLBHI_VPAGE   0xfffff000
-/*      TLBHI_PID     0x00000fc0 */
+#define TLBHI_PID     0x00000fc0 
 
 /* Fields in the low-order word */
 #define TLBLO_PPAGE   0xfffff000
@@ -144,5 +144,27 @@ void vm_tlbshootdown(const struct tlbshootdown *);
 void tlbshootdown_init(struct thread *t);
 void tlbshootdown_handle(struct tlbshootdown *ts);
 void tlbshootdown_broadcast(vaddr_t vaddr, pid_t pid);
+
+/*
+ * tlb_evict - Evict a TLB entry to make room for a new one
+ * 
+ * Arguments:
+ *   None
+ * 
+ * Returns:
+ *   The index of the evicted TLB entry
+ *
+ * Description:
+ *   This function searches for a TLB entry to evict in the following order:
+ *   1. First looks for an invalid entry
+ *   2. Then looks for an entry with non-zero ASID 
+ *   3. Finally looks for ASID 0 entry if no other choice
+ *   
+ * Note:
+ *   - Must be called with interrupts disabled
+ *   - Should only be called when TLB is full
+ *   - Preserves kernel (ASID 0) entries as long as possible
+ */ 
+int tlb_evict(void);
 
 #endif /* _MIPS_TLB_H_ */
