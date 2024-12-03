@@ -42,6 +42,7 @@
 #include <pmm.h>
 #include <pagetable.h>
 #include <vaa.h>
+#include <swap.h>
 
 bool vm_initialized = false;
 static struct spinlock stealmem_lock = SPINLOCK_INITIALIZER;
