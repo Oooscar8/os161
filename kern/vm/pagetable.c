@@ -23,6 +23,8 @@ static void pte_free(struct pte *pte) {
 void pagetable_bootstrap(void) {
     /* Initialize VAA first */
     vaa_init();
+    //max 10 processes
+    pt_list = kmalloc(sizeof(struct pde *) * 10);
 }
 
 
@@ -62,6 +64,13 @@ struct page_table *pagetable_create(void) {
     pt->pid = 0;  /* Will be set by process creation code */
     pt->heap_start = 0;
     pt->heap_end = 0;
+
+    for (int i = 0; i < 10; i++) {
+        if (pt_list[i] == NULL) {
+            pt_list[i] = pt->pgdir;
+            break;
+        }
+    }
     
     return pt;
 }

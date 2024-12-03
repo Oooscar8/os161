@@ -92,6 +92,8 @@ struct page_table {
 
 struct page_table *kernel_pt;
 
+struct pde **pt_list;
+
 /*
  * Function Declarations
  */
