@@ -58,7 +58,7 @@ void vm_bootstrap(void)
 	vm_initialized = true;
 }
 
-static paddr_t
+paddr_t
 getppages(unsigned long npages)
 {
 	if (!vm_initialized)
@@ -75,10 +75,7 @@ getppages(unsigned long npages)
 		spinlock_acquire(&alloc_lock);
 		paddr_t addr = pmm_alloc_page();
 		spinlock_release(&alloc_lock);
-		if (addr == 0)
-		{
-			panic("out of memory\n");
-		}
+		
 		return addr;
 	}
 }

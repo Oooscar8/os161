@@ -58,4 +58,6 @@ void free_kpages(vaddr_t addr);
 
 void vm_activate(struct page_table *pt);
 
+paddr_t getppages(unsigned long npages);
+
 #endif /* _VM_H_ */

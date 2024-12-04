@@ -10,6 +10,8 @@
 #include <swap.h>
 #include <pagetable.h>
 #include <pr.h>
+#include <pmm.h>
+#include <kern/fcntl.h>
 
 /* Global instance */
 struct swap_manager swap_manager;
@@ -160,7 +162,7 @@ int swap_in_page(struct page_table *pt, vaddr_t vaddr) {
         if (pte != NULL) {
             spinlock_release(&pt->pt_lock);
         }
-        kfree_pages(pa);
+        pmm_free_page(pa);
         return SWAP_INVALID;
     }
 
@@ -186,7 +188,7 @@ int swap_in_page(struct page_table *pt, vaddr_t vaddr) {
         pte->valid = 0;
         pte->swap = 1;
         spinlock_release(&pt->pt_lock);
-        free_kpages(pa);
+        pmm_free_page(pa);
         return SWAP_IO_ERROR;
     }
 

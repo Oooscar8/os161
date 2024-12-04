@@ -50,7 +50,7 @@ find_victim_page(struct page_table **pt_out, vaddr_t *vaddr_out)
             }
             
             /* Get page table for this directory entry */
-            pte_page = (struct pte *)(pde->pt_pfn << PAGE_SHIFT)
+            pte_page = (struct pte *)(pde->pt_pfn << PAGE_SHIFT);
             
             /* Iterate through page table entries */
             for (unsigned int k = 0; k < PT_ENTRIES_PER_PAGE; k++) {

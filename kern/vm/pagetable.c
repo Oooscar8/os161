@@ -24,7 +24,10 @@ void pagetable_bootstrap(void) {
     /* Initialize VAA first */
     vaa_init();
     //max 10 processes
-    pt_list = kmalloc(sizeof(struct pde *) * 10);
+    pt_list = kmalloc(sizeof(struct page_table *) * 10);
+    for (int i = 0; i < 10; i++) {
+        pt_list[i] = NULL;
+    }
 }
 
 
@@ -67,7 +70,7 @@ struct page_table *pagetable_create(void) {
 
     for (int i = 0; i < 10; i++) {
         if (pt_list[i] == NULL) {
-            pt_list[i] = pt->pgdir;
+            pt_list[i] = pt;
             break;
         }
     }
