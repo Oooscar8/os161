@@ -30,7 +30,8 @@
 #ifndef _MIPS_VM_H_
 #define _MIPS_VM_H_
 
-
+#include <types.h>
+#include <spinlock.h>
 /*
  * Machine-dependent VM system definitions.
  */
@@ -117,10 +118,10 @@ paddr_t ram_getfirstfree(void);
  */
 
 struct tlbshootdown {
-	/*
-	 * Change this to what you need for your VM design.
-	 */
-	int ts_placeholder;
+	struct thread *ts_source;     
+    vaddr_t ts_vaddr;            
+    pid_t ts_pid;    
+	volatile int initiator_cpu;    
 };
 
 #define TLBSHOOTDOWN_MAX 16

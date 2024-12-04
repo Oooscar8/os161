@@ -48,6 +48,8 @@ bool vm_initialized = false;
 static struct spinlock stealmem_lock = SPINLOCK_INITIALIZER;
 static struct spinlock alloc_lock = SPINLOCK_INITIALIZER;
 
+static bool as_valid_region(struct addrspace *as, vaddr_t vaddr);
+
 
 void vm_bootstrap(void)
 {
@@ -168,7 +170,6 @@ int vm_fault(int faulttype, vaddr_t faultaddress)
 		return tlb_write_entry(entryhi, entrylo);
 	} else if (faultaddress < USERSTACK) {
 		struct addrspace *as;
-    	struct page_table *pt;
     	uint32_t flags;
 
     	/* Get current address space */
@@ -176,44 +177,60 @@ int vm_fault(int faulttype, vaddr_t faultaddress)
     	if (as == NULL) {
         	return EFAULT;
     	}
-    	pt = as->pt;
-        /* Check if address is in stack region */
-        if (faultaddress >= USERSTACK - 4096 && 
-            faultaddress < USERSTACK) {
-            paddr = pagetable_translate(pt, faultaddress, &flags);
-            if (paddr == 0) { 
-                paddr = getppages(1);
-                if (paddr == 0) {
-                    return ENOMEM;
-                }
-                
-                int result = pte_map(pt, faultaddress & PAGE_FRAME, 
-                                   paddr, PTE_USER | PTE_WRITE);
-                if (result != PT_OK) {
-                    pmm_free_page(paddr);
-                    return EFAULT;
-                }
-                
-                /* Zero the page */
-                memset((void *)PADDR_TO_KVADDR(paddr), 0, PAGE_SIZE);
-            }
-            
-            /* Write TLB entry */
-            uint32_t entryhi = (faultaddress & TLBHI_VPAGE) | (pt->pid & 0x3f) << 6;
-            uint32_t entrylo = (paddr & TLBLO_PPAGE) | TLBLO_VALID | TLBLO_DIRTY;
+    
+        if (!as_valid_region(as, faultaddress)) {
+        	return EFAULT;
+    	}
+
+    	paddr = pagetable_translate(as->pt, faultaddress, &flags);
+    
+    	if (paddr == 0) {
+        	paddr = getppages(1);
+        	if (paddr == 0) {
+            	return ENOMEM;
+        	}	
+
+        	int result = pte_map(as->pt, faultaddress & PAGE_FRAME, 
+                           paddr, PTE_USER | PTE_WRITE);
+        	if (result != PT_OK) {
+            	pmm_free_page(paddr);
+            	return EFAULT;
+        	}
+			KASSERT(paddr == pagetable_translate(as->pt, faultaddress & PAGE_FRAME, NULL));
+    	}
+
+		/* Write TLB entry */
+        uint32_t entryhi = (faultaddress & TLBHI_VPAGE);
+        uint32_t entrylo = (paddr & TLBLO_PPAGE) | TLBLO_VALID | TLBLO_DIRTY;
                               
-            return tlb_write_entry(entryhi, entrylo);
-        }
-        
-        // /* Check if address is in heap region */
-        // else if (faultaddress >= as->heap_start && 
-        //          faultaddress < as->heap_end) {
-        //     // Similar handling for heap region
-        //     // ...
-        // }
+        return tlb_write_entry(entryhi, entrylo);
 	}
 	
 	return EFAULT;
+}
+
+static bool
+as_valid_region(struct addrspace *as, vaddr_t vaddr)
+{
+    KASSERT(as != NULL);
+    
+    if (vaddr >= as->as_vbase1 && vaddr < as->as_vbase1 + as->as_npages1 * PAGE_SIZE) {
+        return true;
+    }
+    
+    if (vaddr >= as->as_vbase2 && vaddr < as->as_vbase2 + as->as_npages2 * PAGE_SIZE) {
+        return true;
+    }
+    
+	if (vaddr >= USERSTACK - PAGE_SIZE && vaddr < USERSTACK) {
+		return true;
+	}
+
+    if (vaddr >= as->heap_start && vaddr < as->heap_end) {
+        return true;
+    }
+    
+    return false;
 }
 
 void 
@@ -222,7 +239,6 @@ vm_activate(struct page_table *pt)
     int spl = splhigh();
 
     KASSERT(pt != NULL);
-    KASSERT(curthread->t_in_interrupt == false);
 
     uint32_t entryhi, entrylo;
     spinlock_acquire(&pt->pt_lock);
