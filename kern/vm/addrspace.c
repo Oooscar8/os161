@@ -190,39 +190,96 @@ as_define_region(struct addrspace *as, vaddr_t vaddr, size_t sz,
     return 0;
 }
 
-// /* as_prepare_load implementation */
-// int as_prepare_load(struct addrspace *as) {
-//     lock_acquire(as->as_lock);
+int
+as_prepare_load(struct addrspace *as)
+{
+    KASSERT(as != NULL);
     
-//     int result = pagetable_make_region_writable(as->pt, 
-//                                               as->as_vbase1,
-//                                               as->as_npages1);
-    
-//     lock_release(as->as_lock);
-//     return result;
-// }
+    struct page_table *pt = as->pt;
+    spinlock_acquire(&pt->pt_lock);
 
-// /* as_complete_load implementation */
-// int as_complete_load(struct addrspace *as) {
-//     /*
-//      * Remove write permission from text segment after loading
-//      * is complete
-//      */
-//     lock_acquire(as->as_lock);
-    
-//     int result = pagetable_set_permissions(as->pt,
-//                                          as->as_vbase1,
-//                                          as->as_npages1,
-//                                          as->as_text_prot);
-    
-//     lock_release(as->as_lock);
-//     return result;
-// }
+    /* Go through all page directory entries */
+    for (int i = 0; i < PD_ENTRIES; i++) {
+        struct pde *pde = &pt->pgdir[i];
+        if (!pde->valid) {
+            continue;
+        }
 
-/* 
- * Set up a stack region for the user process
- * Returns 0 on success, error code on failure
- */
+        /* Get the page table */
+        struct pte *pte_page = (struct pte *)(pde->pt_pfn << PAGE_SHIFT);
+        
+        /* Go through all page table entries */
+        for (int j = 0; j < PT_ENTRIES_PER_PAGE; j++) {
+            struct pte *pte = &pte_page[j];
+            if (!pte->valid) {
+                continue;
+            }
+
+            pte->write = 1;
+            
+            /* Invalidate any TLB entries for this page */
+            vaddr_t vaddr = (i << PDE_SHIFT) | (j << PTE_SHIFT);
+            tlb_invalidate_entry(vaddr);
+            tlbshootdown_broadcast(vaddr, pt->pid);
+        }
+    }
+
+    spinlock_release(&pt->pt_lock);
+    return 0;
+}
+
+
+int
+as_complete_load(struct addrspace *as)
+{
+    KASSERT(as != NULL);
+    
+    struct page_table *pt = as->pt;
+    spinlock_acquire(&pt->pt_lock);
+
+    /* Go through all page directory entries */
+    for (int i = 0; i < PD_ENTRIES; i++) {
+        struct pde *pde = &pt->pgdir[i];
+        if (!pde->valid) {
+            continue;
+        }
+
+        /* Get the page table */
+        struct pte *pte_page = (struct pte *)(pde->pt_pfn << PAGE_SHIFT);
+        
+        /* Go through all page table entries */
+        for (int j = 0; j < PT_ENTRIES_PER_PAGE; j++) {
+            struct pte *pte = &pte_page[j];
+            if (!pte->valid) {
+                continue;
+            }
+
+            vaddr_t vaddr = (i << PDE_SHIFT) | (j << PTE_SHIFT);
+            
+            /* Set permissions based on segment type */
+            if (vaddr >= as->as_vbase1 && vaddr < as->as_vbase2) {
+                pte->write = 0;
+            }
+            else if (vaddr >= as->as_vbase2 && vaddr < as->as_stackptr) {
+                pte->write = 1;
+            }
+            else if (vaddr >= USERSTACK - PAGE_SIZE && vaddr < USERSTACK) {
+                pte->write = 1;
+            }
+            else if (vaddr >= as->heap_start && vaddr < as->heap_end) {
+                pte->write = 1;
+            }
+            pte->user = 1;
+            
+            tlb_invalidate_entry(vaddr);
+            tlbshootdown_broadcast(vaddr, pt->pid);
+        }
+    }
+
+    spinlock_release(&pt->pt_lock);
+    return 0;
+}
+
 int
 as_define_stack(struct addrspace *as, vaddr_t *initstackptr)
 {
@@ -230,24 +287,6 @@ as_define_stack(struct addrspace *as, vaddr_t *initstackptr)
     KASSERT(initstackptr != NULL);
 
     *initstackptr = USERSTACK;
-    
-    /* Calculate the stack bottom (lower address) */
-    vaddr_t stackbase = USERSTACK - PAGE_SIZE;
-    
-    //allocate if we really need to
-    paddr_t pa = 0;
-    
-    /* only do map now */
-    struct page_table *pt = as->pt;
-    int result = pte_map(pt, stackbase, pa, 
-                        PTE_USER | PTE_WRITE); 
-    
-    if (result != PT_OK) {
-        return result;
-    }
-    
-    void *kstack = (void *)PADDR_TO_KVADDR(pa);
-    memset(kstack, 0, PAGE_SIZE);
     
     return 0;
 }
@@ -260,26 +299,4 @@ as_deactivate(void)
 	 * anything. See proc.c for an explanation of why it (might)
 	 * be needed.
 	 */
-}
-
-int
-as_prepare_load(struct addrspace *as)
-{
-	/*
-	 * Write this.
-	 */
-
-	(void)as;
-	return 0;
-}
-
-int
-as_complete_load(struct addrspace *as)
-{
-	/*
-	 * Write this.
-	 */
-
-	(void)as;
-	return 0;
 }
