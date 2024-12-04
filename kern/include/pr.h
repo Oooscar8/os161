@@ -11,6 +11,6 @@
 #define PR_ERROR       -2    /* General error */
 
 /* Function declarations */
-int evict_page(bool emergency);
+int evict_page(paddr_t *victim_pa, bool emergency);
 
 #endif /* _PAGE_REPLACEMENT_H_ */

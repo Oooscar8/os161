@@ -14,6 +14,7 @@
 #include <current.h>
 #include <mips/tlb.h>
 #include <pmm.h>
+#include <swap.h>
 
 static void pte_free(struct pte *pte) {
     kfree(pte);
@@ -231,12 +232,43 @@ paddr_t pagetable_translate(struct page_table *pt, vaddr_t vaddr, uint32_t *flag
     }
     
     pte = &pte[PTE_INDEX(vaddr)];
+
+    /* Check if page is in memory */
     if (!pte->valid) {
-        panic("pte is not valid\n");
-        if (flags) *flags = 0;
-        spinlock_release(&pt->pt_lock);
-        return 0;
+        /* Check if page is in swap */
+        if (PTE_ONSWAP(pte)) {
+            /* Release lock before calling swap_in_page */
+            spinlock_release(&pt->pt_lock);
+            
+            /* Try to swap in the page */
+            int result = swap_in_page(pt, vaddr & PAGE_FRAME);
+            if (result != SWAP_SUCCESS) {
+                panic("swap_in_page failed\n");
+                return 0;
+            }
+            
+            /* Reacquire lock and get PTE again as it might have changed */
+            spinlock_acquire(&pt->pt_lock);
+            pte = (struct pte *)(pde->pt_pfn << PAGE_SHIFT);
+            pte = &pte[PTE_INDEX(vaddr)];
+        } else {
+            /* Page is neither in memory nor in swap */
+            spinlock_release(&pt->pt_lock);
+            panic("page is neither in memory nor in swap\n");
+            return 0;
+        }
     }
+
+    if (!pte->valid) {
+        panic("page should be valid after swap in\n");
+    }
+
+    // if (!pte->valid) {
+    //     panic("pte is not valid\n");
+    //     if (flags) *flags = 0;
+    //     spinlock_release(&pt->pt_lock);
+    //     return 0;
+    // }
 
     if (flags) {
         *flags = 0;

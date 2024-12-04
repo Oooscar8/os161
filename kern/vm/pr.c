@@ -91,10 +91,10 @@ find_victim_page(struct page_table **pt_out, vaddr_t *vaddr_out)
 /*
  * evict_page
  * Finds and evicts a page from memory
- * Returns: 0 on success, negative value on error
+ * Returns: physical address of the evicted page on success, negative value on error
  */
 int
-evict_page(bool emergency)
+evict_page(paddr_t *victim_pa, bool emergency)
 {
     struct page_table *victim_pt;
     vaddr_t victim_vaddr;
@@ -105,6 +105,8 @@ evict_page(bool emergency)
     if (result != 0) {
         panic("evict_page: no victim found\n");
     }
+
+    *victim_pa = pagetable_translate(victim_pt, victim_vaddr, NULL);
 
     /* Swap out the victim page */
     result = swap_out_page(victim_pt, victim_vaddr, emergency);

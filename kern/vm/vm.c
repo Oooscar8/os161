@@ -73,12 +73,20 @@ getppages(unsigned long npages)
 	}
 	else
 	{
-		KASSERT(npages == 1);
-		spinlock_acquire(&alloc_lock);
-		paddr_t addr = pmm_alloc_page();
-		spinlock_release(&alloc_lock);
+		if (npages == 1) {
+			spinlock_acquire(&alloc_lock);
+			paddr_t addr = pmm_alloc_page();
+			spinlock_release(&alloc_lock);
 		
-		return addr;
+			return addr;
+		}
+		else {
+			spinlock_acquire(&alloc_lock);
+			paddr_t addr = pmm_alloc_npages(npages);
+			spinlock_release(&alloc_lock);
+		
+			return addr;
+		}
 	}
 }
 
@@ -97,17 +105,30 @@ alloc_kpages(unsigned npages)
 	}
 	else
 	{
-		KASSERT(npages == 1);
-		spinlock_acquire(&alloc_lock);
-		vaddr_t va = vaa_alloc_kpage();
+		if (npages == 1) {
+			spinlock_acquire(&alloc_lock);
+		    vaddr_t va = vaa_alloc_kpage();
 		
-		pte_map(kernel_pt, va, pa, PTE_WRITE);
+		    pte_map(kernel_pt, va, pa, PTE_WRITE);
 
-		// zero out the page
-		memset((void *)va, 0, PAGE_SIZE);
-		spinlock_release(&alloc_lock);
-		KASSERT(va >= MIPS_KSEG2);
-		return va;
+		    // zero out the page
+		    memset((void *)va, 0, PAGE_SIZE);
+		    spinlock_release(&alloc_lock);
+		    KASSERT(va >= MIPS_KSEG2);
+		    return va;
+		}
+		else {
+			spinlock_acquire(&alloc_lock);
+		    vaddr_t va = vaa_alloc_npages(npages);
+		
+		    pagetable_map_region(kernel_pt, va, pa, npages, PTE_WRITE);
+
+		    // zero out the page
+		    memset((void *)va, 0, PAGE_SIZE * npages);
+		    spinlock_release(&alloc_lock);
+		    KASSERT(va >= MIPS_KSEG2);
+		    return va;
+		}
 	}
 }
 

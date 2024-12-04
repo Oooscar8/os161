@@ -117,7 +117,7 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr, bool emergency) {
 
     spinlock_release(&pt->pt_lock);
 
-     /* Invalidate TLB entry on current CPU */
+    /* Invalidate TLB entry on current CPU */
     tlb_invalidate_entry(vaddr);
     
     /* Broadcast TLB shootdown to other CPUs */
@@ -144,14 +144,8 @@ int swap_in_page(struct page_table *pt, vaddr_t vaddr) {
     pa = getppages(1);
     /* If physical memory is full, evict a page before swapping in */
     if (pa == 0) {
-        result = evict_page(true);
+        result = evict_page(&pa, true);
         if (result != PR_SUCCESS) {
-            return SWAP_NOMEM;
-        }
-        
-        /* Retry getting a physical page */
-        pa = getppages(1);
-        if (pa == 0) {
             return SWAP_NOMEM;
         }
     }
