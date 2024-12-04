@@ -9,6 +9,7 @@
 #include <spinlock.h>
 #include <swap.h>
 #include <pagetable.h>
+#include <pr.h>
 
 /* Global instance */
 struct swap_manager swap_manager;
@@ -141,10 +142,8 @@ int swap_in_page(struct page_table *pt, vaddr_t vaddr) {
     pa = getppages(1);
     /* If physical memory is full, evict a page before swapping in */
     if (pa == 0) {
-        /* Use FIFO to select victim page */
-        vaddr_t victim_vaddr;
-        result = fifo_evict_page(pt, &victim_vaddr);
-        if (result != PR_OK) {
+        result = evict_page(true);
+        if (result != PR_SUCCESS) {
             return SWAP_NOMEM;
         }
         
