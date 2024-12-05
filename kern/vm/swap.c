@@ -121,7 +121,7 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr, bool emergency) {
     tlb_invalidate_entry(vaddr);
     
     /* Broadcast TLB shootdown to other CPUs */
-    tlbshootdown_broadcast(vaddr, pt->pid);
+    //tlbshootdown_broadcast(vaddr, pt->pid);
     
     return SWAP_SUCCESS;
 }
@@ -163,9 +163,8 @@ int swap_in_page(struct page_table *pt, vaddr_t vaddr) {
     /* Get swap slot number */
     slot = PTE_GET_SWAP_SLOT(pte);
 
-    /* Set pfn and valid bit, clear swap bit, keep other flags unchanged */
+    /* Set pfn, clear swap bit, keep other flags unchanged */
     pte->pfn_or_swap_slot = pa >> PAGE_SHIFT;
-    pte->valid = 1;
     pte->swap = 0;
 
     /* Release page table lock before I/O */
@@ -179,7 +178,6 @@ int swap_in_page(struct page_table *pt, vaddr_t vaddr) {
     if (result) {
         spinlock_acquire(&pt->pt_lock);
         pte->pfn_or_swap_slot = slot;
-        pte->valid = 0;
         pte->swap = 1;
         spinlock_release(&pt->pt_lock);
         pmm_free_page(pa);

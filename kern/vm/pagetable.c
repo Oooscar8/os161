@@ -271,35 +271,37 @@ paddr_t pagetable_translate(struct page_table *pt, vaddr_t vaddr, uint32_t *flag
     }
 
     pte = &pte[PTE_INDEX(vaddr)];
-
-    /* Check if page is in memory */
-    if (!pte->valid) {
-        /* Check if page is in swap */
-        if (PTE_ONSWAP(pte)) {
-            /* Release lock before calling swap_in_page */
+    if (!pte->valid)
+    {   
+        if (vaddr >= MIPS_KSEG2)
+        {   
             spinlock_release(&pt->pt_lock);
-            
-            /* Try to swap in the page */
-            int result = swap_in_page(pt, vaddr & PAGE_FRAME);
-            if (result != SWAP_SUCCESS) {
-                panic("swap_in_page failed\n");
-                return 0;
-            }
-            
-            /* Reacquire lock and get PTE again as it might have changed */
-            spinlock_acquire(&pt->pt_lock);
-            pte = (struct pte *)(pde->pt_pfn << PAGE_SHIFT);
-            pte = &pte[PTE_INDEX(vaddr)];
-        } else {
-            /* Page is neither in memory nor in swap */
-            spinlock_release(&pt->pt_lock);
-            panic("page is neither in memory nor in swap\n");
+            panic("pte is not valid\n");
             return 0;
         }
+        
+        if (flags)
+            *flags = 0;
+        spinlock_release(&pt->pt_lock);
+        return 0;
     }
 
-    if (!pte->valid) {
-        panic("page should be valid after swap in\n");
+    /* If page is in swap, bring it back */
+    if (PTE_ONSWAP(pte)) {
+        /* Release lock before calling swap_in_page */
+        spinlock_release(&pt->pt_lock);
+            
+        /* Try to swap in the page */
+        int result = swap_in_page(pt, vaddr & PAGE_FRAME);
+        if (result != SWAP_SUCCESS) {
+            panic("swap_in_page failed\n");
+            return 0;
+        }
+            
+        /* Reacquire lock and get PTE again as it might have changed */
+        spinlock_acquire(&pt->pt_lock);
+        pte = (struct pte *)(pde->pt_pfn << PAGE_SHIFT);
+        pte = &pte[PTE_INDEX(vaddr)];
     }
 
     pte->accessed = 1;

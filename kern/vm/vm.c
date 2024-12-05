@@ -55,7 +55,7 @@ void vm_bootstrap(void)
 {
 	pagetable_bootstrap();
 	pagetable_init();
-	//swap_init();
+	swap_init();
 	pmm_init();
 	vm_initialized = true;
 }

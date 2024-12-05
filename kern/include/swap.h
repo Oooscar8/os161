@@ -41,10 +41,9 @@
 /*
  * PTE manipulation macros for swap
  */
-#define PTE_ONSWAP(pte) (!((pte)->valid) && ((pte)->swap))
+#define PTE_ONSWAP(pte) (((pte)->valid) && ((pte)->swap))
 #define PTE_GET_SWAP_SLOT(pte) ((pte)->pfn_or_swap_slot)
 #define PTE_SET_SWAP_SLOT(pte, slot) do { \
-    (pte)->valid = 0; \
     (pte)->swap = 1; \
     (pte)->pfn_or_swap_slot = (slot); \
 } while(0)
