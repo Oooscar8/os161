@@ -54,7 +54,7 @@ void vm_bootstrap(void)
 {
 	pagetable_bootstrap();
 	pagetable_init();
-	swap_init();
+	//swap_init();
 	pmm_init();
 	vm_initialized = true;
 }
@@ -141,6 +141,12 @@ void free_kpages(vaddr_t addr)
 	}
 	//user space pages
 	else {
+		// spinlock_acquire(&alloc_lock);
+		// struct addrspace *as = proc_getas();
+		// paddr_t paddr = pagetable_translate(as->pt, addr, NULL);
+		// pte_unmap(as->pt, addr);
+		// pmm_free_page(paddr);
+		// spinlock_release(&alloc_lock);
 		return;
 	}
 }
@@ -224,7 +230,7 @@ as_valid_region(struct addrspace *as, vaddr_t vaddr)
         return true;
     }
     
-	if (vaddr >= USERSTACK - PAGE_SIZE && vaddr < USERSTACK) {
+	if (vaddr >= USERSTACK - (PAGE_SIZE * 2) && vaddr < USERSTACK) {
 		return true;
 	}
 
@@ -242,31 +248,31 @@ vm_activate(struct page_table *pt)
 
     KASSERT(pt != NULL);
 
-    uint32_t entryhi, entrylo;
+    //uint32_t entryhi, entrylo;
     spinlock_acquire(&pt->pt_lock);
 
     /* Invalidate all TLB entries first */
     tlb_invalidate_all();
 
     /* Load kernel mappings into TLB */
-    for (uint32_t i = 0; i < PD_ENTRIES; i++) {
-        if (pt->pgdir[i].valid) {
-            struct pte *pte = (struct pte *)(pt->pgdir[i].pt_pfn << PAGE_SHIFT);
-            for (uint32_t j = 0; j < PT_ENTRIES_PER_PAGE; j++) {
-                if (pte[j].valid) {
-                    vaddr_t vaddr = (i << PDE_SHIFT) | (j << PTE_SHIFT);
-                    paddr_t paddr = pte[j].pfn_or_swap_slot << PAGE_SHIFT;
+    // for (uint32_t i = 0; i < PD_ENTRIES; i++) {
+    //     if (pt->pgdir[i].valid) {
+    //         struct pte *pte = (struct pte *)(pt->pgdir[i].pt_pfn << PAGE_SHIFT);
+    //         for (uint32_t j = 0; j < PT_ENTRIES_PER_PAGE; j++) {
+    //             if (pte[j].valid) {
+    //                 vaddr_t vaddr = (i << PDE_SHIFT) | (j << PTE_SHIFT);
+    //                 paddr_t paddr = pte[j].pfn_or_swap_slot << PAGE_SHIFT;
                     
-                    /* Create TLB entry with ASID */
-                    entryhi = (vaddr & TLBHI_VPAGE) | 
-                             ((pt->pid & 0x3f) << 6);
-                    entrylo = (paddr & TLBLO_PPAGE) | TLBLO_VALID | TLBLO_DIRTY;
+    //                 /* Create TLB entry with ASID */
+    //                 entryhi = (vaddr & TLBHI_VPAGE) | 
+    //                          ((pt->pid & 0x3f) << 6);
+    //                 entrylo = (paddr & TLBLO_PPAGE) | TLBLO_VALID | TLBLO_DIRTY;
 
-                    tlb_write_entry(entryhi, entrylo);
-                }
-            }
-        }
-    }
+    //                 tlb_write_entry(entryhi, entrylo);
+    //             }
+    //         }
+    //     }
+    //}
 
     spinlock_release(&pt->pt_lock);
     splx(spl);

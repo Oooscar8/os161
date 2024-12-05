@@ -265,7 +265,6 @@ paddr_t pagetable_translate(struct page_table *pt, vaddr_t vaddr, uint32_t *flag
     }
 
     pte = &pte[PTE_INDEX(vaddr)];
-    pte->accessed = 1;
     if (!pte->valid)
     {   
         if (vaddr >= MIPS_KSEG2)
@@ -281,6 +280,7 @@ paddr_t pagetable_translate(struct page_table *pt, vaddr_t vaddr, uint32_t *flag
         return 0;
     }
 
+    pte->accessed = 1;
     if (flags)
     {
         *flags = 0;
@@ -378,6 +378,7 @@ int pagetable_copy(struct page_table *src_pt, struct page_table *dst_pt)
                 /* Failed to allocate - cleanup and return */
                 spinlock_release(&dst_pt->pt_lock);
                 spinlock_release(&src_pt->pt_lock);
+                panic("Failed to allocate page table\n");
                 pagetable_destroy(dst_pt);
                 return PT_NOMEM;
             }
@@ -402,7 +403,10 @@ int pagetable_copy(struct page_table *src_pt, struct page_table *dst_pt)
                 {   
                     paddr_t new_paddr = pmm_alloc_page();
                     if (new_paddr == 0) {
-                    return PT_NOMEM;
+                        spinlock_release(&dst_pt->pt_lock);
+                        spinlock_release(&src_pt->pt_lock);
+                        panic("Failed to allocate page table\n");
+                        return PT_NOMEM;
                     }
                 
                     memcpy((void *)PADDR_TO_KVADDR(new_paddr),
