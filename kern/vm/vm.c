@@ -141,12 +141,12 @@ void free_kpages(vaddr_t addr)
 	}
 	//user space pages
 	else {
-		// spinlock_acquire(&alloc_lock);
-		// struct addrspace *as = proc_getas();
-		// paddr_t paddr = pagetable_translate(as->pt, addr, NULL);
-		// pte_unmap(as->pt, addr);
-		// pmm_free_page(paddr);
-		// spinlock_release(&alloc_lock);
+		spinlock_acquire(&alloc_lock);
+		struct addrspace *as = proc_getas();
+		paddr_t paddr = pagetable_translate(as->pt, addr, NULL);
+		pte_unmap(as->pt, addr);
+		pmm_free_page(paddr);
+		spinlock_release(&alloc_lock);
 		return;
 	}
 }

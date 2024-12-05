@@ -107,9 +107,9 @@ void pagetable_destroy(struct page_table *pt)
                 if (pte[j].valid)
                 {
                     /* Free physical page if it exists */
-                    spinlock_release(&pt->pt_lock);
-                    pte_unmap(pt, (i << PDE_SHIFT) | (j << PTE_SHIFT));
-                    spinlock_acquire(&pt->pt_lock);
+                    //spinlock_release(&pt->pt_lock);
+                    //kfree((void *) ((i << PDE_SHIFT) | (j << PTE_SHIFT)));
+                    //spinlock_acquire(&pt->pt_lock);
                 }
             }
             /* Free the page table itself */
@@ -204,7 +204,7 @@ int pte_unmap(struct page_table *pt, vaddr_t vaddr)
 
     /* Get the page directory entry */
     spinlock_acquire(&pt->pt_lock);
-    //tlbshootdown_broadcast(vaddr, curproc->p_pid);
+    tlbshootdown_broadcast(vaddr, curproc->p_pid);
     pde = &pt->pgdir[PDE_INDEX(vaddr)];
     if (!pde->valid)
     {

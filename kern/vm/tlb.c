@@ -60,11 +60,12 @@ void
 tlb_invalidate_entry(vaddr_t vaddr)
 {
     //KASSERT(curthread->t_in_interrupt || curthread->t_iplhigh_count > 0);
-     
+    int spl = splhigh();
     int index = tlb_probe(vaddr, 0);
     if (index >= 0) {
         tlb_write(TLBHI_INVALID(index), TLBLO_INVALID(), index);
     }
+    splx(spl);
     
 }
 
@@ -72,15 +73,15 @@ int tlb_write_entry(uint32_t entryhi, uint32_t entrylo) {
 
     int i;
     int spl = splhigh();
-    uint32_t ehi, elo;
 
-    for (i = 0; i < NUM_TLB; i++) {
-        tlb_read(&ehi, &elo, i);
-        if ((elo & TLBLO_VALID) && ((ehi & TLBHI_VPAGE) == (entryhi & TLBHI_VPAGE))) {
-            tlb_write(entryhi, entrylo, i);
-            return 0;
-        }
-    }
+
+
+
+
+
+
+
+
 
     i = tlb_evict();
     tlb_write(entryhi, entrylo, i);
