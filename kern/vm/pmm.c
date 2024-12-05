@@ -216,3 +216,98 @@ int pmm_free_page(paddr_t addr)
 
     return 0;
 }
+
+/* Allocate n non-continuous physical pages */
+paddr_t* pmm_alloc_npages_noncontiguous(size_t npages) {
+    paddr_t *page_array = NULL;
+    size_t pages_allocated = 0;
+
+    if (npages == 0) {
+        return NULL;
+    }
+
+    /* Allocate array to store physical addresses */
+    page_array = kmalloc(sizeof(paddr_t) * npages);
+    if (page_array == NULL) {
+        return NULL;
+    }
+
+    /* Acquire the lock */
+    spinlock_acquire(&pmm_lock);
+
+    /* First try to allocate from free pages */
+    for (size_t i = 0; i < total_pages && pages_allocated < npages; i++) {
+        if (!BITMAP_TEST(bitmap, i)) {
+            BITMAP_SET(bitmap, i);
+            page_array[pages_allocated] = i * PAGE_SIZE;
+            pages_allocated++;
+            free_pages--;
+        }
+    }
+
+    /* If we need more pages, try evicting */
+    if (pages_allocated < npages) {
+        /* Release lock before trying to evict */
+        spinlock_release(&pmm_lock);
+
+        /* Try to evict remaining needed pages */
+        for (size_t i = pages_allocated; i < npages; i++) {
+            paddr_t evicted_addr;
+            int result = evict_page(&evicted_addr, false);  // false means don't use reserved slot
+            if (result != PR_SUCCESS) {
+                /* If eviction fails, call panic */
+                panic('pmm_alloc_npages_noncontiguous: eviction failed\n');
+                return NULL;
+            }
+            page_array[i] = evicted_addr;
+            pages_allocated++;
+        }
+
+        // /* Reacquire lock to update bitmap for evicted pages */
+        // spinlock_acquire(&pmm_lock);
+        // for (size_t i = 0; i < npages; i++) {
+        //     size_t page_index = page_array[i] / PAGE_SIZE;
+        //     if (!BITMAP_TEST(bitmap, page_index)) {
+        //         BITMAP_SET(bitmap, page_index);
+        //     }
+        // }
+    }
+    // /* Release the lock */
+    // spinlock_release(&pmm_lock);
+
+    return page_array;
+}
+
+/* Free multiple non-continuous pages */
+void pmm_free_npages_noncontiguous(paddr_t *pages, size_t npages) {
+    if (pages == NULL || npages == 0) {
+        return;
+    }
+
+    spinlock_acquire(&pmm_lock);
+
+    for (size_t i = 0; i < npages; i++) {
+        /* Verify the address is valid */
+        if (pages[i] == 0 || !(pages[i] & PAGE_MASK) || 
+            pages[i] >= total_pages * PAGE_SIZE) {
+            spinlock_release(&pmm_lock);
+            panic("pmm_free_npages_noncontiguous: invalid address\n");
+            return;
+        }
+
+        size_t page_index = pages[i] / PAGE_SIZE;
+        
+        /* Check if page is already free */
+        if (!BITMAP_TEST(bitmap, page_index)) {
+            spinlock_release(&pmm_lock);
+            panic("pmm_free_npages_noncontiguous: page already free\n");
+            return;
+        }
+
+        /* Free the page */
+        BITMAP_CLEAR(bitmap, page_index);
+        free_pages++;
+    }
+
+    spinlock_release(&pmm_lock);
+}

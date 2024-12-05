@@ -77,6 +77,10 @@ int pmm_free_page(paddr_t addr);
  */
 paddr_t pmm_alloc_npages(size_t npages);
 
+paddr_t* pmm_alloc_npages_noncontiguous(size_t npages);
+
+void pmm_free_npages_noncontiguous(paddr_t *pages, size_t npages);
+
 //not implement pmm_destroy
 
 #endif /* _PMM_H_ */
