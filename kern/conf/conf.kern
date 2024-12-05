@@ -404,7 +404,7 @@ file      syscall/getpid_syscalls.c
 file      syscall/_exit_syscalls.c
 file      syscall/waitpid_syscalls.c
 file      syscall/execv_syscalls.c
-file      syscall/sbrk_syscalls.c
+# file      syscall/sbrk_syscalls.c
 
 #
 # Startup and initialization

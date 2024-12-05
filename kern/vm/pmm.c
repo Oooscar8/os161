@@ -256,7 +256,7 @@ paddr_t* pmm_alloc_npages_noncontiguous(size_t npages) {
             int result = evict_page(&evicted_addr, false);  // false means don't use reserved slot
             if (result != PR_SUCCESS) {
                 /* If eviction fails, call panic */
-                panic('pmm_alloc_npages_noncontiguous: eviction failed\n');
+                panic("pmm_alloc_npages_noncontiguous: eviction failed\n");
                 return NULL;
             }
             page_array[i] = evicted_addr;
