@@ -523,11 +523,17 @@ thread_fork(const char *name,
 	}
 
 	/* Allocate a stack */
-	newthread->t_stack = kmalloc(STACK_SIZE);
-	if (newthread->t_stack == NULL) {
+	paddr_t pa = pmm_alloc_page();
+	if (pa == 0) {
 		thread_destroy(newthread);
 		return ENOMEM;
 	}
+	newthread->t_stack = (void *)PADDR_TO_KVADDR(pa);
+	//newthread->t_stack = kmalloc(STACK_SIZE);
+	// if (newthread->t_stack == NULL) {
+	// 	thread_destroy(newthread);
+	// 	return ENOMEM;
+	// }
 	thread_checkstack_init(newthread);
 
 	/*

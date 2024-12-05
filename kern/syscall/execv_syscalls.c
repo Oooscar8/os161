@@ -24,7 +24,7 @@ static int count_args(char **args, size_t *nargs_ret, size_t *total_size_ret) {
     int result;
     size_t len;
 
-    const size_t INITIAL_BUF_SIZE = 4096;
+    const size_t INITIAL_BUF_SIZE = 128;
     char *kbuf = kmalloc(INITIAL_BUF_SIZE);
     if (kbuf == NULL) {
         return ENOMEM;

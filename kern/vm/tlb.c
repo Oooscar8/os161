@@ -55,34 +55,38 @@ void vm_tlbshootdown(const struct tlbshootdown *ts) {
 }
 
 
+// accessed bit = 0
 void
 tlb_invalidate_entry(vaddr_t vaddr)
 {
-    KASSERT(curthread->t_in_interrupt || curthread->t_iplhigh_count > 0);
-     
+    //KASSERT(curthread->t_in_interrupt || curthread->t_iplhigh_count > 0);
+    int spl = splhigh();
     int index = tlb_probe(vaddr, 0);
     if (index >= 0) {
         tlb_write(TLBHI_INVALID(index), TLBLO_INVALID(), index);
     }
+    splx(spl);
     
 }
 
 int tlb_write_entry(uint32_t entryhi, uint32_t entrylo) {
 
     int i;
-    uint32_t ehi, elo;
+    int spl = splhigh();
 
-    for (i = 0; i < NUM_TLB; i++) {
-        tlb_read(&ehi, &elo, i);
-        if ((elo & TLBLO_VALID) && ((ehi & TLBHI_VPAGE) == (entryhi & TLBHI_VPAGE))) {
-            tlb_write(entryhi, entrylo, i);
-            return 0;
-        }
-    }
+
+
+
+
+
+
+
+
 
     i = tlb_evict();
     tlb_write(entryhi, entrylo, i);
 
+    splx(spl);
     return 0;
 }
 
@@ -92,7 +96,7 @@ tlb_evict(void)
     uint32_t entryhi, entrylo;
     int i;
     
-    //KASSERT(curthread->t_in_interrupt || curthread->t_iplhigh_count > 0);
+    KASSERT(curthread->t_in_interrupt || curthread->t_iplhigh_count > 0);
 
     /* First try to find an invalid entry */
     for (i = 0; i < NUM_TLB; i++) {
@@ -120,11 +124,13 @@ tlb_evict(void)
 }
 
 void tlb_invalidate_all(void) {
+    int spl = splhigh();
     uint32_t i, ehi, elo;
     for (i = 0; i < NUM_TLB; i++) {
         tlb_read(&ehi, &elo, i);
-        if ((elo & TLBLO_VALID ) && ((ehi & TLBHI_PID) >> 6) != 1) {
+        if ((elo & TLBLO_VALID ) && (elo & TLBLO_GLOBAL) == 0) {
             tlb_write(TLBHI_INVALID(i), TLBLO_INVALID(), i);
         }
     }
+    splx(spl);
 }

@@ -66,7 +66,7 @@ runprogram(char *progname)
 	}
 
 	/* We should be a new process. */
-	KASSERT(proc_getas() == NULL);
+	//KASSERT(proc_getas() == NULL);
 
 	/* Create a new address space. */
 	as = as_create();

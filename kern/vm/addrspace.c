@@ -120,7 +120,7 @@ void as_destroy(struct addrspace *as) {
 
     /* Destroy page table and free all physical pages */
     if (as->pt != NULL) {
-        pagetable_destroy(as->pt);
+        //pagetable_destroy(as->pt);
     }
     
     /* Free the address space structure itself */

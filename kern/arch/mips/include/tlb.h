@@ -108,7 +108,7 @@ int tlb_probe(uint32_t entryhi, uint32_t entrylo);
  * TLB Management Functions 
  */
 
-int tlb_write_entry(paddr_t pa, vaddr_t va);
+int tlb_write_entry(uint32_t entryhi, uint32_t entrylo);
 /**
  * Invalidate TLB entry for a virtual address.
  * 
@@ -117,16 +117,10 @@ int tlb_write_entry(paddr_t pa, vaddr_t va);
 void tlb_invalidate_entry(vaddr_t vaddr);
 
 /**
- * Invalidate all TLB entries.
+ * Invalidate all TLB entries except kernel entries.
  */
 void tlb_invalidate_all(void);
 
-/**
- * Invalidate all TLB entries for given ASID.
- * 
- * @param asid: Address space ID to invalidate
- */
-void tlb_invalidate_asid(unsigned int asid);
 
 /**
  * Update TLB entry for a virtual address.
@@ -139,7 +133,7 @@ void tlb_invalidate_asid(unsigned int asid);
 
 /* TLB shootdown handling called from interprocessor_interrupt */
 void vm_tlbshootdown_all(void);
-void vm_tlbshootdown(const struct tlbshootdown *);
+void vm_tlbshootdown(const struct tlbshootdown *ts);
 
 void tlbshootdown_init(struct thread *t);
 void tlbshootdown_handle(struct tlbshootdown *ts);
@@ -163,7 +157,7 @@ void tlbshootdown_broadcast(vaddr_t vaddr, pid_t pid);
  * Note:
  *   - Must be called with interrupts disabled
  *   - Should only be called when TLB is full
- *   - Preserves kernel (ASID 0) entries as long as possible
+ *   - Preserves kernel (ASID 1) entries as long as possible
  */ 
 int tlb_evict(void);
 
