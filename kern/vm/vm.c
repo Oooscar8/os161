@@ -42,6 +42,7 @@
 #include <pmm.h>
 #include <pagetable.h>
 #include <vaa.h>
+#include <swap.h>
 
 bool vm_initialized = false;
 static struct spinlock stealmem_lock = SPINLOCK_INITIALIZER;
@@ -59,7 +60,7 @@ void vm_bootstrap(void)
 	vm_initialized = true;
 }
 
-static paddr_t
+paddr_t
 getppages(unsigned long npages)
 {
 	if (!vm_initialized)
@@ -72,15 +73,20 @@ getppages(unsigned long npages)
 	}
 	else
 	{
-		KASSERT(npages == 1);
-		spinlock_acquire(&alloc_lock);
-		paddr_t addr = pmm_alloc_page();
-		spinlock_release(&alloc_lock);
-		if (addr == 0)
-		{
-			panic("out of memory\n");
+		if (npages == 1) {
+			spinlock_acquire(&alloc_lock);
+			paddr_t addr = pmm_alloc_page();
+			spinlock_release(&alloc_lock);
+		
+			return addr;
 		}
-		return addr;
+		else {
+			spinlock_acquire(&alloc_lock);
+			paddr_t addr = pmm_alloc_npages(npages);
+			spinlock_release(&alloc_lock);
+		
+			return addr;
+		}
 	}
 }
 
@@ -99,17 +105,30 @@ alloc_kpages(unsigned npages)
 	}
 	else
 	{
-		KASSERT(npages == 1);
-		spinlock_acquire(&alloc_lock);
-		vaddr_t va = vaa_alloc_kpage();
+		if (npages == 1) {
+			spinlock_acquire(&alloc_lock);
+		    vaddr_t va = vaa_alloc_kpage();
 		
-		pte_map(kernel_pt, va, pa, PTE_WRITE);
+		    pte_map(kernel_pt, va, pa, PTE_WRITE);
 
-		// zero out the page
-		memset((void *)va, 0, PAGE_SIZE);
-		spinlock_release(&alloc_lock);
-		KASSERT(va >= MIPS_KSEG2);
-		return va;
+		    // zero out the page
+		    memset((void *)va, 0, PAGE_SIZE);
+		    spinlock_release(&alloc_lock);
+		    KASSERT(va >= MIPS_KSEG2);
+		    return va;
+		}
+		else {
+			spinlock_acquire(&alloc_lock);
+		    vaddr_t va = vaa_alloc_npages(npages);
+		
+		    pagetable_map_region(kernel_pt, va, pa, npages, PTE_WRITE);
+
+		    // zero out the page
+		    memset((void *)va, 0, PAGE_SIZE * npages);
+		    spinlock_release(&alloc_lock);
+		    KASSERT(va >= MIPS_KSEG2);
+		    return va;
+		}
 	}
 }
 

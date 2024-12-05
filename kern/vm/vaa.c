@@ -30,7 +30,7 @@ static void init_kernel_region(void)
     size_t bitmap_size;
 
     /* Calculate total pages in kernel space */
-    kernel_total_pages = 200;
+    kernel_total_pages = 2000;
     kernel_free_pages = kernel_total_pages;
 
     /* Calculate bitmap size (in bytes) and round up to word size */

@@ -4,6 +4,7 @@
 #include <pmm.h>
 #include <spinlock.h>
 #include <kern/errno.h>
+#include <pr.h>
 
 /* Global variables */
 static volatile unsigned long *volatile bitmap;     /* Bitmap array */
@@ -89,10 +90,25 @@ paddr_t pmm_alloc_page(void)
     /* Acquire the lock */
     spinlock_acquire(&pmm_lock);
 
+    // /* Check if we have free pages */
+    // if (free_pages == 0) {
+    //     spinlock_release(&pmm_lock);
+    //     return 0;
+    // }
+
     /* Check if we have free pages */
     if (free_pages == 0) {
+        /* Release lock before trying to evict */
         spinlock_release(&pmm_lock);
-        return 0;
+        
+        /* Try to evict a page */
+        int result = evict_page(&addr, false);  // false means don't use reserved slot
+        if (result != PR_SUCCESS) {
+            panic("pmm_alloc_page: failed to evict page\n");
+            return 0;
+        }
+
+        return addr;
     }
 
     /* Find a free page */

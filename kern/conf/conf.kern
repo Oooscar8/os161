@@ -351,6 +351,8 @@ file      vm/pmm.c
 file      vm/vaa.c 
 file      vm/pagetable.c
 file      vm/tlb.c
+file      vm/swap.c
+file      vm/pr.c
 
 # optofffile dumbvm   vm/addrspace.c
 

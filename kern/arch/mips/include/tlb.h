@@ -87,6 +87,7 @@ int tlb_probe(uint32_t entryhi, uint32_t entrylo);
 #define TLBLO_NOCACHE 0x00000800
 #define TLBLO_DIRTY   0x00000400
 #define TLBLO_VALID   0x00000200
+#define TLBLO_GLOBAL  0x00000100
 #define TLBLO_GLOBAL  0x00000100 
 
 /*
