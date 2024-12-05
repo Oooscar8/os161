@@ -55,7 +55,7 @@ int pmm_init(void)
 
     /* Initialize bitmap - (0 = free, 1 = allocated) */
     size_t early_pages = total_pages - free_pages;
-    for (size_t i = 0; i < early_pages + 1; i++) {
+    for (size_t i = 0; i < early_pages; i++) {
         BITMAP_SET(bitmap, i);
     }
 

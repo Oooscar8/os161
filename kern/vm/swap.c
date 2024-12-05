@@ -121,7 +121,7 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr, bool emergency) {
     tlb_invalidate_entry(vaddr);
     
     /* Broadcast TLB shootdown to other CPUs */
-    //tlbshootdown_broadcast(vaddr, pt->pid);
+    tlbshootdown_broadcast(vaddr, pt->pid);
     
     return SWAP_SUCCESS;
 }
