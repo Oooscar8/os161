@@ -92,6 +92,11 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr, bool emergency) {
     /* Write page to swap space */
     uio_kinit(&iov, &ku, (void *)vaddr, PAGE_SIZE,
               SWAP_PAGE_TO_OFFSET(slot), UIO_WRITE);
+    if (vaddr < MIPS_KSEG0) {
+        // User space address (kuseg)
+        ku.uio_segflg = UIO_USERSPACE;
+        ku.uio_space = curproc->p_addrspace;
+    }
 
     result = VOP_WRITE(swap_manager.swap_dev, &ku);
     if (result) {
@@ -173,6 +178,11 @@ int swap_in_page(struct page_table *pt, vaddr_t vaddr) {
     /* Read page from swap directly to mapped page */
     uio_kinit(&iov, &ku, (void *)vaddr, PAGE_SIZE,
               SWAP_PAGE_TO_OFFSET(slot), UIO_READ);
+    if (vaddr < MIPS_KSEG0) {
+        // User space address (kuseg)
+        ku.uio_segflg = UIO_USERSPACE;
+        ku.uio_space = curproc->p_addrspace;
+    }
 
     result = VOP_READ(swap_manager.swap_dev, &ku);
     if (result) {
