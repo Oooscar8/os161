@@ -31,7 +31,7 @@
 /*
  * Swap error codes 
  */
-#define SWAP_SUCCESS    0         /* Operation successful */
+#define SWAP_SUCCESS    0        /* Operation successful */
 #define SWAP_FULL      -1        /* No free swap slots */
 #define SWAP_IO_ERROR  -2        /* I/O error occurred */
 #define SWAP_INVALID   -3        /* Invalid swap entry */
@@ -56,6 +56,8 @@ struct swap_manager {
     struct spinlock swap_lock;   /* Lock for swap operations */
     unsigned long bitmap[SWAP_BITMAP_WORDS]; /* Bitmap: 1=used, 0=free */
     unsigned int count;          /* Number of used entries */
+    bool swap_in_progress;
+    struct semaphore *swap_sem;
 };
 
 /* Global instance */
@@ -64,6 +66,8 @@ extern struct swap_manager swap_manager;
 /* Function declarations */
 int swap_init(void);
 void swap_shutdown(void);
+bool need_swap(void);
+void do_swap(paddr_t *victim_pa, bool emergency);
 int swap_out_page(struct page_table *pt, vaddr_t vaddr, bool emergency);
 int swap_in_page(struct page_table *pt, vaddr_t vaddr);
 

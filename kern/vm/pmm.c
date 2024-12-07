@@ -4,7 +4,8 @@
 #include <pmm.h>
 #include <spinlock.h>
 #include <kern/errno.h>
-#include <pr.h>
+#include <swap.h>
+#include <synch.h>
 
 /* Global variables */
 static volatile unsigned long *volatile bitmap;     /* Bitmap array */
@@ -81,54 +82,103 @@ static ssize_t find_continuous_pages(size_t npages)
     return -1; // Not found
 }
 
-/* Allocate a physical page */
-paddr_t pmm_alloc_page(void)
-{
-    ssize_t page_index;
-    paddr_t addr;
+// /* Allocate a physical page */
+// paddr_t pmm_alloc_page(void)
+// {
+//     ssize_t page_index;
+//     paddr_t addr;
 
-    /* Acquire the lock */
-    spinlock_acquire(&pmm_lock);
+//     /* Acquire the lock */
+//     spinlock_acquire(&pmm_lock);
 
-    // /* Check if we have free pages */
-    // if (free_pages == 0) {
-    //     spinlock_release(&pmm_lock);
-    //     return 0;
-    // }
+//     // /* Check if we have free pages */
+//     // if (free_pages == 0) {
+//     //     spinlock_release(&pmm_lock);
+//     //     return 0;
+//     // }
 
-    /* Check if we have free pages */
-    if (free_pages == 0) {
-        /* Release lock before trying to evict */
-        spinlock_release(&pmm_lock);
+//     /* Check if we have free pages */
+//     if (free_pages == 0) {
+//         /* Release lock before trying to evict */
+//         spinlock_release(&pmm_lock);
         
-        /* Try to evict a page */
-        int result = evict_page(&addr, false);  // false means don't use reserved slot
-        if (result != PR_SUCCESS) {
-            panic("pmm_alloc_page: failed to evict page\n");
-            return 0;
-        }
+//         /* Try to evict a page */
+//         int result = evict_page(&addr, false);  // false means don't use reserved slot
+//         if (result != PR_SUCCESS) {
+//             panic("pmm_alloc_page: failed to evict page\n");
+//             return 0;
+//         }
 
-        return addr;
-    }
+//         return addr;
+//     }
 
-    /* Find a free page */
-    page_index = find_continuous_pages(1);
-    if (page_index < 0) {
-        spinlock_release(&pmm_lock);
-        return 0;
-    }
+//     /* Find a free page */
+//     page_index = find_continuous_pages(1);
+//     if (page_index < 0) {
+//         spinlock_release(&pmm_lock);
+//         return 0;
+//     }
 
-    /* Mark page as allocated */
-    BITMAP_SET(bitmap, page_index);
-    free_pages--;
+//     /* Mark page as allocated */
+//     BITMAP_SET(bitmap, page_index);
+//     free_pages--;
 
-    /* Calculate physical address */
-    addr = page_index * PAGE_SIZE;
+//     /* Calculate physical address */
+//     addr = page_index * PAGE_SIZE;
 
-    /* Release the lock */
-   spinlock_release(&pmm_lock);
+//     /* Release the lock */
+//    spinlock_release(&pmm_lock);
 
-    return addr;
+//     return addr;
+// }
+
+/* Allocate a physical page */
+paddr_t pmm_alloc_page(void) {
+   ssize_t page_index;
+   paddr_t addr;
+   bool was_waiting = false;
+
+   while (1) {
+       /* Acquire the lock */
+       spinlock_acquire(&pmm_lock);
+
+       /* Check if we have free pages */
+       if (free_pages > 0) {
+           /* Find a free page */
+           page_index = find_continuous_pages(1);
+           if (page_index >= 0) {
+               /* Mark page as allocated */
+               BITMAP_SET(bitmap, page_index);
+               free_pages--;
+
+               /* Calculate physical address */
+               addr = page_index * PAGE_SIZE;
+               spinlock_release(&pmm_lock);
+
+               if (was_waiting) {
+                    V(swap_manager.swap_sem);
+                }
+               return addr;
+           }
+       }
+
+       /* Release lock before trying swap */
+       spinlock_release(&pmm_lock);
+
+       /* Try to get swap permission */
+       if (need_swap()) {
+           /* Execute swap */
+           do_swap(&addr, false);
+           return addr;
+       } else {
+           /* Another process is swapping, will be woken up by semaphore */
+           was_waiting = true;
+           continue;  // Go back and try allocation again
+       }
+   }
+
+   /* Should never reach here */
+   return 0;
 }
 
 /* Allocate n continuous physical pages */
@@ -217,97 +267,97 @@ int pmm_free_page(paddr_t addr)
     return 0;
 }
 
-/* Allocate n non-continuous physical pages */
-paddr_t* pmm_alloc_npages_noncontiguous(size_t npages) {
-    paddr_t *page_array = NULL;
-    size_t pages_allocated = 0;
+// /* Allocate n non-continuous physical pages */
+// paddr_t* pmm_alloc_npages_noncontiguous(size_t npages) {
+//     paddr_t *page_array = NULL;
+//     size_t pages_allocated = 0;
 
-    if (npages == 0) {
-        return NULL;
-    }
+//     if (npages == 0) {
+//         return NULL;
+//     }
 
-    /* Allocate array to store physical addresses */
-    page_array = kmalloc(sizeof(paddr_t) * npages);
-    if (page_array == NULL) {
-        return NULL;
-    }
+//     /* Allocate array to store physical addresses */
+//     page_array = kmalloc(sizeof(paddr_t) * npages);
+//     if (page_array == NULL) {
+//         return NULL;
+//     }
 
-    /* Acquire the lock */
-    spinlock_acquire(&pmm_lock);
+//     /* Acquire the lock */
+//     spinlock_acquire(&pmm_lock);
 
-    /* First try to allocate from free pages */
-    for (size_t i = 0; i < total_pages && pages_allocated < npages; i++) {
-        if (!BITMAP_TEST(bitmap, i)) {
-            BITMAP_SET(bitmap, i);
-            page_array[pages_allocated] = i * PAGE_SIZE;
-            pages_allocated++;
-            free_pages--;
-        }
-    }
+//     /* First try to allocate from free pages */
+//     for (size_t i = 0; i < total_pages && pages_allocated < npages; i++) {
+//         if (!BITMAP_TEST(bitmap, i)) {
+//             BITMAP_SET(bitmap, i);
+//             page_array[pages_allocated] = i * PAGE_SIZE;
+//             pages_allocated++;
+//             free_pages--;
+//         }
+//     }
 
-    /* If we need more pages, try evicting */
-    if (pages_allocated < npages) {
-        /* Release lock before trying to evict */
-        spinlock_release(&pmm_lock);
+//     /* If we need more pages, try evicting */
+//     if (pages_allocated < npages) {
+//         /* Release lock before trying to evict */
+//         spinlock_release(&pmm_lock);
 
-        /* Try to evict remaining needed pages */
-        for (size_t i = pages_allocated; i < npages; i++) {
-            paddr_t evicted_addr;
-            int result = evict_page(&evicted_addr, false);  // false means don't use reserved slot
-            if (result != PR_SUCCESS) {
-                /* If eviction fails, call panic */
-                panic("pmm_alloc_npages_noncontiguous: eviction failed\n");
-                return NULL;
-            }
-            page_array[i] = evicted_addr;
-            pages_allocated++;
-        }
+//         /* Try to evict remaining needed pages */
+//         for (size_t i = pages_allocated; i < npages; i++) {
+//             paddr_t evicted_addr;
+//             int result = evict_page(&evicted_addr, false);  // false means don't use reserved slot
+//             if (result != PR_SUCCESS) {
+//                 /* If eviction fails, call panic */
+//                 panic("pmm_alloc_npages_noncontiguous: eviction failed\n");
+//                 return NULL;
+//             }
+//             page_array[i] = evicted_addr;
+//             pages_allocated++;
+//         }
 
-        // /* Reacquire lock to update bitmap for evicted pages */
-        // spinlock_acquire(&pmm_lock);
-        // for (size_t i = 0; i < npages; i++) {
-        //     size_t page_index = page_array[i] / PAGE_SIZE;
-        //     if (!BITMAP_TEST(bitmap, page_index)) {
-        //         BITMAP_SET(bitmap, page_index);
-        //     }
-        // }
-    }
-    // /* Release the lock */
-    // spinlock_release(&pmm_lock);
+//         // /* Reacquire lock to update bitmap for evicted pages */
+//         // spinlock_acquire(&pmm_lock);
+//         // for (size_t i = 0; i < npages; i++) {
+//         //     size_t page_index = page_array[i] / PAGE_SIZE;
+//         //     if (!BITMAP_TEST(bitmap, page_index)) {
+//         //         BITMAP_SET(bitmap, page_index);
+//         //     }
+//         // }
+//     }
+//     // /* Release the lock */
+//     // spinlock_release(&pmm_lock);
 
-    return page_array;
-}
+//     return page_array;
+// }
 
-/* Free multiple non-continuous pages */
-void pmm_free_npages_noncontiguous(paddr_t *pages, size_t npages) {
-    if (pages == NULL || npages == 0) {
-        return;
-    }
+// /* Free multiple non-continuous pages */
+// void pmm_free_npages_noncontiguous(paddr_t *pages, size_t npages) {
+//     if (pages == NULL || npages == 0) {
+//         return;
+//     }
 
-    spinlock_acquire(&pmm_lock);
+//     spinlock_acquire(&pmm_lock);
 
-    for (size_t i = 0; i < npages; i++) {
-        /* Verify the address is valid */
-        if (pages[i] == 0 || !(pages[i] & PAGE_MASK) || 
-            pages[i] >= total_pages * PAGE_SIZE) {
-            spinlock_release(&pmm_lock);
-            panic("pmm_free_npages_noncontiguous: invalid address\n");
-            return;
-        }
+//     for (size_t i = 0; i < npages; i++) {
+//         /* Verify the address is valid */
+//         if (pages[i] == 0 || !(pages[i] & PAGE_MASK) || 
+//             pages[i] >= total_pages * PAGE_SIZE) {
+//             spinlock_release(&pmm_lock);
+//             panic("pmm_free_npages_noncontiguous: invalid address\n");
+//             return;
+//         }
 
-        size_t page_index = pages[i] / PAGE_SIZE;
+//         size_t page_index = pages[i] / PAGE_SIZE;
         
-        /* Check if page is already free */
-        if (!BITMAP_TEST(bitmap, page_index)) {
-            spinlock_release(&pmm_lock);
-            panic("pmm_free_npages_noncontiguous: page already free\n");
-            return;
-        }
+//         /* Check if page is already free */
+//         if (!BITMAP_TEST(bitmap, page_index)) {
+//             spinlock_release(&pmm_lock);
+//             panic("pmm_free_npages_noncontiguous: page already free\n");
+//             return;
+//         }
 
-        /* Free the page */
-        BITMAP_CLEAR(bitmap, page_index);
-        free_pages++;
-    }
+//         /* Free the page */
+//         BITMAP_CLEAR(bitmap, page_index);
+//         free_pages++;
+//     }
 
-    spinlock_release(&pmm_lock);
-}
+//     spinlock_release(&pmm_lock);
+// }
