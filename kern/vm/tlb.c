@@ -74,14 +74,13 @@ int tlb_write_entry(uint32_t entryhi, uint32_t entrylo) {
     int i;
     int spl = splhigh();
 
-
-
-
-
-
-
-
-
+    /* Check if entry already exists */
+    i = tlb_probe(entryhi, entrylo);
+    if (i >= 0) {
+        /* Entry already exists, no need to write */
+        splx(spl);
+        return 0;
+    }
 
     i = tlb_evict();
     tlb_write(entryhi, entrylo, i);

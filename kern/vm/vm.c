@@ -73,17 +73,18 @@ getppages(unsigned long npages)
 	}
 	else
 	{
+		//KASSERT(npages == 1);
 		if (npages == 1) {
-			spinlock_acquire(&alloc_lock);
+			//spinlock_acquire(&alloc_lock);
 			paddr_t addr = pmm_alloc_page();
-			spinlock_release(&alloc_lock);
+			//spinlock_release(&alloc_lock);
 		
 			return addr;
 		}
 		else {
-			spinlock_acquire(&alloc_lock);
+			//spinlock_acquire(&alloc_lock);
 			paddr_t addr = pmm_alloc_npages(npages);
-			spinlock_release(&alloc_lock);
+			//spinlock_release(&alloc_lock);
 		
 			return addr;
 		}

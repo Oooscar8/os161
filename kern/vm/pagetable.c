@@ -1,5 +1,9 @@
 /*
  * pagetable.c - Two-level page table implementation
+ * we have two set of page tables, one for kernel and one for user.
+ * the kernel page table is direct map, in the kseg0 and kseg1 region;
+ * the user page table is allocated by the kernel and is mapped to the
+ * ksef2 (can be swapped out).
  */
 #include <types.h>
 #include <kern/errno.h>
@@ -16,19 +20,18 @@
 #include <pmm.h>
 #include <swap.h>
 
-static void pte_free(struct pte *pte)
-{
-    kfree(pte);
-}
+// static void pte_free(struct pte *pte)
+// {
+//     kfree(pte);
+// }
 
 /* Initialize page table system */
 void pagetable_bootstrap(void)
 {
     /* Initialize VAA first */
     vaa_init();
-    // max 10 processes
-    pt_list = kmalloc(sizeof(struct page_table *) * 10);
-    for (int i = 0; i < 10; i++) {
+    pt_list = kmalloc(sizeof(struct page_table *) * PID_MAX);
+    for (int i = 0; i < PID_MAX; i++) {
         pt_list[i] = NULL;
     }
 }
@@ -75,7 +78,7 @@ struct page_table *pagetable_create(void)
     pt->heap_start = 0;
     pt->heap_end = 0;
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < PID_MAX; i++)
     {
         if (pt_list[i] == NULL)
         {
@@ -111,20 +114,33 @@ void pagetable_destroy(struct page_table *pt)
                 if (pte[j].valid)
                 {
                     /* Free physical page if it exists */
-                    spinlock_release(&pt->pt_lock);
-                    pte_unmap(pt, (i << PDE_SHIFT) | (j << PTE_SHIFT));
-                    spinlock_acquire(&pt->pt_lock);
+                    if (pte[j].pfn_or_swap_slot != 0)
+                    {
+                        pmm_free_page(pte[j].pfn_or_swap_slot << PAGE_SHIFT);
+                    }
                 }
             }
             /* Free the page table itself */
-            pte_free(pte);
+            if (curproc) {
+                tlbshootdown_broadcast((vaddr_t)(pte), curproc->p_pid);
+            } else {
+                tlbshootdown_broadcast((vaddr_t)(pte), PID_MIN - 1);
+            }
+            free_kpages((vaddr_t)pte);
+            tlb_invalidate_entry((vaddr_t)pte);
         }
     }
 
-    spinlock_release(&pt->pt_lock);
+    if (curproc) {
+        tlbshootdown_broadcast((vaddr_t)(pt->pgdir), curproc->p_pid);
+    } else {
+        tlbshootdown_broadcast((vaddr_t)(pt->pgdir), PID_MIN - 1);
+    }
 
     /* Free page directory */
-    kfree(pt->pgdir);
+    free_kpages((vaddr_t)(pt->pgdir));
+    tlb_invalidate_entry((vaddr_t)(pt->pgdir));
+    spinlock_release(&pt->pt_lock);
 
     /* Free page table structure */
     kfree(pt);
@@ -152,24 +168,32 @@ int pte_map(struct page_table *pt, vaddr_t vaddr, paddr_t paddr, uint32_t flags)
 
     /* If page table doesn't exist, create it */
     if (!pde->valid)
-    {
-        paddr_t pde_paddr = pmm_alloc_page();
-        if (pde_paddr == 0)
-        {
-            return PT_NOMEM;
-        }
-
-        vaddr_t pde_vaddr = PADDR_TO_KVADDR(pde_paddr);
-        pde->pt_pfn = pde_vaddr >> PAGE_SHIFT;
-        pde->valid = 1;
-        pde->write = 1;
+    {   
+        //direct map to create kernel page table
         if (vaddr >= MIPS_KSEG2)
-        {
+        {   
+            spinlock_release(&pt->pt_lock);
+            paddr_t pde_paddr = pmm_alloc_page();
+            spinlock_acquire(&pt->pt_lock);
+            if (pde_paddr == 0)
+            {
+                spinlock_release(&pt->pt_lock);
+                return PT_NOMEM;
+            }
 
+            vaddr_t pde_vaddr = PADDR_TO_KVADDR(pde_paddr);
+            pde->pt_pfn = pde_vaddr >> PAGE_SHIFT;
+            pde->valid = 1;
+            pde->write = 1;
             pde->user = 0;
         }
+        //use kseg2 to create 
         else
-        {
+        {   
+            vaddr_t va = (vaddr_t) kmalloc(PAGE_SIZE);
+            pde->pt_pfn = va >> PAGE_SHIFT;
+            pde->valid = 1;
+            pde->write = 1;
             pde->user = 1;
         }
     }
@@ -209,8 +233,13 @@ int pte_unmap(struct page_table *pt, vaddr_t vaddr)
     /* Get the page directory entry */
     spinlock_acquire(&pt->pt_lock);
     if (vaddr >= MIPS_KSEG2) {
-        tlbshootdown_broadcast(vaddr, curproc->p_pid);
-    }
+        if (curproc) {
+            tlbshootdown_broadcast((vaddr_t)(vaddr), curproc->p_pid);
+        } else {
+            tlbshootdown_broadcast((vaddr_t)(vaddr), PID_MIN - 1);
+        }
+    } 
+    
     pde = &pt->pgdir[PDE_INDEX(vaddr)];
     if (!pde->valid)
     {
@@ -376,7 +405,7 @@ int pagetable_copy(struct page_table *src_pt, struct page_table *dst_pt)
     int i, j;
     struct pde *src_pde, *dst_pde;
     struct pte *src_pte, *dst_pte;
-    paddr_t new_pt_paddr;
+    vaddr_t new_pt_vaddr;
 
     /* Verify parameters */
     if (src_pt == NULL || dst_pt == NULL)
@@ -397,20 +426,11 @@ int pagetable_copy(struct page_table *src_pt, struct page_table *dst_pt)
         if (src_pde->valid)
         {
             /* Allocate new page table if entry is valid */
-            new_pt_paddr = pmm_alloc_page();
-            if (new_pt_paddr == 0)
-            {
-                /* Failed to allocate - cleanup and return */
-                spinlock_release(&dst_pt->pt_lock);
-                spinlock_release(&src_pt->pt_lock);
-                panic("Failed to allocate page table\n");
-                pagetable_destroy(dst_pt);
-                return PT_NOMEM;
-            }
-
-            // directly map the kernel page table, to avoid the deadlock (call pte_map)
-            vaddr_t new_pt_vaddr = PADDR_TO_KVADDR(new_pt_paddr);
-
+            spinlock_release(&dst_pt->pt_lock);
+            spinlock_release(&src_pt->pt_lock);
+            new_pt_vaddr = (vaddr_t)kmalloc(PAGE_SIZE);
+            spinlock_acquire(&src_pt->pt_lock);
+            spinlock_acquire(&dst_pt->pt_lock);
             /* Setup page directory entry */
             dst_pde->pt_pfn = new_pt_vaddr >> PAGE_SHIFT;
             dst_pde->valid = 1;
@@ -426,7 +446,11 @@ int pagetable_copy(struct page_table *src_pt, struct page_table *dst_pt)
             {
                 if (src_pte[j].valid)
                 {   
+                    spinlock_release(&dst_pt->pt_lock);
+                    spinlock_release(&src_pt->pt_lock);
                     paddr_t new_paddr = pmm_alloc_page();
+                    spinlock_acquire(&src_pt->pt_lock);
+                    spinlock_acquire(&dst_pt->pt_lock);
                     if (new_paddr == 0) {
                         spinlock_release(&dst_pt->pt_lock);
                         spinlock_release(&src_pt->pt_lock);

@@ -66,7 +66,7 @@ static int find_victim_page(struct page_table **pt_out, vaddr_t *vaddr_out)
     vaddr_t vaddr;
 
     /* First pass: look for a page with accessed = 0 */
-    for (i = 2; pt_list[i] != NULL; i++)
+    for (i = 1; pt_list[i] != NULL; i++)
     {
         pt = pt_list[i];
 
@@ -109,7 +109,7 @@ static int find_victim_page(struct page_table **pt_out, vaddr_t *vaddr_out)
     }
 
     /* Second pass: accept any valid page */
-    for (i = 0; pt_list[i] != NULL; i++)
+    for (i = 1; pt_list[i] != NULL; i++)
     {
         pt = pt_list[i];
 
@@ -184,6 +184,26 @@ void do_swap(paddr_t *victim_pa, bool emergency)
     vaddr_t victim_vaddr;
     int result;
 
+    // /* Find a victim page */
+    // result = find_victim_page(&victim_pt, &victim_vaddr);
+    // if (result != 0)
+    // {
+    //     panic("evict_page: no victim found\n");
+    // }
+
+    // *victim_pa = pagetable_translate(victim_pt, victim_vaddr, NULL);
+    // if (*victim_pa == 0)
+    // {
+    //     panic("evict_page: failed to translate victim page\n");
+    // }
+
+    // /* Swap out the victim page */
+    // result = swap_out_page(victim_pt, victim_vaddr, emergency);
+    // if (result != SWAP_SUCCESS)
+    // {
+    //     panic("swap_out_page: swap out failed\n");
+    // }
+
     /* Find a victim page */
     result = find_victim_page(&victim_pt, &victim_vaddr);
     if (result != 0)
@@ -203,6 +223,11 @@ void do_swap(paddr_t *victim_pa, bool emergency)
     {
         panic("swap_out_page: swap out failed\n");
     }
+
+    // /* Mark page as allocated */
+    // ssize_t page_index = *victim_pa / PAGE_SIZE;
+    // BITMAP_SET(bitmap, page_index);
+    // free_pages--;
 
     // Clear swap state and notify waiting processes
     spinlock_acquire(&swap_manager.swap_lock);
@@ -263,14 +288,32 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr, bool emergency)
 
     spinlock_release(&swap_manager.swap_lock);
 
+    /* Get the PTE for this virtual address first */
+    pte = pte_get(pt, vaddr);
+    if (pte == NULL || !pte->valid || pte->swap || pte->pfn_or_swap_slot == 0)
+    {
+        if (pte != NULL)
+        {
+            spinlock_release(&pt->pt_lock);
+        }
+        panic("swap_out: invalid PTE\n");
+        return SWAP_INVALID;
+    }
+
+    paddr_t paddr = pte->pfn_or_swap_slot << PAGE_SHIFT;
+    vaddr_t kvaddr = PADDR_TO_KVADDR(paddr);
+
     /* Write page to swap space */
-    uio_kinit(&iov, &ku, (void *)vaddr, PAGE_SIZE,
+    uio_kinit(&iov, &ku, (void *)kvaddr, PAGE_SIZE,
               SWAP_PAGE_TO_OFFSET(slot), UIO_WRITE);
-    // if (vaddr < MIPS_KSEG0) {
+    // if (vaddr < MIPS_KSEG0)
+    // {
     //     // User space address (kuseg)
     //     ku.uio_segflg = UIO_USERSPACE;
     //     ku.uio_space = curproc->p_addrspace;
     // }
+
+    spinlock_release(&pt->pt_lock);
 
     result = VOP_WRITE(swap_manager.swap_dev, &ku);
     if (result)
@@ -284,16 +327,19 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr, bool emergency)
         return SWAP_IO_ERROR;
     }
 
-    /* Get the PTE for this virtual address */
+    /* Get the PTE for this virtual address again */
     pte = pte_get(pt, vaddr);
-    if (pte == NULL || !pte->valid)
+    if (pte == NULL || !pte->valid || pte->swap || pte->pfn_or_swap_slot == 0)
     {
         if (pte != NULL)
         {
             spinlock_release(&pt->pt_lock);
         }
+        panic("swap_out: invalid PTE after I/O\n");
         return SWAP_INVALID;
     }
+
+    // pmm_free_page(pte->pfn_or_swap_slot << PAGE_SHIFT);
 
     /* Update PTE */
     PTE_SET_SWAP_SLOT(pte, slot);
@@ -381,18 +427,20 @@ int swap_in_page(struct page_table *pt, vaddr_t vaddr)
     pte->pfn_or_swap_slot = pa >> PAGE_SHIFT;
     pte->swap = 0;
 
-    /* Release page table lock before I/O */
-    spinlock_release(&pt->pt_lock);
+    vaddr_t kvaddr = PADDR_TO_KVADDR(pa);
 
     /* Read page from swap directly to mapped page */
-    uio_kinit(&iov, &ku, (void *)vaddr, PAGE_SIZE,
+    uio_kinit(&iov, &ku, (void *)kvaddr, PAGE_SIZE,
               SWAP_PAGE_TO_OFFSET(slot), UIO_READ);
-    if (vaddr < MIPS_KSEG0)
-    {
-        // User space address (kuseg)
-        ku.uio_segflg = UIO_USERSPACE;
-        ku.uio_space = curproc->p_addrspace;
-    }
+    // if (vaddr < MIPS_KSEG0)
+    // {
+    //     // User space address (kuseg)
+    //     ku.uio_segflg = UIO_USERSPACE;
+    //     ku.uio_space = curproc->p_addrspace;
+    // }
+
+    /* Release page table lock before I/O */
+    spinlock_release(&pt->pt_lock);
 
     result = VOP_READ(swap_manager.swap_dev, &ku);
     if (result)
