@@ -58,15 +58,21 @@ static int find_victim_page(struct page_table **pt_out, vaddr_t *vaddr_out)
     KASSERT(pt_out != NULL);
     KASSERT(vaddr_out != NULL);
 
-    unsigned int i, j;
+    int i, j;
     struct page_table *pt;
     struct pde *pde;
     struct pte *pte;
     struct pte *pte_page;
     vaddr_t vaddr;
 
+    int m = 0;
+    while (pt_list[m] != NULL)
+    {
+        m++;
+    }
+
     /* First pass: look for a page with accessed = 0 */
-    for (i = 1; pt_list[i] != NULL; i++)
+    for (i = m - 1; i >= 0; i--)
     {
         pt = pt_list[i];
 
@@ -96,6 +102,7 @@ static int find_victim_page(struct page_table **pt_out, vaddr_t *vaddr_out)
                     /* Check if state is still valid after acquiring lock */
                     if (pte->valid && !pte->swap && pte->pfn_or_swap_slot != 0 && !pte->accessed)
                     {
+                        //KASSERT(vaddr < MIPS_KSEG0);
                         *pt_out = pt;
                         *vaddr_out = vaddr;
                         spinlock_release(&pt->pt_lock);
@@ -109,7 +116,7 @@ static int find_victim_page(struct page_table **pt_out, vaddr_t *vaddr_out)
     }
 
     /* Second pass: accept any valid page */
-    for (i = 1; pt_list[i] != NULL; i++)
+    for (i = m - 1; i >= 0; i--)
     {
         pt = pt_list[i];
 
@@ -137,6 +144,7 @@ static int find_victim_page(struct page_table **pt_out, vaddr_t *vaddr_out)
                     /* Verify state under lock */
                     if (pte->valid && !pte->swap && pte->pfn_or_swap_slot != 0)
                     {
+                        //KASSERT(vaddr < MIPS_KSEG0);
                         *pt_out = pt;
                         *vaddr_out = vaddr;
                         spinlock_release(&pt->pt_lock);
@@ -183,26 +191,6 @@ void do_swap(paddr_t *victim_pa, bool emergency)
     struct page_table *victim_pt;
     vaddr_t victim_vaddr;
     int result;
-
-    // /* Find a victim page */
-    // result = find_victim_page(&victim_pt, &victim_vaddr);
-    // if (result != 0)
-    // {
-    //     panic("evict_page: no victim found\n");
-    // }
-
-    // *victim_pa = pagetable_translate(victim_pt, victim_vaddr, NULL);
-    // if (*victim_pa == 0)
-    // {
-    //     panic("evict_page: failed to translate victim page\n");
-    // }
-
-    // /* Swap out the victim page */
-    // result = swap_out_page(victim_pt, victim_vaddr, emergency);
-    // if (result != SWAP_SUCCESS)
-    // {
-    //     panic("swap_out_page: swap out failed\n");
-    // }
 
     /* Find a victim page */
     result = find_victim_page(&victim_pt, &victim_vaddr);
@@ -350,7 +338,7 @@ int swap_out_page(struct page_table *pt, vaddr_t vaddr, bool emergency)
     tlb_invalidate_entry(vaddr);
 
     /* Broadcast TLB shootdown to other CPUs */
-    tlbshootdown_broadcast(vaddr, pt->pid);
+    //tlbshootdown_broadcast(vaddr, pt->pid);
 
     return SWAP_SUCCESS;
 }

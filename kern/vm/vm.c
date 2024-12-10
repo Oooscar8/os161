@@ -250,7 +250,7 @@ as_valid_region(struct addrspace *as, vaddr_t vaddr)
         return true;
     }
     
-	if (vaddr >= USERSTACK - (PAGE_SIZE * 2) && vaddr < USERSTACK) {
+	if (vaddr >= USERSTACK - (PAGE_SIZE * 10) && vaddr < USERSTACK) {
 		return true;
 	}
 
@@ -258,7 +258,7 @@ as_valid_region(struct addrspace *as, vaddr_t vaddr)
         return true;
     }
     
-    return false;
+	return false;
 }
 
 void 

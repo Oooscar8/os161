@@ -127,7 +127,7 @@ void tlb_invalidate_all(void) {
     uint32_t i, ehi, elo;
     for (i = 0; i < NUM_TLB; i++) {
         tlb_read(&ehi, &elo, i);
-        if ((elo & TLBLO_VALID ) && (elo & TLBLO_GLOBAL) == 0) {
+        if ((elo & TLBLO_VALID)) {
             tlb_write(TLBHI_INVALID(i), TLBLO_INVALID(), i);
         }
     }

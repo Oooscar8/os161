@@ -20,6 +20,10 @@
 #include <pmm.h>
 #include <swap.h>
 
+#include <mips/tlb.h>
+#include <addrspace.h>
+#include <vm.h>
+
 // static void pte_free(struct pte *pte)
 // {
 //     kfree(pte);
@@ -60,7 +64,21 @@ struct page_table *pagetable_create(void)
     }
 
     /* Allocate page directory */
-    pt->pgdir = (struct pde *)kmalloc(PAGE_SIZE);
+    //spinlock_acquire(&stealmem_lock);
+    paddr_t pa = ram_stealmem(1);
+    //spinlock_release(&stealmem_lock);
+    vaddr_t pde_vaddr;
+    if (pa == 0)
+    {
+        
+        paddr_t pde_paddr = pmm_alloc_page();
+        pde_vaddr = PADDR_TO_KVADDR(pde_paddr);
+   }
+    else
+    {
+        pde_vaddr = PADDR_TO_KVADDR(pa);
+    }
+    pt->pgdir = (struct pde *)pde_vaddr;
     if (pt->pgdir == NULL)
     {
         kfree(pt);
@@ -190,8 +208,19 @@ int pte_map(struct page_table *pt, vaddr_t vaddr, paddr_t paddr, uint32_t flags)
         //use kseg2 to create 
         else
         {   
-            vaddr_t va = (vaddr_t) kmalloc(PAGE_SIZE);
-            pde->pt_pfn = va >> PAGE_SHIFT;
+            // vaddr_t va = (vaddr_t) kmalloc(PAGE_SIZE);
+            // pde->pt_pfn = va >> PAGE_SHIFT;
+            spinlock_release(&pt->pt_lock);
+            paddr_t pde_paddr = pmm_alloc_page();
+            spinlock_acquire(&pt->pt_lock);
+            if (pde_paddr == 0)
+            {
+                spinlock_release(&pt->pt_lock);
+                return PT_NOMEM;
+            }
+
+            vaddr_t pde_vaddr = PADDR_TO_KVADDR(pde_paddr);
+            pde->pt_pfn = pde_vaddr >> PAGE_SHIFT;
             pde->valid = 1;
             pde->write = 1;
             pde->user = 1;
@@ -428,9 +457,15 @@ int pagetable_copy(struct page_table *src_pt, struct page_table *dst_pt)
             /* Allocate new page table if entry is valid */
             spinlock_release(&dst_pt->pt_lock);
             spinlock_release(&src_pt->pt_lock);
-            new_pt_vaddr = (vaddr_t)kmalloc(PAGE_SIZE);
+            paddr_t new_paddr = pmm_alloc_page();
             spinlock_acquire(&src_pt->pt_lock);
             spinlock_acquire(&dst_pt->pt_lock);
+            new_pt_vaddr = PADDR_TO_KVADDR(new_paddr);
+            // spinlock_release(&dst_pt->pt_lock);
+            // spinlock_release(&src_pt->pt_lock);
+            // new_pt_vaddr = (vaddr_t)kmalloc(PAGE_SIZE);
+            // spinlock_acquire(&src_pt->pt_lock);
+            // spinlock_acquire(&dst_pt->pt_lock);
             /* Setup page directory entry */
             dst_pde->pt_pfn = new_pt_vaddr >> PAGE_SHIFT;
             dst_pde->valid = 1;
