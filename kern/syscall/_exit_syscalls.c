@@ -17,7 +17,7 @@ sys__exit(int exitcode)
         panic("Trying to exit the kernel process!\n");
     }
 
-     int exit_status;
+    int exit_status;
     
     if (exitcode & 0x80) {  
         int sig = (exitcode >> 8) & 0x7f;

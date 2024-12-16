@@ -40,6 +40,7 @@
 #include <mainbus.h>
 #include <syscall.h>
 #include <kern/wait.h>
+#include <proc.h>
 
 
 /* in exception-*.S */
@@ -116,6 +117,7 @@ kill_curthread(vaddr_t epc, unsigned code, vaddr_t vaddr)
 	kprintf("Fatal user mode trap %u sig %d (%s, epc 0x%x, vaddr 0x%x)\n",
 		code, sig, trapcodenames[code], epc, vaddr);
 	
+    kprintf("Program (pid %d) exited with signal %d.\n", curproc->p_pid, sig);
 	sys__exit((sig << 8) | 0x80);
 
     /* Should never get here */

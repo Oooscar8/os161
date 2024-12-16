@@ -672,8 +672,6 @@ thread_switch(threadstate_t newstate, struct wchan *wc, struct spinlock *lk)
 		}
 	} while (next == NULL);
 	curcpu->c_isidle = false;
-	thread_checkstack(next);
-
 	/*
 	 * Note that curcpu->c_curthread may be the same variable as
 	 * curthread and it may not be, depending on how curthread and
@@ -686,7 +684,6 @@ thread_switch(threadstate_t newstate, struct wchan *wc, struct spinlock *lk)
 
 	/* do the switch (in assembler in switch.S) */
 	switchframe_switch(&cur->t_context, &next->t_context);
-
 	/*
 	 * When we get to this point we are either running in the next
 	 * thread, or have come back to the same thread again,
