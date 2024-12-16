@@ -31,18 +31,8 @@ int pmm_init(void)
 
     /* Get physical memory range */
     last_addr = ram_getsize();
-    paddr_t base_addr = ram_getfirstfree();
-
-    base_addr = ROUNDUP(base_addr, PAGE_SIZE);
-
-    /* Calculate total number of pages */
-    free_pages = (last_addr - base_addr) / PAGE_SIZE;
     total_pages = last_addr / PAGE_SIZE;
-
-    /* Check if we have any memory to manage */
-    if (free_pages == 0) {
-        return ENOMEM;
-    }
+    
 
     /* Calculate bitmap size (in bytes) and round up to word size */
     bitmap_size = (total_pages + BITS_PER_WORD - 1) / BITS_PER_WORD * sizeof(unsigned long);
@@ -50,6 +40,18 @@ int pmm_init(void)
     /* Allocate bitmap array */
     bitmap = kmalloc(bitmap_size);
     if (bitmap == NULL) {
+        return ENOMEM;
+    }
+
+    paddr_t base_addr = ram_getfirstfree();
+
+    base_addr = ROUNDUP(base_addr, PAGE_SIZE);
+
+    /* Calculate total number of pages */
+    free_pages = (last_addr - base_addr) / PAGE_SIZE;
+
+    /* Check if we have any memory to manage */
+    if (free_pages == 0) {
         return ENOMEM;
     }
 
@@ -90,25 +92,10 @@ paddr_t pmm_alloc_page(void)
     /* Acquire the lock */
     spinlock_acquire(&pmm_lock);
 
-    // /* Check if we have free pages */
-    // if (free_pages == 0) {
-    //     spinlock_release(&pmm_lock);
-    //     return 0;
-    // }
-
     /* Check if we have free pages */
     if (free_pages == 0) {
-        /* Release lock before trying to evict */
         spinlock_release(&pmm_lock);
-        
-        /* Try to evict a page */
-        int result = evict_page(&addr, false);  // false means don't use reserved slot
-        if (result != PR_SUCCESS) {
-            panic("pmm_alloc_page: failed to evict page\n");
-            return 0;
-        }
-
-        return addr;
+        return 0;
     }
 
     /* Find a free page */
@@ -126,7 +113,7 @@ paddr_t pmm_alloc_page(void)
     addr = page_index * PAGE_SIZE;
 
     /* Release the lock */
-   spinlock_release(&pmm_lock);
+    spinlock_release(&pmm_lock);
 
     return addr;
 }
@@ -187,7 +174,7 @@ int pmm_free_page(paddr_t addr)
     }
 
     /* Calculate page index */
-    if ( addr >= total_pages * PAGE_SIZE) {
+    if ( addr > total_pages * PAGE_SIZE) {
         panic("pmm_free_page: address out of range\n");
         return EINVAL;
     }

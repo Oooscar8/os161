@@ -24,7 +24,7 @@ pid_t sys_fork(struct trapframe *tf, pid_t *retval) {
     struct addrspace *child_as;
     int result = as_copy(curproc->p_addrspace, &child_as);
     if (result) {
-        proc_destroy(child_proc);
+        //proc_destroy(child_proc);
         return result; 
     }
 
@@ -32,7 +32,7 @@ pid_t sys_fork(struct trapframe *tf, pid_t *retval) {
     child_proc->p_pid = pid_alloc(curproc->p_pid, child_proc);
     if (child_proc->p_pid == NO_PID) {
         as_destroy(child_as);
-        proc_destroy(child_proc);
+        //proc_destroy(child_proc);
         return ENPROC;
     }
 
@@ -40,7 +40,7 @@ pid_t sys_fork(struct trapframe *tf, pid_t *retval) {
     struct trapframe *child_tf = kmalloc(sizeof(struct trapframe));
     if (child_tf == NULL) {
         as_destroy(child_as);
-        proc_destroy(child_proc);
+        //proc_destroy(child_proc);
         return ENOMEM;
     }
     *child_tf = *tf;
@@ -52,7 +52,7 @@ pid_t sys_fork(struct trapframe *tf, pid_t *retval) {
     if (result) {
         kfree(child_tf);
         as_destroy(child_as);
-        proc_destroy(child_proc);
+        //proc_destroy(child_proc);
         return result; 
     }
 

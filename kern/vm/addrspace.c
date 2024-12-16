@@ -120,7 +120,7 @@ void as_destroy(struct addrspace *as) {
 
     /* Destroy page table and free all physical pages */
     if (as->pt != NULL) {
-        //pagetable_destroy(as->pt);
+        pagetable_destroy(as->pt);
     }
     
     /* Free the address space structure itself */
@@ -220,7 +220,6 @@ as_prepare_load(struct addrspace *as)
             /* Invalidate any TLB entries for this page */
             vaddr_t vaddr = (i << PDE_SHIFT) | (j << PTE_SHIFT);
             tlb_invalidate_entry(vaddr);
-            tlbshootdown_broadcast(vaddr, pt->pid);
         }
     }
 
@@ -272,7 +271,6 @@ as_complete_load(struct addrspace *as)
             pte->user = 1;
             
             tlb_invalidate_entry(vaddr);
-            tlbshootdown_broadcast(vaddr, pt->pid);
         }
     }
 
@@ -294,9 +292,5 @@ as_define_stack(struct addrspace *as, vaddr_t *initstackptr)
 void
 as_deactivate(void)
 {
-	/*
-	 * Write this. For many designs it won't need to actually do
-	 * anything. See proc.c for an explanation of why it (might)
-	 * be needed.
-	 */
+	tlb_invalidate_all();
 }

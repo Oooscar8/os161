@@ -73,6 +73,7 @@ getppages(unsigned long npages)
 	}
 	else
 	{
+		KASSERT(npages == 1);
 		if (npages == 1) {
 			spinlock_acquire(&alloc_lock);
 			paddr_t addr = pmm_alloc_page();
@@ -249,7 +250,7 @@ as_valid_region(struct addrspace *as, vaddr_t vaddr)
         return true;
     }
     
-	if (vaddr >= USERSTACK - (PAGE_SIZE * 2) && vaddr < USERSTACK) {
+	if (vaddr >= USERSTACK - (10 * PAGE_SIZE) && vaddr < USERSTACK) {
 		return true;
 	}
 
