@@ -71,6 +71,6 @@ pid_t sys_getpid(pid_t *retval);
 void sys__exit(int exitcode);
 pid_t sys_waitpid(pid_t pid, int *status, int options, pid_t *retval);
 int sys_execv(const char *program, char **args);
-//int sys_sbrk(intptr_t amount, void **retval);
+int sys_sbrk(intptr_t amount, void **retval);
 
 #endif /* _SYSCALL_H_ */

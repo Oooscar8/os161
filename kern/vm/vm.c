@@ -55,7 +55,7 @@ void vm_bootstrap(void)
 {
 	pagetable_bootstrap();
 	pagetable_init();
-	swap_init();
+	//swap_init();
 	pmm_init();
 	vm_initialized = true;
 }
@@ -75,16 +75,16 @@ getppages(unsigned long npages)
 	{
 		KASSERT(npages == 1);
 		if (npages == 1) {
-			//spinlock_acquire(&alloc_lock);
+			spinlock_acquire(&alloc_lock);
 			paddr_t addr = pmm_alloc_page();
-			//spinlock_release(&alloc_lock);
+			spinlock_release(&alloc_lock);
 		
 			return addr;
 		}
 		else {
-			//spinlock_acquire(&alloc_lock);
+			spinlock_acquire(&alloc_lock);
 			paddr_t addr = pmm_alloc_npages(npages);
-			//spinlock_release(&alloc_lock);
+			spinlock_release(&alloc_lock);
 		
 			return addr;
 		}
@@ -258,7 +258,7 @@ as_valid_region(struct addrspace *as, vaddr_t vaddr)
         return true;
     }
     
-	return false;
+    return false;
 }
 
 void 

@@ -18,7 +18,6 @@
 #include <current.h>
 #include <mips/tlb.h>
 #include <pmm.h>
-#include <swap.h>
 
 /* Initialize page table system */
 void pagetable_bootstrap(void)
@@ -52,21 +51,7 @@ struct page_table *pagetable_create(void)
     }
 
     /* Allocate page directory */
-    //spinlock_acquire(&stealmem_lock);
-    paddr_t pa = ram_stealmem(1);
-    //spinlock_release(&stealmem_lock);
-    vaddr_t pde_vaddr;
-    if (pa == 0)
-    {
-        
-        paddr_t pde_paddr = pmm_alloc_page();
-        pde_vaddr = PADDR_TO_KVADDR(pde_paddr);
-   }
-    else
-    {
-        pde_vaddr = PADDR_TO_KVADDR(pa);
-    }
-    pt->pgdir = (struct pde *)pde_vaddr;
+    pt->pgdir = (struct pde *)kmalloc(PAGE_SIZE);
     if (pt->pgdir == NULL)
     {
         kfree(pt);
@@ -306,26 +291,7 @@ paddr_t pagetable_translate(struct page_table *pt, vaddr_t vaddr, uint32_t *flag
         return 0;
     }
 
-    /* If page is in swap, bring it back */
-    if (PTE_ONSWAP(pte)) {
-        /* Release lock before calling swap_in_page */
-        spinlock_release(&pt->pt_lock);
-            
-        /* Try to swap in the page */
-        int result = swap_in_page(pt, vaddr & PAGE_FRAME);
-        if (result != SWAP_SUCCESS) {
-            panic("swap_in_page failed\n");
-            return 0;
-        }
-            
-        /* Reacquire lock and get PTE again as it might have changed */
-        spinlock_acquire(&pt->pt_lock);
-        pte = (struct pte *)(pde->pt_pfn << PAGE_SHIFT);
-        pte = &pte[PTE_INDEX(vaddr)];
-    }
-
     pte->accessed = 1;
-
     if (flags)
     {
         *flags = 0;
@@ -433,11 +399,7 @@ int pagetable_copy(struct page_table *src_pt, struct page_table *dst_pt)
             {
                 if (src_pte[j].valid)
                 {   
-                    spinlock_release(&dst_pt->pt_lock);
-                    spinlock_release(&src_pt->pt_lock);
                     paddr_t new_paddr = pmm_alloc_page();
-                    spinlock_acquire(&src_pt->pt_lock);
-                    spinlock_acquire(&dst_pt->pt_lock);
                     if (new_paddr == 0) {
                         spinlock_release(&dst_pt->pt_lock);
                         spinlock_release(&src_pt->pt_lock);
