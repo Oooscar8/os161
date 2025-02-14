@@ -112,7 +112,9 @@ kill_curthread(vaddr_t epc, unsigned code, vaddr_t vaddr)
 	}
 
 	/*
-	 * You will probably want to change this.
+	 * We have faced a fatal fault in user-level code, instead of
+	 * crashing the entire kernel. We need to clean up the process
+	 * and signal the parent if necessary.
 	 */
 
 	kprintf("Fatal user mode trap %u sig %d (%s, epc 0x%x, vaddr 0x%x)\n",
