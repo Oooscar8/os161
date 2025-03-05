@@ -2,3 +2,5 @@ defs.mk
 /build
 /kern/compile
 .vscode
+userland/testbin/farm/build
+userland/testbin/forktest/build
